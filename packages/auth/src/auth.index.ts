@@ -1,5 +1,6 @@
 /**
- * Auth package barrel export.
+ * Auth package. Use @afenda/auth/server or @afenda/auth/client.
  */
 
-export * from "./component/client";
+// Root has no exports; import from "@afenda/auth/server" or "@afenda/auth/client".
+export {};

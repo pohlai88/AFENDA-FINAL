@@ -15,6 +15,9 @@ export const routesBase = {
       register: () => "/register" as const,
       forgotPassword: () => "/forgot-password" as const,
       resetPassword: () => "/reset-password" as const,
+      callback: () => "/callback" as const,
+      /** Check-email page after reset-email sent (/auth/check-email?type=reset-email) */
+      status: () => "/auth/check-email" as const,
     },
     orchestra: {
       root: () => "/" as const,

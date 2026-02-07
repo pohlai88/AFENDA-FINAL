@@ -1,13 +1,13 @@
 "use client";
 
 /**
- * User context for app shell and route UI. Provides session user and loading state.
- * Replace MOCK_USER with real auth (e.g. session from auth package) when integrated.
+ * User context for app shell and route UI. Uses Neon Auth session.
  *
  * @layer app/components
  */
 
 import * as React from "react";
+import { authClient } from "@afenda/auth/client";
 
 export interface User {
   id: string;
@@ -25,29 +25,32 @@ export interface UserContextValue {
 
 const UserContext = React.createContext<UserContextValue | null>(null);
 
-/** Placeholder until auth package is wired. Replace with session from server/auth. */
-const MOCK_USER: User = {
-  id: "user_dev_001",
-  email: "admin@afenda.dev",
-  name: "Admin User",
-  role: "admin",
-};
-
 export interface UserProviderProps {
   children: React.ReactNode;
 }
 
 export function UserProvider({ children }: UserProviderProps) {
-  const [user] = React.useState<User | null>(MOCK_USER);
-  const [isLoading] = React.useState(false);
+  const { data: session, isPending } = authClient.useSession();
+
+  const user = React.useMemo<User | null>(() => {
+    const u = session?.user;
+    if (!u) return null;
+    return {
+      id: u.id,
+      email: (u.email as string) ?? "",
+      name: (u.name as string) ?? u.email ?? "User",
+      avatar: (u.image as string) ?? undefined,
+      role: "user" as const,
+    };
+  }, [session?.user]);
 
   const value = React.useMemo<UserContextValue>(
     () => ({
       user,
-      isLoading,
+      isLoading: isPending,
       isAuthenticated: !!user,
     }),
-    [user, isLoading]
+    [user, isPending]
   );
 
   return (

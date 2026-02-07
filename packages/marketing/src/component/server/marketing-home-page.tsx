@@ -32,9 +32,6 @@ export function MarketingHomePage() {
         <Button asChild size="lg">
           <Link href={marketingRoutes.external.auth.register()}>Create Account</Link>
         </Button>
-        <Button variant="outline" asChild size="lg">
-          <Link href={marketingRoutes.ui.components()}>Component Playground</Link>
-        </Button>
       </section>
 
       <section className="grid gap-6 md:grid-cols-2">

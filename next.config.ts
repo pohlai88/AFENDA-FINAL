@@ -25,6 +25,8 @@ const nextConfig: NextConfig = {
       "@afenda/orchestra",
       "@afenda/magictodo",
       "@afenda/magicdrive",
+      "@afenda/auth",
+      "@neondatabase/auth",
     ],
     // Experimental: persistent cache for production builds
     turbopackFileSystemCacheForBuild: true,

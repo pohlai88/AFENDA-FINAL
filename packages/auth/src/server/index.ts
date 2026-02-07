@@ -1,12 +1,13 @@
 /**
  * Server-side auth utilities.
- * Re-exports from orchestra kernel for consistent auth context access.
+ * Neon Auth instance and session-derived auth context.
  */
 
+export { auth } from "./neon-auth.server";
 export {
   getAuthContext,
   getCurrentUserId,
   getCurrentUserName,
   isAuthenticated,
   type AuthContext,
-} from "@afenda/orchestra/server";
+} from "./auth-context.server";

@@ -1,0 +1,20 @@
+/**
+ * Neon Auth UI styles — scoped to auth flows.
+ * Imported only by auth layout to keep globals.css unchanged.
+ */
+@import "tailwindcss";
+@import "@neondatabase/auth/ui/tailwind";
+
+/* Auth form separator — fix "Or continue with" row layout and visibility */
+div:has(> [data-slot="separator"][data-orientation="horizontal"]) {
+  width: 100%;
+  min-width: 0;
+}
+
+[data-slot="separator"][data-orientation="horizontal"] {
+  flex: 1 1 0%;
+  flex-basis: 0;
+  min-width: 0;
+  height: 1px;
+  background-color: var(--border);
+}

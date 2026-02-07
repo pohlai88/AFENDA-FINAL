@@ -15,7 +15,6 @@ export const marketingRoutes = {
     privacy: () => "/privacy",
     security: () => "/security",
     infrastructure: () => "/infrastructure",
-    components: () => "/components",
     pdpa: () => "/pdpa",
     docs: () => "/docs",
     apiDocs: () => "/api-docs",
@@ -32,7 +31,8 @@ export const marketingRoutes = {
       register: () => "/register",
     },
     orchestra: {
-      root: () => "/app",
+      /** App entry: dashboard (middleware redirects to /auth/sign-in if unauthenticated) */
+      root: () => "/dashboard",
     },
   },
   api: {
