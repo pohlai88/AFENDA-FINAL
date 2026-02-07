@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Official Afenda Icon: Triangle compass with morphic E (NexusCanon · AXIS) -->
+  
+  <!-- Main triangle centered in square canvas -->
+  <path d="M256 56 L472 456 L40 456 Z" fill="#000"/>
+  
+  <!-- Three uneven white lines inside (morphic E) -->
+  <rect x="148" y="280" width="140" height="26" rx="4" fill="#fff"/>
+  <rect x="148" y="330" width="100" height="26" rx="4" fill="#fff"/>
+  <rect x="148" y="380" width="140" height="26" rx="4" fill="#fff"/>
+</svg>

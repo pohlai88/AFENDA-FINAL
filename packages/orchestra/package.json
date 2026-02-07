@@ -1,0 +1,22 @@
+{
+  "name": "@afenda/orchestra",
+  "description": "Orchestra Platform Kernel — system infrastructure with zero domain knowledge",
+  "private": true,
+  "version": "0.2.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/orchestra.index.ts",
+    "./drizzle": "./src/drizzle/index.ts",
+    "./zod": "./src/zod/index.ts",
+    "./server": "./src/server/index.ts",
+    "./constant": "./src/constant/index.ts"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.45.1",
+    "server-only": "^0.0.1",
+    "zod": "^3.24.0"
+  },
+  "peerDependencies": {
+    "next": ">=14.0.0"
+  }
+}

@@ -1,0 +1,94 @@
+/**
+ * Magictodo BFF - Focus streak (aligns with routes.api.magictodo.bff.focus.streak())
+ * GET: Focus streak statistics for the authenticated user
+ *
+ * @domain magictodo
+ * @layer api/bff
+ */
+
+import "server-only";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+
+import {
+  kernelFail,
+  KERNEL_ERROR_CODES,
+  HTTP_STATUS,
+  KERNEL_HEADERS,
+  getAuthContext,
+} from "@afenda/orchestra";
+import { magictodoFocusService } from "@afenda/magictodo/server";
+import { db } from "@afenda/shared/server/db";
+
+type DbParam = Parameters<typeof magictodoFocusService.getStreak>[3];
+
+/**
+ * GET /api/magictodo/bff/focus/streak
+ * Get focus streak statistics (current streak, longest streak, active days).
+ */
+export async function GET(request: NextRequest) {
+  const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
+
+  try {
+    const auth = await getAuthContext();
+    const userId = auth.userId ?? undefined;
+    if (!userId) {
+      return NextResponse.json(
+        kernelFail(
+          {
+            code: KERNEL_ERROR_CODES.VALIDATION,
+            message: "Authentication required",
+          },
+          { traceId }
+        ),
+        { status: HTTP_STATUS.UNAUTHORIZED, headers: { [KERNEL_HEADERS.TRACE_ID]: traceId } }
+      );
+    }
+
+    const result = await magictodoFocusService.getStreak(userId, null, null, db as DbParam);
+
+    if (!result.ok) {
+      const err = (result as unknown as { error: { code: string; message: string } }).error;
+      return NextResponse.json(
+        kernelFail(
+          {
+            code: err?.code === "NOT_FOUND" ? KERNEL_ERROR_CODES.NOT_FOUND : KERNEL_ERROR_CODES.INTERNAL,
+            message: err?.message ?? "Failed to get focus streak",
+          },
+          { traceId }
+        ),
+        {
+          status: err?.code === "NOT_FOUND" ? HTTP_STATUS.NOT_FOUND : HTTP_STATUS.INTERNAL_SERVER_ERROR,
+          headers: { [KERNEL_HEADERS.TRACE_ID]: traceId },
+        }
+      );
+    }
+
+    return NextResponse.json(
+      {
+        ok: true,
+        data: result.data,
+        traceId,
+      },
+      {
+        status: HTTP_STATUS.OK,
+        headers: { [KERNEL_HEADERS.TRACE_ID]: traceId },
+      }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      kernelFail(
+        {
+          code: KERNEL_ERROR_CODES.INTERNAL,
+          message: "Failed to get focus streak",
+          details: error instanceof Error ? error.message : String(error),
+        },
+        { traceId }
+      ),
+      {
+        status: HTTP_STATUS.INTERNAL_SERVER_ERROR,
+        headers: { [KERNEL_HEADERS.TRACE_ID]: traceId },
+      }
+    );
+  }
+}

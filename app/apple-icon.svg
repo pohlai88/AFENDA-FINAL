@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" fill="none">
+  <!-- Official Afenda Icon: Apple Touch Icon -->
+  
+  <!-- Main triangle centered -->
+  <path d="M90 20 L165 160 L15 160 Z" fill="#000"/>
+  
+  <!-- Three uneven white lines inside (morphic E) -->
+  <rect x="52" y="98" width="50" height="10" rx="2" fill="#fff"/>
+  <rect x="52" y="116" width="36" height="10" rx="2" fill="#fff"/>
+  <rect x="52" y="134" width="50" height="10" rx="2" fill="#fff"/>
+</svg>

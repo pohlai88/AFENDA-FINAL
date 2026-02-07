@@ -1,0 +1,347 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
+  --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
+  --animate-grid: grid 15s linear infinite;
+  @keyframes shimmer-slide {
+  to {
+    transform: translate(calc(100cqw - 100%), 0);
+    }
+  }
+  @keyframes spin-around {
+  0% {
+    transform: translateZ(0) rotate(0);
+    }
+  15%, 35% {
+    transform: translateZ(0) rotate(90deg);
+    }
+  65%, 85% {
+    transform: translateZ(0) rotate(270deg);
+    }
+  100% {
+    transform: translateZ(0) rotate(360deg);
+    }
+  }
+  @keyframes grid {
+  0% {
+    transform: translateY(-50%);
+    }
+  100% {
+    transform: translateY(0);
+    }
+  }
+}
+
+:root {
+  --font-sans: var(--font-figtree), system-ui, sans-serif;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.147 0.004 49.25);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.147 0.004 49.25);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.147 0.004 49.25);
+  --primary: oklch(0.60 0.13 163);
+  --primary-foreground: oklch(0.98 0.02 166);
+  --secondary: oklch(0.967 0.001 286.375);
+  --secondary-foreground: oklch(0.21 0.006 285.885);
+  --muted: oklch(0.97 0.001 106.424);
+  --muted-foreground: oklch(0.553 0.013 58.071);
+  --accent: oklch(0.97 0.001 106.424);
+  --accent-foreground: oklch(0.216 0.006 56.043);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.923 0.003 48.717);
+  --input: oklch(0.923 0.003 48.717);
+  --ring: oklch(0.709 0.01 56.259);
+  --chart-1: oklch(0.85 0.13 165);
+  --chart-2: oklch(0.77 0.15 163);
+  --chart-3: oklch(0.70 0.15 162);
+  --chart-4: oklch(0.60 0.13 163);
+  --chart-5: oklch(0.51 0.10 166);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0.001 106.423);
+  --sidebar-foreground: oklch(0.147 0.004 49.25);
+  --sidebar-primary: oklch(0.60 0.13 163);
+  --sidebar-primary-foreground: oklch(0.98 0.02 166);
+  --sidebar-accent: oklch(0.97 0.001 106.424);
+  --sidebar-accent-foreground: oklch(0.216 0.006 56.043);
+  --sidebar-border: oklch(0.923 0.003 48.717);
+  --sidebar-ring: oklch(0.709 0.01 56.259);
+
+  /* Shell layout - dashboard frame (design tokens, override in SidebarProvider if needed) */
+  --sidebar-width: 16rem;
+  --sidebar-width-icon: 3rem;
+  --sidebar-width-mobile: 18rem;
+  --header-height: 3.5rem;
+
+  /* Semantic Badge Colors */
+  --badge-critical: oklch(0.577 0.245 27.325);
+  --badge-critical-foreground: oklch(0.98 0.02 166);
+  --badge-warning: oklch(0.75 0.18 85);
+  --badge-warning-foreground: oklch(0.15 0.01 85);
+  --badge-success: oklch(0.65 0.15 145);
+  --badge-success-foreground: oklch(0.98 0.02 145);
+  --badge-info: oklch(0.60 0.13 163);
+  --badge-info-foreground: oklch(0.98 0.02 166);
+}
+
+.dark {
+  --background: oklch(0.147 0.004 49.25);
+  --foreground: oklch(0.985 0.001 106.423);
+  --badge-critical: oklch(0.704 0.191 22.216);
+  --badge-critical-foreground: oklch(0.147 0.004 49.25);
+  --badge-warning: oklch(0.82 0.16 85);
+  --badge-warning-foreground: oklch(0.147 0.004 49.25);
+  --badge-success: oklch(0.75 0.14 145);
+  --badge-success-foreground: oklch(0.147 0.004 49.25);
+  --badge-info: oklch(0.77 0.15 163);
+  --badge-info-foreground: oklch(0.147 0.004 49.25);
+  --card: oklch(0.216 0.006 56.043);
+  --card-foreground: oklch(0.985 0.001 106.423);
+  --popover: oklch(0.216 0.006 56.043);
+  --popover-foreground: oklch(0.985 0.001 106.423);
+  --primary: oklch(0.70 0.15 162);
+  --primary-foreground: oklch(0.26 0.05 173);
+  --secondary: oklch(0.274 0.006 286.033);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.268 0.007 34.298);
+  --muted-foreground: oklch(0.709 0.01 56.259);
+  --accent: oklch(0.268 0.007 34.298);
+  --accent-foreground: oklch(0.985 0.001 106.423);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.553 0.013 58.071);
+  --chart-1: oklch(0.85 0.13 165);
+  --chart-2: oklch(0.77 0.15 163);
+  --chart-3: oklch(0.70 0.15 162);
+  --chart-4: oklch(0.60 0.13 163);
+  --chart-5: oklch(0.51 0.10 166);
+  --sidebar: oklch(0.216 0.006 56.043);
+  --sidebar-foreground: oklch(0.985 0.001 106.423);
+  --sidebar-primary: oklch(0.77 0.15 163);
+  --sidebar-primary-foreground: oklch(0.26 0.05 173);
+  --sidebar-accent: oklch(0.268 0.007 34.298);
+  --sidebar-accent-foreground: oklch(0.985 0.001 106.423);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.553 0.013 58.071);
+
+  /* Shell layout - same as :root (layout dimensions are theme-agnostic) */
+  --sidebar-width: 16rem;
+  --sidebar-width-icon: 3rem;
+  --sidebar-width-mobile: 18rem;
+  --header-height: 3.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Floating Action Button (FAB) – enterprise shadcn pattern */
+  .fab-container {
+    @apply fixed bottom-6 right-6 z-50 flex items-end justify-end;
+  }
+
+  .fab-button {
+    @apply size-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  .fab-button-expanded {
+    @apply scale-105 ring-2 ring-ring/50 shadow-xl;
+  }
+
+  .fab-button-collapsed {
+    @apply rotate-0;
+  }
+
+  /* Backdrop when FAB open: dim + blur + noise — focus on menu */
+  .fab-backdrop {
+    @apply fixed inset-0 z-40 cursor-default animate-in fade-in duration-200 ease-out;
+  }
+
+  .fab-backdrop-dim {
+    @apply absolute inset-0 bg-background/70 backdrop-blur-[6px] supports-[backdrop-filter]:bg-background/50;
+  }
+
+  .fab-backdrop-noise {
+    @apply pointer-events-none absolute inset-0 h-full w-full opacity-[0.07] mix-blend-overlay;
+  }
+
+  .fab-backdrop-hint {
+    @apply absolute bottom-6 left-1/2 -translate-x-1/2 text-xs text-muted-foreground/90 pointer-events-none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fab-backdrop-hint {
+      @apply opacity-100;
+    }
+  }
+
+  /* First-time hint: "Press ? for help" (once per session) */
+  .fab-first-time-hint {
+    @apply absolute bottom-full right-0 mb-2 rounded-full bg-muted/90 px-3 py-1.5 text-xs text-muted-foreground shadow-md animate-in fade-in slide-in-from-bottom-2 duration-300;
+  }
+  .fab-hint-kbd {
+    @apply rounded border border-border bg-background/80 px-1.5 py-0.5 font-medium;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fab-first-time-hint {
+      animation: none;
+    }
+  }
+
+  /* Dropdown content (Radix portal) – motion: scale + slide */
+  .fab-dropdown-content {
+    @apply border-border/80 bg-popover/95 backdrop-blur-sm;
+    @apply data-[state=open]:animate-in data-[state=closed]:animate-out;
+    @apply data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0;
+    @apply data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95;
+    @apply data-[side=top]:slide-in-from-bottom-3 data-[state=open]:duration-200;
+  }
+
+  /* Menu items: subtle motion */
+  .fab-dropdown-content [data-slot="dropdown-menu-item"] {
+    @apply animate-in fade-in slide-in-from-bottom-1 duration-150;
+  }
+
+  .fab-dropdown-item {
+    @apply rounded-md px-2 transition-colors;
+  }
+
+  /* Inline description under each FAB menu option label (explains the function) */
+  .fab-menu-item-description {
+    @apply block text-xs text-muted-foreground mt-0.5 leading-snug;
+  }
+
+  /* Stagger menu items by --fab-item-index (set in component) */
+  .fab-dropdown-content [data-slot="dropdown-menu-item"] {
+    animation-delay: calc(var(--fab-item-index, 0) * 25ms);
+  }
+
+  /* Haptic-style: subtle press feedback on FAB trigger */
+  .fab-button:active {
+    transform: scale(0.97);
+  }
+  .fab-button-expanded:active {
+    transform: scale(1.02);
+  }
+
+  /* Reduced motion: respect prefers-reduced-motion (a11y) */
+  @media (prefers-reduced-motion: reduce) {
+    .fab-backdrop {
+      animation: none;
+    }
+    .fab-backdrop-dim {
+      transition: none;
+    }
+    .fab-dropdown-content,
+    .fab-dropdown-content [data-slot="dropdown-menu-item"] {
+      animation: none;
+      animation-delay: 0ms;
+    }
+    .fab-button-expanded {
+      transition: transform 0s;
+    }
+  }
+
+  /* Dashboard Metric Cards */
+  .metric-card-grid {
+    @apply grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4;
+  }
+
+  /* Badge Utilities */
+  .badge-top-right {
+    @apply absolute top-2 right-2 px-2 py-0.5 text-[10px] shadow-md;
+  }
+
+  /* Auto Refresh Indicator */
+  .refresh-indicator {
+    @apply absolute top-6 right-6 z-10 flex items-center gap-2;
+  }
+
+  .refresh-button {
+    @apply text-xs text-muted-foreground hover:text-foreground disabled:opacity-50;
+  }
+
+  /* Alert/Notification Utilities */
+  .alert-dismiss-button {
+    @apply absolute top-2 right-2 h-6 w-6 rounded-sm opacity-70 hover:opacity-100;
+  }
+
+  /* Activity Trail Utilities */
+  .activity-event-card {
+    @apply p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors;
+  }
+
+  .activity-icon-container {
+    @apply p-2 rounded-md shrink-0;
+  }
+
+  .activity-event-badge {
+    @apply shrink-0 text-[10px];
+  }
+
+  .activity-meta-text {
+    @apply text-xs text-muted-foreground;
+  }
+
+  .activity-code-snippet {
+    @apply px-1 py-0.5 rounded bg-muted font-mono text-[10px];
+  }
+}
+
+/* View Transitions (theme toggle animation) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}

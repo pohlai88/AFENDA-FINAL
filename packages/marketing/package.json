@@ -1,0 +1,29 @@
+{
+  "name": "@afenda/marketing",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/marketing.index.ts",
+    "./drizzle": "./src/drizzle/index.ts",
+    "./zod": "./src/zod/index.ts",
+    "./zustand": "./src/zustand/index.ts",
+    "./server": "./src/server/index.ts",
+    "./pino": "./src/pino/index.ts",
+    "./constant": "./src/constant/index.ts",
+    "./hooks": "./src/hooks/index.ts",
+    "./lib": "./src/lib/index.ts",
+    "./component/client": "./src/component/client/index.ts",
+    "./component/server": "./src/component/server/index.ts"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.6.0"
+  },
+  "peerDependencies": {
+    "lucide-react": ">=0.400.0",
+    "next": ">=14.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}

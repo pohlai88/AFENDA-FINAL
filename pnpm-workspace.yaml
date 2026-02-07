@@ -1,0 +1,8 @@
+ignoredBuiltDependencies:
+  - sharp
+  - unrs-resolver
+
+packages:
+  - "."
+  - "packages/*"
+  - "!packages/afenda-template"

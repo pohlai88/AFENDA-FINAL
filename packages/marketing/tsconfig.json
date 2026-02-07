@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "noEmit": true,
+    "paths": {
+      "@afenda/shadcn": ["../shadcn-components/src"],
+      "@afenda/shadcn/*": ["../shadcn-components/src/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

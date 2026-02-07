@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
+  <!-- Official Afenda Icon 128x128 -->
+  <path d="M64 14 L118 114 L10 114 Z" fill="#000"/>
+  <rect x="37" y="70" width="35" height="6.5" rx="1" fill="#fff"/>
+  <rect x="37" y="82.5" width="25" height="6.5" rx="1" fill="#fff"/>
+  <rect x="37" y="95" width="35" height="6.5" rx="1" fill="#fff"/>
+</svg>

@@ -1,0 +1,264 @@
+/**
+ * @domain marketing
+ * @layer ui
+ * @responsibility UI route entrypoint for /about
+ */
+
+import type { Metadata } from "next";
+import Link from "next/link";
+import { AfendaIcon } from "@afenda/marketing";
+
+import {
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Separator,
+} from "@afenda/shadcn";
+import { marketingRoutes } from "@afenda/marketing";
+
+export const metadata: Metadata = {
+  title: "About",
+  description: "Learn about AFENDA and NexusCanon Infrastructure Fabric - our mission, vision, and commitment to enterprise workflow orchestration.",
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: "About - AFENDA",
+    description: "Enterprise workflow orchestration powered by NexusCanon Infrastructure Fabric.",
+    type: "website",
+    url: "/about",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
+export default function AboutPage() {
+  return (
+    <div className="container mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16">
+      <div className="w-full space-y-8">
+        <Card>
+          <CardHeader className="space-y-3 text-center">
+            <CardTitle className="text-3xl">About AFENDA</CardTitle>
+            <CardDescription className="text-lg">
+              Enterprise workflow orchestration platform powered by NexusCanon Infrastructure Fabric
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent className="space-y-8">
+            <section className="space-y-4">
+              <div className="flex items-center gap-2">
+                <AfendaIcon className="h-5 w-5 text-indigo-600" aria-hidden="true" />
+                <h3 className="text-lg font-semibold">About AFENDA · NexusCanon · AXIS</h3>
+              </div>
+              <Separator />
+              <p className="text-muted-foreground leading-relaxed">
+                AFENDA is an enterprise business platform structured on the <strong>NexusCanon governance model</strong> and
+                the <strong>AXIS architectural compass</strong>, forming a unified operational environment for organizations
+                that require clarity, accountability, and adaptive intelligence.
+              </p>
+              <div className="space-y-3 mt-4">
+                <div className="rounded-lg border p-4">
+                  <h4 className="font-semibold text-sm mb-2">NexusCanon — Governance Foundation</h4>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Founded on two complementary principles:
+                  </p>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li className="flex items-start gap-2">
+                      <span className="text-indigo-600 mt-0.5 font-bold">•</span>
+                      <span><strong>Nexus — Business Chaos</strong><br />
+                        The dynamic convergence of data, actors, and events where real-world operations are inherently complex and constantly shifting.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-indigo-600 mt-0.5 font-bold">•</span>
+                      <span><strong>Canon — The Truth That Does Not Change</strong><br />
+                        The governing standard that validates, preserves, and stabilizes operational records, ensuring consistency and verifiable integrity over time.</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="rounded-lg border p-4">
+                  <h4 className="font-semibold text-sm mb-2">AXIS — The Life Compass</h4>
+                  <p className="text-sm text-muted-foreground">
+                    The structural orientation that aligns decisions, workflows, and growth direction across the enterprise.
+                  </p>
+                </div>
+                <div className="rounded-lg border p-4">
+                  <h4 className="font-semibold text-sm mb-2">AFENDA — Unpredicted Morphology</h4>
+                  <p className="text-sm text-muted-foreground">
+                    The adaptive operational interface capable of evolving with organizational needs without losing structural discipline.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <section className="space-y-4">
+              <div className="flex items-center gap-2">
+                <AfendaIcon className="h-5 w-5 text-blue-600" aria-hidden="true" />
+                <h3 className="text-lg font-semibold">Core Operational Disciplines</h3>
+              </div>
+              <Separator />
+              <p className="text-sm text-muted-foreground">
+                The platform embeds structured enterprise practices designed to transform chaos into governed intelligence:
+              </p>
+              <div className="grid gap-4 md:grid-cols-2">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-base">CRUD-SAP Framework</CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-sm text-muted-foreground">
+                    <p className="mb-3">A complete lifecycle discipline that governs information from origination to foresight:</p>
+                    <ul className="space-y-1 text-xs">
+                      <li>• <strong>C</strong>reate</li>
+                      <li>• <strong>R</strong>ead</li>
+                      <li>• <strong>U</strong>pdate</li>
+                      <li>• <strong>D</strong>elete</li>
+                      <li>• <strong>S</strong>earch</li>
+                      <li>• <strong>A</strong>udit</li>
+                      <li>• <strong>P</strong>redict</li>
+                    </ul>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-base">6W1H Traceability</CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-sm text-muted-foreground">
+                    <p className="mb-3">Captured across every transaction to preserve contextual evidence and accountability:</p>
+                    <ul className="space-y-1 text-xs">
+                      <li>• <strong>Who</strong> — Actor identification</li>
+                      <li>• <strong>What</strong> — Action performed</li>
+                      <li>• <strong>When</strong> — Temporal context</li>
+                      <li>• <strong>Where</strong> — Location/system</li>
+                      <li>• <strong>Why</strong> — Business justification</li>
+                      <li>• <strong>Which</strong> — Resource affected</li>
+                      <li>• <strong>How</strong> — Method/process</li>
+                    </ul>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-base">Evidence & Audit Ledgering</CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-sm text-muted-foreground">
+                    <p>
+                      Continuous verification and historical consistency with immutable audit trails,
+                      365-day retention, and cryptographic validation of all operational records.
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-base">Process Canonization</CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-sm text-muted-foreground">
+                    <p>
+                      Standardized workflows that reduce ambiguity and operational drift through
+                      validated business rules, repeatable patterns, and governed execution paths.
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            </section>
+
+            <section className="space-y-4">
+              <div className="flex items-center gap-2">
+                <AfendaIcon className="h-5 w-5 text-green-600" aria-hidden="true" />
+                <h3 className="text-lg font-semibold">Dual-Kernel Architecture</h3>
+              </div>
+              <Separator />
+              <p className="text-sm text-muted-foreground mb-4">
+                NexusCanon operates on a <strong>Dual-Kernel model</strong> that enables organizations to balance
+                speed and control, adaptability and verification, innovation and discipline within a single coherent system:
+              </p>
+              <div className="grid gap-4 md:grid-cols-2">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-base">Cobalt — Execution Kernel</CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-sm text-muted-foreground space-y-2">
+                    <p>Focused on operations, tasks, field activity, and real-time action.</p>
+                    <ul className="space-y-1 text-xs">
+                      <li>• Operational workflows and task execution</li>
+                      <li>• Real-time data capture and processing</li>
+                      <li>• Field operations and mobile interfaces</li>
+                      <li>• Transaction processing and state changes</li>
+                      <li>• Performance-optimized for speed</li>
+                    </ul>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-base">Quorum — Oversight Kernel</CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-sm text-muted-foreground space-y-2">
+                    <p>Focused on governance, validation, approvals, and collective decision authority.</p>
+                    <ul className="space-y-1 text-xs">
+                      <li>• Approval workflows and authorization</li>
+                      <li>• Compliance validation and policy enforcement</li>
+                      <li>• Audit trail verification and reporting</li>
+                      <li>• Multi-party consensus and sign-offs</li>
+                      <li>• Governance-optimized for control</li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              </div>
+            </section>
+
+            <section className="space-y-4">
+              <div className="flex items-center gap-2">
+                <AfendaIcon className="h-5 w-5 text-orange-600" aria-hidden="true" />
+                <h3 className="text-lg font-semibold">Business Truth Engine</h3>
+              </div>
+              <Separator />
+              <div className="rounded-lg border-l-4 border-indigo-600 bg-indigo-50 p-4 dark:bg-indigo-950">
+                <p className="text-sm text-indigo-900 dark:text-indigo-100 leading-relaxed mb-3">
+                  AFENDA is not positioned as a traditional ERP. It is engineered as a <strong>Business Truth Engine</strong> —
+                  where chaos is connected (<em>Nexus</em>), truth is preserved (<em>Canon</em>), direction is aligned (<em>AXIS</em>),
+                  and evolution remains possible (<em>AFENDA</em>).
+                </p>
+                <ul className="space-y-2 text-sm text-indigo-800 dark:text-indigo-200">
+                  <li className="flex items-start gap-2">
+                    <span className="text-indigo-600 dark:text-indigo-400 mt-0.5 font-bold">•</span>
+                    <span><strong>Chaos Connected</strong> — Dynamic convergence of operational complexity</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-indigo-600 dark:text-indigo-400 mt-0.5 font-bold">•</span>
+                    <span><strong>Truth Preserved</strong> — Immutable governance and verified integrity</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-indigo-600 dark:text-indigo-400 mt-0.5 font-bold">•</span>
+                    <span><strong>Direction Aligned</strong> — Strategic compass for enterprise decisions</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-indigo-600 dark:text-indigo-400 mt-0.5 font-bold">•</span>
+                    <span><strong>Evolution Enabled</strong> — Adaptive morphology without structural loss</span>
+                  </li>
+                </ul>
+              </div>
+            </section>
+
+            <div className="flex flex-col gap-2 pt-4">
+              <Button asChild>
+                <Link href={marketingRoutes.external.orchestra.root()}>Get Started</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href={marketingRoutes.ui.contact()}>Contact Us</Link>
+              </Button>
+              <Button asChild variant="ghost">
+                <Link href={marketingRoutes.ui.infrastructure()}>View Infrastructure</Link>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,116 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Afenda Shadcn Component Registry",
+  "description": "Auto-generated registry of all components, hooks, and blocks in @afenda/shadcn",
+  "type": "object",
+  "required": ["name", "version", "generatedAt", "stats", "exports", "components"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema reference"
+    },
+    "name": {
+      "type": "string",
+      "description": "Package name"
+    },
+    "version": {
+      "type": "string",
+      "description": "Package version"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when registry was generated"
+    },
+    "stats": {
+      "type": "object",
+      "description": "Component counts by category",
+      "properties": {
+        "primitives": { "type": "integer" },
+        "hooks": { "type": "integer" },
+        "custom": { "type": "integer" },
+        "blocks": { "type": "integer" },
+        "total": { "type": "integer" }
+      }
+    },
+    "exports": {
+      "type": "object",
+      "description": "Package exports from package.json",
+      "additionalProperties": { "type": "string" }
+    },
+    "components": {
+      "type": "object",
+      "description": "Component definitions by category",
+      "properties": {
+        "primitives": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/component" }
+        },
+        "hooks": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/hook" }
+        },
+        "custom": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/component" }
+        },
+        "blocks": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/component" }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "component": {
+      "type": "object",
+      "required": ["name", "path", "file", "category"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Component export name (PascalCase)"
+        },
+        "path": {
+          "type": "string",
+          "description": "Relative import path"
+        },
+        "file": {
+          "type": "string",
+          "description": "Source file path"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["layout", "form", "action", "navigation", "feedback", "display", "effect", "misc", "auth", "chart", "calendar", "data", "settings"],
+          "description": "Component category"
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["function", "const", "named", "default"],
+          "description": "Export kind"
+        }
+      }
+    },
+    "hook": {
+      "type": "object",
+      "required": ["name", "path", "file"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Hook export name (camelCase, starts with 'use')"
+        },
+        "path": {
+          "type": "string",
+          "description": "Relative import path"
+        },
+        "file": {
+          "type": "string",
+          "description": "Source file path"
+        },
+        "description": {
+          "type": "string",
+          "description": "Hook description from JSDoc"
+        }
+      }
+    }
+  }
+}

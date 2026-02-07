@@ -1,0 +1,14 @@
+{
+  "name": "@afenda/tenancy",
+  "description": "Multi-tenancy context for AFENDA apps",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/tenancy.index.ts",
+    "./server": "./src/server/index.ts"
+  },
+  "dependencies": {
+    "server-only": "^0.0.1"
+  }
+}

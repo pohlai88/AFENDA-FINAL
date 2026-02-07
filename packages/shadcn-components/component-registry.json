@@ -1,0 +1,4058 @@
+{
+  "$schema": "./component-registry.schema.json",
+  "name": "@afenda/shadcn",
+  "version": "0.1.0",
+  "generatedAt": "2026-02-07T09:30:21.310Z",
+  "stats": {
+    "primitives": 391,
+    "hooks": 7,
+    "custom": 16,
+    "blocks": 192,
+    "total": 606
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./blocks": "./src/blocks/index.ts",
+    "./custom": "./src/custom/index.ts",
+    "./hooks": "./src/hooks/index.ts",
+    "./lib": "./src/lib/index.ts",
+    "./lib/utils": "./src/lib/utils.ts"
+  },
+  "components": {
+    "primitives": [
+      {
+        "name": "Accordion",
+        "path": "./accordion",
+        "file": "accordion.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "AccordionContent",
+        "path": "./accordion",
+        "file": "accordion.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "AccordionItem",
+        "path": "./accordion",
+        "file": "accordion.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "AccordionTrigger",
+        "path": "./accordion",
+        "file": "accordion.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "Alert",
+        "path": "./alert",
+        "file": "alert.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "AlertDescription",
+        "path": "./alert",
+        "file": "alert.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "AlertDialog",
+        "path": "./alert-dialog",
+        "file": "alert-dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "AlertDialogAction",
+        "path": "./alert-dialog",
+        "file": "alert-dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "AlertDialogCancel",
+        "path": "./alert-dialog",
+        "file": "alert-dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "AlertDialogContent",
+        "path": "./alert-dialog",
+        "file": "alert-dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "AlertDialogDescription",
+        "path": "./alert-dialog",
+        "file": "alert-dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "AlertDialogFooter",
+        "path": "./alert-dialog",
+        "file": "alert-dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "AlertDialogHeader",
+        "path": "./alert-dialog",
+        "file": "alert-dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "AlertDialogMedia",
+        "path": "./alert-dialog",
+        "file": "alert-dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "AlertDialogOverlay",
+        "path": "./alert-dialog",
+        "file": "alert-dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "AlertDialogPortal",
+        "path": "./alert-dialog",
+        "file": "alert-dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "AlertDialogTitle",
+        "path": "./alert-dialog",
+        "file": "alert-dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "AlertDialogTrigger",
+        "path": "./alert-dialog",
+        "file": "alert-dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "AlertTitle",
+        "path": "./alert",
+        "file": "alert.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "AppSidebar",
+        "path": "./app-sidebar",
+        "file": "app-sidebar.tsx",
+        "category": "layout",
+        "kind": "function"
+      },
+      {
+        "name": "AspectRatio",
+        "path": "./aspect-ratio",
+        "file": "aspect-ratio.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "Avatar",
+        "path": "./avatar",
+        "file": "avatar.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "AvatarBadge",
+        "path": "./avatar",
+        "file": "avatar.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "AvatarFallback",
+        "path": "./avatar",
+        "file": "avatar.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "AvatarGroup",
+        "path": "./avatar",
+        "file": "avatar.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "AvatarGroupCount",
+        "path": "./avatar",
+        "file": "avatar.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "AvatarImage",
+        "path": "./avatar",
+        "file": "avatar.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "Badge",
+        "path": "./badge",
+        "file": "badge.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "Breadcrumb",
+        "path": "./breadcrumb",
+        "file": "breadcrumb.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "BreadcrumbEllipsis",
+        "path": "./breadcrumb",
+        "file": "breadcrumb.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "BreadcrumbItem",
+        "path": "./breadcrumb",
+        "file": "breadcrumb.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "BreadcrumbLink",
+        "path": "./breadcrumb",
+        "file": "breadcrumb.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "BreadcrumbList",
+        "path": "./breadcrumb",
+        "file": "breadcrumb.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "BreadcrumbPage",
+        "path": "./breadcrumb",
+        "file": "breadcrumb.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "BreadcrumbSeparator",
+        "path": "./breadcrumb",
+        "file": "breadcrumb.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "Button",
+        "path": "./button",
+        "file": "button.tsx",
+        "category": "action",
+        "kind": "named"
+      },
+      {
+        "name": "ButtonGroup",
+        "path": "./button-group",
+        "file": "button-group.tsx",
+        "category": "action",
+        "kind": "named"
+      },
+      {
+        "name": "ButtonGroupSeparator",
+        "path": "./button-group",
+        "file": "button-group.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "ButtonGroupText",
+        "path": "./button-group",
+        "file": "button-group.tsx",
+        "category": "action",
+        "kind": "named"
+      },
+      {
+        "name": "Calendar",
+        "path": "./calendar",
+        "file": "calendar.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "CalendarDayButton",
+        "path": "./calendar",
+        "file": "calendar.tsx",
+        "category": "action",
+        "kind": "named"
+      },
+      {
+        "name": "Card",
+        "path": "./card",
+        "file": "card.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "CardAction",
+        "path": "./card",
+        "file": "card.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "CardContent",
+        "path": "./card",
+        "file": "card.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "CardDescription",
+        "path": "./card",
+        "file": "card.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "CardFooter",
+        "path": "./card",
+        "file": "card.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "CardHeader",
+        "path": "./card",
+        "file": "card.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "CardTitle",
+        "path": "./card",
+        "file": "card.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "Carousel",
+        "path": "./carousel",
+        "file": "carousel.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "CarouselContent",
+        "path": "./carousel",
+        "file": "carousel.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "CarouselItem",
+        "path": "./carousel",
+        "file": "carousel.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "CarouselNext",
+        "path": "./carousel",
+        "file": "carousel.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "CarouselPrevious",
+        "path": "./carousel",
+        "file": "carousel.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "ChartContainer",
+        "path": "./chart",
+        "file": "chart.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "ChartLegend",
+        "path": "./chart",
+        "file": "chart.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "ChartLegendContent",
+        "path": "./chart",
+        "file": "chart.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "ChartStyle",
+        "path": "./chart",
+        "file": "chart.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "ChartTooltip",
+        "path": "./chart",
+        "file": "chart.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ChartTooltipContent",
+        "path": "./chart",
+        "file": "chart.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "Checkbox",
+        "path": "./checkbox",
+        "file": "checkbox.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ClientAlertDialog",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "function"
+      },
+      {
+        "name": "ClientAlertDialogAction",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ClientAlertDialogCancel",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ClientAlertDialogContent",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ClientAlertDialogDescription",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ClientAlertDialogFooter",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ClientAlertDialogHeader",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ClientAlertDialogTitle",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ClientAlertDialogTrigger",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ClientDialog",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "function"
+      },
+      {
+        "name": "ClientDialogClose",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ClientDialogContent",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ClientDialogDescription",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ClientDialogFooter",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ClientDialogHeader",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ClientDialogTitle",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ClientDialogTrigger",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ClientDropdownMenu",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "navigation",
+        "kind": "function"
+      },
+      {
+        "name": "ClientDropdownMenuCheckboxItem",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ClientDropdownMenuContent",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ClientDropdownMenuGroup",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ClientDropdownMenuItem",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ClientDropdownMenuLabel",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ClientDropdownMenuPortal",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ClientDropdownMenuRadioGroup",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ClientDropdownMenuRadioItem",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ClientDropdownMenuSeparator",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "ClientDropdownMenuShortcut",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ClientDropdownMenuSub",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ClientDropdownMenuSubContent",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ClientDropdownMenuSubTrigger",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ClientDropdownMenuTrigger",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ClientOnly",
+        "path": "./client-only",
+        "file": "client-only.tsx",
+        "category": "misc",
+        "kind": "function"
+      },
+      {
+        "name": "ClientOnlySheet",
+        "path": "./client-only",
+        "file": "client-only.tsx",
+        "category": "layout",
+        "kind": "const"
+      },
+      {
+        "name": "ClientPopover",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "function"
+      },
+      {
+        "name": "ClientPopoverAnchor",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ClientPopoverContent",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ClientPopoverTrigger",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ClientSelect",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "form",
+        "kind": "function"
+      },
+      {
+        "name": "ClientSelectContent",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ClientSelectGroup",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ClientSelectItem",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ClientSelectLabel",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ClientSelectScrollDownButton",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ClientSelectScrollUpButton",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ClientSelectSeparator",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "ClientSelectTrigger",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ClientSelectValue",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ClientSheet",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "layout",
+        "kind": "function"
+      },
+      {
+        "name": "ClientSheetClose",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "ClientSheetContent",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "ClientSheetDescription",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "ClientSheetFooter",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "ClientSheetHeader",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "ClientSheetTitle",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "ClientSheetTrigger",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "ClientTabs",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "navigation",
+        "kind": "function"
+      },
+      {
+        "name": "ClientTabsContent",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ClientTabsList",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ClientTabsTrigger",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ClientTooltip",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "function"
+      },
+      {
+        "name": "ClientTooltipContent",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ClientTooltipProvider",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ClientTooltipTrigger",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "Collapsible",
+        "path": "./collapsible",
+        "file": "collapsible.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "CollapsibleContent",
+        "path": "./collapsible",
+        "file": "collapsible.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "CollapsibleTrigger",
+        "path": "./collapsible",
+        "file": "collapsible.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "ColumnPinButton",
+        "path": "./data-table-column-pinning",
+        "file": "data-table-column-pinning.tsx",
+        "category": "action",
+        "kind": "function"
+      },
+      {
+        "name": "ColumnReorderContext",
+        "path": "./data-table-column-reorder",
+        "file": "data-table-column-reorder.tsx",
+        "category": "misc",
+        "kind": "function"
+      },
+      {
+        "name": "Combobox",
+        "path": "./combobox",
+        "file": "combobox.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ComboboxChip",
+        "path": "./combobox",
+        "file": "combobox.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ComboboxChips",
+        "path": "./combobox",
+        "file": "combobox.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ComboboxChipsInput",
+        "path": "./combobox",
+        "file": "combobox.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ComboboxCollection",
+        "path": "./combobox",
+        "file": "combobox.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ComboboxContent",
+        "path": "./combobox",
+        "file": "combobox.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ComboboxEmpty",
+        "path": "./combobox",
+        "file": "combobox.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ComboboxGroup",
+        "path": "./combobox",
+        "file": "combobox.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ComboboxInput",
+        "path": "./combobox",
+        "file": "combobox.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ComboboxItem",
+        "path": "./combobox",
+        "file": "combobox.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ComboboxLabel",
+        "path": "./combobox",
+        "file": "combobox.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ComboboxList",
+        "path": "./combobox",
+        "file": "combobox.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ComboboxSeparator",
+        "path": "./combobox",
+        "file": "combobox.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "ComboboxTrigger",
+        "path": "./combobox",
+        "file": "combobox.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ComboboxValue",
+        "path": "./combobox",
+        "file": "combobox.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "Command",
+        "path": "./command",
+        "file": "command.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "CommandDialog",
+        "path": "./command",
+        "file": "command.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "CommandEmpty",
+        "path": "./command",
+        "file": "command.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "CommandGroup",
+        "path": "./command",
+        "file": "command.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "CommandInput",
+        "path": "./command",
+        "file": "command.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "CommandItem",
+        "path": "./command",
+        "file": "command.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "CommandList",
+        "path": "./command",
+        "file": "command.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "CommandSeparator",
+        "path": "./command",
+        "file": "command.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "CommandShortcut",
+        "path": "./command",
+        "file": "command.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ContextMenu",
+        "path": "./context-menu",
+        "file": "context-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ContextMenuCheckboxItem",
+        "path": "./context-menu",
+        "file": "context-menu.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ContextMenuContent",
+        "path": "./context-menu",
+        "file": "context-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ContextMenuGroup",
+        "path": "./context-menu",
+        "file": "context-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ContextMenuItem",
+        "path": "./context-menu",
+        "file": "context-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ContextMenuLabel",
+        "path": "./context-menu",
+        "file": "context-menu.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ContextMenuPortal",
+        "path": "./context-menu",
+        "file": "context-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ContextMenuRadioGroup",
+        "path": "./context-menu",
+        "file": "context-menu.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ContextMenuRadioItem",
+        "path": "./context-menu",
+        "file": "context-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ContextMenuSeparator",
+        "path": "./context-menu",
+        "file": "context-menu.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "ContextMenuShortcut",
+        "path": "./context-menu",
+        "file": "context-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ContextMenuSub",
+        "path": "./context-menu",
+        "file": "context-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ContextMenuSubContent",
+        "path": "./context-menu",
+        "file": "context-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ContextMenuSubTrigger",
+        "path": "./context-menu",
+        "file": "context-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "ContextMenuTrigger",
+        "path": "./context-menu",
+        "file": "context-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "DataTable",
+        "path": "./data-table",
+        "file": "data-table.tsx",
+        "category": "display",
+        "kind": "function"
+      },
+      {
+        "name": "DataTableColumnHeader",
+        "path": "./data-table-column-header",
+        "file": "data-table-column-header.tsx",
+        "category": "display",
+        "kind": "function"
+      },
+      {
+        "name": "DataTableFacetedFilter",
+        "path": "./data-table-faceted-filter",
+        "file": "data-table-faceted-filter.tsx",
+        "category": "display",
+        "kind": "function"
+      },
+      {
+        "name": "DataTableMobileCard",
+        "path": "./data-table-mobile-card",
+        "file": "data-table-mobile-card.tsx",
+        "category": "layout",
+        "kind": "function"
+      },
+      {
+        "name": "DataTablePagination",
+        "path": "./data-table-pagination",
+        "file": "data-table-pagination.tsx",
+        "category": "navigation",
+        "kind": "function"
+      },
+      {
+        "name": "DataTableToolbar",
+        "path": "./data-table-toolbar",
+        "file": "data-table-toolbar.tsx",
+        "category": "display",
+        "kind": "function"
+      },
+      {
+        "name": "DataTableViewOptions",
+        "path": "./data-table-view-options",
+        "file": "data-table-view-options.tsx",
+        "category": "display",
+        "kind": "function"
+      },
+      {
+        "name": "DataTableVirtualized",
+        "path": "./data-table-virtualized",
+        "file": "data-table-virtualized.tsx",
+        "category": "display",
+        "kind": "function"
+      },
+      {
+        "name": "DefaultMobileCard",
+        "path": "./data-table-mobile-card",
+        "file": "data-table-mobile-card.tsx",
+        "category": "layout",
+        "kind": "function"
+      },
+      {
+        "name": "Dialog",
+        "path": "./dialog",
+        "file": "dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "DialogClose",
+        "path": "./dialog",
+        "file": "dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "DialogContent",
+        "path": "./dialog",
+        "file": "dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "DialogDescription",
+        "path": "./dialog",
+        "file": "dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "DialogFooter",
+        "path": "./dialog",
+        "file": "dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "DialogHeader",
+        "path": "./dialog",
+        "file": "dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "DialogOverlay",
+        "path": "./dialog",
+        "file": "dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "DialogPortal",
+        "path": "./dialog",
+        "file": "dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "DialogTitle",
+        "path": "./dialog",
+        "file": "dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "DialogTrigger",
+        "path": "./dialog",
+        "file": "dialog.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "Drawer",
+        "path": "./drawer",
+        "file": "drawer.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "DrawerClose",
+        "path": "./drawer",
+        "file": "drawer.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "DrawerContent",
+        "path": "./drawer",
+        "file": "drawer.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "DrawerDescription",
+        "path": "./drawer",
+        "file": "drawer.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "DrawerFooter",
+        "path": "./drawer",
+        "file": "drawer.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "DrawerHeader",
+        "path": "./drawer",
+        "file": "drawer.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "DrawerOverlay",
+        "path": "./drawer",
+        "file": "drawer.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "DrawerPortal",
+        "path": "./drawer",
+        "file": "drawer.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "DrawerTitle",
+        "path": "./drawer",
+        "file": "drawer.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "DrawerTrigger",
+        "path": "./drawer",
+        "file": "drawer.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "DropdownMenu",
+        "path": "./dropdown-menu",
+        "file": "dropdown-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "DropdownMenuCheckboxItem",
+        "path": "./dropdown-menu",
+        "file": "dropdown-menu.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "DropdownMenuContent",
+        "path": "./dropdown-menu",
+        "file": "dropdown-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "DropdownMenuGroup",
+        "path": "./dropdown-menu",
+        "file": "dropdown-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "DropdownMenuItem",
+        "path": "./dropdown-menu",
+        "file": "dropdown-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "DropdownMenuLabel",
+        "path": "./dropdown-menu",
+        "file": "dropdown-menu.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "DropdownMenuPortal",
+        "path": "./dropdown-menu",
+        "file": "dropdown-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "DropdownMenuRadioGroup",
+        "path": "./dropdown-menu",
+        "file": "dropdown-menu.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "DropdownMenuRadioItem",
+        "path": "./dropdown-menu",
+        "file": "dropdown-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "DropdownMenuSeparator",
+        "path": "./dropdown-menu",
+        "file": "dropdown-menu.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "DropdownMenuShortcut",
+        "path": "./dropdown-menu",
+        "file": "dropdown-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "DropdownMenuSub",
+        "path": "./dropdown-menu",
+        "file": "dropdown-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "DropdownMenuSubContent",
+        "path": "./dropdown-menu",
+        "file": "dropdown-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "DropdownMenuSubTrigger",
+        "path": "./dropdown-menu",
+        "file": "dropdown-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "DropdownMenuTrigger",
+        "path": "./dropdown-menu",
+        "file": "dropdown-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "Empty",
+        "path": "./empty",
+        "file": "empty.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "EmptyContent",
+        "path": "./empty",
+        "file": "empty.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "EmptyDescription",
+        "path": "./empty",
+        "file": "empty.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "EmptyHeader",
+        "path": "./empty",
+        "file": "empty.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "EmptyMedia",
+        "path": "./empty",
+        "file": "empty.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "EmptyTitle",
+        "path": "./empty",
+        "file": "empty.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "Example",
+        "path": "./example",
+        "file": "example.tsx",
+        "category": "misc",
+        "kind": "named"
+      },
+      {
+        "name": "ExampleWrapper",
+        "path": "./example",
+        "file": "example.tsx",
+        "category": "misc",
+        "kind": "named"
+      },
+      {
+        "name": "ExcelExportButton",
+        "path": "./data-table-export-excel",
+        "file": "data-table-export-excel.tsx",
+        "category": "action",
+        "kind": "function"
+      },
+      {
+        "name": "Field",
+        "path": "./field",
+        "file": "field.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "FieldContent",
+        "path": "./field",
+        "file": "field.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "FieldDescription",
+        "path": "./field",
+        "file": "field.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "FieldError",
+        "path": "./field",
+        "file": "field.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "FieldGroup",
+        "path": "./field",
+        "file": "field.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "FieldLabel",
+        "path": "./field",
+        "file": "field.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "FieldLegend",
+        "path": "./field",
+        "file": "field.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "FieldSeparator",
+        "path": "./field",
+        "file": "field.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "FieldSet",
+        "path": "./field",
+        "file": "field.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "FieldTitle",
+        "path": "./field",
+        "file": "field.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "FilterPresets",
+        "path": "./data-table-filter-presets",
+        "file": "data-table-filter-presets.tsx",
+        "category": "misc",
+        "kind": "function"
+      },
+      {
+        "name": "Form",
+        "path": "./form",
+        "file": "form.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "FormControl",
+        "path": "./form",
+        "file": "form.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "FormDescription",
+        "path": "./form",
+        "file": "form.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "FormField",
+        "path": "./form",
+        "file": "form.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "FormItem",
+        "path": "./form",
+        "file": "form.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "FormLabel",
+        "path": "./form",
+        "file": "form.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "FormMessage",
+        "path": "./form",
+        "file": "form.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "HoverCard",
+        "path": "./hover-card",
+        "file": "hover-card.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "HoverCardContent",
+        "path": "./hover-card",
+        "file": "hover-card.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "HoverCardTrigger",
+        "path": "./hover-card",
+        "file": "hover-card.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "Input",
+        "path": "./input",
+        "file": "input.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "InputGroup",
+        "path": "./input-group",
+        "file": "input-group.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "InputGroupAddon",
+        "path": "./input-group",
+        "file": "input-group.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "InputGroupButton",
+        "path": "./input-group",
+        "file": "input-group.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "InputGroupInput",
+        "path": "./input-group",
+        "file": "input-group.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "InputGroupText",
+        "path": "./input-group",
+        "file": "input-group.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "InputGroupTextarea",
+        "path": "./input-group",
+        "file": "input-group.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "InputOTP",
+        "path": "./input-otp",
+        "file": "input-otp.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "InputOTPGroup",
+        "path": "./input-otp",
+        "file": "input-otp.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "InputOTPSeparator",
+        "path": "./input-otp",
+        "file": "input-otp.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "InputOTPSlot",
+        "path": "./input-otp",
+        "file": "input-otp.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "Item",
+        "path": "./item",
+        "file": "item.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "ItemActions",
+        "path": "./item",
+        "file": "item.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "ItemContent",
+        "path": "./item",
+        "file": "item.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "ItemDescription",
+        "path": "./item",
+        "file": "item.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "ItemFooter",
+        "path": "./item",
+        "file": "item.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "ItemGroup",
+        "path": "./item",
+        "file": "item.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "ItemHeader",
+        "path": "./item",
+        "file": "item.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "ItemMedia",
+        "path": "./item",
+        "file": "item.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "ItemSeparator",
+        "path": "./item",
+        "file": "item.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "ItemTitle",
+        "path": "./item",
+        "file": "item.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "Kbd",
+        "path": "./kbd",
+        "file": "kbd.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "KbdGroup",
+        "path": "./kbd",
+        "file": "kbd.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "Label",
+        "path": "./label",
+        "file": "label.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "Menubar",
+        "path": "./menubar",
+        "file": "menubar.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "MenubarCheckboxItem",
+        "path": "./menubar",
+        "file": "menubar.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "MenubarContent",
+        "path": "./menubar",
+        "file": "menubar.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "MenubarGroup",
+        "path": "./menubar",
+        "file": "menubar.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "MenubarItem",
+        "path": "./menubar",
+        "file": "menubar.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "MenubarLabel",
+        "path": "./menubar",
+        "file": "menubar.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "MenubarMenu",
+        "path": "./menubar",
+        "file": "menubar.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "MenubarPortal",
+        "path": "./menubar",
+        "file": "menubar.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "MenubarRadioGroup",
+        "path": "./menubar",
+        "file": "menubar.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "MenubarRadioItem",
+        "path": "./menubar",
+        "file": "menubar.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "MenubarSeparator",
+        "path": "./menubar",
+        "file": "menubar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "MenubarShortcut",
+        "path": "./menubar",
+        "file": "menubar.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "MenubarSub",
+        "path": "./menubar",
+        "file": "menubar.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "MenubarSubContent",
+        "path": "./menubar",
+        "file": "menubar.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "MenubarSubTrigger",
+        "path": "./menubar",
+        "file": "menubar.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "MenubarTrigger",
+        "path": "./menubar",
+        "file": "menubar.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "NativeSelect",
+        "path": "./native-select",
+        "file": "native-select.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "NativeSelectOptGroup",
+        "path": "./native-select",
+        "file": "native-select.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "NativeSelectOption",
+        "path": "./native-select",
+        "file": "native-select.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "NavActions",
+        "path": "./nav-actions",
+        "file": "nav-actions.tsx",
+        "category": "misc",
+        "kind": "function"
+      },
+      {
+        "name": "NavFavorites",
+        "path": "./nav-favorites",
+        "file": "nav-favorites.tsx",
+        "category": "misc",
+        "kind": "function"
+      },
+      {
+        "name": "NavigationMenu",
+        "path": "./navigation-menu",
+        "file": "navigation-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "NavigationMenuContent",
+        "path": "./navigation-menu",
+        "file": "navigation-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "NavigationMenuIndicator",
+        "path": "./navigation-menu",
+        "file": "navigation-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "NavigationMenuItem",
+        "path": "./navigation-menu",
+        "file": "navigation-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "NavigationMenuLink",
+        "path": "./navigation-menu",
+        "file": "navigation-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "NavigationMenuList",
+        "path": "./navigation-menu",
+        "file": "navigation-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "NavigationMenuTrigger",
+        "path": "./navigation-menu",
+        "file": "navigation-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "NavigationMenuViewport",
+        "path": "./navigation-menu",
+        "file": "navigation-menu.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "NavMain",
+        "path": "./nav-main",
+        "file": "nav-main.tsx",
+        "category": "misc",
+        "kind": "function"
+      },
+      {
+        "name": "NavProjects",
+        "path": "./nav-projects",
+        "file": "nav-projects.tsx",
+        "category": "misc",
+        "kind": "function"
+      },
+      {
+        "name": "NavSecondary",
+        "path": "./nav-secondary",
+        "file": "nav-secondary.tsx",
+        "category": "misc",
+        "kind": "function"
+      },
+      {
+        "name": "NavUser",
+        "path": "./nav-user",
+        "file": "nav-user.tsx",
+        "category": "misc",
+        "kind": "function"
+      },
+      {
+        "name": "NavWorkspaces",
+        "path": "./nav-workspaces",
+        "file": "nav-workspaces.tsx",
+        "category": "misc",
+        "kind": "function"
+      },
+      {
+        "name": "Pagination",
+        "path": "./pagination",
+        "file": "pagination.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "PaginationContent",
+        "path": "./pagination",
+        "file": "pagination.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "PaginationEllipsis",
+        "path": "./pagination",
+        "file": "pagination.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "PaginationItem",
+        "path": "./pagination",
+        "file": "pagination.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "PaginationLink",
+        "path": "./pagination",
+        "file": "pagination.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "PaginationNext",
+        "path": "./pagination",
+        "file": "pagination.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "PaginationPrevious",
+        "path": "./pagination",
+        "file": "pagination.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "PDFExportButton",
+        "path": "./data-table-export-pdf",
+        "file": "data-table-export-pdf.tsx",
+        "category": "action",
+        "kind": "function"
+      },
+      {
+        "name": "Popover",
+        "path": "./popover",
+        "file": "popover.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "PopoverAnchor",
+        "path": "./popover",
+        "file": "popover.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "PopoverContent",
+        "path": "./popover",
+        "file": "popover.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "PopoverDescription",
+        "path": "./popover",
+        "file": "popover.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "PopoverHeader",
+        "path": "./popover",
+        "file": "popover.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "PopoverTitle",
+        "path": "./popover",
+        "file": "popover.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "PopoverTrigger",
+        "path": "./popover",
+        "file": "popover.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "Progress",
+        "path": "./progress",
+        "file": "progress.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "RadioGroup",
+        "path": "./radio-group",
+        "file": "radio-group.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "RadioGroupItem",
+        "path": "./radio-group",
+        "file": "radio-group.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "ResponsiveDataTable",
+        "path": "./data-table-mobile-card",
+        "file": "data-table-mobile-card.tsx",
+        "category": "display",
+        "kind": "function"
+      },
+      {
+        "name": "ScrollArea",
+        "path": "./scroll-area",
+        "file": "scroll-area.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "ScrollBar",
+        "path": "./scroll-area",
+        "file": "scroll-area.tsx",
+        "category": "misc",
+        "kind": "named"
+      },
+      {
+        "name": "Select",
+        "path": "./select",
+        "file": "select.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "SelectContent",
+        "path": "./select",
+        "file": "select.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "SelectGroup",
+        "path": "./select",
+        "file": "select.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "SelectItem",
+        "path": "./select",
+        "file": "select.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "SelectLabel",
+        "path": "./select",
+        "file": "select.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "SelectScrollDownButton",
+        "path": "./select",
+        "file": "select.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "SelectScrollUpButton",
+        "path": "./select",
+        "file": "select.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "SelectSeparator",
+        "path": "./select",
+        "file": "select.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SelectTrigger",
+        "path": "./select",
+        "file": "select.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "SelectValue",
+        "path": "./select",
+        "file": "select.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "Separator",
+        "path": "./separator",
+        "file": "separator.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "Sheet",
+        "path": "./sheet",
+        "file": "sheet.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SheetClose",
+        "path": "./sheet",
+        "file": "sheet.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SheetContent",
+        "path": "./sheet",
+        "file": "sheet.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SheetDescription",
+        "path": "./sheet",
+        "file": "sheet.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SheetFooter",
+        "path": "./sheet",
+        "file": "sheet.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SheetHeader",
+        "path": "./sheet",
+        "file": "sheet.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SheetTitle",
+        "path": "./sheet",
+        "file": "sheet.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SheetTrigger",
+        "path": "./sheet",
+        "file": "sheet.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "Sidebar",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarContent",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarFooter",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarGroup",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarGroupAction",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarGroupContent",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarGroupLabel",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarHeader",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarInput",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarInset",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarMenu",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarMenuAction",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarMenuBadge",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarMenuButton",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarMenuItem",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarMenuSkeleton",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarMenuSub",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarMenuSubButton",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarMenuSubItem",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarProvider",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarRail",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarSeparator",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarTrigger",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "Skeleton",
+        "path": "./skeleton",
+        "file": "skeleton.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "SkipLink",
+        "path": "./accessibility-skip-link",
+        "file": "accessibility-skip-link.tsx",
+        "category": "misc",
+        "kind": "function"
+      },
+      {
+        "name": "Slider",
+        "path": "./slider",
+        "file": "slider.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "SortableColumnHeader",
+        "path": "./data-table-column-reorder",
+        "file": "data-table-column-reorder.tsx",
+        "category": "misc",
+        "kind": "function"
+      },
+      {
+        "name": "Spinner",
+        "path": "./spinner",
+        "file": "spinner.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "Switch",
+        "path": "./switch",
+        "file": "switch.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "Table",
+        "path": "./table",
+        "file": "table.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "TableBody",
+        "path": "./table",
+        "file": "table.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "TableCaption",
+        "path": "./table",
+        "file": "table.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "TableCell",
+        "path": "./table",
+        "file": "table.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "TableFooter",
+        "path": "./table",
+        "file": "table.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "TableHead",
+        "path": "./table",
+        "file": "table.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "TableHeader",
+        "path": "./table",
+        "file": "table.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "TableRow",
+        "path": "./table",
+        "file": "table.tsx",
+        "category": "display",
+        "kind": "named"
+      },
+      {
+        "name": "Tabs",
+        "path": "./tabs",
+        "file": "tabs.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "TabsContent",
+        "path": "./tabs",
+        "file": "tabs.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "TabsList",
+        "path": "./tabs",
+        "file": "tabs.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "TabsTrigger",
+        "path": "./tabs",
+        "file": "tabs.tsx",
+        "category": "navigation",
+        "kind": "named"
+      },
+      {
+        "name": "TeamSwitcher",
+        "path": "./team-switcher",
+        "file": "team-switcher.tsx",
+        "category": "form",
+        "kind": "function"
+      },
+      {
+        "name": "Textarea",
+        "path": "./textarea",
+        "file": "textarea.tsx",
+        "category": "form",
+        "kind": "named"
+      },
+      {
+        "name": "Toaster",
+        "path": "./sonner",
+        "file": "sonner.tsx",
+        "category": "misc",
+        "kind": "named"
+      },
+      {
+        "name": "Toggle",
+        "path": "./toggle",
+        "file": "toggle.tsx",
+        "category": "action",
+        "kind": "named"
+      },
+      {
+        "name": "ToggleGroup",
+        "path": "./toggle-group",
+        "file": "toggle-group.tsx",
+        "category": "action",
+        "kind": "named"
+      },
+      {
+        "name": "ToggleGroupItem",
+        "path": "./toggle-group",
+        "file": "toggle-group.tsx",
+        "category": "action",
+        "kind": "named"
+      },
+      {
+        "name": "Tooltip",
+        "path": "./tooltip",
+        "file": "tooltip.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "TooltipContent",
+        "path": "./tooltip",
+        "file": "tooltip.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "TooltipProvider",
+        "path": "./tooltip",
+        "file": "tooltip.tsx",
+        "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "TooltipTrigger",
+        "path": "./tooltip",
+        "file": "tooltip.tsx",
+        "category": "feedback",
+        "kind": "named"
+      }
+    ],
+    "hooks": [
+      {
+        "name": "useCopyToClipboard",
+        "path": "./hooks/use-copy-to-clipboard",
+        "file": "hooks/use-copy-to-clipboard.ts",
+        "description": "- useCopyToClipboard hook"
+      },
+      {
+        "name": "useCopyToClipboardWithReset",
+        "path": "./hooks/use-copy-to-clipboard",
+        "file": "hooks/use-copy-to-clipboard.ts",
+        "description": "- useCopyToClipboard hook"
+      },
+      {
+        "name": "useDebounce",
+        "path": "./hooks/use-debounce",
+        "file": "hooks/use-debounce.ts",
+        "description": "- useDebounce hook"
+      },
+      {
+        "name": "useDebouncedCallback",
+        "path": "./hooks/use-debounce",
+        "file": "hooks/use-debounce.ts",
+        "description": "- useDebounce hook"
+      },
+      {
+        "name": "useIsMobile",
+        "path": "./hooks/use-mobile",
+        "file": "hooks/use-mobile.ts",
+        "description": "- useIsMobile hook"
+      },
+      {
+        "name": "useLocalStorage",
+        "path": "./hooks/use-local-storage",
+        "file": "hooks/use-local-storage.ts",
+        "description": "- useLocalStorage hook"
+      },
+      {
+        "name": "useMediaQuery",
+        "path": "./hooks/use-media-query",
+        "file": "hooks/use-media-query.ts",
+        "description": "- useMediaQuery hook"
+      }
+    ],
+    "custom": [
+      {
+        "name": "AnimatedThemeToggler",
+        "path": "./custom/animated-theme-toggler",
+        "file": "custom/animated-theme-toggler.tsx",
+        "category": "action"
+      },
+      {
+        "name": "BentoCard",
+        "path": "./custom/bento-grid",
+        "file": "custom/bento-grid.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "BentoGrid",
+        "path": "./custom/bento-grid",
+        "file": "custom/bento-grid.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "BorderBeam",
+        "path": "./custom/border-beam",
+        "file": "custom/border-beam.tsx",
+        "category": "effect"
+      },
+      {
+        "name": "DatePicker",
+        "path": "./custom/date-picker",
+        "file": "custom/date-picker.tsx",
+        "category": "form"
+      },
+      {
+        "name": "DotPattern",
+        "path": "./custom/dot-pattern",
+        "file": "custom/dot-pattern.tsx",
+        "category": "effect"
+      },
+      {
+        "name": "KanbanBoard",
+        "path": "./custom/kanban",
+        "file": "custom/kanban.tsx",
+        "category": "misc"
+      },
+      {
+        "name": "KanbanCard",
+        "path": "./custom/kanban",
+        "file": "custom/kanban.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "KanbanCards",
+        "path": "./custom/kanban",
+        "file": "custom/kanban.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "KanbanDemo",
+        "path": "./custom/kanban",
+        "file": "custom/kanban.tsx",
+        "category": "misc"
+      },
+      {
+        "name": "KanbanHeader",
+        "path": "./custom/kanban",
+        "file": "custom/kanban.tsx",
+        "category": "misc"
+      },
+      {
+        "name": "KanbanProvider",
+        "path": "./custom/kanban",
+        "file": "custom/kanban.tsx",
+        "category": "misc"
+      },
+      {
+        "name": "NumberTicker",
+        "path": "./custom/number-ticker",
+        "file": "custom/number-ticker.tsx",
+        "category": "effect"
+      },
+      {
+        "name": "PasswordInput",
+        "path": "./custom/password-input",
+        "file": "custom/password-input.tsx",
+        "category": "form"
+      },
+      {
+        "name": "RetroGrid",
+        "path": "./custom/retro-grid",
+        "file": "custom/retro-grid.tsx",
+        "category": "effect"
+      },
+      {
+        "name": "ShimmerButton",
+        "path": "./custom/shimmer-button",
+        "file": "custom/shimmer-button.tsx",
+        "category": "action"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "AppSidebar",
+        "path": "./blocks/app-sidebar",
+        "file": "blocks/app-sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "Avatar",
+        "path": "./blocks/avatar",
+        "file": "blocks/avatar.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "AvatarBadge",
+        "path": "./blocks/avatar",
+        "file": "blocks/avatar.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "AvatarFallback",
+        "path": "./blocks/avatar",
+        "file": "blocks/avatar.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "AvatarGroup",
+        "path": "./blocks/avatar",
+        "file": "blocks/avatar.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "AvatarGroupCount",
+        "path": "./blocks/avatar",
+        "file": "blocks/avatar.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "AvatarImage",
+        "path": "./blocks/avatar",
+        "file": "blocks/avatar.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "Badge",
+        "path": "./blocks/badge",
+        "file": "blocks/badge.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "Breadcrumb",
+        "path": "./blocks/breadcrumb",
+        "file": "blocks/breadcrumb.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "BreadcrumbEllipsis",
+        "path": "./blocks/breadcrumb",
+        "file": "blocks/breadcrumb.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "BreadcrumbItem",
+        "path": "./blocks/breadcrumb",
+        "file": "blocks/breadcrumb.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "BreadcrumbLink",
+        "path": "./blocks/breadcrumb",
+        "file": "blocks/breadcrumb.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "BreadcrumbList",
+        "path": "./blocks/breadcrumb",
+        "file": "blocks/breadcrumb.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "BreadcrumbPage",
+        "path": "./blocks/breadcrumb",
+        "file": "blocks/breadcrumb.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "BreadcrumbSeparator",
+        "path": "./blocks/breadcrumb",
+        "file": "blocks/breadcrumb.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "Calendar",
+        "path": "./blocks/calendar",
+        "file": "blocks/calendar.tsx",
+        "category": "calendar"
+      },
+      {
+        "name": "Calendar01",
+        "path": "./blocks/calendar-01",
+        "file": "blocks/calendar-01.tsx",
+        "category": "calendar"
+      },
+      {
+        "name": "Calendar02",
+        "path": "./blocks/calendar-02",
+        "file": "blocks/calendar-02.tsx",
+        "category": "calendar"
+      },
+      {
+        "name": "Calendar03",
+        "path": "./blocks/calendar-03",
+        "file": "blocks/calendar-03.tsx",
+        "category": "calendar"
+      },
+      {
+        "name": "Calendar04",
+        "path": "./blocks/calendar-04",
+        "file": "blocks/calendar-04.tsx",
+        "category": "calendar"
+      },
+      {
+        "name": "Calendar05",
+        "path": "./blocks/calendar-05",
+        "file": "blocks/calendar-05.tsx",
+        "category": "calendar"
+      },
+      {
+        "name": "Calendar10",
+        "path": "./blocks/calendar-10",
+        "file": "blocks/calendar-10.tsx",
+        "category": "calendar"
+      },
+      {
+        "name": "Calendar22",
+        "path": "./blocks/calendar-22",
+        "file": "blocks/calendar-22.tsx",
+        "category": "calendar"
+      },
+      {
+        "name": "Calendar23",
+        "path": "./blocks/calendar-23",
+        "file": "blocks/calendar-23.tsx",
+        "category": "calendar"
+      },
+      {
+        "name": "CalendarDayButton",
+        "path": "./blocks/calendar",
+        "file": "blocks/calendar.tsx",
+        "category": "calendar"
+      },
+      {
+        "name": "Calendars",
+        "path": "./blocks/calendars",
+        "file": "blocks/calendars.tsx",
+        "category": "calendar"
+      },
+      {
+        "name": "CardAction",
+        "path": "./blocks/card",
+        "file": "blocks/card.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "CardContent",
+        "path": "./blocks/card",
+        "file": "blocks/card.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "CardDescription",
+        "path": "./blocks/card",
+        "file": "blocks/card.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "CardFooter",
+        "path": "./blocks/card",
+        "file": "blocks/card.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "CardHeader",
+        "path": "./blocks/card",
+        "file": "blocks/card.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "CardTitle",
+        "path": "./blocks/card",
+        "file": "blocks/card.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "ChartAreaDefault",
+        "path": "./blocks/chart-area-default",
+        "file": "blocks/chart-area-default.tsx",
+        "category": "chart"
+      },
+      {
+        "name": "ChartAreaInteractive",
+        "path": "./blocks/chart-area-interactive",
+        "file": "blocks/chart-area-interactive.tsx",
+        "category": "chart"
+      },
+      {
+        "name": "ChartBarDefault",
+        "path": "./blocks/chart-bar-default",
+        "file": "blocks/chart-bar-default.tsx",
+        "category": "chart"
+      },
+      {
+        "name": "ChartContainer",
+        "path": "./blocks/chart",
+        "file": "blocks/chart.tsx",
+        "category": "chart"
+      },
+      {
+        "name": "ChartLegend",
+        "path": "./blocks/chart",
+        "file": "blocks/chart.tsx",
+        "category": "chart"
+      },
+      {
+        "name": "ChartLegendContent",
+        "path": "./blocks/chart",
+        "file": "blocks/chart.tsx",
+        "category": "chart"
+      },
+      {
+        "name": "ChartLineDefault",
+        "path": "./blocks/chart-line-default",
+        "file": "blocks/chart-line-default.tsx",
+        "category": "chart"
+      },
+      {
+        "name": "ChartPieDonut",
+        "path": "./blocks/chart-pie-donut",
+        "file": "blocks/chart-pie-donut.tsx",
+        "category": "chart"
+      },
+      {
+        "name": "ChartRadarDefault",
+        "path": "./blocks/chart-radar-default",
+        "file": "blocks/chart-radar-default.tsx",
+        "category": "chart"
+      },
+      {
+        "name": "ChartRadialSimple",
+        "path": "./blocks/chart-radial-simple",
+        "file": "blocks/chart-radial-simple.tsx",
+        "category": "chart"
+      },
+      {
+        "name": "ChartStyle",
+        "path": "./blocks/chart",
+        "file": "blocks/chart.tsx",
+        "category": "chart"
+      },
+      {
+        "name": "ChartTooltip",
+        "path": "./blocks/chart",
+        "file": "blocks/chart.tsx",
+        "category": "chart"
+      },
+      {
+        "name": "ChartTooltipAdvanced",
+        "path": "./blocks/chart-tooltip-advanced",
+        "file": "blocks/chart-tooltip-advanced.tsx",
+        "category": "chart"
+      },
+      {
+        "name": "ChartTooltipContent",
+        "path": "./blocks/chart",
+        "file": "blocks/chart.tsx",
+        "category": "chart"
+      },
+      {
+        "name": "Collapsible",
+        "path": "./blocks/collapsible",
+        "file": "blocks/collapsible.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "CollapsibleContent",
+        "path": "./blocks/collapsible",
+        "file": "blocks/collapsible.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "CollapsibleTrigger",
+        "path": "./blocks/collapsible",
+        "file": "blocks/collapsible.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "ComponentExample",
+        "path": "./blocks/component-example",
+        "file": "blocks/component-example.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DataTable",
+        "path": "./blocks/data-table",
+        "file": "blocks/data-table.tsx",
+        "category": "data"
+      },
+      {
+        "name": "DatePicker",
+        "path": "./blocks/date-picker",
+        "file": "blocks/date-picker.tsx",
+        "category": "calendar"
+      },
+      {
+        "name": "Dialog",
+        "path": "./blocks/dialog",
+        "file": "blocks/dialog.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DialogClose",
+        "path": "./blocks/dialog",
+        "file": "blocks/dialog.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DialogContent",
+        "path": "./blocks/dialog",
+        "file": "blocks/dialog.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DialogDescription",
+        "path": "./blocks/dialog",
+        "file": "blocks/dialog.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DialogFooter",
+        "path": "./blocks/dialog",
+        "file": "blocks/dialog.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DialogHeader",
+        "path": "./blocks/dialog",
+        "file": "blocks/dialog.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "DialogOverlay",
+        "path": "./blocks/dialog",
+        "file": "blocks/dialog.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DialogPortal",
+        "path": "./blocks/dialog",
+        "file": "blocks/dialog.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DialogTitle",
+        "path": "./blocks/dialog",
+        "file": "blocks/dialog.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DialogTrigger",
+        "path": "./blocks/dialog",
+        "file": "blocks/dialog.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DomainMenu",
+        "path": "./blocks/domain-menu",
+        "file": "blocks/domain-menu.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "Drawer",
+        "path": "./blocks/drawer",
+        "file": "blocks/drawer.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DrawerClose",
+        "path": "./blocks/drawer",
+        "file": "blocks/drawer.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DrawerContent",
+        "path": "./blocks/drawer",
+        "file": "blocks/drawer.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DrawerDescription",
+        "path": "./blocks/drawer",
+        "file": "blocks/drawer.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DrawerFooter",
+        "path": "./blocks/drawer",
+        "file": "blocks/drawer.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DrawerHeader",
+        "path": "./blocks/drawer",
+        "file": "blocks/drawer.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "DrawerOverlay",
+        "path": "./blocks/drawer",
+        "file": "blocks/drawer.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DrawerPortal",
+        "path": "./blocks/drawer",
+        "file": "blocks/drawer.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DrawerTitle",
+        "path": "./blocks/drawer",
+        "file": "blocks/drawer.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DrawerTrigger",
+        "path": "./blocks/drawer",
+        "file": "blocks/drawer.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DropdownMenu",
+        "path": "./blocks/dropdown-menu",
+        "file": "blocks/dropdown-menu.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DropdownMenuCheckboxItem",
+        "path": "./blocks/dropdown-menu",
+        "file": "blocks/dropdown-menu.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DropdownMenuContent",
+        "path": "./blocks/dropdown-menu",
+        "file": "blocks/dropdown-menu.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DropdownMenuGroup",
+        "path": "./blocks/dropdown-menu",
+        "file": "blocks/dropdown-menu.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DropdownMenuItem",
+        "path": "./blocks/dropdown-menu",
+        "file": "blocks/dropdown-menu.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DropdownMenuLabel",
+        "path": "./blocks/dropdown-menu",
+        "file": "blocks/dropdown-menu.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DropdownMenuPortal",
+        "path": "./blocks/dropdown-menu",
+        "file": "blocks/dropdown-menu.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DropdownMenuRadioGroup",
+        "path": "./blocks/dropdown-menu",
+        "file": "blocks/dropdown-menu.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DropdownMenuRadioItem",
+        "path": "./blocks/dropdown-menu",
+        "file": "blocks/dropdown-menu.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DropdownMenuSeparator",
+        "path": "./blocks/dropdown-menu",
+        "file": "blocks/dropdown-menu.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DropdownMenuShortcut",
+        "path": "./blocks/dropdown-menu",
+        "file": "blocks/dropdown-menu.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DropdownMenuSub",
+        "path": "./blocks/dropdown-menu",
+        "file": "blocks/dropdown-menu.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DropdownMenuSubContent",
+        "path": "./blocks/dropdown-menu",
+        "file": "blocks/dropdown-menu.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DropdownMenuSubTrigger",
+        "path": "./blocks/dropdown-menu",
+        "file": "blocks/dropdown-menu.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "DropdownMenuTrigger",
+        "path": "./blocks/dropdown-menu",
+        "file": "blocks/dropdown-menu.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "Field",
+        "path": "./blocks/field",
+        "file": "blocks/field.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "FieldContent",
+        "path": "./blocks/field",
+        "file": "blocks/field.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "FieldDescription",
+        "path": "./blocks/field",
+        "file": "blocks/field.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "FieldError",
+        "path": "./blocks/field",
+        "file": "blocks/field.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "FieldGroup",
+        "path": "./blocks/field",
+        "file": "blocks/field.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "FieldLabel",
+        "path": "./blocks/field",
+        "file": "blocks/field.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "FieldLegend",
+        "path": "./blocks/field",
+        "file": "blocks/field.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "FieldSeparator",
+        "path": "./blocks/field",
+        "file": "blocks/field.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "FieldSet",
+        "path": "./blocks/field",
+        "file": "blocks/field.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "FieldTitle",
+        "path": "./blocks/field",
+        "file": "blocks/field.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "LoginForm",
+        "path": "./blocks/login-form",
+        "file": "blocks/login-form.tsx",
+        "category": "auth"
+      },
+      {
+        "name": "NavActions",
+        "path": "./blocks/nav-actions",
+        "file": "blocks/nav-actions.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "NavDocuments",
+        "path": "./blocks/nav-documents",
+        "file": "blocks/nav-documents.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "NavFavorites",
+        "path": "./blocks/nav-favorites",
+        "file": "blocks/nav-favorites.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "NavMain",
+        "path": "./blocks/nav-main",
+        "file": "blocks/nav-main.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "NavProgressBar",
+        "path": "./blocks/nav-progress-bar",
+        "file": "blocks/nav-progress-bar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "NavProjects",
+        "path": "./blocks/nav-projects",
+        "file": "blocks/nav-projects.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "NavSecondary",
+        "path": "./blocks/nav-secondary",
+        "file": "blocks/nav-secondary.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "NavUser",
+        "path": "./blocks/nav-user",
+        "file": "blocks/nav-user.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "NavWorkspaces",
+        "path": "./blocks/nav-workspaces",
+        "file": "blocks/nav-workspaces.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "OTPForm",
+        "path": "./blocks/otp-form",
+        "file": "blocks/otp-form.tsx",
+        "category": "auth"
+      },
+      {
+        "name": "PageAuditHeader",
+        "path": "./blocks/page-audit-header",
+        "file": "blocks/page-audit-header.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "PopoverAnchor",
+        "path": "./blocks/popover",
+        "file": "blocks/popover.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "PopoverContent",
+        "path": "./blocks/popover",
+        "file": "blocks/popover.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "PopoverDescription",
+        "path": "./blocks/popover",
+        "file": "blocks/popover.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "PopoverHeader",
+        "path": "./blocks/popover",
+        "file": "blocks/popover.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "PopoverTitle",
+        "path": "./blocks/popover",
+        "file": "blocks/popover.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "PopoverTrigger",
+        "path": "./blocks/popover",
+        "file": "blocks/popover.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "PWAInstallPrompt",
+        "path": "./blocks/pwa-install-prompt",
+        "file": "blocks/pwa-install-prompt.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "RecurrenceEditor",
+        "path": "./blocks/recurrence-editor",
+        "file": "blocks/recurrence-editor.tsx",
+        "category": "form"
+      },
+      {
+        "name": "SearchForm",
+        "path": "./blocks/search-form",
+        "file": "blocks/search-form.tsx",
+        "category": "form"
+      },
+      {
+        "name": "SectionCards",
+        "path": "./blocks/section-cards",
+        "file": "blocks/section-cards.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "SelectContent",
+        "path": "./blocks/select",
+        "file": "blocks/select.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "SelectGroup",
+        "path": "./blocks/select",
+        "file": "blocks/select.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "SelectItem",
+        "path": "./blocks/select",
+        "file": "blocks/select.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "SelectLabel",
+        "path": "./blocks/select",
+        "file": "blocks/select.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "SelectScrollDownButton",
+        "path": "./blocks/select",
+        "file": "blocks/select.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "SelectScrollUpButton",
+        "path": "./blocks/select",
+        "file": "blocks/select.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "SelectSeparator",
+        "path": "./blocks/select",
+        "file": "blocks/select.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "SelectTrigger",
+        "path": "./blocks/select",
+        "file": "blocks/select.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "SelectValue",
+        "path": "./blocks/select",
+        "file": "blocks/select.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "SettingsDialog",
+        "path": "./blocks/settings-dialog",
+        "file": "blocks/settings-dialog.tsx",
+        "category": "settings"
+      },
+      {
+        "name": "Sheet",
+        "path": "./blocks/sheet",
+        "file": "blocks/sheet.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "SheetClose",
+        "path": "./blocks/sheet",
+        "file": "blocks/sheet.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "SheetContent",
+        "path": "./blocks/sheet",
+        "file": "blocks/sheet.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "SheetDescription",
+        "path": "./blocks/sheet",
+        "file": "blocks/sheet.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "SheetFooter",
+        "path": "./blocks/sheet",
+        "file": "blocks/sheet.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "SheetHeader",
+        "path": "./blocks/sheet",
+        "file": "blocks/sheet.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SheetTitle",
+        "path": "./blocks/sheet",
+        "file": "blocks/sheet.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "SheetTrigger",
+        "path": "./blocks/sheet",
+        "file": "blocks/sheet.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "Sidebar",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarContent",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarFooter",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarGroup",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarGroupAction",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarGroupContent",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarGroupLabel",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarHeader",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarInput",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarInset",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarLeft",
+        "path": "./blocks/sidebar-left",
+        "file": "blocks/sidebar-left.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarMenu",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarMenuAction",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarMenuBadge",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarMenuButton",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarMenuItem",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarMenuSkeleton",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarMenuSub",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarMenuSubButton",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarMenuSubItem",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarOptInForm",
+        "path": "./blocks/sidebar-opt-in-form",
+        "file": "blocks/sidebar-opt-in-form.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarProvider",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarRail",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarRight",
+        "path": "./blocks/sidebar-right",
+        "file": "blocks/sidebar-right.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarSeparator",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SidebarTrigger",
+        "path": "./blocks/sidebar",
+        "file": "blocks/sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "SignupForm",
+        "path": "./blocks/signup-form",
+        "file": "blocks/signup-form.tsx",
+        "category": "auth"
+      },
+      {
+        "name": "SignupPage",
+        "path": "./blocks/page",
+        "file": "blocks/page.tsx",
+        "category": "auth"
+      },
+      {
+        "name": "SiteHeader",
+        "path": "./blocks/site-header",
+        "file": "blocks/site-header.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "Skeleton",
+        "path": "./blocks/skeleton",
+        "file": "blocks/skeleton.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "Switch",
+        "path": "./blocks/switch",
+        "file": "blocks/switch.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "Table",
+        "path": "./blocks/table",
+        "file": "blocks/table.tsx",
+        "category": "data"
+      },
+      {
+        "name": "TableBody",
+        "path": "./blocks/table",
+        "file": "blocks/table.tsx",
+        "category": "data"
+      },
+      {
+        "name": "TableCaption",
+        "path": "./blocks/table",
+        "file": "blocks/table.tsx",
+        "category": "data"
+      },
+      {
+        "name": "TableCell",
+        "path": "./blocks/table",
+        "file": "blocks/table.tsx",
+        "category": "data"
+      },
+      {
+        "name": "TableFooter",
+        "path": "./blocks/table",
+        "file": "blocks/table.tsx",
+        "category": "data"
+      },
+      {
+        "name": "TableHead",
+        "path": "./blocks/table",
+        "file": "blocks/table.tsx",
+        "category": "data"
+      },
+      {
+        "name": "TableHeader",
+        "path": "./blocks/table",
+        "file": "blocks/table.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "TableRow",
+        "path": "./blocks/table",
+        "file": "blocks/table.tsx",
+        "category": "data"
+      },
+      {
+        "name": "Tabs",
+        "path": "./blocks/tabs",
+        "file": "blocks/tabs.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "TabsContent",
+        "path": "./blocks/tabs",
+        "file": "blocks/tabs.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "TabsList",
+        "path": "./blocks/tabs",
+        "file": "blocks/tabs.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "TabsTrigger",
+        "path": "./blocks/tabs",
+        "file": "blocks/tabs.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "TeamSwitcher",
+        "path": "./blocks/team-switcher",
+        "file": "blocks/team-switcher.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "ThemeProvider",
+        "path": "./blocks/theme-provider",
+        "file": "blocks/theme-provider.tsx",
+        "category": "settings"
+      },
+      {
+        "name": "Toaster",
+        "path": "./blocks/sonner",
+        "file": "blocks/sonner.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "Toggle",
+        "path": "./blocks/toggle",
+        "file": "blocks/toggle.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "ToggleGroup",
+        "path": "./blocks/toggle-group",
+        "file": "blocks/toggle-group.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "ToggleGroupItem",
+        "path": "./blocks/toggle-group",
+        "file": "blocks/toggle-group.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "Tooltip",
+        "path": "./blocks/tooltip",
+        "file": "blocks/tooltip.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "TooltipContent",
+        "path": "./blocks/tooltip",
+        "file": "blocks/tooltip.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "TooltipProvider",
+        "path": "./blocks/tooltip",
+        "file": "blocks/tooltip.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "TooltipTrigger",
+        "path": "./blocks/tooltip",
+        "file": "blocks/tooltip.tsx",
+        "category": "layout"
+      },
+      {
+        "name": "VersionSwitcher",
+        "path": "./blocks/version-switcher",
+        "file": "blocks/version-switcher.tsx",
+        "category": "layout"
+      }
+    ]
+  }
+}

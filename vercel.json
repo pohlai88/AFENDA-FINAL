@@ -1,0 +1,45 @@
+{
+  "buildCommand": "pnpm run build",
+  "devCommand": "pnpm dev",
+  "installCommand": "pnpm install",
+  "framework": "nextjs",
+  "regions": [
+    "syd1"
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Forwarded-Host",
+          "value": "${host}"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/generate-recurrence",
+      "schedule": "0 2 * * *"
+    },
+    {
+      "path": "/api/cron/audit-hash",
+      "schedule": "0 3 * * 0"
+    },
+    {
+      "path": "/api/cron/process-magicfolder-queue",
+      "schedule": "*/5 * * * *"
+    }
+  ],
+  "env": {
+    "NEXT_PUBLIC_ROOT_DOMAIN": "@next_public_root_domain",
+    "NEXT_PUBLIC_APP_DOMAIN": "@next_public_app_domain",
+    "NEXT_PUBLIC_PUBLIC_SUBDOMAINS": "@next_public_public_subdomains"
+  }
+}

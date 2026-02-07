@@ -1,0 +1,24 @@
+{
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "app/globals.css",
+    "baseColor": "stone",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "iconLibrary": "lucide",
+  "aliases": {
+    "components": "packages/shadcn-components/src",
+    "utils": "packages/shadcn-components/src/lib/utils",
+    "ui": "packages/shadcn-components/src",
+    "lib": "packages/shadcn-components/src/lib",
+    "hooks": "packages/shadcn-components/src"
+  },
+  "registries": {
+    "@magicui": "https://magicui.design/r/{name}",
+    "@diceui": "https://diceui.com/r/{name}.json"
+  }
+}
