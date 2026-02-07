@@ -57,6 +57,13 @@
       "when": 1770430297325,
       "tag": "0007_tired_ulik",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1770471594817,
+      "tag": "0008_tenancy_schema",
+      "breakpoints": true
     }
   ]
 }

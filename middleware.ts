@@ -17,6 +17,7 @@ export const config = {
     "/dashboard/:path*",
     "/magicdrive/:path*",
     "/magictodo/:path*",
+    "/tenancy/:path*",
     "/admin/:path*",
     "/settings/:path*",
   ],

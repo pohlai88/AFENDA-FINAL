@@ -512,6 +512,15 @@ importers:
 
   packages/tenancy:
     dependencies:
+      '@afenda/shared':
+        specifier: workspace:^
+        version: link:../shared
+      drizzle-orm:
+        specifier: ^0.45.1
+        version: 0.45.1(@neondatabase/serverless@1.0.2)(@types/pg@8.16.0)(kysely@0.28.11)(postgres@3.4.8)
+      pino:
+        specifier: ^9.0.0
+        version: 9.14.0
       server-only:
         specifier: ^0.0.1
         version: 0.0.1

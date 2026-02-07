@@ -29,17 +29,19 @@ export function WebVitals() {
       };
       // eslint-disable-next-line no-console -- dev-only diagnostic
       console.log(`[Web Vitals] ${metric.name}:`, payload);
+      // In dev, FCP/TTFB/LCP often exceed thresholds (cold start, HMR); skip threshold warnings.
+    }
 
+    // Production: warn if over threshold; or send to analytics (e.g. gtag('event', metric.name, { value: metric.value }))
+    if (process.env.NODE_ENV === "production") {
       const threshold = THRESHOLDS[metric.name];
       if (threshold != null && metric.value > threshold) {
-        // eslint-disable-next-line no-console -- dev-only diagnostic
+        // eslint-disable-next-line no-console -- production diagnostic
         console.warn(
           `[Web Vitals] ${metric.name} exceeded threshold: ${metric.value} > ${threshold}`
         );
       }
     }
-
-    // Production: send to analytics (e.g. gtag('event', metric.name, { value: metric.value }))
   });
 
   return null;

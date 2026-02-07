@@ -46,6 +46,8 @@ function segmentToIcon(segment: string): string {
   if (lower === "dashboard") return "dashboard";
   if (lower === "magictodo") return "checklist";
   if (lower === "magicfolder") return "folder";
+  if (lower === "magicdrive") return "folder";
+  if (lower === "tenancy") return "folder";
   return "file";
 }
 

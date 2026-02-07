@@ -6,9 +6,14 @@
   "type": "module",
   "exports": {
     ".": "./src/tenancy.index.ts",
-    "./server": "./src/server/index.ts"
+    "./server": "./src/server/index.ts",
+    "./drizzle": "./src/drizzle/index.ts",
+    "./zod": "./src/zod/index.ts"
   },
   "dependencies": {
+    "@afenda/shared": "workspace:^",
+    "drizzle-orm": "^0.45.1",
+    "pino": "^9.0.0",
     "server-only": "^0.0.1"
   }
 }

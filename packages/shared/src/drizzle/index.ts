@@ -35,3 +35,4 @@ export {
 // Add more domain schemas as they are created:
 export * from "@afenda/magictodo/drizzle";
 export * from "@afenda/magicdrive/drizzle";
+export * from "@afenda/tenancy/drizzle";

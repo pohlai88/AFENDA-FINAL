@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { usePathname, useRouter } from "next/navigation"
+import { routes } from "@afenda/shared/constants"
 import {
   MoreHorizontal,
   Inbox,
@@ -30,60 +31,7 @@ import {
 } from "../popover"
 import { Separator } from "../separator"
 
-// Route configuration - inject via props or context in consuming app
-const routes = {
-  ui: {
-    magicdrive: {
-      root: () => "/magicdrive",
-      landing: () => "/magicdrive",
-      inbox: () => "/magicdrive/inbox",
-      duplicates: () => "/magicdrive/duplicates",
-      unsorted: () => "/magicdrive/unsorted",
-      search: () => "/magicdrive/search",
-      collections: () => "/magicdrive/collections",
-      audit: () => "/magicdrive/audit",
-      settings: () => "/magicdrive/settings",
-    },
-    magictodo: {
-      root: () => "/magictodo",
-      landing: () => "/magictodo",
-      inbox: () => "/magictodo/inbox",
-      today: () => "/magictodo/today",
-      upcoming: () => "/magictodo/upcoming",
-      projects: () => "/magictodo/projects",
-      labels: () => "/magictodo/labels",
-      filters: () => "/magictodo/filters",
-      settings: () => "/magictodo/settings",
-      tasks: () => "/magictodo/tasks",
-    },
-    orchestra: {
-      root: () => "/orchestra",
-      landing: () => "/orchestra",
-      domains: () => "/orchestra/domains",
-      users: () => "/orchestra/users",
-      appearance: () => "/orchestra/appearance",
-      apiKeys: () => "/orchestra/api-keys",
-      dashboard: () => "/orchestra/dashboard",
-      modules: () => "/orchestra/modules",
-      analytics: () => "/orchestra/analytics",
-      approvals: () => "/orchestra/approvals",
-    },
-    tenancy: {
-      root: () => "/tenancy",
-      organizations: {
-        list: () => "/tenancy/organizations",
-      },
-      teams: {
-        list: () => "/tenancy/teams",
-      },
-    },
-    settings: {
-      root: () => "/settings",
-      designSystem: () => "/settings/design-system",
-      sessions: () => "/settings/sessions",
-    },
-  },
-}
+// Use shared routes from @afenda/shared/constants
 
 type DomainNavItem = {
   icon: React.ElementType

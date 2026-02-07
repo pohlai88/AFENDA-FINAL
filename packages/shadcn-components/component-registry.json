@@ -2,13 +2,13 @@
   "$schema": "./component-registry.schema.json",
   "name": "@afenda/shadcn",
   "version": "0.1.0",
-  "generatedAt": "2026-02-07T09:30:21.310Z",
+  "generatedAt": "2026-02-07T15:13:25.518Z",
   "stats": {
-    "primitives": 391,
+    "primitives": 393,
     "hooks": 7,
     "custom": 16,
-    "blocks": 192,
-    "total": 606
+    "blocks": 193,
+    "total": 609
   },
   "exports": {
     ".": "./src/index.ts",
@@ -2471,6 +2471,20 @@
         "kind": "named"
       },
       {
+        "name": "SidebarMain",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "SidebarMainContent",
+        "path": "./sidebar",
+        "file": "sidebar.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
         "name": "SidebarMenu",
         "path": "./sidebar",
         "file": "sidebar.tsx",
@@ -2905,6 +2919,12 @@
         "name": "AppSidebar",
         "path": "./blocks/app-sidebar",
         "file": "blocks/app-sidebar.tsx",
+        "category": "navigation"
+      },
+      {
+        "name": "AppSiteHeader",
+        "path": "./blocks/app-site-header",
+        "file": "blocks/app-site-header.tsx",
         "category": "navigation"
       },
       {

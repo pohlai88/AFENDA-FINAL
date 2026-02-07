@@ -18,6 +18,9 @@
 /.next/
 /out/
 
+# ESLint cache (faster re-runs)
+.cache/
+
 # production
 /build
 

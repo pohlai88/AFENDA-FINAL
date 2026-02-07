@@ -8,7 +8,8 @@ export default defineConfig({
     "./packages/shared/src/drizzle/index.ts",
     "./packages/orchestra/src/drizzle/orchestra.schema.ts",
     "./packages/magictodo/src/drizzle/magictodo.schema.ts",
-    "./packages/magicdrive/src/drizzle/magicdrive.schema.ts"
+    "./packages/magicdrive/src/drizzle/magicdrive.schema.ts",
+    "./packages/tenancy/src/drizzle/tenancy.schema.ts"
   ],
   out: "./drizzle",
   dialect: "postgresql",

@@ -1,8 +1,7 @@
 /**
- * @afenda/tenancy — Server-side tenant context
+ * @afenda/tenancy — Server-side tenant context and services
  *
- * Provides tenant resolution for multi-tenant operations.
- * In development, uses default tenant; in production, resolves from headers/session.
+ * Provides tenant resolution and CRUD for organizations, teams, design system.
  */
 
 import "server-only";
@@ -13,10 +12,6 @@ export interface TenantContext {
   teamId?: string | null;
 }
 
-/**
- * Get the current tenant context.
- * Resolves from x-tenant-id header or falls back to default for development.
- */
 export async function getTenantContext(): Promise<TenantContext> {
   const { headers } = await import("next/headers");
   const h = await headers();
@@ -30,3 +25,9 @@ export async function getTenantContext(): Promise<TenantContext> {
     teamId: null,
   };
 }
+
+export { tenancyOrganizationService } from "./organizations/service";
+export { tenancyTeamService } from "./teams/service";
+export { tenancyMembershipService } from "./memberships/service";
+export { tenancyDesignSystemService } from "./design-system.service";
+export { assertUserHasOrgRole, assertUserHasTeamRole } from "./guard";

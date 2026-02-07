@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
     const isSnoozedOnly =
       statuses?.length === 1 && statuses[0] === "snoozed";
 
-    let result: { ok: boolean; data?: { items: unknown[]; total: number }; error?: { code: string; message: string } };
+    let result: { ok: boolean; data?: { items: unknown[]; total: number; limit?: number; offset?: number }; error?: { code: string; message: string } };
 
     if (isSnoozedOnly) {
       const snoozeResult = await magictodoSnoozeService.getSnoozedTasks(
@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
         db as SnoozeDbParam
       );
       if (!snoozeResult.ok) {
-        result = snoozeResult as { ok: false; error: { code: string; message: string } };
+        result = snoozeResult as unknown as { ok: false; error: { code: string; message: string } };
       } else {
         // Map snoozed records to task-like format for UI compatibility
         const rawItems = (snoozeResult.data?.items ?? []) as Array<{

@@ -1,0 +1,6 @@
+{
+  "label": "Tenancy",
+  "icon": "folder",
+  "description": "Multi-tenancy governance: organizations, teams, memberships",
+  "order": 3
+}

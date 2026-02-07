@@ -23,6 +23,9 @@ export const routesBase = {
       root: () => "/" as const,
       dashboard: () => "/dashboard" as const,
       settings: () => "/settings" as const,
+      modules: () => "/modules" as const,
+      analytics: () => "/analytics" as const,
+      approvals: () => "/approvals" as const,
     },
     admin: {
       root: () => "/admin" as const,
@@ -58,6 +61,30 @@ export const routesBase = {
       trash: () => "/magicdrive/trash" as const,
       storage: () => "/magicdrive/storage" as const,
       settings: () => "/magicdrive/settings" as const,
+    },
+    tenancy: {
+      root: () => "/tenancy" as const,
+      organizations: {
+        list: () => "/tenancy/organizations" as const,
+        byId: (id: string) => `/tenancy/organizations/${id}` as const,
+        new: () => "/tenancy/organizations/new" as const,
+        settings: (id: string) => `/tenancy/organizations/${id}/settings` as const,
+        members: (id: string) => `/tenancy/organizations/${id}/members` as const,
+        teams: (id: string) => `/tenancy/organizations/${id}/teams` as const,
+      },
+      teams: {
+        list: () => "/tenancy/teams" as const,
+        byId: (id: string) => `/tenancy/teams/${id}` as const,
+        new: () => "/tenancy/teams/new" as const,
+        settings: (id: string) => `/tenancy/teams/${id}/settings` as const,
+        members: (id: string) => `/tenancy/teams/${id}/members` as const,
+      },
+      memberships: () => "/tenancy/memberships" as const,
+    },
+    settings: {
+      root: () => "/settings" as const,
+      designSystem: () => "/settings/design-system" as const,
+      sessions: () => "/settings/sessions" as const,
     },
     magictodo: {
       root: () => "/magictodo" as const,
@@ -190,6 +217,26 @@ export const routesBase = {
         health: () => "/api/magicdrive/ops/health" as const,
         migrate: () => "/api/magicdrive/ops/migrate" as const,
         cleanup: () => "/api/magicdrive/ops/cleanup" as const,
+      },
+    },
+    tenancy: {
+      organizations: {
+        bff: {
+          list: () => "/api/tenancy/organizations/bff" as const,
+          byId: (id: string) => `/api/tenancy/organizations/${id}/bff` as const,
+        },
+      },
+      teams: {
+        bff: {
+          list: () => "/api/tenancy/teams/bff" as const,
+          byId: (id: string) => `/api/tenancy/teams/${id}/bff` as const,
+          members: (id: string) => `/api/tenancy/teams/${id}/members/bff` as const,
+        },
+      },
+      memberships: {
+        bff: {
+          list: () => "/api/tenancy/memberships/bff" as const,
+        },
       },
     },
   },
