@@ -25,7 +25,7 @@ interface OptimisticState<T> {
   error: Error | null;
 }
 
-export function useOptimisticUpdate<T, TArgs extends unknown[]>(
+export function useOptimisticUpdate<T, _TArgs extends unknown[]>(
   initialData: T | null = null
 ) {
   const router = useRouter();

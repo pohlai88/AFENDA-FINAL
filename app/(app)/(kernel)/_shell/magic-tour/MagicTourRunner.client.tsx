@@ -112,10 +112,10 @@ export const MagicTourRunner = React.memo<MagicTourRunnerProps>(
     const [pathStack, setPathStack] = React.useState<string[]>([]);
 
     const workflow = workflows.find((w) => w.id === selectedWorkflowId) ?? initialWorkflow;
-    const steps = workflow?.steps ?? [];
+    const steps = React.useMemo(() => workflow?.steps ?? [], [workflow?.steps]);
     const firstStepId = steps[0]?.id ?? null;
     const currentStep = currentStepId ? getStepById(workflow!, currentStepId) : null;
-    const nextOptions = currentStepId && workflow ? getNextOptions(workflow, currentStepId) : [];
+    const nextOptions = React.useMemo(() => currentStepId && workflow ? getNextOptions(workflow, currentStepId) : [], [currentStepId, workflow]);
     const hasNext = nextOptions.length > 0;
     const isFirstStep = pathStack.length === 0;
 
@@ -125,6 +125,7 @@ export const MagicTourRunner = React.memo<MagicTourRunnerProps>(
         setCurrentStepId(firstStepId);
         setPathStack([]);
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isOpen, initialWorkflow?.id, firstStepId]);
 
     React.useEffect(() => {

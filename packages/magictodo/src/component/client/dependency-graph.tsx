@@ -7,11 +7,10 @@
 
 "use client"
 
-import { useMemo, useState, useCallback, useRef, useEffect } from "react"
+import { useMemo, useState, useCallback, useRef } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@afenda/shadcn"
 import { Button } from "@afenda/shadcn"
 import { Badge } from "@afenda/shadcn"
-import { ScrollArea } from "@afenda/shadcn"
 import {
   ClientTooltip,
   ClientTooltipContent,
@@ -30,7 +29,6 @@ import {
   Maximize2,
   Target,
   Clock,
-  AlertCircle,
   Link2,
 } from "lucide-react"
 import { cn } from "@afenda/shared/utils"
@@ -130,7 +128,7 @@ function calculateLayout(nodes: DependencyNode[]): GraphLayout {
   })
 
   // Center each level
-  levelGroups.forEach((nodeIds, level) => {
+  levelGroups.forEach((nodeIds, _level) => {
     const groupWidth = nodeIds.length * nodeWidth + (nodeIds.length - 1) * horizontalGap
     const offset = (maxWidth - groupWidth) / 2
 

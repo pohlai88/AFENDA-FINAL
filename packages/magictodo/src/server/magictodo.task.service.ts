@@ -4,26 +4,20 @@
 
 import "server-only"
 
-import { eq, and, inArray, desc, asc, sql, ilike, isNull, not, or } from "drizzle-orm"
+import { eq, and, inArray, desc, asc, sql, or } from "drizzle-orm"
 import {
   magictodoTasks,
   magictodoProjects,
   magictodoTaskDependencies,
   magictodoTimeEntries,
-  taskStatusEnum,
-  taskPriorityEnum,
   type DrizzleDB
 } from "@afenda/magictodo/drizzle"
 import {
   CreateTaskRequest,
   UpdateTaskRequest,
-  TaskResponse,
-  TaskParams,
-  taskQuerySchema,
   TASK_STATUS,
   TASK_PRIORITY
 } from "@afenda/magictodo/zod"
-import { ok } from "@afenda/shared/server/response"
 
 export const magictodoTaskServiceVersion = "0.1.0"
 

@@ -17,7 +17,6 @@ import {
   getDb,
   magicdriveCollections,
   magicdriveCollectionObjects,
-  magicdriveObjects,
 } from "@afenda/shared/db"
 import { getAuthContext } from "@afenda/auth/server"
 
@@ -248,7 +247,7 @@ export async function updateCollectionAction(
       return { success: false, error: "Forbidden" }
     }
 
-    const [updated] = await db
+    const [_updated] = await db
       .update(magicdriveCollections)
       .set({
         name: input.name ?? existing.name,

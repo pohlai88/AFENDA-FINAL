@@ -21,8 +21,8 @@ interface TenantContext {
  * Phase 4: Filter by tenant context when provided.
  */
 export async function listTagsAction(
-  workspaceId: string,
-  tenantContext?: TenantContext
+  _workspaceId: string,
+  _tenantContext?: TenantContext
 ): Promise<Tag[]> {
   // TODO: Implement with actual DB query via listTagsByTenant
   // When tenantContext provided, filter: WHERE organization_id = ? AND team_id = ?
@@ -33,8 +33,8 @@ export async function listTagsAction(
  * Server action: Get tags for a document.
  */
 export async function getDocumentTagsAction(
-  documentId: string,
-  tenantContext?: TenantContext
+  _documentId: string,
+  _tenantContext?: TenantContext
 ): Promise<Tag[]> {
   // TODO: Implement with actual DB query via listTagsForObject
   return []
@@ -45,9 +45,9 @@ export async function getDocumentTagsAction(
  * Phase 4: Associates tag with active tenant.
  */
 export async function createTagAction(
-  workspaceId: string,
-  input: CreateTagInput,
-  tenantContext?: TenantContext
+  _workspaceId: string,
+  _input: CreateTagInput,
+  _tenantContext?: TenantContext
 ): Promise<{ success: boolean; tag?: Tag; error?: string }> {
   try {
     // TODO: Implement with actual DB insert
@@ -62,9 +62,9 @@ export async function createTagAction(
  * Server action: Update a tag.
  */
 export async function updateTagAction(
-  tagId: string,
-  input: UpdateTagInput,
-  tenantContext?: TenantContext
+  _tagId: string,
+  _input: UpdateTagInput,
+  _tenantContext?: TenantContext
 ): Promise<{ success: boolean; tag?: Tag; error?: string }> {
   try {
     // TODO: Implement with actual DB update
@@ -79,8 +79,8 @@ export async function updateTagAction(
  * Server action: Delete a tag.
  */
 export async function deleteTagAction(
-  tagId: string,
-  tenantContext?: TenantContext
+  _tagId: string,
+  _tenantContext?: TenantContext
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Implement with actual DB delete
@@ -95,8 +95,8 @@ export async function deleteTagAction(
  * Server action: Add tag to document.
  */
 export async function addTagToDocumentAction(
-  documentId: string,
-  tagId: string
+  _documentId: string,
+  _tagId: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Implement with actual DB insert via addTagToObject
@@ -111,8 +111,8 @@ export async function addTagToDocumentAction(
  * Server action: Remove tag from document.
  */
 export async function removeTagFromDocumentAction(
-  documentId: string,
-  tagId: string
+  _documentId: string,
+  _tagId: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Implement with actual DB delete via removeTagFromObject
@@ -127,8 +127,8 @@ export async function removeTagFromDocumentAction(
  * Server action: Bulk add tag to multiple documents.
  */
 export async function bulkAddTagAction(
-  documentIds: string[],
-  tagId: string
+  _documentIds: string[],
+  _tagId: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Implement bulk operation
@@ -143,8 +143,8 @@ export async function bulkAddTagAction(
  * Server action: Bulk remove tag from multiple documents.
  */
 export async function bulkRemoveTagAction(
-  documentIds: string[],
-  tagId: string
+  _documentIds: string[],
+  _tagId: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Implement bulk operation

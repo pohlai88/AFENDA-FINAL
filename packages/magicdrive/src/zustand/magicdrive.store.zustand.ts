@@ -5,7 +5,7 @@
 
 import { create } from "zustand"
 import { immer } from "zustand/middleware/immer"
-import type { Folder, FolderTreeNode } from "../zod/magicdrive.folder.zod"
+import type { FolderTreeNode } from "../zod/magicdrive.folder.zod"
 import type { Document } from "../zod/magicdrive.document.zod"
 import type { SavedView } from "@afenda/shared/saved-views"
 
@@ -72,7 +72,7 @@ const initialState: magicdriveState = {
 }
 
 export const usemagicdriveStore = create<magicdriveState & magicdriveActions>()(
-  immer((set, get) => ({
+  immer((set, _get) => ({
     ...initialState,
 
     setCurrentFolder: (folderId) =>

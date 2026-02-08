@@ -77,7 +77,7 @@ export interface TaskContext {
 }
 
 // ============ Analysis Functions ============
-function getDayName(dayOfWeek: number): string {
+function _getDayName(dayOfWeek: number): string {
   return ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][dayOfWeek] ?? ""
 }
 

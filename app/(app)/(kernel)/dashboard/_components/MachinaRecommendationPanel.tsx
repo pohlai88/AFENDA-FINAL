@@ -10,7 +10,7 @@
  */
 
 import * as React from "react";
-import { IconSparkles, IconX, IconChevronDown, IconChevronUp, IconRocket } from "@tabler/icons-react";
+import { IconSparkles, IconX, IconChevronDown, IconRocket } from "@tabler/icons-react";
 import {
   Card,
   CardContent,
@@ -22,7 +22,6 @@ import {
 } from "@afenda/shadcn";
 import { useActionRecommendations } from "./MachinaRecommendationEngine";
 import { ALL_ACTIONS } from "./quickActions";
-import type { QuickAction } from "./types";
 
 interface MachinaRecommendationPanelProps {
   systemHealth: {

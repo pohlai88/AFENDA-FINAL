@@ -11,7 +11,6 @@ import { useState, useEffect } from "react"
 import { toast } from "sonner"
 import {
   Button,
-  buttonVariants,
 } from "@afenda/shadcn"
 import {
   ClientDropdownMenu,
@@ -35,10 +34,8 @@ import {
 import { Badge } from "@afenda/shadcn"
 import { Separator } from "@afenda/shadcn"
 import {
-  Settings,
   Grid3X3,
   Table,
-  LayoutGrid,
   Calendar,
   Kanban,
   GitBranch,
@@ -46,16 +43,10 @@ import {
   ArrowUpDown,
   ArrowUp,
   ArrowDown,
-  ListFilter,
-  Eye,
-  EyeOff,
   Image,
   FileText,
   Minimize2,
   Maximize2,
-  Sun,
-  Moon,
-  Monitor,
   Save,
   RotateCcw,
   SlidersHorizontal,
@@ -76,7 +67,7 @@ interface QuickSettingsToolbarProps {
 export function QuickSettingsToolbar({ className }: QuickSettingsToolbarProps) {
   const {
     viewMode,
-    sortBy,
+    sortBy: _sortBy,
     sortOrder,
     setViewMode,
     setSorting,
@@ -303,6 +294,7 @@ export function QuickSettingsToolbar({ className }: QuickSettingsToolbarProps) {
               disabled={isLoading || !preferences}
               className={preferences?.showThumbnails ? "bg-muted" : ""}
             >
+              {/* eslint-disable-next-line jsx-a11y/alt-text */}
               <Image className="h-4 w-4" />
               <span className="sr-only">Toggle thumbnails</span>
             </Button>
@@ -355,6 +347,7 @@ export function QuickSettingsToolbar({ className }: QuickSettingsToolbarProps) {
               </Badge>
             </ClientDropdownMenuItem>
             <ClientDropdownMenuItem onClick={toggleThumbnails}>
+              {/* eslint-disable-next-line jsx-a11y/alt-text */}
               <Image className="h-4 w-4 mr-2" />
               Show Thumbnails
               <Badge variant="secondary" className="ml-auto">

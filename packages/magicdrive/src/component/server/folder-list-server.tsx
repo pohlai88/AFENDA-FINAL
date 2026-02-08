@@ -15,8 +15,8 @@ export interface FolderListServerProps {
  * Use with React Suspense for streaming.
  */
 export async function FolderListServer({
-  workspaceId,
-  parentId = null,
+  workspaceId: _workspaceId,
+  parentId: _parentId = null,
 }: FolderListServerProps) {
   // TODO: Fetch folders from database
   const folders: Folder[] = []
@@ -32,7 +32,7 @@ export interface FolderTreeServerProps {
  * Server component that fetches the complete folder tree.
  */
 export async function getFolderTreeServer({
-  workspaceId,
+  workspaceId: _workspaceId,
 }: FolderTreeServerProps) {
   // TODO: Fetch folder tree from database
   // This would use a recursive CTE or similar to build the tree

@@ -17,7 +17,6 @@ import { tmpdir } from "node:os"
 import { join } from "node:path"
 import { eq } from "drizzle-orm"
 
-import type { Database } from "@afenda/shared/db"
 import {
   getDb,
   magicdriveObjectIndex,
@@ -144,7 +143,7 @@ const OCR_PYTHON_TIMEOUT_MS = (() => {
  */
 async function preprocessImageBuffer(
   buffer: Buffer,
-  mimeType: string
+  _mimeType: string
 ): Promise<Buffer> {
   const sharpMod = await import("sharp").catch(() => null)
   const sharpFn = sharpMod?.default

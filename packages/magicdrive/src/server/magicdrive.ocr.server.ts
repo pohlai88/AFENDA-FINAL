@@ -213,7 +213,7 @@ export async function searchByTextAction(
  */
 export async function getLowConfidenceDocumentsAction(
   workspaceId: string,
-  threshold: number = 60
+  _threshold: number = 60
 ): Promise<{ objectId: string; title: string | null; confidence: number }[]> {
   try {
     const auth = await getAuthContext()

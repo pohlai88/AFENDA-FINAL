@@ -20,13 +20,6 @@ import Link from "next/link";
 import { routes } from "@afenda/shared/constants";
 import { useOrganizationQuery } from "@afenda/tenancy";
 
-interface Organization {
-  id: string;
-  name: string;
-  slug: string;
-  description: string | null;
-}
-
 export default function OrganizationDetailPage({
   params,
 }: {

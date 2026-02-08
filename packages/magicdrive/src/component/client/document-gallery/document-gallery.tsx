@@ -138,7 +138,7 @@ export function DocumentGallery({
     })
   }, [documents, thumbnailUrls, errorStates])
 
-  const handleQuickAction = useCallback((e: React.MouseEvent, action: string, documentId: string) => {
+  const handleQuickAction = useCallback((e: React.MouseEvent, _action: string, _documentId: string) => {
     e.stopPropagation()
   }, [])
 

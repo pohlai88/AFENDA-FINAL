@@ -132,7 +132,7 @@ export function HealthHistoryChart({ entries, hours = 24 }: HealthHistoryChartPr
             />
 
             {/* Data points */}
-            {points.map((point, index) => (
+            {points.map((point, _index) => (
               <g key={point.entry.id}>
                 <circle
                   cx={point.x}

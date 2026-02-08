@@ -13,7 +13,7 @@ import type { Document, CreateDocumentInput, UpdateDocumentInput } from "../zod/
  * Server action: List documents with filters.
  * Phase 4: Now accepts organizationId/teamId for tenant-scoped filtering.
  */
-export async function listDocumentsAction(params: {
+export async function listDocumentsAction(_params: {
   workspaceId: string
   folderId?: string | null
   organizationId?: string | null
@@ -38,8 +38,8 @@ export async function listDocumentsAction(params: {
  * Phase 4: Now accepts tenant context for access validation.
  */
 export async function getDocumentAction(
-  id: string,
-  tenantContext?: { organizationId?: string | null; teamId?: string | null }
+  _id: string,
+  _tenantContext?: { organizationId?: string | null; teamId?: string | null }
 ): Promise<Document | null> {
   // TODO: Implement with actual DB query
   // Validate document belongs to tenant context when provided
@@ -50,7 +50,7 @@ export async function getDocumentAction(
  * Server action: Create a new document.
  */
 export async function createDocumentAction(
-  input: CreateDocumentInput
+  _input: CreateDocumentInput
 ): Promise<{ success: boolean; document?: Document; error?: string }> {
   try {
     // TODO: Implement with actual DB insert
@@ -65,8 +65,8 @@ export async function createDocumentAction(
  * Server action: Update a document.
  */
 export async function updateDocumentAction(
-  id: string,
-  input: UpdateDocumentInput
+  _id: string,
+  _input: UpdateDocumentInput
 ): Promise<{ success: boolean; document?: Document; error?: string }> {
   try {
     // TODO: Implement with actual DB update
@@ -81,7 +81,7 @@ export async function updateDocumentAction(
  * Server action: Archive a document (soft delete).
  */
 export async function archiveDocumentAction(
-  id: string
+  _id: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Implement soft delete
@@ -96,7 +96,7 @@ export async function archiveDocumentAction(
  * Server action: Permanently delete a document.
  */
 export async function deleteDocumentAction(
-  id: string
+  _id: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Implement hard delete
@@ -111,7 +111,7 @@ export async function deleteDocumentAction(
  * Server action: Restore an archived document.
  */
 export async function restoreDocumentAction(
-  id: string
+  _id: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Implement restore
@@ -126,8 +126,8 @@ export async function restoreDocumentAction(
  * Server action: Move document to a folder.
  */
 export async function moveDocumentAction(
-  documentId: string,
-  folderId: string | null
+  _documentId: string,
+  _folderId: string | null
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Implement move
@@ -142,8 +142,8 @@ export async function moveDocumentAction(
  * Server action: Star/unstar a document.
  */
 export async function toggleStarDocumentAction(
-  id: string,
-  starred: boolean
+  _id: string,
+  _starred: boolean
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Implement toggle star

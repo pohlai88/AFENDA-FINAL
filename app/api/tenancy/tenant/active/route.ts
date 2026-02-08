@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
  * GET /api/tenancy/tenant/active
  * Returns the currently active tenant from cookies
  */
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   const cookieStore = await cookies();
   
   const orgId = cookieStore.get("activeTenantOrgId")?.value;

@@ -16,7 +16,7 @@ import {
   type AdminRole,
   type PrimaryAdminEntry,
 } from "@afenda/orchestra";
-import { getEffectivePrimaryAdmin, getUserRoles } from "../_utils/admin-assignment.utils";
+import { getUserRoles } from "../_utils/admin-assignment.utils";
 import { z } from "zod";
 import { ADMIN_CONFIG_KEY } from "../_constants/admin-assignment.constants";
 

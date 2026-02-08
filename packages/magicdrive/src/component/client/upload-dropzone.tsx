@@ -19,8 +19,8 @@ export interface UploadDropzoneProps {
 }
 
 export function UploadDropzone({
-  workspaceId,
-  folderId,
+  workspaceId: _workspaceId,
+  folderId: _folderId,
   onUploadComplete,
   className,
   children,

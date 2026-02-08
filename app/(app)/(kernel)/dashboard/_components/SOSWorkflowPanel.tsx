@@ -10,7 +10,7 @@
  */
 
 import * as React from "react";
-import { IconCurrentLocation, IconX, IconChevronRight, IconCheck } from "@tabler/icons-react";
+import { IconCurrentLocation, IconChevronRight, IconCheck } from "@tabler/icons-react";
 import {
   Card,
   CardContent,

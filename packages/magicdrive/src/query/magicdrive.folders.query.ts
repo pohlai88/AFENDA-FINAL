@@ -115,7 +115,7 @@ export function useDeleteFolder() {
   return useMutation({
     mutationFn: async ({
       id,
-      workspaceId,
+      workspaceId: _workspaceId,
     }: {
       id: string
       workspaceId: string

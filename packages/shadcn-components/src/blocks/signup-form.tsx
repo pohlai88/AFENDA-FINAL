@@ -98,6 +98,7 @@ export function SignupForm({
             </FieldGroup>
           </form>
           <div className="bg-muted relative hidden md:block">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/placeholder.svg"
               alt="Image"

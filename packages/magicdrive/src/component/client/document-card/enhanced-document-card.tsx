@@ -19,10 +19,7 @@ import { DocumentActionsDropdown } from "../ui/document-actions-dropdown"
 import {
   FileText,
   Download,
-  Share2,
   Archive,
-  Tag,
-  MoreVertical,
   Eye,
   Clock,
   CheckCircle,
@@ -167,10 +164,10 @@ export function EnhancedDocumentCard({
     }
   }, [document.id, showCheckbox, onToggleSelection])
 
-  const handleQuickAction = useCallback((e: React.MouseEvent, action: string) => {
+  const handleQuickAction = useCallback((e: React.MouseEvent, _action: string) => {
     e.stopPropagation()
     // Handle quick actions (download, share, archive, etc.)
-  }, [document.id])
+  }, [])
 
   const statusConfig =
     STATUS_CONFIG[document.status] ?? DEFAULT_STATUS_CONFIG
@@ -306,7 +303,7 @@ export function EnhancedDocumentCard({
                   documentTitle={document.title}
                   size="sm"
                   actions={['view', 'download', 'share', 'tag', 'archive', 'delete']}
-                  onActionComplete={(action) => {
+                  onActionComplete={(_action) => {
                   }}
                 />
               </div>
@@ -414,7 +411,7 @@ export function EnhancedDocumentCard({
                 documentTitle={document.title}
                 size="sm"
                 actions={['view', 'download', 'share', 'tag', 'archive', 'delete']}
-                onActionComplete={(action) => {
+                onActionComplete={(_action) => {
                 }}
               />
             </div>

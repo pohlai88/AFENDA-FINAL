@@ -50,7 +50,7 @@ export type UseKeyboardShortcutsOptions = {
 /** Registers MagicDrive keyboard shortcuts */
 export function useKeyboardShortcuts(options: UseKeyboardShortcutsOptions) {
   const {
-    onViewModeChange,
+    onViewModeChange: _onViewModeChange,
     onRefresh,
     onUpload,
     onSelectAll,

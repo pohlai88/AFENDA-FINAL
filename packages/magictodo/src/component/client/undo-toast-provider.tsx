@@ -9,8 +9,7 @@
 
 import { createContext, useContext, useCallback, type ReactNode } from "react"
 import { toast } from "sonner"
-import { Button } from "@afenda/shadcn"
-import { Undo2, Eye, Clock, CheckCircle2, Trash2 } from "lucide-react"
+import { Clock, CheckCircle2, Trash2 } from "lucide-react"
 
 // ============ Types ============
 export type UndoAction = "complete" | "delete" | "snooze" | "archive" | "update" | "create" | "bulk"
@@ -80,7 +79,7 @@ export function UndoToastProvider({ children }: UndoToastProviderProps) {
           try {
             await onUndo()
             toast.success("Action undone")
-          } catch (error) {
+          } catch (_error) {
             toast.error("Failed to undo. Please try again.")
           }
         },
@@ -166,7 +165,7 @@ export function useDeleteWithUndo() {
  * Hook for task snooze with reschedule option
  */
 export function useSnoozeWithUndo() {
-  const { showUndoToast } = useUndoToast()
+  const { showUndoToast: _showUndoToast } = useUndoToast()
 
   return useCallback(
     (options: {
@@ -213,7 +212,7 @@ export function useSnoozeWithUndo() {
  * Hook for bulk operations with undo
  */
 export function useBulkActionWithUndo() {
-  const { showUndoToast } = useUndoToast()
+  const { showUndoToast: _showUndoToast } = useUndoToast()
 
   return useCallback(
     (options: {

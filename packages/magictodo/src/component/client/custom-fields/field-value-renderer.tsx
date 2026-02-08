@@ -29,7 +29,6 @@ import {
 } from "@afenda/shadcn"
 import {
   CalendarIcon,
-  Clock,
   Check,
   X,
   Pencil,
@@ -73,7 +72,7 @@ export function FieldValueDisplay({
   value,
   className,
 }: FieldValueDisplayProps) {
-  const { fieldType, alias, validation } = definition
+  const { fieldType, alias: _alias, validation } = definition
   const validationRules = validation as FieldValidation
 
   if (value === null || value === undefined) {

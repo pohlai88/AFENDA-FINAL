@@ -79,6 +79,7 @@ function TimelineDocumentCard({
   const renderDocumentIcon = (docType: string) => {
     const type = docType?.toLowerCase()
     if (['image', 'jpg', 'png', 'gif'].includes(type)) {
+      // eslint-disable-next-line jsx-a11y/alt-text -- Lucide icon, not an actual image
       return <Image className="h-4 w-4 text-muted-foreground" />
     }
     if (['video', 'mp4', 'mov'].includes(type)) {

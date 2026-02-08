@@ -74,7 +74,7 @@ export function useEnterpriseSearch<T extends Record<string, any>>(
   // Refs for performance
   const cacheRef = React.useRef<Map<string, { items: T[]; timestamp: number }>>(new Map());
   const searchStartTimeRef = React.useRef<number>(0);
-  const debouncedQueryRef = React.useRef<string>("");
+  const _debouncedQueryRef = React.useRef<string>("");
 
   // Debounced query state
   const [debouncedQuery, setDebouncedQuery] = React.useState(searchOptions.query || "");

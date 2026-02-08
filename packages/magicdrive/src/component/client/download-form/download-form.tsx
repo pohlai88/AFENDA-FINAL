@@ -103,6 +103,7 @@ export function DownloadForm({
   })
 
   // Get selected documents from form value directly to avoid memoization issues
+  // eslint-disable-next-line react-hooks/incompatible-library
   const selectedDocuments = form.watch("selectedDocuments")
 
   // Update form when selection changes
@@ -135,7 +136,7 @@ export function DownloadForm({
       setDownloadStatus("completed")
 
       // Create download link (simulation)
-      const downloadData = {
+      const _downloadData = {
         documents: data.selectedDocuments,
         format: data.format,
         quality: data.quality,

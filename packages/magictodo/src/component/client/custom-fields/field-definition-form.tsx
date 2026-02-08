@@ -38,7 +38,6 @@ import { Input } from "@afenda/shadcn"
 import { Textarea } from "@afenda/shadcn"
 import { Button } from "@afenda/shadcn"
 import { Switch } from "@afenda/shadcn"
-import { Badge } from "@afenda/shadcn"
 import { Separator } from "@afenda/shadcn"
 import {
   Type,
@@ -53,7 +52,6 @@ import {
   Loader2,
   GripVertical,
 } from "lucide-react"
-import { cn } from "@afenda/shared/utils"
 import { toast } from "sonner"
 import {
   FIELD_TYPE,

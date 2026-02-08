@@ -7,7 +7,6 @@
 
 import { useCallback, useMemo } from "react"
 import { usemagicdriveStore } from "../zustand/magicdrive.store.zustand"
-import type { Document } from "../zod/magicdrive.document.zod"
 
 /**
  * Hook for managing document selection.

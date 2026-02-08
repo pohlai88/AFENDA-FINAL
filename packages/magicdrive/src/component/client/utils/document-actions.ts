@@ -116,7 +116,7 @@ export class DocumentActionHandler {
     try {
       await navigator.clipboard.writeText(shareUrl)
       toast.success('Share link copied to clipboard')
-    } catch (error) {
+    } catch (_error) {
       // Fallback for browsers that don't support clipboard API
       const textArea = document.createElement('textarea')
       textArea.value = shareUrl

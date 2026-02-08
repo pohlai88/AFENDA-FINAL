@@ -71,11 +71,11 @@ export function SOSWorkflowVisualizer({
   const currentWorkflow = workflows.find(w => w.id === currentWorkflowId);
 
   // Handle workflow actions internally
-  const handleStartWorkflow = React.useCallback((workflowId: string) => {
+  const handleStartWorkflow = React.useCallback((_workflowId: string) => {
     // In a real implementation, this would update user state or navigate
   }, []);
 
-  const handleResumeWorkflow = React.useCallback((workflowId: string, stepId: string) => {
+  const handleResumeWorkflow = React.useCallback((_workflowId: string, _stepId: string) => {
     // In a real implementation, this would navigate to the appropriate page
   }, []);
 

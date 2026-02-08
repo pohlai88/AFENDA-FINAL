@@ -10,7 +10,6 @@ import {
   Archive,
   Download,
   FolderInput,
-  MoreHorizontal,
   Star,
   Tag,
   Trash2,

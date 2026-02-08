@@ -19,7 +19,7 @@ import {
   CollapsibleTrigger,
 } from "@afenda/shadcn";
 import { routes } from "@afenda/shared/constants";
-import { IconRadio, IconChevronDown, IconChevronUp } from "@tabler/icons-react";
+import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
 
 interface HealthUpdate {
   type: string;

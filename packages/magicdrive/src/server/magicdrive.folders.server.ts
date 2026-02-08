@@ -21,8 +21,8 @@ interface TenantContext {
  * Phase 4: Filter by tenant context when provided.
  */
 export async function listFoldersAction(
-  workspaceId: string,
-  tenantContext?: TenantContext
+  _workspaceId: string,
+  _tenantContext?: TenantContext
 ): Promise<Folder[]> {
   // TODO: Implement with actual DB query
   // When tenantContext provided, filter: WHERE organization_id = ? AND team_id = ?
@@ -34,8 +34,8 @@ export async function listFoldersAction(
  * Phase 4: Validate tenant ownership when context provided.
  */
 export async function getFolderAction(
-  id: string,
-  tenantContext?: TenantContext
+  _id: string,
+  _tenantContext?: TenantContext
 ): Promise<Folder | null> {
   // TODO: Implement with actual DB query
   return null
@@ -46,8 +46,8 @@ export async function getFolderAction(
  * Phase 4: Associates folder with active tenant.
  */
 export async function createFolderAction(
-  input: CreateFolderInput,
-  tenantContext?: TenantContext
+  _input: CreateFolderInput,
+  _tenantContext?: TenantContext
 ): Promise<{ success: boolean; folder?: Folder; error?: string }> {
   try {
     // TODO: Implement with actual DB insert
@@ -63,9 +63,9 @@ export async function createFolderAction(
  * Server action: Update a folder.
  */
 export async function updateFolderAction(
-  id: string,
-  input: UpdateFolderInput,
-  tenantContext?: TenantContext
+  _id: string,
+  _input: UpdateFolderInput,
+  _tenantContext?: TenantContext
 ): Promise<{ success: boolean; folder?: Folder; error?: string }> {
   try {
     // TODO: Implement with actual DB update; validate tenant ownership
@@ -80,8 +80,8 @@ export async function updateFolderAction(
  * Server action: Delete a folder.
  */
 export async function deleteFolderAction(
-  id: string,
-  tenantContext?: TenantContext
+  _id: string,
+  _tenantContext?: TenantContext
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Implement with actual DB delete; validate tenant ownership
@@ -96,9 +96,9 @@ export async function deleteFolderAction(
  * Server action: Move folder to a new parent.
  */
 export async function moveFolderAction(
-  folderId: string,
-  newParentId: string | null,
-  tenantContext?: TenantContext
+  _folderId: string,
+  _newParentId: string | null,
+  _tenantContext?: TenantContext
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Implement folder move (check for circular refs); validate tenant ownership
@@ -114,8 +114,8 @@ export async function moveFolderAction(
  * Phase 4: New tenant collaboration feature.
  */
 export async function shareFolderWithTeamAction(
-  folderId: string,
-  teamId: string
+  _folderId: string,
+  _teamId: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Update folder's team_id to share with team members
@@ -131,8 +131,8 @@ export async function shareFolderWithTeamAction(
  * Phase 4: Revoke team access.
  */
 export async function unshareFolderFromTeamAction(
-  folderId: string,
-  teamId: string
+  _folderId: string,
+  _teamId: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Set folder's team_id to null to revoke team access
@@ -147,8 +147,8 @@ export async function unshareFolderFromTeamAction(
  * Server action: Reorder folders within a parent.
  */
 export async function reorderFoldersAction(
-  parentId: string | null,
-  orderedIds: string[]
+  _parentId: string | null,
+  _orderedIds: string[]
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Implement reorder

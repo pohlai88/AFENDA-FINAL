@@ -26,7 +26,7 @@ import {
   ChevronRight,
   Loader2,
 } from "lucide-react"
-import type { FocusSession, TaskResponse, FocusQueueItem } from "@afenda/magictodo/zod"
+import type { FocusSession, TaskResponse } from "@afenda/magictodo/zod"
 
 export interface FocusModeProps {
   session: FocusSession | null
@@ -169,7 +169,7 @@ export function FocusMode({
               <p className="text-muted-foreground text-sm">No tasks available</p>
             ) : (
               <div className="space-y-2">
-                {tasksForQueue.map((task, index) => (
+                {tasksForQueue.map((task, _index) => (
                   <div
                     key={task.id}
                     onClick={() => toggleTaskSelection(task.id)}

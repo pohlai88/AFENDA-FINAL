@@ -58,7 +58,7 @@ export default function MembershipsPage() {
   const [search, setSearch] = useState("");
 
   const { data, isLoading, error } = useMembershipsQuery();
-  const items = data?.items ?? [];
+  const items = useMemo(() => data?.items ?? [], [data?.items]);
 
   const filtered = useMemo(() => {
     let result = items;

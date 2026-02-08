@@ -53,9 +53,9 @@ export interface BulkDocumentPayload {
  */
 export async function bulkDocumentAction(
   payload: BulkDocumentPayload,
-  tenantContext?: TenantContext
+  _tenantContext?: TenantContext
 ): Promise<BulkActionResult> {
-  const { action, documentIds, targetFolderId, tagId, status } = payload
+  const { action, documentIds, targetFolderId: _targetFolderId, tagId, status } = payload
   const results: BulkActionResult = {
     success: true,
     totalCount: documentIds.length,
@@ -141,7 +141,7 @@ export async function bulkDocumentAction(
  * Server action: Get download URLs for multiple documents.
  */
 export async function getBulkDownloadUrlsAction(
-  documentIds: string[]
+  _documentIds: string[]
 ): Promise<{ urls: { id: string; url: string; filename: string }[]; error?: string }> {
   try {
     // TODO: Generate presigned URLs for each document

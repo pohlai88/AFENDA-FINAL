@@ -20,7 +20,6 @@ import {
 } from "@afenda/shadcn"
 import {
   CalendarDays,
-  CheckCircle2,
   Focus,
   FolderKanban,
   LayoutDashboard,

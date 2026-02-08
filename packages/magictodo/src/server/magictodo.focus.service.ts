@@ -9,10 +9,8 @@ import {
   magictodoFocusSessions,
   magictodoFocusSessionQueue,
   magictodoTasks,
-  focusSessionStatusEnum,
   type DrizzleDB
 } from "@afenda/magictodo/drizzle"
-import { ok } from "@afenda/shared/server/response"
 
 export const magictodoFocusServiceVersion = "0.1.0"
 

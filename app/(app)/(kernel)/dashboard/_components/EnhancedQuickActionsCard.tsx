@@ -7,11 +7,6 @@
 
 import * as React from "react";
 import {
-  IconActivity,
-  IconServer,
-  IconShield,
-  IconDatabase,
-  IconTemplate,
   IconSettings,
   IconLock,
   IconSparkles,
@@ -32,7 +27,6 @@ import { CardHelpTooltip } from "./CardHelpTooltip";
 import { DASHBOARD_HELP_CONTENT } from "./helpContent";
 import { useActionRecommendations } from "./MachinaRecommendationEngine";
 import { ALL_ACTIONS } from "./quickActions";
-import type { QuickAction } from "./types";
 
 export function EnhancedQuickActionsCard({
   systemHealth,

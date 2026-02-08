@@ -7,7 +7,7 @@
 
 "use client"
 
-import { useState, useCallback, useMemo, useRef, useEffect } from "react"
+import { useState, useCallback, useRef, useEffect } from "react"
 import Link from "next/link"
 import { cn } from "@afenda/shared/utils"
 import { Badge } from "@afenda/shadcn"
@@ -20,22 +20,14 @@ import {
   ClientSelectTrigger,
   ClientSelectValue,
 } from "@afenda/shadcn"
-import { Checkbox } from "@afenda/shadcn"
-import { DocumentActionsDropdown } from "../ui/document-actions-dropdown"
 import {
   FileText,
-  Download,
-  Share2,
-  Archive,
   Tag,
-  MoreVertical,
-  Eye,
   Clock,
   CheckCircle,
   AlertCircle,
   XCircle,
   Network,
-  Search,
   Zap,
   Link2,
   Users,
@@ -151,7 +143,7 @@ export function RelationshipView({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- docs items are indexed/spread for dynamic property access
   const calculateRelationships = useCallback((docs: any[]) => {
     const newEdges: Edge[] = []
-    const relationshipStrengths = new Map<string, number>()
+    const _relationshipStrengths = new Map<string, number>()
 
     for (let i = 0; i < docs.length; i++) {
       for (let j = i + 1; j < docs.length; j++) {
@@ -320,7 +312,7 @@ export function RelationshipView({
     onToggleSelection(nodeId)
   }, [centerNode, onToggleSelection])
 
-  const handleQuickAction = useCallback((e: React.MouseEvent, action: string, documentId: string) => {
+  const _handleQuickAction = useCallback((e: React.MouseEvent, _action: string, _documentId: string) => {
     e.stopPropagation()
   }, [])
 

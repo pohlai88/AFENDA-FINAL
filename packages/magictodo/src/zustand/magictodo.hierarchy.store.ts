@@ -60,7 +60,7 @@ export const useHierarchyExpansion = create<HierarchyExpansionState>((set) => ({
   },
 }));
 
-export const useHierarchyNavigation = create<HierarchyNavigationState>((set, get) => ({
+export const useHierarchyNavigation = create<HierarchyNavigationState>((set, _get) => ({
   currentRootId: null,
   breadcrumbs: [],
   drillDown: (id, breadcrumb) =>

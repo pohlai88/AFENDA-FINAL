@@ -89,7 +89,7 @@ export default function OrganizationMembersPage({
     enabled: !!id,
   });
 
-  const { data: invitationsData, isLoading: invitationsLoading } = useOrgInvitationsQuery(id!, {
+  const { data: invitationsData, isLoading: _invitationsLoading } = useOrgInvitationsQuery(id!, {
     enabled: !!id,
   });
 

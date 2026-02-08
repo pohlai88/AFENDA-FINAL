@@ -14,7 +14,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
   Badge,
@@ -31,7 +30,7 @@ import { DASHBOARD_HELP_CONTENT } from "./_components/helpContent";
 import { InteractiveMetric } from "./_components/InteractiveMetric";
 import { DashboardContent } from "./_components/DashboardContent";
 import { DashboardLoadingState } from "./_components/DashboardLoadingState";
-import { formatUptime, formatRelativeTime, calculateHealthPercentage, transformHealthHistory, calculateMetricChange } from "./_lib/dashboard-utils";
+import { formatUptime, calculateHealthPercentage, transformHealthHistory, calculateMetricChange } from "./_lib/dashboard-utils";
 import { EnterpriseActivityTrail } from "./_components/EnterpriseActivityTrail";
 import { HealthStreamWidget } from "./_components/HealthStreamWidget";
 import { DashboardMachinaSlot } from "./_components/DashboardMachinaSlot.client";

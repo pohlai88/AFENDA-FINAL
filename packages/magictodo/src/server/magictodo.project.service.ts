@@ -4,7 +4,7 @@
 
 import "server-only"
 
-import { eq, and, desc, asc, sql, isNull } from "drizzle-orm"
+import { eq, and, desc, asc, sql } from "drizzle-orm"
 import {
   magictodoProjects,
   magictodoTasks,
@@ -13,10 +13,7 @@ import {
 import {
   CreateProjectRequest,
   UpdateProjectRequest,
-  ProjectResponse,
-  ProjectParams
 } from "@afenda/magictodo/zod"
-import { ok } from "@afenda/shared/server/response"
 
 export const magictodoProjectServiceVersion = "0.1.0"
 

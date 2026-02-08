@@ -5,7 +5,6 @@
 
 "use client";
 
-import { create } from "zustand";
 import { 
   useTasksQuery, 
   useCreateTaskMutation, 
@@ -31,7 +30,7 @@ export function useTasksStore() {
     loading: isLoading,
     error: error ? String(error) : null,
     
-    fetchTasks: async (userId: string, filters?: Record<string, unknown>) => {
+    fetchTasks: async (_userId: string, _filters?: Record<string, unknown>) => {
       await refetch();
     },
     

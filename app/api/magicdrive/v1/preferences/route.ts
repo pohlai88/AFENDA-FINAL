@@ -26,8 +26,8 @@ export async function GET(_request: NextRequest) {
   const traceId = _request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
   const headers = envelopeHeaders(traceId);
   // Phase 4: Tenant context for user-scoped preferences
-  const organizationId = _request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
-  const teamId = _request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
+  const _organizationId = _request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+  const _teamId = _request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
 
   try {
     const auth = await getAuthContext();
@@ -42,7 +42,7 @@ export async function GET(_request: NextRequest) {
     }
 
     // TODO: Load from user prefs store; return defaults until then
-    // Phase 4: Use organizationId/teamId to scope preferences per tenant
+    // Phase 4: Use _organizationId/_teamId to scope preferences per tenant
     const preferences = { ...DEFAULT_PREFERENCES };
 
     return NextResponse.json(
@@ -68,8 +68,8 @@ export async function PUT(request: NextRequest) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
   const headers = envelopeHeaders(traceId);
   // Phase 4: Tenant context for user-scoped preferences
-  const organizationId = request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
-  const teamId = request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
+  const _organizationId = request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+  const _teamId = request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
 
   try {
     const auth = await getAuthContext();

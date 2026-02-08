@@ -34,7 +34,6 @@ import {
   CheckCircle,
   AlertCircle,
   XCircle,
-  Image as ImageIcon,
 } from "lucide-react"
 import { routes } from "@afenda/shared/constants"
 
@@ -141,7 +140,7 @@ export function ThumbnailPreview({
     })
   }, [documents, thumbnailUrls, errorStates])
 
-  const handleQuickAction = useCallback((e: React.MouseEvent, action: string, documentId: string) => {
+  const handleQuickAction = useCallback((e: React.MouseEvent, _action: string, _documentId: string) => {
     e.stopPropagation()
   }, [])
 
@@ -263,7 +262,7 @@ export function ThumbnailPreview({
           const thumbnailUrl = thumbnailUrls[document.id]
           const isLoading = loadingStates[document.id]
           const hasError = errorStates[document.id]
-          const isImage = isImageType(document.version?.mimeType)
+          const _isImage = isImageType(document.version?.mimeType)
           const downloadState = downloadStates[document.id]
 
           return (

@@ -21,8 +21,8 @@ interface TenantContext {
  * Phase 4: Filter by tenant context when provided.
  */
 export async function listSavedViewsAction(
-  workspaceId: string,
-  tenantContext?: TenantContext
+  _workspaceId: string,
+  _tenantContext?: TenantContext
 ): Promise<SavedView[]> {
   // TODO: Implement with actual DB query
   // When tenantContext provided, filter: WHERE organization_id = ? AND team_id = ?
@@ -33,8 +33,8 @@ export async function listSavedViewsAction(
  * Server action: Get single saved view by ID.
  */
 export async function getSavedViewAction(
-  id: string,
-  tenantContext?: TenantContext
+  _id: string,
+  _tenantContext?: TenantContext
 ): Promise<SavedView | null> {
   // TODO: Implement with actual DB query
   return null
@@ -45,8 +45,8 @@ export async function getSavedViewAction(
  * Phase 4: Associates view with active tenant.
  */
 export async function createSavedViewAction(
-  input: CreateSavedViewInput,
-  tenantContext?: TenantContext
+  _input: CreateSavedViewInput,
+  _tenantContext?: TenantContext
 ): Promise<{ success: boolean; view?: SavedView; error?: string }> {
   try {
     // TODO: Implement with actual DB insert
@@ -61,9 +61,9 @@ export async function createSavedViewAction(
  * Server action: Update a saved view.
  */
 export async function updateSavedViewAction(
-  id: string,
-  input: UpdateSavedViewInput,
-  tenantContext?: TenantContext
+  _id: string,
+  _input: UpdateSavedViewInput,
+  _tenantContext?: TenantContext
 ): Promise<{ success: boolean; view?: SavedView; error?: string }> {
   try {
     // TODO: Implement with actual DB update
@@ -78,8 +78,8 @@ export async function updateSavedViewAction(
  * Server action: Delete a saved view.
  */
 export async function deleteSavedViewAction(
-  id: string,
-  tenantContext?: TenantContext
+  _id: string,
+  _tenantContext?: TenantContext
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Implement with actual DB delete
@@ -94,9 +94,9 @@ export async function deleteSavedViewAction(
  * Server action: Set a view as default.
  */
 export async function setDefaultViewAction(
-  workspaceId: string,
-  viewId: string | null,
-  tenantContext?: TenantContext
+  _workspaceId: string,
+  _viewId: string | null,
+  _tenantContext?: TenantContext
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Implement set default logic
@@ -111,9 +111,9 @@ export async function setDefaultViewAction(
  * Server action: Reorder saved views.
  */
 export async function reorderSavedViewsAction(
-  workspaceId: string,
-  orderedIds: string[],
-  tenantContext?: TenantContext
+  _workspaceId: string,
+  _orderedIds: string[],
+  _tenantContext?: TenantContext
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Implement reorder logic

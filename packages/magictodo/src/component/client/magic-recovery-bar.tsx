@@ -16,8 +16,6 @@ import {
   RefreshCw,
   WifiOff,
   X,
-  Undo2,
-  CheckCircle2,
   Loader2,
 } from "lucide-react"
 import { cn } from "@afenda/shared/utils"
@@ -180,7 +178,7 @@ export function MagicRecoveryBar({ className }: MagicRecoveryBarProps) {
       await error.retryFn()
       removeError(error.id)
       toast.success("Action completed successfully")
-    } catch (e) {
+    } catch (_e) {
       toast.error("Retry failed. Please try again.")
     } finally {
       setRetrying(null)

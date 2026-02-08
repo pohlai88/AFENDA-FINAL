@@ -24,13 +24,6 @@ import { Label } from "@afenda/shadcn"
 import { Textarea } from "@afenda/shadcn"
 import { Switch } from "@afenda/shadcn"
 import {
-  ClientSelect,
-  ClientSelectContent,
-  ClientSelectItem,
-  ClientSelectTrigger,
-  ClientSelectValue,
-} from "@afenda/shadcn"
-import {
   ClientDialog,
   ClientDialogContent,
   ClientDialogDescription,
@@ -53,7 +46,6 @@ import {
   ClientTooltipTrigger,
 } from "@afenda/shadcn"
 import { Badge } from "@afenda/shadcn"
-import { Separator } from "@afenda/shadcn"
 import {
   FolderOpen,
   Save,
@@ -117,6 +109,7 @@ export function SavedViewManager({
     if (shouldRefetch()) {
       fetchSavedViews()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldRefetch])
 
   const fetchSavedViews = useCallback(async () => {

@@ -52,10 +52,8 @@ import {
   Building2,
   Loader2,
 } from "lucide-react"
-import { cn } from "@afenda/shared/utils"
 import { toast } from "sonner"
-import type { AddTaskAssigneeRequest, AssigneeRole } from "@afenda/magictodo/zod"
-import { ASSIGNEE_ROLE } from "@afenda/magictodo/zod"
+import type { AssigneeRole } from "@afenda/magictodo/zod"
 
 // ============ Types ============
 interface PushToTeamModalProps {

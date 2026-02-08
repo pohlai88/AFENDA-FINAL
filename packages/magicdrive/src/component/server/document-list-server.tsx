@@ -19,12 +19,12 @@ export interface DocumentListServerProps {
  * Use with React Suspense for streaming.
  */
 export async function getDocumentListServer({
-  workspaceId,
-  folderId = null,
-  limit = 50,
-  offset = 0,
-  sortBy = "createdAt",
-  sortOrder = "desc",
+  workspaceId: _workspaceId,
+  folderId: _folderId = null,
+  limit: _limit = 50,
+  offset: _offset = 0,
+  sortBy: _sortBy = "createdAt",
+  sortOrder: _sortOrder = "desc",
 }: DocumentListServerProps) {
   // TODO: Fetch documents from database
   const documents: Document[] = []
@@ -43,8 +43,8 @@ export interface DocumentPreviewServerProps {
  * Server component that fetches document details for preview.
  */
 export async function getDocumentPreviewServer({
-  documentId,
-  workspaceId,
+  documentId: _documentId,
+  workspaceId: _workspaceId,
 }: DocumentPreviewServerProps) {
   // TODO: Fetch document details from database
   return null

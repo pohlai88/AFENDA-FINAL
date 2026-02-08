@@ -20,15 +20,12 @@ import { DocumentActionsDropdown } from "../ui/document-actions-dropdown"
 import {
   Download,
   Share2,
-  Tag,
   Archive,
-  MoreVertical,
   FileText,
   ZoomOut,
   ZoomIn,
   RotateCw,
   Maximize2,
-  ExternalLink,
   Eye,
   ImageIcon,
 } from "lucide-react"
@@ -246,7 +243,7 @@ export function DocumentPreview({ document, className, onClose }: DocumentPrevie
                 documentTitle={document.title}
                 size="sm"
                 actions={['view', 'download', 'share', 'tag', 'archive', 'delete']}
-                onActionComplete={(action) => {
+                onActionComplete={(_action) => {
                 }}
               />
               {onClose && (

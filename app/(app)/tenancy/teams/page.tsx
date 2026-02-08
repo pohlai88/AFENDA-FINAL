@@ -33,10 +33,8 @@ import { routes } from "@afenda/shared/constants";
 import {
   useTeamsQuery,
   useOrganizationsQuery,
-  type TenancyOrganizationResponse,
 } from "@afenda/tenancy";
 
-type Org = Pick<TenancyOrganizationResponse, "id" | "name" | "slug">;
 type Filter = "all" | "standalone" | "org";
 
 function TeamsGridSkeleton() {
@@ -89,7 +87,7 @@ export default function TeamsPage() {
 
   // Fetch teams with dynamic params
   const { data: teamsData, isLoading, error } = useTeamsQuery(queryParams);
-  const teams = teamsData?.items ?? [];
+  const teams = useMemo(() => teamsData?.items ?? [], [teamsData?.items]);
 
   const filtered = useMemo(() => {
     if (!search.trim()) return teams;

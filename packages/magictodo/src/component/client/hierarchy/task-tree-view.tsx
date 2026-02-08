@@ -1,8 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { useCallback, useMemo } from "react"
-import { useRouter } from "next/navigation"
+import { useCallback } from "react"
 import {
   ChevronRight,
   ChevronDown,
@@ -10,7 +9,6 @@ import {
   CheckCircle2,
   Clock,
   AlertCircle,
-  GripVertical,
   MoreHorizontal,
   Plus,
   Folder,
@@ -42,7 +40,7 @@ import {
   CollapsibleTrigger,
 } from "@afenda/shadcn"
 
-import { TASK_STATUS, TASK_PRIORITY, type TaskResponse } from "@afenda/magictodo/zod"
+import { TASK_STATUS, TASK_PRIORITY } from "@afenda/magictodo/zod"
 import {
   type TreeNode,
   type FlatNode,
@@ -425,7 +423,7 @@ export function TaskFlatList({
         const hasChildren = node.hasChildren
         const StatusIcon = STATUS_ICONS[node.status] ?? Circle
         const isSelected = selectedId === node.id
-        const isExternal = currentTenantCode && isExternalTask(node.hierarchyCode, currentTenantCode)
+        const _isExternal = currentTenantCode && isExternalTask(node.hierarchyCode, currentTenantCode)
 
         return (
           <div

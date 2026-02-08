@@ -38,7 +38,7 @@ import { formatDistanceToNow } from "date-fns";
 import { routes } from "@afenda/shared/constants";
 import { addAuditComment, getAuditComments, type AuditComment } from "../_actions/audit-comments.actions";
 import { useUser } from "@/app/_components/user-context";
-import { useEnterpriseSearch, createSearchFields } from "../../../_hooks/useEnterpriseSearch";
+import { useEnterpriseSearch } from "../../../_hooks/useEnterpriseSearch";
 
 interface AuditLogEntry {
   id: string;
@@ -160,6 +160,7 @@ function CommentSection({ auditLogId, onCommentAdded }: CommentSectionProps) {
     if (isExpanded && !hasLoaded) {
       loadComments();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isExpanded, hasLoaded, auditLogId]);
 
   const loadComments = async () => {

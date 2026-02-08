@@ -10,7 +10,7 @@
 
 import { revalidatePath } from "next/cache"
 import { logError } from "../pino"
-import { eq, sql, and } from "drizzle-orm"
+import { eq, sql } from "drizzle-orm"
 
 import { routes } from "@afenda/shared/constants"
 import {
@@ -445,7 +445,7 @@ export async function mergeDuplicatesAction(params: {
  */
 export async function getDuplicateCountAction(
   workspaceId: string,
-  tenantContext?: TenantContext
+  _tenantContext?: TenantContext
 ): Promise<number> {
   try {
     const auth = await getAuthContext()

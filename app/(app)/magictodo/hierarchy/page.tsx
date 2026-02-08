@@ -103,7 +103,7 @@ export default function HierarchyPage() {
 
       const data = await response.json()
       setTasks(data.data?.items ?? data.items ?? [])
-    } catch (error) {
+    } catch (_error) {
       toast.error("Failed to load tasks");
     }
   }, [currentRootId, showCompleted])

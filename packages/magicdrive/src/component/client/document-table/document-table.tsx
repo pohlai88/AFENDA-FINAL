@@ -317,7 +317,7 @@ export function DocumentTable({
                     documentTitle={document.title}
                     size="sm"
                     actions={['view', 'download', 'share', 'tag', 'archive', 'delete']}
-                    onActionComplete={(action) => {
+                    onActionComplete={(_action) => {
                     }}
                   />
                 </TableCell>

@@ -10,7 +10,6 @@ import {
   magictodoTasks,
   type DrizzleDB
 } from "@afenda/magictodo/drizzle"
-import { ok } from "@afenda/shared/server/response"
 
 export const magictodoSnoozeServiceVersion = "0.1.0"
 

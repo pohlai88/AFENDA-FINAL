@@ -20,7 +20,7 @@ export function useProjectsStore() {
     loading: isLoading,
     error: error ? String(error) : null,
     
-    fetchProjects: async (userId: string) => {
+    fetchProjects: async (_userId: string) => {
       await refetch();
     },
     

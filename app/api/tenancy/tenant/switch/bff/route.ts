@@ -22,7 +22,6 @@ import {
 } from "@afenda/orchestra";
 import { parseJson } from "@afenda/shared/server/validate";
 import { z } from "zod";
-import { TENANT_HEADERS } from "@afenda/tenancy/server";
 
 const switchTenantSchema = z.object({
   type: z.enum(["org", "team"]),

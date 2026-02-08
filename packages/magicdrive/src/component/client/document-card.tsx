@@ -7,10 +7,9 @@
 "use client"
 
 import * as React from "react"
-import { Check, File, FileText, Image, MoreVertical, Star } from "lucide-react"
+import { Check, File, FileText, Star } from "lucide-react"
 import { cn } from "@afenda/shared/utils"
 import type { Document } from "../../zod/magicdrive.document.zod"
-import { DOCUMENT_TYPE_ICONS } from "../../constant/magicdrive.constants"
 
 export interface DocumentCardProps {
   document: Document
@@ -50,6 +49,7 @@ export function DocumentCard({
       {/* Thumbnail area */}
       <div className="relative aspect-[4/3] bg-muted">
         {document.thumbnailUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={document.thumbnailUrl}
             alt={document.name}

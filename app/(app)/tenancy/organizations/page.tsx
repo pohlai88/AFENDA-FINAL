@@ -26,7 +26,7 @@ export default function OrganizationsPage() {
   
   const { data, isLoading, error } = useOrganizationsQuery();
 
-  const organizations = data?.items ?? [];
+  const organizations = useMemo(() => data?.items ?? [], [data?.items]);
 
   const filtered = useMemo(() => {
     if (!search.trim()) return organizations;

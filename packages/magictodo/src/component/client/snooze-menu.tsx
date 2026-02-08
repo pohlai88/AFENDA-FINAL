@@ -24,7 +24,6 @@ import {
   ClientPopoverTrigger,
 } from "@afenda/shadcn"
 import { Calendar } from "@afenda/shadcn"
-import { cn } from "@afenda/shared/utils"
 import { 
   Clock, 
   Moon, 
@@ -36,7 +35,7 @@ import {
   CheckCircle2,
 } from "lucide-react"
 import type { TaskSnooze, SnoozePreset } from "@afenda/magictodo/zod"
-import { SNOOZE_PRESET, SNOOZE_TYPE } from "@afenda/magictodo/zod"
+import { SNOOZE_PRESET } from "@afenda/magictodo/zod"
 
 export interface SnoozeMenuProps {
   taskId: string

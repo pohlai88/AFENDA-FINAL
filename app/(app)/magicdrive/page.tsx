@@ -243,7 +243,7 @@ export default function MagicdrivePage() {
       {/* File Types Grid */}
       <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-3" aria-label="File types">
         {fileTypeCards.map((card) => {
-          const Icon = card.icon
+          const _Icon = card.icon
           return (
             <Card key={card.title} className="hover:shadow-md transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

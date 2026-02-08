@@ -155,7 +155,7 @@ function generateOccurrences(
 }
 
 function describeRecurrence(rule: RecurrencePreviewRule): string {
-  const intervalText = rule.interval > 1 ? `every ${rule.interval} ` : "every "
+  const _intervalText = rule.interval > 1 ? `every ${rule.interval} ` : "every "
 
   switch (rule.frequency) {
     case "daily":
@@ -420,7 +420,7 @@ export function RecurrenceBadge({ rule, startDate, className }: RecurrenceBadgeP
     [startDate, rule]
   )
 
-  const nextDate = occurrences[0]?.date
+  const _nextDate = occurrences[0]?.date
 
   return (
     <ClientTooltipProvider>
