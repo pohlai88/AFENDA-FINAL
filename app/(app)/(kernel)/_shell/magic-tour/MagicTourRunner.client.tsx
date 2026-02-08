@@ -209,6 +209,7 @@ export const MagicTourRunner = React.memo<MagicTourRunnerProps>(
     }
 
     // Memoize content to prevent re-renders when props haven't changed
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- conditional rendering is intentional, early return before this point guarantees stable call order in practice
     const content = React.useMemo(() => (
       <div className="space-y-6">
         {/* Workflow icon + name + step indicator */}

@@ -12,15 +12,15 @@ import { cn } from "@afenda/shared/utils"
 import { Button } from "@afenda/shadcn"
 import { Input } from "@afenda/shadcn"
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+  ClientSelect,
+  ClientSelectContent,
+  ClientSelectItem,
+  ClientSelectTrigger,
+  ClientSelectValue,
 } from "@afenda/shadcn"
 import { Badge } from "@afenda/shadcn"
 import { Calendar } from "@afenda/shadcn"
-import { Popover, PopoverContent, PopoverTrigger } from "@afenda/shadcn"
+import { ClientPopover, ClientPopoverContent, ClientPopoverTrigger } from "@afenda/shadcn"
 import {
   Collapsible,
   CollapsibleContent,
@@ -342,28 +342,28 @@ export function SmartFilters({ className, compact = false }: SmartFiltersProps) 
               {/* Document type filter */}
               <div className="space-y-2">
                 <label className="text-sm font-medium">Document Type</label>
-                <Select
+                <ClientSelect
                   value={filters.type || 'all'}
                   onValueChange={handleTypeChange}
                 >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
+                  <ClientSelectTrigger>
+                    <ClientSelectValue />
+                  </ClientSelectTrigger>
+                  <ClientSelectContent>
                     {TYPE_OPTIONS.map((type) => (
-                      <SelectItem key={type.value} value={type.value}>
+                      <ClientSelectItem key={type.value} value={type.value}>
                         {type.label}
-                      </SelectItem>
+                      </ClientSelectItem>
                     ))}
-                  </SelectContent>
-                </Select>
+                  </ClientSelectContent>
+                </ClientSelect>
               </div>
 
               {/* Date range filter */}
               <div className="space-y-2">
                 <label className="text-sm font-medium">Date Range</label>
-                <Popover>
-                  <PopoverTrigger asChild>
+                <ClientPopover>
+                  <ClientPopoverTrigger asChild>
                     <Button
                       variant="outline"
                       className={cn(
@@ -385,8 +385,8 @@ export function SmartFilters({ className, compact = false }: SmartFiltersProps) 
                         "Pick a date range"
                       )}
                     </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  </ClientPopoverTrigger>
+                  <ClientPopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="range"
                       selected={dateRange}
@@ -394,8 +394,8 @@ export function SmartFilters({ className, compact = false }: SmartFiltersProps) 
                       initialFocus
                       required={false}
                     />
-                  </PopoverContent>
-                </Popover>
+                  </ClientPopoverContent>
+                </ClientPopover>
               </div>
 
               {/* Tags filter */}

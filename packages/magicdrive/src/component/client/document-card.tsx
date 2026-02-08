@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/static-components -- icon component selected dynamically by document type */
 /**
  * @layer domain (magicdrive)
  * @responsibility Document card component for grid view.

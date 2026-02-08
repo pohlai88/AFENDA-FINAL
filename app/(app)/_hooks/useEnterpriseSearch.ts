@@ -18,12 +18,14 @@ import * as React from "react";
 export interface SearchFieldConfig {
   field: string;
   weight: number; // 0.0 - 1.0, higher = more important
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- transform receives heterogeneous field values; callers need specific types
   transform?: (value: any) => string;
 }
 
-export interface SearchOptions<T = any> {
+export interface SearchOptions<T = unknown> {
   query?: string;
   fields?: SearchFieldConfig[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- filter values are heterogeneous primitives
   filters?: Record<string, any>;
   debounceMs?: number;
   cacheTTL?: number;
@@ -33,7 +35,7 @@ export interface SearchOptions<T = any> {
   customSort?: (a: T, b: T, query: string) => number;
 }
 
-export interface SearchResult<T = any> {
+export interface SearchResult<T = unknown> {
   items: T[];
   total: number;
   hasMore: boolean;
@@ -43,6 +45,7 @@ export interface SearchResult<T = any> {
   searchTime: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- constraint requires indexable record with arbitrary values
 export function useEnterpriseSearch<T extends Record<string, any>>(
   data: T[],
   options: SearchOptions<T> = {}
@@ -325,7 +328,7 @@ export const createSearchFields = {
     { 
       field: 'metadata', 
       weight: 0.2,
-      transform: (value: any) => JSON.stringify(value),
+      transform: (value: unknown) => JSON.stringify(value),
     },
   ],
 
@@ -350,6 +353,7 @@ export const createSearchFields = {
     { 
       field: 'configs', 
       weight: 0.4,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- config objects have dynamic shape from templates
       transform: (configs: any[]) => 
         configs.map(c => `${c.key} ${c.description}`).join(' '),
     },
@@ -363,7 +367,7 @@ export const createSearchFields = {
     { 
       field: 'metadata', 
       weight: 0.3,
-      transform: (value: any) => JSON.stringify(value),
+      transform: (value: unknown) => JSON.stringify(value),
     },
   ],
 };

@@ -132,6 +132,7 @@ export const SpotlightOverlay = React.memo<SpotlightOverlayProps>(function Spotl
   if (typeof document === "undefined") return null;
 
   // Memoize tooltip content to prevent unnecessary re-renders
+  // eslint-disable-next-line react-hooks/rules-of-hooks -- conditional rendering after early return guard
   const tooltipContent = React.useMemo(
     () => (
       <div

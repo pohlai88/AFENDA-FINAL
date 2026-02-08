@@ -144,7 +144,7 @@ export function DocumentTable({
       if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1
       return 0
     })
-  }, [documents, sortConfig?.key, sortConfig?.direction]) // Depend on primitives, not object
+  }, [documents, sortConfig])
 
   // Format file size
   const formatFileSize = (bytes: number) => {

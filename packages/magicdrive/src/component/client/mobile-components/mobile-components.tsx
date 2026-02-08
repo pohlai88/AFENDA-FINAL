@@ -11,7 +11,7 @@ import { cn } from "@afenda/shared/utils"
 import { Button } from "@afenda/shadcn"
 import { Card, CardContent } from "@afenda/shadcn"
 import { Badge } from "@afenda/shadcn"
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@afenda/shadcn"
+import { ClientSheet, ClientSheetContent, ClientSheetHeader, ClientSheetTitle } from "@afenda/shadcn"
 import { useDocumentHubStore } from "@afenda/magicdrive/zustand"
 import {
   Upload,
@@ -158,16 +158,16 @@ export function MobileFilterSheet({ _className, children }: MobileFilterSheetPro
   if (!isMobile) return null
 
   return (
-    <Sheet open={showFilters} onOpenChange={toggleFilters}>
-      <SheetContent side="bottom" className="h-[80vh]">
-        <SheetHeader>
-          <SheetTitle>Filters</SheetTitle>
-        </SheetHeader>
+    <ClientSheet open={showFilters} onOpenChange={toggleFilters}>
+      <ClientSheetContent side="bottom" className="h-[80vh]">
+        <ClientSheetHeader>
+          <ClientSheetTitle>Filters</ClientSheetTitle>
+        </ClientSheetHeader>
         <div className="flex-1 overflow-auto p-4">
           {children}
         </div>
-      </SheetContent>
-    </Sheet>
+      </ClientSheetContent>
+    </ClientSheet>
   )
 }
 

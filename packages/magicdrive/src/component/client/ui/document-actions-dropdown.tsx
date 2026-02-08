@@ -10,11 +10,11 @@
 import { useState } from "react"
 import { Button } from "@afenda/shadcn"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  ClientDropdownMenu,
+  ClientDropdownMenuContent,
+  ClientDropdownMenuItem,
+  ClientDropdownMenuSeparator,
+  ClientDropdownMenuTrigger,
 } from "@afenda/shadcn"
 import {
   MoreVertical,
@@ -186,8 +186,8 @@ const getActionIcon = (action: DocumentActionType) => {
   }
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+    <ClientDropdownMenu>
+      <ClientDropdownMenuTrigger asChild>
         <Button
           variant={variant}
           size={size}
@@ -200,10 +200,10 @@ const getActionIcon = (action: DocumentActionType) => {
             <MoreVertical className={getIconSize()} />
           )}
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align={align} className="w-48">
+      </ClientDropdownMenuTrigger>
+      <ClientDropdownMenuContent align={align} className="w-48">
         {regularActions.map((action) => (
-          <DropdownMenuItem
+          <ClientDropdownMenuItem
             key={action}
             onClick={() => handleAction(action)}
             disabled={loading === action}
@@ -214,17 +214,17 @@ const getActionIcon = (action: DocumentActionType) => {
             {loading === action && (
               <div className="ml-auto animate-spin h-3 w-3 border-2 border-current border-t-transparent rounded-full" />
             )}
-          </DropdownMenuItem>
+          </ClientDropdownMenuItem>
         ))}
 
         {/* Add separator if there are dangerous actions */}
         {shouldShowDelete && regularActions.length > 0 && (
-          <DropdownMenuSeparator />
+          <ClientDropdownMenuSeparator />
         )}
 
         {/* Dangerous actions */}
         {shouldShowDelete && (
-          <DropdownMenuItem
+          <ClientDropdownMenuItem
             onClick={() => handleAction('delete')}
             disabled={loading === 'delete'}
             className="text-destructive focus:text-destructive"
@@ -234,10 +234,10 @@ const getActionIcon = (action: DocumentActionType) => {
             {loading === 'delete' && (
               <div className="ml-auto animate-spin h-3 w-3 border-2 border-current border-t-transparent rounded-full" />
             )}
-          </DropdownMenuItem>
+          </ClientDropdownMenuItem>
         )}
-      </DropdownMenuContent>
-    </DropdownMenu>
+      </ClientDropdownMenuContent>
+    </ClientDropdownMenu>
   )
 }
 

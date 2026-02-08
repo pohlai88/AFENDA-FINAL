@@ -14,23 +14,23 @@ import {
   buttonVariants,
 } from "@afenda/shadcn"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
+  ClientDropdownMenu,
+  ClientDropdownMenuContent,
+  ClientDropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
-  DropdownMenuSeparator,
+  ClientDropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
+  ClientDropdownMenuTrigger,
 } from "@afenda/shadcn"
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
+  ClientTooltip,
+  ClientTooltipContent,
+  ClientTooltipProvider,
+  ClientTooltipTrigger,
 } from "@afenda/shadcn"
 import { Badge } from "@afenda/shadcn"
 import { Separator } from "@afenda/shadcn"
@@ -168,11 +168,11 @@ export function QuickSettingsToolbar({ className }: QuickSettingsToolbarProps) {
   }
 
   return (
-    <TooltipProvider>
+    <ClientTooltipProvider>
       <div className={`flex items-center gap-2 ${className}`}>
         {/* View Mode Selector */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+        <ClientDropdownMenu>
+          <ClientDropdownMenuTrigger asChild>
             <Button
               variant="outline"
               size="sm"
@@ -182,10 +182,10 @@ export function QuickSettingsToolbar({ className }: QuickSettingsToolbarProps) {
               {getViewModeIcon(viewMode)}
               <span className="hidden sm:inline capitalize">{viewMode}</span>
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-48">
+          </ClientDropdownMenuTrigger>
+          <ClientDropdownMenuContent align="start" className="w-48">
             <DropdownMenuLabel>View Mode</DropdownMenuLabel>
-            <DropdownMenuSeparator />
+            <ClientDropdownMenuSeparator />
             <DropdownMenuRadioGroup value={viewMode} onValueChange={(value) => handleViewModeChange(value as ViewMode)}>
               <DropdownMenuRadioItem value="cards">
                 <Grid3X3 className="h-4 w-4 mr-2" />
@@ -208,12 +208,12 @@ export function QuickSettingsToolbar({ className }: QuickSettingsToolbarProps) {
                 Relationship
               </DropdownMenuRadioItem>
             </DropdownMenuRadioGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
+          </ClientDropdownMenuContent>
+        </ClientDropdownMenu>
 
         {/* Sort Controls */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+        <ClientDropdownMenu>
+          <ClientDropdownMenuTrigger asChild>
             <Button
               variant="outline"
               size="sm"
@@ -224,23 +224,23 @@ export function QuickSettingsToolbar({ className }: QuickSettingsToolbarProps) {
               <span className="hidden sm:inline">Sort</span>
               {getSortIcon(sortOrder)}
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-56">
+          </ClientDropdownMenuTrigger>
+          <ClientDropdownMenuContent align="start" className="w-56">
             <DropdownMenuLabel>Sort By</DropdownMenuLabel>
-            <DropdownMenuSeparator />
+            <ClientDropdownMenuSeparator />
             <DropdownMenuSub>
               <DropdownMenuSubTrigger>
                 <span>Date Created</span>
               </DropdownMenuSubTrigger>
               <DropdownMenuSubContent>
-                <DropdownMenuItem onClick={() => handleSortChange("createdAt", "desc")}>
+                <ClientDropdownMenuItem onClick={() => handleSortChange("createdAt", "desc")}>
                   <ArrowDown className="h-3 w-3 mr-2" />
                   Newest First
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleSortChange("createdAt", "asc")}>
+                </ClientDropdownMenuItem>
+                <ClientDropdownMenuItem onClick={() => handleSortChange("createdAt", "asc")}>
                   <ArrowUp className="h-3 w-3 mr-2" />
                   Oldest First
-                </DropdownMenuItem>
+                </ClientDropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuSub>
             <DropdownMenuSub>
@@ -248,36 +248,36 @@ export function QuickSettingsToolbar({ className }: QuickSettingsToolbarProps) {
                 <span>Title</span>
               </DropdownMenuSubTrigger>
               <DropdownMenuSubContent>
-                <DropdownMenuItem onClick={() => handleSortChange("title", "asc")}>
+                <ClientDropdownMenuItem onClick={() => handleSortChange("title", "asc")}>
                   <ArrowUp className="h-3 w-3 mr-2" />
                   A to Z
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleSortChange("title", "desc")}>
+                </ClientDropdownMenuItem>
+                <ClientDropdownMenuItem onClick={() => handleSortChange("title", "desc")}>
                   <ArrowDown className="h-3 w-3 mr-2" />
                   Z to A
-                </DropdownMenuItem>
+                </ClientDropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuSub>
-            <DropdownMenuItem onClick={() => handleSortChange("sizeBytes", "desc")}>
+            <ClientDropdownMenuItem onClick={() => handleSortChange("sizeBytes", "desc")}>
               <ArrowDown className="h-3 w-3 mr-2" />
               Largest First
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleSortChange("sizeBytes", "asc")}>
+            </ClientDropdownMenuItem>
+            <ClientDropdownMenuItem onClick={() => handleSortChange("sizeBytes", "asc")}>
               <ArrowUp className="h-3 w-3 mr-2" />
               Smallest First
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleSortChange("updatedAt", "desc")}>
+            </ClientDropdownMenuItem>
+            <ClientDropdownMenuItem onClick={() => handleSortChange("updatedAt", "desc")}>
               <ArrowDown className="h-3 w-3 mr-2" />
               Recently Modified
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+            </ClientDropdownMenuItem>
+          </ClientDropdownMenuContent>
+        </ClientDropdownMenu>
 
         <Separator orientation="vertical" className="h-6" />
 
         {/* Quick Toggles */}
-        <Tooltip>
-          <TooltipTrigger asChild>
+        <ClientTooltip>
+          <ClientTooltipTrigger asChild>
             <Button
               variant="outline"
               size="sm"
@@ -288,14 +288,14 @@ export function QuickSettingsToolbar({ className }: QuickSettingsToolbarProps) {
               <FileText className="h-4 w-4" />
               <span className="sr-only">Toggle file extensions</span>
             </Button>
-          </TooltipTrigger>
-          <TooltipContent>
+          </ClientTooltipTrigger>
+          <ClientTooltipContent>
             <p>File Extensions {preferences?.showFileExtensions ? "On" : "Off"}</p>
-          </TooltipContent>
-        </Tooltip>
+          </ClientTooltipContent>
+        </ClientTooltip>
 
-        <Tooltip>
-          <TooltipTrigger asChild>
+        <ClientTooltip>
+          <ClientTooltipTrigger asChild>
             <Button
               variant="outline"
               size="sm"
@@ -306,14 +306,14 @@ export function QuickSettingsToolbar({ className }: QuickSettingsToolbarProps) {
               <Image className="h-4 w-4" />
               <span className="sr-only">Toggle thumbnails</span>
             </Button>
-          </TooltipTrigger>
-          <TooltipContent>
+          </ClientTooltipTrigger>
+          <ClientTooltipContent>
             <p>Thumbnails {preferences?.showThumbnails ? "On" : "Off"}</p>
-          </TooltipContent>
-        </Tooltip>
+          </ClientTooltipContent>
+        </ClientTooltip>
 
-        <Tooltip>
-          <TooltipTrigger asChild>
+        <ClientTooltip>
+          <ClientTooltipTrigger asChild>
             <Button
               variant="outline"
               size="sm"
@@ -324,17 +324,17 @@ export function QuickSettingsToolbar({ className }: QuickSettingsToolbarProps) {
               {preferences?.compactMode ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
               <span className="sr-only">Toggle compact mode</span>
             </Button>
-          </TooltipTrigger>
-          <TooltipContent>
+          </ClientTooltipTrigger>
+          <ClientTooltipContent>
             <p>Compact Mode {preferences?.compactMode ? "On" : "Off"}</p>
-          </TooltipContent>
-        </Tooltip>
+          </ClientTooltipContent>
+        </ClientTooltip>
 
         <Separator orientation="vertical" className="h-6" />
 
         {/* Settings Menu */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+        <ClientDropdownMenu>
+          <ClientDropdownMenuTrigger asChild>
             <Button
               variant="ghost"
               size="sm"
@@ -343,43 +343,43 @@ export function QuickSettingsToolbar({ className }: QuickSettingsToolbarProps) {
               <SlidersHorizontal className="h-4 w-4" />
               <span className="sr-only">More settings</span>
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56">
+          </ClientDropdownMenuTrigger>
+          <ClientDropdownMenuContent align="end" className="w-56">
             <DropdownMenuLabel>Display Options</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={toggleFileExtensions}>
+            <ClientDropdownMenuSeparator />
+            <ClientDropdownMenuItem onClick={toggleFileExtensions}>
               <FileText className="h-4 w-4 mr-2" />
               Show File Extensions
               <Badge variant="secondary" className="ml-auto">
                 {preferences?.showFileExtensions ? "On" : "Off"}
               </Badge>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={toggleThumbnails}>
+            </ClientDropdownMenuItem>
+            <ClientDropdownMenuItem onClick={toggleThumbnails}>
               <Image className="h-4 w-4 mr-2" />
               Show Thumbnails
               <Badge variant="secondary" className="ml-auto">
                 {preferences?.showThumbnails ? "On" : "Off"}
               </Badge>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={toggleCompactMode}>
+            </ClientDropdownMenuItem>
+            <ClientDropdownMenuItem onClick={toggleCompactMode}>
               <Minimize2 className="h-4 w-4 mr-2" />
               Compact Mode
               <Badge variant="secondary" className="ml-auto">
                 {preferences?.compactMode ? "On" : "Off"}
               </Badge>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            </ClientDropdownMenuItem>
+            <ClientDropdownMenuSeparator />
+            <ClientDropdownMenuItem>
               <RotateCcw className="h-4 w-4 mr-2" />
               Reset to Defaults
-            </DropdownMenuItem>
-            <DropdownMenuItem>
+            </ClientDropdownMenuItem>
+            <ClientDropdownMenuItem>
               <Save className="h-4 w-4 mr-2" />
               Save Current View
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+            </ClientDropdownMenuItem>
+          </ClientDropdownMenuContent>
+        </ClientDropdownMenu>
       </div>
-    </TooltipProvider>
+    </ClientTooltipProvider>
   )
 }

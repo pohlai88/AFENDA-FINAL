@@ -92,7 +92,9 @@ function getBullQueue(): import("bullmq").Queue<magicdriveJob> | null {
   const url = getRedisUrl()
   if (!url) return null
   try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports -- dynamic import for optional dependency
     const { Queue } = require("bullmq") as typeof import("bullmq")
+    // eslint-disable-next-line @typescript-eslint/no-require-imports -- dynamic import for optional dependency
     const IORedis = require("ioredis") as typeof import("ioredis").default
     const connection = new IORedis(url, { maxRetriesPerRequest: null })
     return new Queue<magicdriveJob>(QUEUE_NAME, { connection })
@@ -146,7 +148,9 @@ export async function processOneMagicdriveJobFromQueue(timeoutMs: number = 55_00
 }> {
   if (!getRedisUrl()) return { processed: false }
   try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports -- dynamic import for optional dependency
     const { Worker } = require("bullmq") as typeof import("bullmq")
+    // eslint-disable-next-line @typescript-eslint/no-require-imports -- dynamic import for optional dependency
     const IORedis = require("ioredis") as typeof import("ioredis").default
     const connection = new IORedis(process.env.REDIS_URL!, { maxRetriesPerRequest: null })
     let processed = false

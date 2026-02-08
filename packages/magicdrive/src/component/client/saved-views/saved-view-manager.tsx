@@ -24,33 +24,33 @@ import { Label } from "@afenda/shadcn"
 import { Textarea } from "@afenda/shadcn"
 import { Switch } from "@afenda/shadcn"
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+  ClientSelect,
+  ClientSelectContent,
+  ClientSelectItem,
+  ClientSelectTrigger,
+  ClientSelectValue,
 } from "@afenda/shadcn"
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+  ClientDialog,
+  ClientDialogContent,
+  ClientDialogDescription,
+  ClientDialogFooter,
+  ClientDialogHeader,
+  ClientDialogTitle,
+  ClientDialogTrigger,
 } from "@afenda/shadcn"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  ClientDropdownMenu,
+  ClientDropdownMenuContent,
+  ClientDropdownMenuItem,
+  ClientDropdownMenuSeparator,
+  ClientDropdownMenuTrigger,
 } from "@afenda/shadcn"
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
+  ClientTooltip,
+  ClientTooltipContent,
+  ClientTooltipProvider,
+  ClientTooltipTrigger,
 } from "@afenda/shadcn"
 import { Badge } from "@afenda/shadcn"
 import { Separator } from "@afenda/shadcn"
@@ -394,7 +394,7 @@ export function SavedViewManager({
   }, [])
 
   return (
-    <TooltipProvider>
+    <ClientTooltipProvider>
       <Card className={className}>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -404,7 +404,7 @@ export function SavedViewManager({
                 Save and manage your custom document views
               </CardDescription>
             </div>
-            <Dialog 
+            <ClientDialog 
               open={isCreateOpen} 
               onOpenChange={(open) => {
                 setIsCreateOpen(open)
@@ -414,19 +414,19 @@ export function SavedViewManager({
                 }
               }}
             >
-              <DialogTrigger asChild>
+              <ClientDialogTrigger asChild>
                 <Button size="sm">
                   <Plus className="h-4 w-4 mr-2" />
                   Save Current View
                 </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Save Current View</DialogTitle>
-                  <DialogDescription>
+              </ClientDialogTrigger>
+              <ClientDialogContent>
+                <ClientDialogHeader>
+                  <ClientDialogTitle>Save Current View</ClientDialogTitle>
+                  <ClientDialogDescription>
                     Save the current filters and view settings for quick access
-                  </DialogDescription>
-                </DialogHeader>
+                  </ClientDialogDescription>
+                </ClientDialogHeader>
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="name">View Name</Label>
@@ -471,7 +471,7 @@ export function SavedViewManager({
                     />
                   </div>
                 </div>
-                <DialogFooter>
+                <ClientDialogFooter>
                   <Button 
                     variant="outline" 
                     onClick={() => setIsCreateOpen(false)}
@@ -495,9 +495,9 @@ export function SavedViewManager({
                       </>
                     )}
                   </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+                </ClientDialogFooter>
+              </ClientDialogContent>
+            </ClientDialog>
           </div>
         </CardHeader>
         <CardContent>
@@ -540,19 +540,19 @@ export function SavedViewManager({
                             </Badge>
                           )}
                           {view.isPublic ? (
-                            <Tooltip>
-                              <TooltipTrigger>
+                            <ClientTooltip>
+                              <ClientTooltipTrigger>
                                 <Globe className="h-3 w-3 text-muted-foreground" />
-                              </TooltipTrigger>
-                              <TooltipContent>Public view</TooltipContent>
-                            </Tooltip>
+                              </ClientTooltipTrigger>
+                              <ClientTooltipContent>Public view</ClientTooltipContent>
+                            </ClientTooltip>
                           ) : (
-                            <Tooltip>
-                              <TooltipTrigger>
+                            <ClientTooltip>
+                              <ClientTooltipTrigger>
                                 <Lock className="h-3 w-3 text-muted-foreground" />
-                              </TooltipTrigger>
-                              <TooltipContent>Private view</TooltipContent>
-                            </Tooltip>
+                              </ClientTooltipTrigger>
+                              <ClientTooltipContent>Private view</ClientTooltipContent>
+                            </ClientTooltip>
                           )}
                         </div>
                         {view.description && (
@@ -564,8 +564,8 @@ export function SavedViewManager({
                     </div>
                   </div>
                   <div className="flex items-center gap-1">
-                    <Tooltip>
-                      <TooltipTrigger asChild>
+                    <ClientTooltip>
+                      <ClientTooltipTrigger asChild>
                         <Button
                           variant="ghost"
                           size="icon"
@@ -573,38 +573,38 @@ export function SavedViewManager({
                         >
                           <Eye className="h-4 w-4" />
                         </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>Apply view</TooltipContent>
-                    </Tooltip>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
+                      </ClientTooltipTrigger>
+                      <ClientTooltipContent>Apply view</ClientTooltipContent>
+                    </ClientTooltip>
+                    <ClientDropdownMenu>
+                      <ClientDropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon">
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => openEditDialog(view)}>
+                      </ClientDropdownMenuTrigger>
+                      <ClientDropdownMenuContent align="end">
+                        <ClientDropdownMenuItem onClick={() => openEditDialog(view)}>
                           <Edit className="h-4 w-4 mr-2" />
                           Edit
-                        </DropdownMenuItem>
-                        <DropdownMenuItem 
+                        </ClientDropdownMenuItem>
+                        <ClientDropdownMenuItem 
                           onClick={() => handleDuplicateView(view)}
                           disabled={actionLoading === 'duplicate'}
                         >
                           <Copy className="h-4 w-4 mr-2" />
                           {actionLoading === 'duplicate' ? 'Duplicating...' : 'Duplicate'}
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem
+                        </ClientDropdownMenuItem>
+                        <ClientDropdownMenuSeparator />
+                        <ClientDropdownMenuItem
                           onClick={() => handleDeleteView(view.id)}
                           className="text-destructive"
                           disabled={actionLoading === view.id}
                         >
                           <Trash2 className="h-4 w-4 mr-2" />
                           {actionLoading === view.id ? 'Deleting...' : 'Delete'}
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                        </ClientDropdownMenuItem>
+                      </ClientDropdownMenuContent>
+                    </ClientDropdownMenu>
                   </div>
                 </div>
               ))
@@ -614,7 +614,7 @@ export function SavedViewManager({
       </Card>
 
       {/* Edit Dialog */}
-      <Dialog 
+      <ClientDialog 
         open={isEditOpen} 
         onOpenChange={(open) => {
           setIsEditOpen(open)
@@ -625,13 +625,13 @@ export function SavedViewManager({
           }
         }}
       >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Edit Saved View</DialogTitle>
-            <DialogDescription>
+        <ClientDialogContent>
+          <ClientDialogHeader>
+            <ClientDialogTitle>Edit Saved View</ClientDialogTitle>
+            <ClientDialogDescription>
               Update the details of your saved view
-            </DialogDescription>
-          </DialogHeader>
+            </ClientDialogDescription>
+          </ClientDialogHeader>
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="edit-name">View Name</Label>
@@ -674,7 +674,7 @@ export function SavedViewManager({
               />
             </div>
           </div>
-          <DialogFooter>
+          <ClientDialogFooter>
             <Button 
               variant="outline" 
               onClick={() => setIsEditOpen(false)}
@@ -698,9 +698,9 @@ export function SavedViewManager({
                 </>
               )}
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </TooltipProvider>
+          </ClientDialogFooter>
+        </ClientDialogContent>
+      </ClientDialog>
+    </ClientTooltipProvider>
   )
 }

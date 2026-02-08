@@ -73,12 +73,14 @@ const ROLE_CONFIG: Record<string, { label: string; icon: typeof Users; color: st
 
 // ============ API Functions ============
 async function fetchAssignees(taskId: string): Promise<TaskAssigneeListResponse> {
+  // eslint-disable-next-line no-restricted-syntax -- route constant not yet defined
   const res = await fetch(`/api/v1/tasks/${taskId}/assignees`)
   if (!res.ok) throw new Error("Failed to fetch assignees")
   return res.json()
 }
 
 async function addAssignee(taskId: string, data: AddTaskAssigneeRequest): Promise<TaskAssigneeResponse> {
+  // eslint-disable-next-line no-restricted-syntax -- route constant not yet defined
   const res = await fetch(`/api/v1/tasks/${taskId}/assignees`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -92,6 +94,7 @@ async function addAssignee(taskId: string, data: AddTaskAssigneeRequest): Promis
 }
 
 async function removeAssignee(taskId: string, userId: string): Promise<void> {
+  // eslint-disable-next-line no-restricted-syntax -- route constant not yet defined
   const res = await fetch(`/api/v1/tasks/${taskId}/assignees/${userId}`, {
     method: "DELETE",
   })
@@ -105,6 +108,7 @@ async function fetchTeamMembers(): Promise<TeamMember[]> {
   // TODO: Replace with actual team members API when available
   // For now, fetch from user profiles or return empty
   try {
+    // eslint-disable-next-line no-restricted-syntax -- route constant not yet defined
     const res = await fetch("/api/v1/users/team-members")
     if (!res.ok) return []
     const data = await res.json()

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/static-components -- icon component selected dynamically by time slot */
 /**
  * @domain magictodo
  * @layer ui

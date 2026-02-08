@@ -215,12 +215,12 @@ export default function OrganizationMembersPage({
                   placeholder="developer@example.com"
                 />
                 <p className="text-xs text-muted-foreground">
-                  They'll receive an email with an invitation link
+                  They&apos;ll receive an email with an invitation link
                 </p>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="role">Role</Label>
-                <ClientSelect value={inviteRole} onValueChange={(v) => setInviteRole(v as any)}>
+                <ClientSelect value={inviteRole} onValueChange={(v) => setInviteRole(v as "owner" | "admin" | "member")}>
                   <ClientSelectTrigger id="role">
                     <ClientSelectValue />
                   </ClientSelectTrigger>
@@ -309,7 +309,7 @@ export default function OrganizationMembersPage({
                         <div className="flex items-center justify-end gap-2">
                           <ClientSelect
                             value={member.role}
-                            onValueChange={(newRole) => handleRoleChange(member.userId, newRole as any)}
+                            onValueChange={(newRole) => handleRoleChange(member.userId, newRole as "owner" | "admin" | "member")}
                           >
                             <ClientSelectTrigger className="w-32">
                               <ClientSelectValue />
@@ -362,7 +362,7 @@ export default function OrganizationMembersPage({
           <CardHeader>
             <CardTitle>Pending Invitations ({invitations.length})</CardTitle>
             <CardDescription>
-              Email invitations that haven't been accepted yet
+              Email invitations that haven&apos;t been accepted yet
             </CardDescription>
           </CardHeader>
           <CardContent>

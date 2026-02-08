@@ -221,7 +221,7 @@ export function FocusMode({
         {/* Daily progress */}
         <div className="text-center">
           <p className="text-sm text-muted-foreground mb-2">
-            Today's progress: {dailyProgress.completed} / {dailyProgress.goal} tasks
+            Today&apos;s progress: {dailyProgress.completed} / {dailyProgress.goal} tasks
           </p>
           <Progress 
             value={(dailyProgress.completed / dailyProgress.goal) * 100} 

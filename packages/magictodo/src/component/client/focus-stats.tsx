@@ -110,7 +110,7 @@ export function FocusStats({
         <CardHeader className="pb-2">
           <CardTitle className="text-sm font-medium flex items-center gap-2">
             <Target className="h-4 w-4 text-primary" />
-            Today's Focus
+            Today&apos;s Focus
             {goalMet && (
               <Badge variant="default" className="ml-auto bg-green-500">
                 Goal Met! 🎉

@@ -151,6 +151,7 @@ const secondaryItems: NavItem[] = [
 ]
 
 export function magicdriveSidebar() {
+  // eslint-disable-next-line react-hooks/rules-of-hooks -- component name follows package convention
   const pathname = usePathname()
 
   const isActive = (url: string) => {

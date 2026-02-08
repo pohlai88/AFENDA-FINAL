@@ -143,12 +143,14 @@ export const POST = withRateLimitRoute(
           baseUrl,
         });
 
+        // eslint-disable-next-line no-console -- success logging in API route
         console.log(`Invitation email sent successfully to ${input.email}`, {
           invitationId: invitation.id,
           organizationId,
         });
       } catch (emailError) {
         // Log email error but don't fail the invitation creation
+        // eslint-disable-next-line no-console -- error logging in API route
         console.error("Failed to send invitation email (invitation still created):", emailError);
         
         // TODO: Consider implementing email retry queue or notification to admin

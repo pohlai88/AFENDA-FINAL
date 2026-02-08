@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/static-components -- icon component selected dynamically by recurrence frequency */
 /**
  * @domain magictodo
  * @layer ui

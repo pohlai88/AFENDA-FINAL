@@ -87,6 +87,7 @@ type RecipientType = "team" | "member"
 // ============ API Functions ============
 async function fetchTeams(): Promise<Team[]> {
   try {
+    // eslint-disable-next-line no-restricted-syntax -- route constant not yet defined
     const res = await fetch("/api/v1/teams")
     if (!res.ok) return []
     const data = await res.json()
@@ -98,6 +99,7 @@ async function fetchTeams(): Promise<Team[]> {
 
 async function fetchTeamMembers(teamId?: string): Promise<TeamMember[]> {
   try {
+    // eslint-disable-next-line no-restricted-syntax -- route constant not yet defined
     const url = teamId ? `/api/v1/teams/${teamId}/members` : "/api/v1/users/team-members"
     const res = await fetch(url)
     if (!res.ok) return []
@@ -125,6 +127,7 @@ async function shareTask(
   // Add each recipient as assignee
   for (const recipient of recipients) {
     if (recipient.userId) {
+      // eslint-disable-next-line no-restricted-syntax -- route constant not yet defined
       const res = await fetch(`/api/v1/tasks/${taskId}/assignees`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

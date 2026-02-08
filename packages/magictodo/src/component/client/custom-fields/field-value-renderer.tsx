@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/error-boundaries -- try/catch wraps date parsing, not component rendering */
 /**
  * @domain magictodo
  * @layer ui

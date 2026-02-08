@@ -144,7 +144,7 @@ export default function DesignSystemEditorPage() {
               <IconPalette className="h-6 w-6" />
               Design System
             </h1>
-            <p className="text-sm text-muted-foreground">Customize your tenant's theme and appearance</p>
+            <p className="text-sm text-muted-foreground">Customize your tenant&apos;s theme and appearance</p>
           </div>
         </div>
       </div>

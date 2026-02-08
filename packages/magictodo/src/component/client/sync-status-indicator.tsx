@@ -107,6 +107,7 @@ export function SyncStatusProvider({ children, onRetry }: SyncStatusProviderProp
 
     window.addEventListener("online", handleOnline)
     window.addEventListener("offline", handleOffline)
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- initializing online status requires reading navigator.onLine in effect
     setState((prev) => ({ ...prev, isOnline: navigator.onLine }))
 
     return () => {
@@ -259,6 +260,7 @@ export function SyncStatusIndicator({
 
   const formatLastSynced = (date: Date | null) => {
     if (!date) return "Never"
+    // eslint-disable-next-line react-hooks/purity -- Date.now is needed for relative time formatting
     const diff = Date.now() - date.getTime()
     if (diff < 60000) return "Just now"
     if (diff < 3600000) return `${Math.floor(diff / 60000)}m ago`

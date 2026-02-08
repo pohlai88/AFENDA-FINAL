@@ -24,11 +24,11 @@ import {
   FormMessage,
 } from "@afenda/shadcn"
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+  ClientSelect,
+  ClientSelectContent,
+  ClientSelectItem,
+  ClientSelectTrigger,
+  ClientSelectValue,
 } from "@afenda/shadcn"
 import { Checkbox } from "@afenda/shadcn"
 import { Input } from "@afenda/shadcn"
@@ -89,6 +89,7 @@ export function DownloadForm({
   const [downloadStatus, setDownloadStatus] = useState<"idle" | "preparing" | "downloading" | "completed" | "error">("idle")
 
   const form = useForm<DownloadFormValues>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- zod/react-hook-form resolver type mismatch between library versions
     resolver: zodResolver(downloadFormSchema as any) as any,
     defaultValues: {
       format: "original",
@@ -185,6 +186,7 @@ export function DownloadForm({
         </CardHeader>
         <CardContent>
           <Form {...form}>
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any -- react-hook-form handleSubmit expects narrower type than our onSubmit signature */}
             <form onSubmit={form.handleSubmit(onSubmit as any)} className="space-y-6">
               {/* Document Selection */}
               <div className="space-y-3">
@@ -241,39 +243,39 @@ export function DownloadForm({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Download Format</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <ClientSelect onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select format" />
-                        </SelectTrigger>
+                        <ClientSelectTrigger>
+                          <ClientSelectValue placeholder="Select format" />
+                        </ClientSelectTrigger>
                       </FormControl>
-                      <SelectContent>
-                        <SelectItem value="original">
+                      <ClientSelectContent>
+                        <ClientSelectItem value="original">
                           <div className="flex items-center gap-2">
                             <FileText className="h-4 w-4" />
                             Original Format
                           </div>
-                        </SelectItem>
-                        <SelectItem value="pdf">
+                        </ClientSelectItem>
+                        <ClientSelectItem value="pdf">
                           <div className="flex items-center gap-2">
                             <FileText className="h-4 w-4" />
                             PDF
                           </div>
-                        </SelectItem>
-                        <SelectItem value="jpg">
+                        </ClientSelectItem>
+                        <ClientSelectItem value="jpg">
                           <div className="flex items-center gap-2">
                             <ImageIcon className="h-4 w-4" />
                             JPEG
                           </div>
-                        </SelectItem>
-                        <SelectItem value="png">
+                        </ClientSelectItem>
+                        <ClientSelectItem value="png">
                           <div className="flex items-center gap-2">
                             <ImageIcon className="h-4 w-4" />
                             PNG
                           </div>
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
+                        </ClientSelectItem>
+                      </ClientSelectContent>
+                    </ClientSelect>
                     <FormDescription>
                       Choose the format for your downloaded files
                     </FormDescription>
@@ -289,18 +291,18 @@ export function DownloadForm({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Quality</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <ClientSelect onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select quality" />
-                        </SelectTrigger>
+                        <ClientSelectTrigger>
+                          <ClientSelectValue placeholder="Select quality" />
+                        </ClientSelectTrigger>
                       </FormControl>
-                      <SelectContent>
-                        <SelectItem value="high">High (Best quality)</SelectItem>
-                        <SelectItem value="medium">Medium (Balanced)</SelectItem>
-                        <SelectItem value="low">Low (Smaller size)</SelectItem>
-                      </SelectContent>
-                    </Select>
+                      <ClientSelectContent>
+                        <ClientSelectItem value="high">High (Best quality)</ClientSelectItem>
+                        <ClientSelectItem value="medium">Medium (Balanced)</ClientSelectItem>
+                        <ClientSelectItem value="low">Low (Smaller size)</ClientSelectItem>
+                      </ClientSelectContent>
+                    </ClientSelect>
                     <FormDescription>
                       Higher quality results in larger file sizes
                     </FormDescription>

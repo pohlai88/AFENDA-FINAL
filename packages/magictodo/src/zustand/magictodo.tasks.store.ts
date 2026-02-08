@@ -13,9 +13,7 @@ import {
   useDeleteTaskMutation 
 } from "../query";
 
-interface TasksStoreState {
-  // Computed from query hooks
-}
+// TasksStoreState removed — empty interface was unused (query hooks provide the actual types)
 
 /**
  * Backward compatibility wrapper for useTasksQuery
@@ -28,15 +26,17 @@ export function useTasksStore() {
   const deleteMutation = useDeleteTaskMutation();
 
   return {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- legacy store interface, values dynamically accessed
     tasks: (data?.items || []) as any[],
     loading: isLoading,
     error: error ? String(error) : null,
     
-    fetchTasks: async (userId: string, filters?: any) => {
+    fetchTasks: async (userId: string, filters?: Record<string, unknown>) => {
       await refetch();
     },
     
     createTask: async (userId: string, title: string) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- mutation input shape mismatch with hook types
       await createMutation.mutateAsync({ title, userId } as any);
     },
     
@@ -44,7 +44,7 @@ export function useTasksStore() {
       await updateMutation.mutateAsync({ id: taskId, data: { status } });
     },
     
-    updateTask: async (userId: string, taskId: string, updates: any) => {
+    updateTask: async (userId: string, taskId: string, updates: Record<string, unknown>) => {
       await updateMutation.mutateAsync({ id: taskId, data: updates });
     },
     

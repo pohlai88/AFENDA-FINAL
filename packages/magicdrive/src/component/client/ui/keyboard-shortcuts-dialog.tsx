@@ -7,12 +7,12 @@
 "use client"
 
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+  ClientDialog,
+  ClientDialogContent,
+  ClientDialogDescription,
+  ClientDialogHeader,
+  ClientDialogTitle,
+  ClientDialogTrigger,
 } from "@afenda/shadcn"
 import { Button } from "@afenda/shadcn"
 import { Badge } from "@afenda/shadcn"
@@ -24,20 +24,20 @@ export function KeyboardShortcutsDialog() {
   const shortcuts = getKeyboardShortcutList()
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
+    <ClientDialog>
+      <ClientDialogTrigger asChild>
         <Button variant="ghost" size="sm">
           <Keyboard className="h-4 w-4 mr-2" />
           Keyboard Shortcuts
         </Button>
-      </DialogTrigger>
-      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>Keyboard Shortcuts</DialogTitle>
-          <DialogDescription>
+      </ClientDialogTrigger>
+      <ClientDialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+        <ClientDialogHeader>
+          <ClientDialogTitle>Keyboard Shortcuts</ClientDialogTitle>
+          <ClientDialogDescription>
             Speed up your workflow with these keyboard shortcuts
-          </DialogDescription>
-        </DialogHeader>
+          </ClientDialogDescription>
+        </ClientDialogHeader>
 
         <div className="space-y-6 py-4">
           {shortcuts.map((category) => (
@@ -71,7 +71,7 @@ export function KeyboardShortcutsDialog() {
             these shortcuts
           </p>
         </div>
-      </DialogContent>
-    </Dialog>
+      </ClientDialogContent>
+    </ClientDialog>
   )
 }

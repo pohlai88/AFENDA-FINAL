@@ -56,7 +56,7 @@ export interface UserPreferences {
   showFileExtensions: boolean
   showThumbnails: boolean
   compactMode: boolean
-  quickSettings: Record<string, any>
+  quickSettings: Record<string, unknown>
   createdAt: string
   updatedAt: string
 }

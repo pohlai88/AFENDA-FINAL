@@ -54,6 +54,7 @@ export function TaskBreadcrumb({
   currentTenantCode,
   onNavigate,
   showHome = true,
+  // eslint-disable-next-line no-restricted-syntax -- route constant not yet defined
   homeHref = "/app/magictodo/hierarchy",
   onHomeClick,
   showCodes = false,

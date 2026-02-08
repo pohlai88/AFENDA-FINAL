@@ -304,7 +304,7 @@ export function EnterpriseActivityTrail({ entries, maxHeight = "400px" }: Enterp
       {
         field: 'details',
         weight: 0.3,
-        transform: (value: any) => JSON.stringify(value),
+        transform: (value: unknown) => JSON.stringify(value),
       },
     ],
     debounceMs: 300,

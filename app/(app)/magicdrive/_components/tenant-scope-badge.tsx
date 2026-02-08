@@ -24,6 +24,7 @@ export function TenantScopeBadge({ className }: TenantScopeBadgeProps) {
   } | null>(null)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration guard requires client-side mount flag
     setMounted(true)
 
     // Read active tenant from localStorage (set by TenantSwitcher)

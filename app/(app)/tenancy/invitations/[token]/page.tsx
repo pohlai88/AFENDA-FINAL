@@ -47,6 +47,7 @@ export default function InvitationAcceptancePage({
   });
 
   const acceptMutation = useAcceptInvitationMutation({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- mutation result shape depends on server response
     onSuccess: (result: any) => {
       // Redirect to the organization or team page
       const orgId = result?.membership?.organizationId;
@@ -148,7 +149,7 @@ export default function InvitationAcceptancePage({
               <IconClock className="h-4 w-4" />
               <AlertTitle>Expired</AlertTitle>
               <AlertDescription>
-                This invitation to join "{entityName}" has expired or has already been used.
+                This invitation to join &quot;{entityName}&quot; has expired or has already been used.
                 Please contact the organization administrator for a new invitation.
               </AlertDescription>
             </Alert>
@@ -175,7 +176,7 @@ export default function InvitationAcceptancePage({
             <IconMailCheck className="h-6 w-6 text-primary" />
           </div>
           <div className="text-center">
-            <CardTitle className="text-2xl">You've Been Invited!</CardTitle>
+            <CardTitle className="text-2xl">You&apos;ve Been Invited!</CardTitle>
             <CardDescription className="mt-2">
               {invitation.email} has been invited to join
             </CardDescription>
@@ -204,7 +205,7 @@ export default function InvitationAcceptancePage({
             {invitation.message && (
               <div className="pt-2 border-t">
                 <p className="text-sm text-muted-foreground mb-1">Message</p>
-                <p className="text-sm italic">"{invitation.message}"</p>
+                <p className="text-sm italic">&quot;{invitation.message}&quot;</p>
               </div>
             )}
 

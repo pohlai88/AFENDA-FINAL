@@ -112,6 +112,7 @@ export class MagictodoFocusService {
     const taskMap = tasks.reduce((map, task) => {
       map[task.id] = task
       return map
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- drizzle query result shape is dynamic
     }, {} as Record<string, any>)
 
     return {
@@ -144,7 +145,7 @@ export class MagictodoFocusService {
     input: {
       taskIds: string[]
       dailyGoal?: number
-      settings?: Record<string, any>
+      settings?: Record<string, unknown>
     },
     db: DrizzleDB
   ) {
@@ -435,6 +436,7 @@ export class MagictodoFocusService {
       .limit(1)
 
     // Update session
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- dynamic drizzle update object built conditionally
     const updateData: any = {
       tasksCompleted: (session.tasksCompleted ?? 0) + 1,
       updatedAt: new Date(),
@@ -533,6 +535,7 @@ export class MagictodoFocusService {
       .limit(1)
 
     // Update session
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- dynamic drizzle update object built conditionally
     const updateData: any = {
       tasksSkipped: (session.tasksSkipped ?? 0) + 1,
       updatedAt: new Date(),

@@ -14,11 +14,11 @@ import { Badge } from "@afenda/shadcn"
 import { Button } from "@afenda/shadcn"
 import { Card, CardContent } from "@afenda/shadcn"
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+  ClientSelect,
+  ClientSelectContent,
+  ClientSelectItem,
+  ClientSelectTrigger,
+  ClientSelectValue,
 } from "@afenda/shadcn"
 import { Checkbox } from "@afenda/shadcn"
 import { DocumentActionsDropdown } from "../ui/document-actions-dropdown"
@@ -117,6 +117,7 @@ export interface RelationshipViewProps {
 
 interface Node {
   id: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- document properties are dynamically accessed (aiClassifications, tags, etc.)
   document: any
   x: number
   y: number
@@ -147,6 +148,7 @@ export function RelationshipView({
   const svgRef = useRef<SVGSVGElement>(null)
 
   // Calculate relationships between documents
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- docs items are indexed/spread for dynamic property access
   const calculateRelationships = useCallback((docs: any[]) => {
     const newEdges: Edge[] = []
     const relationshipStrengths = new Map<string, number>()
@@ -166,7 +168,9 @@ export function RelationshipView({
         }
         // Check for same tags
         else if (doc1.tags && doc2.tags) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- tag objects are untyped; properties accessed via .id
           const commonTags = doc1.tags.filter((tag1: any) =>
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any -- tag objects are untyped; properties accessed via .id
             doc2.tags.some((tag2: any) => tag1.id === tag2.id)
           )
           if (commonTags.length > 0) {
@@ -227,6 +231,7 @@ export function RelationshipView({
       }
     })
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- computing graph layout from documents requires effect
     setNodes(newNodes)
     setEdges(filteredEdges)
   }, [documents, calculateRelationships, selectedRelationship])
@@ -344,22 +349,22 @@ export function RelationshipView({
               <div className="flex items-center gap-2">
                 <Network className="h-4 w-4 text-muted-foreground" />
                 <span className="text-sm font-medium">Relationship Type:</span>
-                <Select value={selectedRelationship} onValueChange={setSelectedRelationship}>
-                  <SelectTrigger className="w-40">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Relationships</SelectItem>
+                <ClientSelect value={selectedRelationship} onValueChange={setSelectedRelationship}>
+                  <ClientSelectTrigger className="w-40">
+                    <ClientSelectValue />
+                  </ClientSelectTrigger>
+                  <ClientSelectContent>
+                    <ClientSelectItem value="all">All Relationships</ClientSelectItem>
                     {Object.entries(RELATIONSHIP_TYPES).map(([key, config]) => (
-                      <SelectItem key={key} value={key}>
+                      <ClientSelectItem key={key} value={key}>
                         <div className="flex items-center gap-2">
                           <div className="w-3 h-3 rounded-full" style={{ backgroundColor: config.color }}></div>
                           {config.label}
                         </div>
-                      </SelectItem>
+                      </ClientSelectItem>
                     ))}
-                  </SelectContent>
-                </Select>
+                  </ClientSelectContent>
+                </ClientSelect>
               </div>
 
               <div className="flex items-center gap-2">

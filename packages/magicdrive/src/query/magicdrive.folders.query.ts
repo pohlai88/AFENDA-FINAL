@@ -27,6 +27,7 @@ export function useFolders({ workspaceId }: UseFoldersOptions) {
     queryKey: folderKeys.list(workspaceId),
     queryFn: async (): Promise<Folder[]> => {
       // TODO: Replace with actual API call
+      // eslint-disable-next-line no-restricted-syntax -- route constant not yet defined
       const res = await fetch(`/api/magicdrive/folders?workspaceId=${workspaceId}`)
       if (!res.ok) throw new Error("Failed to fetch folders")
       return res.json()
@@ -41,6 +42,7 @@ export function useFolder(id: string) {
   return useQuery({
     queryKey: folderKeys.detail(id),
     queryFn: async (): Promise<Folder> => {
+      // eslint-disable-next-line no-restricted-syntax -- route constant not yet defined
       const res = await fetch(`/api/magicdrive/folders/${id}`)
       if (!res.ok) throw new Error("Failed to fetch folder")
       return res.json()
@@ -57,6 +59,7 @@ export function useCreateFolder() {
 
   return useMutation({
     mutationFn: async (input: CreateFolderInput): Promise<Folder> => {
+      // eslint-disable-next-line no-restricted-syntax -- route constant not yet defined
       const res = await fetch("/api/magicdrive/folders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -86,6 +89,7 @@ export function useUpdateFolder() {
       id: string
       input: UpdateFolderInput
     }): Promise<Folder> => {
+      // eslint-disable-next-line no-restricted-syntax -- route constant not yet defined
       const res = await fetch(`/api/magicdrive/folders/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -116,6 +120,7 @@ export function useDeleteFolder() {
       id: string
       workspaceId: string
     }): Promise<void> => {
+      // eslint-disable-next-line no-restricted-syntax -- route constant not yet defined
       const res = await fetch(`/api/magicdrive/folders/${id}`, {
         method: "DELETE",
       })

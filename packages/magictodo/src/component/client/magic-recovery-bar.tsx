@@ -256,7 +256,7 @@ export function MagicRecoveryBar({ className }: MagicRecoveryBarProps) {
 /**
  * Wrapper for mutation functions to auto-add recovery errors
  */
-export function withRecovery<T extends (...args: any[]) => Promise<any>>(
+export function withRecovery<T extends (...args: unknown[]) => Promise<unknown>>(
   mutationFn: T,
   options?: {
     successMessage?: string
@@ -275,7 +275,7 @@ export function withRecovery<T extends (...args: any[]) => Promise<any>>(
       addRecoveryError({
         message: options?.errorMessage ?? (error instanceof Error ? error.message : "Operation failed"),
         type,
-        retryFn: () => mutationFn(...args),
+        retryFn: async () => { await mutationFn(...args) },
       })
       throw error
     }

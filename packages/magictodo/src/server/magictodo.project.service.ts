@@ -262,6 +262,7 @@ export class MagictodoProjectService {
       return existing
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- dynamic drizzle update object built conditionally
     const updateData: any = {
       updatedAt: new Date(),
     }

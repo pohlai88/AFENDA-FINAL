@@ -70,10 +70,12 @@ export class MagictodoTaskService {
     }
 
     if (filters.status && filters.status.length > 0) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- drizzle enum cast required for inArray
       conditions.push(inArray(magictodoTasks.status, filters.status as any[]))
     }
 
     if (filters.priority) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- drizzle enum cast required for eq
       conditions.push(eq(magictodoTasks.priority, filters.priority as any))
     }
 
@@ -288,6 +290,7 @@ export class MagictodoTaskService {
       return existing
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- dynamic drizzle update object built conditionally
     const updateData: any = {
       updatedAt: new Date(),
     }
