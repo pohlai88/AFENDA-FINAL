@@ -28,6 +28,7 @@ import {
   ClientAlertDialogTitle,
   ClientAlertDialogTrigger,
 } from "@afenda/shadcn";
+import { toast } from "sonner";
 import { useTeamQuery, useUpdateTeamMutation, useDeleteTeamMutation } from "@afenda/tenancy";
 import { useRouter } from "next/navigation";
 import { routes } from "@afenda/shared/constants";
@@ -56,10 +57,10 @@ export default function TeamSettingsPage({
 
   const updateMutation = useUpdateTeamMutation({
     onSuccess: () => {
-      console.log("Team updated successfully");
+      toast.success("Team updated successfully");
     },
     onError: (error: Error) => {
-      console.error("Failed to update team:", error);
+      toast.error("Failed to update team", { description: error.message });
     },
   });
 
@@ -69,7 +70,7 @@ export default function TeamSettingsPage({
       router.push(routes.ui.tenancy.teams.list());
     },
     onError: (error: Error) => {
-      console.error("Failed to delete team:", error);
+      toast.error("Failed to delete team", { description: error.message });
     },
   });
 

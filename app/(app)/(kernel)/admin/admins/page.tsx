@@ -7,6 +7,8 @@
  * @layer page
  */
 
+import "server-only";
+
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { IconShield } from "@tabler/icons-react";

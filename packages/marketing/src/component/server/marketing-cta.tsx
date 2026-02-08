@@ -41,7 +41,7 @@ export function MarketingCta({ className }: MarketingCtaProps) {
                 size="lg"
                 className="min-w-[180px]"
               >
-                <Link href="/contact">Contact Sales</Link>
+                <Link href={marketingRoutes.ui.contact()}>Contact Sales</Link>
               </Button>
             </div>
 

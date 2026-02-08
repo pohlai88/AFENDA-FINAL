@@ -23,6 +23,7 @@ import {
   ClientSelectTrigger,
   ClientSelectValue,
 } from "@afenda/shadcn";
+import { toast } from "sonner";
 import { useDesignSystemQuery, useUpdateDesignSystemMutation } from "@afenda/tenancy";
 import { routes } from "@afenda/shared/constants";
 import { IconDeviceFloppy, IconChevronLeft, IconPalette } from "@tabler/icons-react";
@@ -70,11 +71,10 @@ export default function DesignSystemEditorPage() {
 
   const updateMutation = useUpdateDesignSystemMutation({
     onSuccess: () => {
-      console.log("Design system updated successfully");
-      // You could trigger a theme reload here
+      toast.success("Design system updated successfully");
     },
     onError: (error: Error) => {
-      console.error("Failed to update design system:", error);
+      toast.error("Failed to update design system", { description: error.message });
     },
   });
 

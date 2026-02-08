@@ -9,7 +9,7 @@
 
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Activity, CheckCircle2, AlertCircle, XCircle, Clock } from "lucide-react";
+import { AfendaIcon, marketingRoutes } from "@afenda/marketing";
 
 import {
   Button,
@@ -121,13 +121,13 @@ async function getSystemStatus() {
 function getStatusIcon(status: ServiceStatus) {
   switch (status) {
     case "operational":
-      return <CheckCircle2 className="h-5 w-5 text-green-600" aria-hidden="true" />;
+      return <AfendaIcon className="h-5 w-5 text-green-600" />;
     case "degraded":
-      return <AlertCircle className="h-5 w-5 text-yellow-600" aria-hidden="true" />;
+      return <AfendaIcon className="h-5 w-5 text-yellow-600" />;
     case "outage":
-      return <XCircle className="h-5 w-5 text-red-600" aria-hidden="true" />;
+      return <AfendaIcon className="h-5 w-5 text-red-600" />;
     case "maintenance":
-      return <Clock className="h-5 w-5 text-blue-600" aria-hidden="true" />;
+      return <AfendaIcon className="h-5 w-5 text-blue-600" />;
   }
 }
 
@@ -165,7 +165,7 @@ export default async function StatusPage() {
           <div className="flex items-center justify-center gap-2">
             {getStatusBadge(status.overallStatus)}
             <Badge variant="outline">
-              <Activity className="h-3 w-3 mr-1" aria-hidden="true" />
+              <AfendaIcon className="h-3 w-3 mr-1" />
               Auto-refreshes every 60s
             </Badge>
           </div>
@@ -228,7 +228,7 @@ export default async function StatusPage() {
           <CardContent>
             {status.incidents.length === 0 ? (
               <div className="text-center py-8 text-muted-foreground">
-                <CheckCircle2 className="h-12 w-12 mx-auto mb-3 text-green-600" aria-hidden="true" />
+                <AfendaIcon className="h-12 w-12 mx-auto mb-3 text-green-600" />
                 <p className="font-semibold">No incidents reported</p>
                 <p className="text-sm">All systems have been operational</p>
               </div>
@@ -294,10 +294,10 @@ export default async function StatusPage() {
 
         <div className="flex flex-col gap-2">
           <Button asChild>
-            <Link href="/infrastructure">View Infrastructure Details</Link>
+            <Link href={marketingRoutes.ui.infrastructure()}>View Infrastructure Details</Link>
           </Button>
           <Button asChild variant="outline">
-            <Link href="/contact">Report an Issue</Link>
+            <Link href={marketingRoutes.ui.contact()}>Report an Issue</Link>
           </Button>
         </div>
 

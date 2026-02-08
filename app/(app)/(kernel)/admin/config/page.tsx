@@ -8,6 +8,8 @@
  * @security All mutations are audited and logged
  */
 
+import "server-only";
+
 import type { Metadata } from "next";
 import {
   IconSettings,

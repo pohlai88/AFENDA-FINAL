@@ -1,10 +1,11 @@
 /**
- * Temporary Zustand stores for backward compatibility
- * TODO: Migrate fully to TanStack Query hooks
+ * Legacy Zustand store shim over TanStack Query hooks.
+ * @deprecated Prefer useTasksQuery / useCreateTaskMutation / useUpdateTaskMutation / useDeleteTaskMutation directly.
  */
 
 "use client";
 
+import type { TaskResponse } from "../zod";
 import { 
   useTasksQuery, 
   useCreateTaskMutation, 
@@ -12,11 +13,9 @@ import {
   useDeleteTaskMutation 
 } from "../query";
 
-// TasksStoreState removed — empty interface was unused (query hooks provide the actual types)
-
 /**
- * Backward compatibility wrapper for useTasksQuery
- * Components should migrate to using query hooks directly
+ * Backward compatibility wrapper for useTasksQuery.
+ * @deprecated Use TanStack Query hooks directly for type-safe, cacheable data fetching.
  */
 export function useTasksStore() {
   const { data, isLoading, error, refetch } = useTasksQuery();
@@ -25,8 +24,7 @@ export function useTasksStore() {
   const deleteMutation = useDeleteTaskMutation();
 
   return {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- legacy store interface, values dynamically accessed
-    tasks: (data?.items || []) as any[],
+    tasks: (data?.items ?? []) as TaskResponse[],
     loading: isLoading,
     error: error ? String(error) : null,
     
@@ -34,20 +32,19 @@ export function useTasksStore() {
       await refetch();
     },
     
-    createTask: async (userId: string, title: string) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- mutation input shape mismatch with hook types
-      await createMutation.mutateAsync({ title, userId } as any);
+    createTask: async (_userId: string, title: string) => {
+      await createMutation.mutateAsync({ title });
     },
     
-    updateTaskStatus: async (userId: string, taskId: string, status: string) => {
+    updateTaskStatus: async (_userId: string, taskId: string, status: string) => {
       await updateMutation.mutateAsync({ id: taskId, data: { status } });
     },
     
-    updateTask: async (userId: string, taskId: string, updates: Record<string, unknown>) => {
+    updateTask: async (_userId: string, taskId: string, updates: Record<string, unknown>) => {
       await updateMutation.mutateAsync({ id: taskId, data: updates });
     },
     
-    deleteTask: async (userId: string, taskId: string) => {
+    deleteTask: async (_userId: string, taskId: string) => {
       await deleteMutation.mutateAsync(taskId);
     },
   };

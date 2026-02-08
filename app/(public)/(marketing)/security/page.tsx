@@ -4,10 +4,8 @@
  * @responsibility UI route entrypoint for /security
  */
 
-import * as React from "react";
 import type { Metadata } from "next"
 import Link from "next/link"
-import { Shield, Lock, CheckCircle2, Database, FileKey, Activity, HardDrive } from "lucide-react"
 import { AfendaIcon as BrandIcon } from "@afenda/marketing"
 
 import {
@@ -101,7 +99,7 @@ export default function SecurityPage() {
             {/* Compliance Certifications */}
             <div className="space-y-4">
               <div className="flex items-center gap-2">
-                <Shield className="h-5 w-5 text-green-600" aria-hidden="true" />
+                <BrandIcon className="h-5 w-5 text-green-600" aria-hidden="true" />
                 <h3 className="text-lg font-semibold">Compliance Certifications</h3>
               </div>
               <Separator />
@@ -176,7 +174,7 @@ export default function SecurityPage() {
             {/* Encryption Standards */}
             <div className="space-y-4">
               <div className="flex items-center gap-2">
-                <Lock className="h-5 w-5 text-blue-600" />
+                <BrandIcon className="h-5 w-5 text-blue-600" />
                 <h3 className="text-lg font-semibold">Encryption Standards</h3>
               </div>
               <Separator />
@@ -212,7 +210,7 @@ export default function SecurityPage() {
             {/* Authentication & Access Control */}
             <div className="space-y-4">
               <div className="flex items-center gap-2">
-                <FileKey className="h-5 w-5 text-purple-600" />
+                <BrandIcon className="h-5 w-5 text-purple-600" />
                 <h3 className="text-lg font-semibold">Authentication & Access Control</h3>
               </div>
               <Separator />
@@ -247,7 +245,7 @@ export default function SecurityPage() {
             {/* Audit & Monitoring */}
             <div className="space-y-4">
               <div className="flex items-center gap-2">
-                <Activity className="h-5 w-5 text-orange-600" />
+                <BrandIcon className="h-5 w-5 text-orange-600" />
                 <h3 className="text-lg font-semibold">Audit Logging & Monitoring</h3>
               </div>
               <Separator />
@@ -255,19 +253,19 @@ export default function SecurityPage() {
               <div className="rounded-lg border p-4 text-sm">
                 <ul className="space-y-2">
                   <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
+                    <BrandIcon className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
                     <span><strong>90-day audit log retention</strong> - All authentication attempts, data access, and modifications logged</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
+                    <BrandIcon className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
                     <span><strong>Real-time monitoring</strong> - Continuous security monitoring with automated alerts for suspicious activity</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
+                    <BrandIcon className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
                     <span><strong>Full activity tracking</strong> - Complete audit trail of user actions, API calls, and system events</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
+                    <BrandIcon className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
                     <span><strong>Compliance reporting</strong> - Automated compliance reports for HIPAA, GDPR, and SOC 2 requirements</span>
                   </li>
                 </ul>
@@ -277,7 +275,7 @@ export default function SecurityPage() {
             {/* Backup & Disaster Recovery */}
             <div className="space-y-4">
               <div className="flex items-center gap-2">
-                <HardDrive className="h-5 w-5 text-cyan-600" />
+                <BrandIcon className="h-5 w-5 text-cyan-600" />
                 <h3 className="text-lg font-semibold">Backup & Disaster Recovery</h3>
               </div>
               <Separator />
@@ -310,7 +308,7 @@ export default function SecurityPage() {
             {/* NexusCanon Capacity & Infrastructure */}
             <div className="space-y-4">
               <div className="flex items-center gap-2">
-                <Database className="h-5 w-5 text-indigo-600" />
+                <BrandIcon className="h-5 w-5 text-indigo-600" />
                 <h3 className="text-lg font-semibold">Infrastructure Capacity</h3>
               </div>
               <Separator />
@@ -342,7 +340,7 @@ export default function SecurityPage() {
             {/* Responsible Disclosure */}
             <div className="space-y-4">
               <div className="flex items-center gap-2">
-                <Shield className="h-5 w-5 text-slate-600" />
+                <BrandIcon className="h-5 w-5 text-slate-600" />
                 <h3 className="text-lg font-semibold">Vulnerability Disclosure</h3>
               </div>
               <Separator />

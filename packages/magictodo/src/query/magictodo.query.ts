@@ -134,6 +134,65 @@ export function useProjectsQuery(options?: QueryOverrides<ProjectListResponse>) 
   });
 }
 
+export function useCreateProjectMutation() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: { name: string; description?: string; color?: string }) => {
+      const response = await fetch(api.projects(), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) throw new Error('Failed to create project');
+      const payload = await response.json();
+      return payload?.data ?? payload;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['magictodo', 'projects'] });
+    },
+  });
+}
+
+export function useUpdateProjectMutation() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, data }: { id: string; data: { name?: string; description?: string; color?: string } }) => {
+      const response = await fetch(`${api.projects()}/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) throw new Error('Failed to update project');
+      const payload = await response.json();
+      return payload?.data ?? payload;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['magictodo', 'projects'] });
+    },
+  });
+}
+
+export function useDeleteProjectMutation() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await fetch(`${api.projects()}/${id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) throw new Error('Failed to delete project');
+      const payload = await response.json();
+      return payload?.data ?? payload;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['magictodo', 'projects'] });
+      queryClient.invalidateQueries({ queryKey: MAGICTODO_QUERY_KEYS.lists() });
+    },
+  });
+}
+
 // Focus Session Query Hooks
 export function useFocusStreakQuery() {
   return useQuery({
@@ -218,8 +277,7 @@ export function useCreateTaskMutation() {
       return response.json();
     },
     onSuccess: () => {
-      // Invalidate all task queries to refetch
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'tasks'] });
+      queryClient.invalidateQueries({ queryKey: MAGICTODO_QUERY_KEYS.all });
     },
   });
 }
@@ -238,9 +296,8 @@ export function useUpdateTaskMutation() {
       return response.json();
     },
     onSuccess: (_, variables) => {
-      // Invalidate specific task and list queries
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'tasks', variables.id] });
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'tasks', 'list'] });
+      queryClient.invalidateQueries({ queryKey: MAGICTODO_QUERY_KEYS.byId(variables.id) });
+      queryClient.invalidateQueries({ queryKey: MAGICTODO_QUERY_KEYS.lists() });
     },
   });
 }
@@ -257,7 +314,7 @@ export function useDeleteTaskMutation() {
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'tasks'] });
+      queryClient.invalidateQueries({ queryKey: MAGICTODO_QUERY_KEYS.all });
     },
   });
 }
@@ -283,8 +340,7 @@ export function useSnoozeTaskMutation() {
       return payload?.data ?? payload;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'tasks'] });
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'snoozed'] });
+      queryClient.invalidateQueries({ queryKey: MAGICTODO_QUERY_KEYS.all });
     },
   });
 }
@@ -304,8 +360,7 @@ export function useUnsnoozeTaskMutation() {
       return payload?.data ?? payload;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'tasks'] });
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'snoozed'] });
+      queryClient.invalidateQueries({ queryKey: MAGICTODO_QUERY_KEYS.all });
     },
   });
 }
@@ -326,8 +381,7 @@ export function useStartFocusSessionMutation() {
       return payload?.data ?? payload;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'focus', 'session'] });
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'focus', 'stats'] });
+      queryClient.invalidateQueries({ queryKey: ['magictodo', 'focus'] });
     },
   });
 }
@@ -347,8 +401,7 @@ export function useEndFocusSessionMutation() {
       return payload?.data ?? payload;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'focus', 'session'] });
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'focus', 'stats'] });
+      queryClient.invalidateQueries({ queryKey: ['magictodo', 'focus'] });
     },
   });
 }
@@ -409,7 +462,7 @@ export function useCompleteFocusTaskMutation() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['magictodo', 'focus', 'session'] });
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'tasks'] });
+      queryClient.invalidateQueries({ queryKey: MAGICTODO_QUERY_KEYS.lists() });
     },
   });
 }

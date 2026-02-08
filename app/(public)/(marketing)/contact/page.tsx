@@ -17,7 +17,7 @@ import {
   CardTitle,
   Separator,
 } from "@afenda/shadcn";
-import { marketingSiteConfig } from "@afenda/marketing";
+import { marketingSiteConfig, marketingRoutes } from "@afenda/marketing";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -211,28 +211,28 @@ export default function ContactPage() {
                   <li className="flex items-start gap-2">
                     <span className="text-indigo-600 mt-0.5">•</span>
                     <span>
-                      <Link href="/docs" className="text-blue-600 hover:underline">Documentation</Link> -
+                      <Link href={marketingRoutes.ui.docs()} className="text-blue-600 hover:underline">Documentation</Link> -
                       Comprehensive guides and tutorials
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-indigo-600 mt-0.5">•</span>
                     <span>
-                      <Link href="/api-docs" className="text-blue-600 hover:underline">API Reference</Link> -
+                      <Link href={marketingRoutes.ui.apiDocs()} className="text-blue-600 hover:underline">API Reference</Link> -
                       Complete API documentation
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-indigo-600 mt-0.5">•</span>
                     <span>
-                      <Link href="/status" className="text-blue-600 hover:underline">System Status</Link> -
+                      <Link href={marketingRoutes.ui.status()} className="text-blue-600 hover:underline">System Status</Link> -
                       Real-time platform status
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-indigo-600 mt-0.5">•</span>
                     <span>
-                      <Link href="/security" className="text-blue-600 hover:underline">Security Declaration</Link> -
+                      <Link href={marketingRoutes.ui.security()} className="text-blue-600 hover:underline">Security Declaration</Link> -
                       Security and compliance information
                     </span>
                   </li>
@@ -247,10 +247,10 @@ export default function ContactPage() {
                 </a>
               </Button>
               <Button asChild variant="outline">
-                <Link href="/docs">View Documentation</Link>
+                <Link href={marketingRoutes.ui.docs()}>View Documentation</Link>
               </Button>
               <Button asChild variant="ghost">
-                <Link href="/about">Learn More About Us</Link>
+                <Link href={marketingRoutes.ui.about()}>Learn More About Us</Link>
               </Button>
             </div>
           </CardContent>

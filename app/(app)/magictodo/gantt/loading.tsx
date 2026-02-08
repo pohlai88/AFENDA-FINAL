@@ -8,7 +8,7 @@ import { Skeleton } from "@afenda/shadcn"
 
 export default function GanttLoading() {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" aria-busy="true" aria-label="Loading Gantt chart">
       <div className="flex justify-between">
         <Skeleton className="h-8 w-40" />
         <Skeleton className="h-10 w-32" />

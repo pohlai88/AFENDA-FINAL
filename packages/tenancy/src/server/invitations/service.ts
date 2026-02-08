@@ -51,23 +51,24 @@ export const tenancyInvitationService = {
     message?: string,
     dbx: Database = db
   ) {
-    // Check if user is already a member
-    const [existingMembership] = await dbx
+    // Check if there's already a pending invitation for this email in the org
+    const [existingInvitation] = await dbx
       .select()
-      .from(tenancyMemberships)
+      .from(tenancyInvitations)
       .where(
         and(
-          eq(tenancyMemberships.organizationId, organizationId),
-          eq(tenancyMemberships.isActive, true)
+          eq(tenancyInvitations.email, email),
+          eq(tenancyInvitations.organizationId, organizationId),
+          eq(tenancyInvitations.status, "pending")
         )
       )
       .limit(1);
 
-    if (existingMembership) {
-      throw new Error("User is already a member of this organization");
+    if (existingInvitation) {
+      throw new Error("A pending invitation already exists for this email in this organization");
     }
 
-    // Cancel any existing pending invitation for this email+org
+    // Cancel any existing expired/declined invitation for this email+org (clean up)
     await dbx
       .update(tenancyInvitations)
       .set({
@@ -127,23 +128,24 @@ export const tenancyInvitationService = {
     message?: string,
     dbx: Database = db
   ) {
-    // Check if user is already a team member
-    const [existingMembership] = await dbx
+    // Check if there's already a pending invitation for this email in the team
+    const [existingInvitation] = await dbx
       .select()
-      .from(tenancyMemberships)
+      .from(tenancyInvitations)
       .where(
         and(
-          eq(tenancyMemberships.teamId, teamId),
-          eq(tenancyMemberships.isActive, true)
+          eq(tenancyInvitations.email, email),
+          eq(tenancyInvitations.teamId, teamId),
+          eq(tenancyInvitations.status, "pending")
         )
       )
       .limit(1);
 
-    if (existingMembership) {
-      throw new Error("User is already a member of this team");
+    if (existingInvitation) {
+      throw new Error("A pending invitation already exists for this email in this team");
     }
 
-    // Cancel any existing pending invitation
+    // Cancel any existing expired/declined invitation for this email+team (clean up)
     await dbx
       .update(tenancyInvitations)
       .set({

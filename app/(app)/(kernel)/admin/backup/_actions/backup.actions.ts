@@ -17,6 +17,7 @@ import {
   type CreateBackupOptions,
 } from "@afenda/orchestra";
 import { db } from "@afenda/shared/server/db";
+import { routes } from "@afenda/shared/constants";
 
 /**
  * Trigger backup action
@@ -48,7 +49,7 @@ export async function triggerBackupAction(
     }
 
     // Revalidate backup page to show new backup
-    revalidatePath("/admin/backup");
+    revalidatePath(routes.ui.admin.backup());
 
     return {
       ok: true,
@@ -102,8 +103,8 @@ export async function restoreFromBackupAction(
     }
 
     // Revalidate and redirect
-    revalidatePath("/admin/backup");
-    redirect("/admin/backup");
+    revalidatePath(routes.ui.admin.backup());
+    redirect(routes.ui.admin.backup());
   } catch (error) {
     // Handle redirect error (expected behavior)
     if (error instanceof Error && error.message === "NEXT_REDIRECT") {
@@ -149,7 +150,7 @@ export async function deleteBackupAction(backupId: string) {
     }
 
     // Revalidate backup page
-    revalidatePath("/admin/backup");
+    revalidatePath(routes.ui.admin.backup());
 
     return {
       ok: true,
@@ -191,7 +192,7 @@ export async function bulkDeleteBackupsAction(backupIds: string[]) {
     const failed = results.length - successful;
 
     // Revalidate backup page
-    revalidatePath("/admin/backup");
+    revalidatePath(routes.ui.admin.backup());
 
     return {
       ok: true,

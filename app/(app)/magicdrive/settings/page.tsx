@@ -4,14 +4,28 @@
  * @responsibility MagicDrive settings page - domain settings and preferences
  */
 
-"use client"
-
-import { Button } from "@afenda/shadcn"
-import { Card, CardContent, CardHeader, CardTitle } from "@afenda/shadcn"
-import { Switch } from "@afenda/shadcn"
-import { Label } from "@afenda/shadcn"
-import { Separator } from "@afenda/shadcn"
+import type { Metadata } from "next"
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  ClientSelect,
+  ClientSelectContent,
+  ClientSelectItem,
+  ClientSelectTrigger,
+  ClientSelectValue,
+  Label,
+  Separator,
+  Switch,
+} from "@afenda/shadcn"
 import { Settings, Bell, Lock, Download, Trash2 } from "lucide-react"
+
+export const metadata: Metadata = {
+  title: "Settings",
+  description: "Manage your MagicDrive preferences and configuration",
+}
 
 export default function SettingsPage() {
   return (
@@ -37,10 +51,15 @@ export default function SettingsPage() {
               <Label>Default View</Label>
               <p className="text-sm text-muted-foreground">Choose your default file view</p>
             </div>
-            <select className="px-3 py-2 border rounded-md">
-              <option>List View</option>
-              <option>Grid View</option>
-            </select>
+            <ClientSelect defaultValue="list">
+              <ClientSelectTrigger className="w-[140px]">
+                <ClientSelectValue placeholder="Select view" />
+              </ClientSelectTrigger>
+              <ClientSelectContent>
+                <ClientSelectItem value="list">List View</ClientSelectItem>
+                <ClientSelectItem value="grid">Grid View</ClientSelectItem>
+              </ClientSelectContent>
+            </ClientSelect>
           </div>
 
           <Separator />
@@ -50,11 +69,16 @@ export default function SettingsPage() {
               <Label>Language</Label>
               <p className="text-sm text-muted-foreground">Select your preferred language</p>
             </div>
-            <select className="px-3 py-2 border rounded-md">
-              <option>English</option>
-              <option>Spanish</option>
-              <option>French</option>
-            </select>
+            <ClientSelect defaultValue="en">
+              <ClientSelectTrigger className="w-[140px]">
+                <ClientSelectValue placeholder="Select language" />
+              </ClientSelectTrigger>
+              <ClientSelectContent>
+                <ClientSelectItem value="en">English</ClientSelectItem>
+                <ClientSelectItem value="es">Spanish</ClientSelectItem>
+                <ClientSelectItem value="fr">French</ClientSelectItem>
+              </ClientSelectContent>
+            </ClientSelect>
           </div>
         </CardContent>
       </Card>
@@ -122,11 +146,16 @@ export default function SettingsPage() {
               <Label>Default Share Permission</Label>
               <p className="text-sm text-muted-foreground">Default permission when sharing files</p>
             </div>
-            <select className="px-3 py-2 border rounded-md">
-              <option>View Only</option>
-              <option>Can Edit</option>
-              <option>Can Comment</option>
-            </select>
+            <ClientSelect defaultValue="view">
+              <ClientSelectTrigger className="w-[140px]">
+                <ClientSelectValue placeholder="Select permission" />
+              </ClientSelectTrigger>
+              <ClientSelectContent>
+                <ClientSelectItem value="view">View Only</ClientSelectItem>
+                <ClientSelectItem value="edit">Can Edit</ClientSelectItem>
+                <ClientSelectItem value="comment">Can Comment</ClientSelectItem>
+              </ClientSelectContent>
+            </ClientSelect>
           </div>
         </CardContent>
       </Card>

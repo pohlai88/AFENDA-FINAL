@@ -29,26 +29,44 @@ import {
   ClientDialogTitle,
   ClientDialogFooter,
 } from "@afenda/shadcn"
+import {
+  ClientAlertDialog,
+  ClientAlertDialogAction,
+  ClientAlertDialogCancel,
+  ClientAlertDialogContent,
+  ClientAlertDialogDescription,
+  ClientAlertDialogFooter,
+  ClientAlertDialogHeader,
+  ClientAlertDialogTitle,
+} from "@afenda/shadcn"
 import { Input } from "@afenda/shadcn"
 import { Label } from "@afenda/shadcn"
 import { Textarea } from "@afenda/shadcn"
 import { useUser } from "@/app/_components/user-context"
-import { useProjectsStore, type ProjectResponse } from "@afenda/magictodo"
+import {
+  useProjectsQuery,
+  useCreateProjectMutation,
+  useUpdateProjectMutation,
+  useDeleteProjectMutation,
+  type ProjectResponse,
+} from "@afenda/magictodo"
 
 export default function ProjectsPage() {
   const { user, isLoading, isAuthenticated } = useUser()
-  const {
-    projects,
-    loading,
-    error,
-    fetchProjects,
-    createProject,
-    updateProjectApi,
-    deleteProject,
-  } = useProjectsStore()
+
+  const { data: projectsData, isLoading: projectsLoading, error: projectsError } = useProjectsQuery()
+  const projects = projectsData?.items ?? []
+  const loading = projectsLoading
+  const error = projectsError ? String(projectsError) : null
+
+  const createProjectMutation = useCreateProjectMutation()
+  const updateProjectMutation = useUpdateProjectMutation()
+  const deleteProjectMutation = useDeleteProjectMutation()
 
   const [showCreateDialog, setShowCreateDialog] = useState(false)
   const [showEditDialog, setShowEditDialog] = useState(false)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const [deletingProjectId, setDeletingProjectId] = useState<string | null>(null)
   const [editingProject, setEditingProject] = useState<ProjectResponse | null>(null)
   const [isMounted, setIsMounted] = useState(false)
   const [formData, setFormData] = useState({
@@ -63,16 +81,10 @@ export default function ProjectsPage() {
     setIsMounted(true)
   }, [])
 
-  useEffect(() => {
-    if (user?.id) {
-      fetchProjects(user.id)
-    }
-  }, [user?.id, fetchProjects])
-
   const handleCreateProject = async () => {
     if (!user?.id || !formData.name.trim()) return
 
-    await createProject(user.id, {
+    await createProjectMutation.mutateAsync({
       name: formData.name.trim(),
       description: formData.description.trim() || undefined,
       color: formData.color,
@@ -84,10 +96,13 @@ export default function ProjectsPage() {
   const handleEditProject = async () => {
     if (!user?.id || !editingProject || !formData.name.trim()) return
 
-    await updateProjectApi(user.id, editingProject.id, {
-      name: formData.name.trim(),
-      description: formData.description.trim() || undefined,
-      color: formData.color,
+    await updateProjectMutation.mutateAsync({
+      id: editingProject.id,
+      data: {
+        name: formData.name.trim(),
+        description: formData.description.trim() || undefined,
+        color: formData.color,
+      },
     })
 
     setShowEditDialog(false)
@@ -96,11 +111,15 @@ export default function ProjectsPage() {
   }
 
   const handleDeleteProject = async (projectId: string) => {
-    if (!user?.id) return
+    setDeletingProjectId(projectId)
+    setShowDeleteDialog(true)
+  }
 
-    if (confirm("Are you sure you want to delete this project? This action cannot be undone.")) {
-      await deleteProject(user.id, projectId)
-    }
+  const confirmDeleteProject = async () => {
+    if (!deletingProjectId) return
+    await deleteProjectMutation.mutateAsync(deletingProjectId)
+    setShowDeleteDialog(false)
+    setDeletingProjectId(null)
   }
 
   const openEditDialog = (project: ProjectResponse) => {
@@ -349,6 +368,30 @@ export default function ProjectsPage() {
           </ClientDialogFooter>
         </ClientDialogContent>
       </ClientDialog>
+
+      {/* Delete Confirmation Dialog */}
+      <ClientAlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <ClientAlertDialogContent>
+          <ClientAlertDialogHeader>
+            <ClientAlertDialogTitle>Delete Project</ClientAlertDialogTitle>
+            <ClientAlertDialogDescription>
+              Are you sure you want to delete this project? This action cannot be undone.
+            </ClientAlertDialogDescription>
+          </ClientAlertDialogHeader>
+          <ClientAlertDialogFooter>
+            <ClientAlertDialogCancel onClick={() => { setShowDeleteDialog(false); setDeletingProjectId(null) }}>
+              Cancel
+            </ClientAlertDialogCancel>
+            <ClientAlertDialogAction
+              onClick={confirmDeleteProject}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {deleteProjectMutation.isPending ? <Spinner className="mr-1.5 size-4" /> : null}
+              Delete
+            </ClientAlertDialogAction>
+          </ClientAlertDialogFooter>
+        </ClientAlertDialogContent>
+      </ClientAlertDialog>
     </div>
   )
 }

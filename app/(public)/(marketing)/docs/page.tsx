@@ -200,10 +200,10 @@ export default async function DocsPage() {
             </p>
             <div className="flex flex-col gap-2">
               <Button asChild variant="outline">
-                <Link href="/api-docs">API Reference</Link>
+                <Link href={marketingRoutes.ui.apiDocs()}>API Reference</Link>
               </Button>
               <Button asChild variant="outline">
-                <Link href="/contact">Contact Support</Link>
+                <Link href={marketingRoutes.ui.contact()}>Contact Support</Link>
               </Button>
               <Button asChild variant="ghost">
                 <Link href={marketingRoutes.external.orchestra.root()}>Go to AFENDA</Link>

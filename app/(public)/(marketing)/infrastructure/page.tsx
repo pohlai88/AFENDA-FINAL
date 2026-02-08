@@ -4,7 +4,6 @@
  * @responsibility UI route entrypoint for /infrastructure
  */
 
-import * as React from "react";
 import type { Metadata } from "next"
 import Link from "next/link"
 import { AfendaIcon } from "@afenda/marketing"
@@ -140,7 +139,7 @@ export default function InfrastructurePage() {
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-base flex items-center gap-2">
-                      <AfendaIcon className="h-4 w-4 text-indigo-600" /> Scale-to-Zero
+                      <AfendaIcon className="h-4 w-4 text-indigo-600" aria-hidden="true" /> Scale-to-Zero
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="text-sm text-muted-foreground space-y-2">
@@ -156,7 +155,7 @@ export default function InfrastructurePage() {
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-base flex items-center gap-2">
-                      <AfendaIcon className="h-4 w-4 text-indigo-600" /> Point-in-Time Recovery
+                      <AfendaIcon className="h-4 w-4 text-indigo-600" aria-hidden="true" /> Point-in-Time Recovery
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="text-sm text-muted-foreground space-y-2">
@@ -172,7 +171,7 @@ export default function InfrastructurePage() {
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-base flex items-center gap-2">
-                      <AfendaIcon className="h-4 w-4 text-indigo-600" /> Read Scaling
+                      <AfendaIcon className="h-4 w-4 text-indigo-600" aria-hidden="true" /> Read Scaling
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="text-sm text-muted-foreground space-y-2">
@@ -188,7 +187,7 @@ export default function InfrastructurePage() {
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-base flex items-center gap-2">
-                      <AfendaIcon className="h-4 w-4 text-indigo-600" /> Connection Pooling
+                      <AfendaIcon className="h-4 w-4 text-indigo-600" aria-hidden="true" /> Connection Pooling
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="text-sm text-muted-foreground space-y-2">
@@ -206,7 +205,7 @@ export default function InfrastructurePage() {
             {/* Architecture Doctrine */}
             <section className="space-y-4">
               <div className="flex items-center gap-2">
-                <AfendaIcon className="h-5 w-5 text-indigo-600" />
+                <AfendaIcon className="h-5 w-5 text-indigo-600" aria-hidden="true" />
                 <h3 className="text-lg font-semibold">Architecture Doctrine</h3>
               </div>
               <Separator />
@@ -273,7 +272,7 @@ export default function InfrastructurePage() {
             {/* Resilience Plane */}
             <section className="space-y-4">
               <div className="flex items-center gap-2">
-                <AfendaIcon className="h-5 w-5 text-orange-600" />
+                <AfendaIcon className="h-5 w-5 text-orange-600" aria-hidden="true" />
                 <h3 className="text-lg font-semibold">Resilience Plane</h3>
               </div>
               <Separator />
@@ -328,7 +327,7 @@ export default function InfrastructurePage() {
             {/* Observability Plane */}
             <section className="space-y-4">
               <div className="flex items-center gap-2">
-                <AfendaIcon className="h-5 w-5 text-pink-600" />
+                <AfendaIcon className="h-5 w-5 text-pink-600" aria-hidden="true" />
                 <h3 className="text-lg font-semibold">Observability Plane</h3>
               </div>
               <Separator />

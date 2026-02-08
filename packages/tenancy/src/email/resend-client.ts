@@ -6,6 +6,8 @@
  * Lazy-initialized to avoid crashing at module-load time when key is absent.
  */
 
+import "server-only";
+
 import { Resend } from 'resend';
 import { tenancyLogger } from '../logger';
 

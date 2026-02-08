@@ -8,6 +8,7 @@
 import { revalidatePath, refresh } from "next/cache";
 import { getConfig, setConfig, getAuthContext } from "@afenda/orchestra";
 import { db } from "@afenda/shared/server/db";
+import { routes } from "@afenda/shared/constants";
 import {
   AdminAssignmentsSchema,
   DEFAULT_ADMIN_ASSIGNMENTS,
@@ -114,7 +115,7 @@ export async function setPrimaryAdminAction(
     return { success: false, error: result.error.message };
   }
 
-  revalidatePath("/admin/admins");
+  revalidatePath(routes.ui.admin.admins());
   refresh();
   return { success: true };
 }
@@ -189,7 +190,7 @@ export async function addDelegatedAdminAction(
     return { success: false, error: result.error.message };
   }
 
-  revalidatePath("/admin/admins");
+  revalidatePath(routes.ui.admin.admins());
   refresh();
   return { success: true };
 }
@@ -238,7 +239,7 @@ export async function updateDelegatedAdminRolesAction(
     return { success: false, error: result.error.message };
   }
 
-  revalidatePath("/admin/admins");
+  revalidatePath(routes.ui.admin.admins());
   refresh();
   return { success: true };
 }
@@ -274,7 +275,7 @@ export async function removeDelegatedAdminAction(userId: string): Promise<Action
     return { success: false, error: result.error.message };
   }
 
-  revalidatePath("/admin/admins");
+  revalidatePath(routes.ui.admin.admins());
   refresh();
   return { success: true };
 }
@@ -359,7 +360,7 @@ export async function updateRBACMatrixAction(
     return { success: false, error: result.error.message };
   }
 
-  revalidatePath("/admin/admins");
+  revalidatePath(routes.ui.admin.admins());
   refresh();
   return { success: true };
 }

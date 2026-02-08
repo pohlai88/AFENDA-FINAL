@@ -68,22 +68,23 @@ export default function TeamsPage() {
 
   // Fetch organizations for filter dropdown
   const { data: orgsData } = useOrganizationsQuery();
-  const orgs = orgsData?.items ?? [];
+  const orgs = useMemo(() => orgsData?.items ?? [], [orgsData?.items]);
 
-  // Auto-select first org when filter is 'org' and no org is selected
-  if (filter === "org" && !selectedOrgId && orgs.length > 0) {
-    setSelectedOrgId(orgs[0].id);
-  }
+  // Derive effective org selection — auto-select first org when filter is 'org'
+  const effectiveOrgId = useMemo(() => {
+    if (filter !== "org") return "";
+    return selectedOrgId || (orgs.length > 0 ? orgs[0].id : "");
+  }, [filter, selectedOrgId, orgs]);
 
   // Build query params based on filter
   const queryParams = useMemo(() => {
     if (filter === "standalone") {
       return { organizationId: "" };
-    } else if (filter === "org" && selectedOrgId) {
-      return { organizationId: selectedOrgId };
+    } else if (filter === "org" && effectiveOrgId) {
+      return { organizationId: effectiveOrgId };
     }
     return undefined;
-  }, [filter, selectedOrgId]);
+  }, [filter, effectiveOrgId]);
 
   // Fetch teams with dynamic params
   const { data: teamsData, isLoading, error } = useTeamsQuery(queryParams);
@@ -169,7 +170,7 @@ export default function TeamsPage() {
               </ToggleGroup>
               {filter === "org" && orgs.length > 0 && (
                 <ClientSelect
-                  value={selectedOrgId}
+                  value={effectiveOrgId}
                   onValueChange={(v) => setSelectedOrgId(v)}
                 >
                   <ClientSelectTrigger className="w-[200px]">

@@ -251,6 +251,7 @@ export const routesBase = {
       invitations: {
         bff: {
           accept: (token: string) => `/api/tenancy/invitations/${token}/accept/bff` as const,
+          decline: (token: string) => `/api/tenancy/invitations/${token}/decline/bff` as const,
         },
       },
     },

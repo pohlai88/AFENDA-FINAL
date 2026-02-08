@@ -4,10 +4,8 @@
  * @responsibility UI route entrypoint for /pdpa
  */
 
-import * as React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Shield, Lock, CheckCircle2, FileText, Scale, AlertCircle } from "lucide-react";
 import { AfendaIcon as BrandIcon } from "@afenda/marketing";
 
 import {
@@ -79,7 +77,7 @@ export default function PDPAPage() {
             <section className="space-y-4">
               <div className="rounded-lg border-l-4 border-blue-600 bg-blue-50 p-4 dark:bg-blue-950">
                 <div className="flex items-start gap-3">
-                  <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5 shrink-0" />
+                  <BrandIcon className="h-5 w-5 text-blue-600 mt-0.5 shrink-0" />
                   <div className="space-y-2">
                     <h3 className="font-semibold text-blue-900 dark:text-blue-100">PDPA Compliance Statement</h3>
                     <p className="text-sm text-blue-800 dark:text-blue-200">
@@ -95,7 +93,7 @@ export default function PDPAPage() {
             {/* Seven Data Protection Principles */}
             <section className="space-y-4">
               <div className="flex items-center gap-2">
-                <Scale className="h-5 w-5 text-indigo-600" />
+                <BrandIcon className="h-5 w-5 text-indigo-600" />
                 <h3 className="text-lg font-semibold">Seven Data Protection Principles</h3>
               </div>
               <Separator />
@@ -107,7 +105,7 @@ export default function PDPAPage() {
                 <Card>
                   <CardHeader className="pb-3">
                     <CardTitle className="text-base flex items-center gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-green-600" />
+                      <BrandIcon className="h-4 w-4 text-green-600" />
                       1. General Principle
                     </CardTitle>
                     <p className="text-xs text-muted-foreground">Section 5, Schedule 1 Part I</p>
@@ -128,7 +126,7 @@ export default function PDPAPage() {
                 <Card>
                   <CardHeader className="pb-3">
                     <CardTitle className="text-base flex items-center gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-green-600" />
+                      <BrandIcon className="h-4 w-4 text-green-600" />
                       2. Notice & Choice Principle
                     </CardTitle>
                     <p className="text-xs text-muted-foreground">Section 7, Schedule 1 Part II</p>
@@ -149,7 +147,7 @@ export default function PDPAPage() {
                 <Card>
                   <CardHeader className="pb-3">
                     <CardTitle className="text-base flex items-center gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-green-600" />
+                      <BrandIcon className="h-4 w-4 text-green-600" />
                       3. Disclosure Principle
                     </CardTitle>
                     <p className="text-xs text-muted-foreground">Section 8, Schedule 1 Part III</p>
@@ -169,7 +167,7 @@ export default function PDPAPage() {
                 <Card>
                   <CardHeader className="pb-3">
                     <CardTitle className="text-base flex items-center gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-green-600" />
+                      <BrandIcon className="h-4 w-4 text-green-600" />
                       4. Security Principle
                     </CardTitle>
                     <p className="text-xs text-muted-foreground">Section 9, Schedule 1 Part IV</p>
@@ -189,7 +187,7 @@ export default function PDPAPage() {
                 <Card>
                   <CardHeader className="pb-3">
                     <CardTitle className="text-base flex items-center gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-green-600" />
+                      <BrandIcon className="h-4 w-4 text-green-600" />
                       5. Retention Principle
                     </CardTitle>
                     <p className="text-xs text-muted-foreground">Section 10, Schedule 1 Part V</p>
@@ -209,7 +207,7 @@ export default function PDPAPage() {
                 <Card>
                   <CardHeader className="pb-3">
                     <CardTitle className="text-base flex items-center gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-green-600" />
+                      <BrandIcon className="h-4 w-4 text-green-600" />
                       6. Data Integrity Principle
                     </CardTitle>
                     <p className="text-xs text-muted-foreground">Section 11, Schedule 1 Part VI</p>
@@ -229,7 +227,7 @@ export default function PDPAPage() {
                 <Card>
                   <CardHeader className="pb-3">
                     <CardTitle className="text-base flex items-center gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-green-600" />
+                      <BrandIcon className="h-4 w-4 text-green-600" />
                       7. Access Principle
                     </CardTitle>
                     <p className="text-xs text-muted-foreground">Section 12, Schedule 1 Part VII</p>
@@ -252,7 +250,7 @@ export default function PDPAPage() {
             {/* Data Subject Rights */}
             <section className="space-y-4">
               <div className="flex items-center gap-2">
-                <FileText className="h-5 w-5 text-purple-600" />
+                <BrandIcon className="h-5 w-5 text-purple-600" />
                 <h3 className="text-lg font-semibold">Data Subject Rights Under PDPA 2010</h3>
               </div>
               <Separator />
@@ -303,7 +301,7 @@ export default function PDPAPage() {
             {/* Security Safeguards */}
             <section className="space-y-4">
               <div className="flex items-center gap-2">
-                <Lock className="h-5 w-5 text-orange-600" />
+                <BrandIcon className="h-5 w-5 text-orange-600" />
                 <h3 className="text-lg font-semibold">Security Safeguards (Section 9 Compliance)</h3>
               </div>
               <Separator />
@@ -314,19 +312,19 @@ export default function PDPAPage() {
                 </p>
                 <ul className="space-y-2">
                   <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
+                    <BrandIcon className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
                     <span><strong>Physical Security:</strong> Multi-AZ data centers with 24/7 monitoring, biometric access controls, and environmental safeguards</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
+                    <BrandIcon className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
                     <span><strong>Technical Security:</strong> AES-256-GCM encryption at rest, TLS 1.3 in transit, hardware-backed key management with 90-day rotation</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
+                    <BrandIcon className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
                     <span><strong>Administrative Security:</strong> Zero-trust RBAC, background checks for personnel, security awareness training, incident response procedures</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
+                    <BrandIcon className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
                     <span><strong>Audit & Monitoring:</strong> 365-day immutable audit logs, real-time security monitoring, automated threat detection, quarterly security assessments</span>
                   </li>
                 </ul>
@@ -336,7 +334,7 @@ export default function PDPAPage() {
             {/* Data Processing Registration */}
             <section className="space-y-4">
               <div className="flex items-center gap-2">
-                <FileText className="h-5 w-5 text-cyan-600" />
+                <BrandIcon className="h-5 w-5 text-cyan-600" />
                 <h3 className="text-lg font-semibold">Data User Registration (Section 16)</h3>
               </div>
               <Separator />
@@ -363,7 +361,7 @@ export default function PDPAPage() {
             {/* Cross-Border Data Transfer */}
             <section className="space-y-4">
               <div className="flex items-center gap-2">
-                <Shield className="h-5 w-5 text-red-600" />
+                <BrandIcon className="h-5 w-5 text-red-600" />
                 <h3 className="text-lg font-semibold">Cross-Border Data Transfer (Section 129)</h3>
               </div>
               <Separator />
@@ -402,7 +400,7 @@ export default function PDPAPage() {
             {/* Contact Information */}
             <section className="space-y-4">
               <div className="flex items-center gap-2">
-                <AlertCircle className="h-5 w-5 text-slate-600" />
+                <BrandIcon className="h-5 w-5 text-slate-600" />
                 <h3 className="text-lg font-semibold">Exercise Your Rights</h3>
               </div>
               <Separator />

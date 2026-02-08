@@ -19,7 +19,7 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@afenda/shadcn";
-import { useInvitationDetailsQuery, useAcceptInvitationMutation } from "@afenda/tenancy";
+import { useInvitationDetailsQuery, useAcceptInvitationMutation, useDeclineInvitationMutation } from "@afenda/tenancy";
 import { useRouter } from "next/navigation";
 import { routes } from "@afenda/shared/constants";
 import { 
@@ -29,6 +29,7 @@ import {
   IconUsers,
   IconAlertTriangle,
 } from "@tabler/icons-react";
+import { toast } from "sonner";
 
 export default function InvitationAcceptancePage({
   params,
@@ -47,9 +48,9 @@ export default function InvitationAcceptancePage({
   });
 
   const acceptMutation = useAcceptInvitationMutation({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- mutation result shape depends on server response
-    onSuccess: (result: any) => {
+    onSuccess: (data) => {
       // Redirect to the organization or team page
+      const result = data as { membership?: { organizationId?: string; teamId?: string } } | undefined;
       const orgId = result?.membership?.organizationId;
       const teamId = result?.membership?.teamId;
       
@@ -62,7 +63,17 @@ export default function InvitationAcceptancePage({
       }
     },
     onError: (error: Error) => {
-      console.error("Failed to accept invitation:", error);
+      toast.error("Failed to accept invitation", { description: error.message });
+    },
+  });
+
+  const declineMutation = useDeclineInvitationMutation({
+    onSuccess: () => {
+      toast.success("Invitation declined");
+      router.push(routes.ui.tenancy.root());
+    },
+    onError: (error: Error) => {
+      toast.error("Failed to decline invitation", { description: error.message });
     },
   });
 
@@ -72,8 +83,8 @@ export default function InvitationAcceptancePage({
   };
 
   const handleDecline = () => {
-    // TODO: Implement decline mutation
-    router.push(routes.ui.tenancy.root());
+    if (!token) return;
+    declineMutation.mutate({ token });
   };
 
   if (isLoading) {
@@ -242,10 +253,10 @@ export default function InvitationAcceptancePage({
           <Button
             onClick={handleDecline}
             variant="ghost"
-            disabled={acceptMutation.isPending}
+            disabled={acceptMutation.isPending || declineMutation.isPending}
             className="w-full"
           >
-            Decline
+            {declineMutation.isPending ? "Declining..." : "Decline"}
           </Button>
         </CardFooter>
       </Card>

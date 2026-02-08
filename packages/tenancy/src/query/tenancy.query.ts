@@ -774,3 +774,38 @@ export function useAcceptInvitationMutation(
     ...options,
   });
 }
+
+// ---------------------------------------------------------------------------
+// Decline Invitation Mutation
+// ---------------------------------------------------------------------------
+
+export function useDeclineInvitationMutation(
+  options?: MutationOverrides<unknown, { token: string }>
+) {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: async (input: { token: string }) => {
+      const response = await fetch(
+        api.invitations.bff.decline(input.token),
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error?.message || "Failed to decline invitation");
+      }
+      const payload = await response.json();
+      return parseEnvelope(payload);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ 
+        queryKey: TENANCY_QUERY_KEYS.all
+      });
+    },
+    ...options,
+  });
+}

@@ -6,6 +6,8 @@
  * @layer page
  */
 
+import "server-only";
+
 import { IconShield } from "@tabler/icons-react";
 
 import {

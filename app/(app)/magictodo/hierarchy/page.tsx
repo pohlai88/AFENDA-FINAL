@@ -1,8 +1,8 @@
 "use client"
 
 import * as React from "react"
-import { useEffect, useMemo, useCallback, useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useMemo, useCallback, useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import {
   GitBranch,
   Settings2,
@@ -41,6 +41,7 @@ import {
   useHierarchyNavigation,
   useHierarchySelection,
   useHierarchyPreferences,
+  useTasksQuery,
   type TreeNode,
   buildTree,
   type TaskResponse,
@@ -50,7 +51,6 @@ import { routes } from "@afenda/shared/constants"
 // ============ Page Component ============
 export default function HierarchyPage() {
   const router = useRouter()
-  const _searchParams = useSearchParams()
 
   // Store hooks
   const {
@@ -79,42 +79,21 @@ export default function HierarchyPage() {
   } = useHierarchyPreferences()
 
   // Local state
-  const [tasks, setTasks] = useState<TaskResponse[]>([])
-  const [isLoading, setIsLoading] = useState(true)
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [currentTenantCode, _setCurrentTenantCode] = useState<string | undefined>()
 
-  // Fetch tasks
-  const fetchTasks = useCallback(async () => {
-    try {
-      const params = new URLSearchParams()
-      params.set("limit", "500")
-      if (!showCompleted) {
-        params.set("status", "todo,in_progress")
-      }
-      if (currentRootId) {
-        params.set("parentId", currentRootId)
-      }
-
-      const response = await fetch(
-        `${routes.api.magictodo.bff.tasks()}?${params.toString()}`
-      );
-      if (!response.ok) throw new Error("Failed to fetch tasks")
-
-      const data = await response.json()
-      setTasks(data.data?.items ?? data.items ?? [])
-    } catch (_error) {
-      toast.error("Failed to load tasks");
+  // Build query params based on filters
+  const queryParams = useMemo(() => {
+    const params: Record<string, unknown> = { limit: 500 }
+    if (!showCompleted) {
+      params.status = { values: ["todo", "in_progress"], includeMode: "any" as const }
     }
-  }, [currentRootId, showCompleted])
+    return params
+  }, [showCompleted])
 
-  // Initial load
-  useEffect(() => {
-    setIsLoading(true)
-    fetchTasks().finally(() => setIsLoading(false))
-  }, [fetchTasks])
-
-  // Build tree from flat tasks
+  // Fetch tasks via TanStack Query (cached, auto-refetch)
+  const { data: tasksData, isLoading, refetch } = useTasksQuery(queryParams)
+  const tasks = useMemo(() => tasksData?.items ?? [], [tasksData?.items])  // Build tree from flat tasks
   const treeNodes = useMemo(() => {
     // Filter to get only tasks at current level or below current root
     let filteredTasks = tasks
@@ -146,10 +125,10 @@ export default function HierarchyPage() {
   // Handlers
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true)
-    await fetchTasks()
+    await refetch()
     setIsRefreshing(false)
     toast.success("Tasks refreshed")
-  }, [fetchTasks])
+  }, [refetch])
 
   const handleToggle = useCallback((id: string) => {
     toggle(id)

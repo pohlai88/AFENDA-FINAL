@@ -6,6 +6,8 @@
  * @layer page
  */
 
+import "server-only";
+
 import { Suspense, cache } from "react";
 import type { Metadata } from "next";
 import { IconActivity } from "@tabler/icons-react";

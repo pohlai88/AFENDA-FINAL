@@ -46,6 +46,7 @@ import {
   Textarea,
   Badge,
 } from "@afenda/shadcn";
+import { toast } from "sonner";
 import { 
   useOrgMembersQuery, 
   useUpdateMemberRoleMutation, 
@@ -95,13 +96,13 @@ export default function OrganizationMembersPage({
 
   const updateRoleMutation = useUpdateMemberRoleMutation({
     onSuccess: () => {
-      console.log("Role updated successfully");
+      toast.success("Role updated successfully");
     },
   });
 
   const removeMemberMutation = useRemoveMemberMutation({
     onSuccess: () => {
-      console.log("Member removed successfully");
+      toast.success("Member removed successfully");
     },
   });
 
@@ -111,16 +112,16 @@ export default function OrganizationMembersPage({
       setInviteEmail("");
       setInviteMessage("");
       setInviteRole("member");
-      console.log("Invitation sent successfully");
+      toast.success("Invitation sent successfully");
     },
     onError: (error: Error) => {
-      console.error("Failed to send invitation:", error);
+      toast.error("Failed to send invitation", { description: error.message });
     },
   });
 
   const cancelInvitationMutation = useCancelInvitationMutation({
     onSuccess: () => {
-      console.log("Invitation cancelled successfully");
+      toast.success("Invitation cancelled successfully");
     },
   });
 

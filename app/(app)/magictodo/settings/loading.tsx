@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader } from "@afenda/shadcn"
 
 export default function SettingsLoading() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" aria-busy="true" aria-label="Loading settings">
       <div>
         <Skeleton className="h-8 w-48 mb-2" />
         <Skeleton className="h-5 w-64" />

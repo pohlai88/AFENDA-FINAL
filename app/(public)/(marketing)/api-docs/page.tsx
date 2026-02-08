@@ -9,8 +9,7 @@
 
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Lock } from "lucide-react";
-import { AfendaIcon } from "@afenda/marketing";
+import { AfendaIcon, marketingRoutes } from "@afenda/marketing";
 
 import {
   Button,
@@ -280,7 +279,7 @@ export default async function APIDocsPage() {
                             </p>
                             {endpoint.authenticated && (
                               <Badge variant="outline" className="mt-2 text-xs">
-                                <Lock className="h-3 w-3 mr-1" aria-hidden="true" />
+                                <AfendaIcon className="h-3 w-3 mr-1" />
                                 Requires Authentication
                               </Badge>
                             )}
@@ -338,10 +337,10 @@ export default async function APIDocsPage() {
 
         <div className="flex flex-col gap-2">
           <Button asChild>
-            <Link href="/docs">View Documentation</Link>
+            <Link href={marketingRoutes.ui.docs()}>View Documentation</Link>
           </Button>
           <Button asChild variant="outline">
-            <Link href="/contact">Contact Support</Link>
+            <Link href={marketingRoutes.ui.contact()}>Contact Support</Link>
           </Button>
         </div>
 

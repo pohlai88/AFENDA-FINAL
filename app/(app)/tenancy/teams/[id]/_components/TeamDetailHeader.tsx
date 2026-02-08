@@ -17,7 +17,7 @@ import {
   BreadcrumbSeparator,
 } from "@afenda/shadcn";
 import { Button } from "@afenda/shadcn";
-import { Tabs, TabsList, TabsTrigger } from "@afenda/shadcn";
+import { ClientTabs, ClientTabsList, ClientTabsTrigger } from "@afenda/shadcn";
 import { IconSettings, IconUserPlus, IconUsers } from "@tabler/icons-react";
 import { routes } from "@afenda/shared/constants";
 import { useTeamQuery } from "@afenda/tenancy";
@@ -88,22 +88,22 @@ export function TeamDetailHeader({
         </div>
       </div>
 
-      <Tabs value={activeTab}>
-        <TabsList>
-          <TabsTrigger value="overview" asChild>
+      <ClientTabs value={activeTab}>
+        <ClientTabsList>
+          <ClientTabsTrigger value="overview" asChild>
             <Link href={basePath}>Overview</Link>
-          </TabsTrigger>
-          <TabsTrigger value="members" asChild>
+          </ClientTabsTrigger>
+          <ClientTabsTrigger value="members" asChild>
             <Link href={membersPath}>
               <IconUsers className="mr-2 h-4 w-4" />
               Members
             </Link>
-          </TabsTrigger>
-          <TabsTrigger value="settings" asChild>
+          </ClientTabsTrigger>
+          <ClientTabsTrigger value="settings" asChild>
             <Link href={settingsPath}>Settings</Link>
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
+          </ClientTabsTrigger>
+        </ClientTabsList>
+      </ClientTabs>
 
       {children}
     </div>

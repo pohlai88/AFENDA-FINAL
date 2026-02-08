@@ -9,7 +9,7 @@ import { Card, CardContent } from "@afenda/shadcn"
 
 export default function ProjectsLoading() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" aria-busy="true" aria-label="Loading projects">
       <div className="flex justify-between">
         <Skeleton className="h-8 w-40" />
         <Skeleton className="h-10 w-32" />

@@ -8,6 +8,8 @@
  * @security All operations audited and logged
  */
 
+import "server-only";
+
 import type { Metadata } from "next";
 import { IconDatabase, IconCloudUpload, IconHistory, IconShield, IconClock, IconLock, IconCloud } from "@tabler/icons-react";
 

@@ -133,7 +133,7 @@ export function ConfigTemplateBrowserClient() {
             template={selectedTemplate}
             onCancel={() => setSelectedTemplateId(null)}
             onSuccess={() => {
-              router.push("/admin/config");
+              router.push(routes.ui.admin.config());
               router.refresh();
             }}
           />

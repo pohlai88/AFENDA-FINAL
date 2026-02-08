@@ -1,39 +1,47 @@
 /**
- * Temporary Zustand stores for backward compatibility
- * TODO: Migrate fully to TanStack Query hooks
+ * Legacy Zustand store shim over TanStack Query hooks.
+ * @deprecated Prefer useProjectsQuery / useCreateProjectMutation / useUpdateProjectMutation / useDeleteProjectMutation directly.
  */
 
 "use client";
 
-import { useProjectsQuery } from "../query";
+import type { ProjectResponse } from "../zod";
+import {
+  useProjectsQuery,
+  useCreateProjectMutation,
+  useUpdateProjectMutation,
+  useDeleteProjectMutation,
+} from "../query";
 
 /**
- * Backward compatibility wrapper for useProjectsQuery
- * Components should migrate to using query hooks directly
+ * Backward compatibility wrapper for useProjectsQuery.
+ * @deprecated Use TanStack Query hooks directly for type-safe, cacheable data fetching.
  */
 export function useProjectsStore() {
   const { data, isLoading, error, refetch } = useProjectsQuery();
+  const createMutation = useCreateProjectMutation();
+  const updateMutation = useUpdateProjectMutation();
+  const deleteMutation = useDeleteProjectMutation();
 
   return {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- legacy store interface, values dynamically accessed
-    projects: (data?.items || []) as any[],
+    projects: (data?.items ?? []) as ProjectResponse[],
     loading: isLoading,
     error: error ? String(error) : null,
-    
+
     fetchProjects: async (_userId: string) => {
       await refetch();
     },
-    
-    createProject: async (_userId: string, _projectData: Record<string, unknown>) => {
-      // TODO: Implement when project mutation hooks are added
+
+    createProject: async (_userId: string, projectData: Record<string, unknown>) => {
+      await createMutation.mutateAsync(projectData as { name: string; color?: string; description?: string });
     },
-    
-    updateProjectApi: async (_userId: string, _projectId: string, _updates: Record<string, unknown>) => {
-      // TODO: Implement when project mutation hooks are added
+
+    updateProjectApi: async (_userId: string, projectId: string, updates: Record<string, unknown>) => {
+      await updateMutation.mutateAsync({ id: projectId, data: updates });
     },
-    
-    deleteProject: async (_userId: string, _projectId: string) => {
-      // TODO: Implement when project mutation hooks are added
+
+    deleteProject: async (_userId: string, projectId: string) => {
+      await deleteMutation.mutateAsync(projectId);
     },
   };
 }

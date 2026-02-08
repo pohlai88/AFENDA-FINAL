@@ -18,7 +18,7 @@ import { tenancyLogger } from "../logger";
 /**
  * Tenant context extracted from request headers or session
  */
-export interface TenantContext {
+export interface ResolvedTenantContext {
   /** Current organization ID (null if no active org) */
   organizationId: string | null;
   /** Current team ID (null if no active team) */
@@ -58,7 +58,7 @@ export const TENANT_HEADERS = {
  *   .where(eq(tasks.organizationId, context.organizationId));
  * ```
  */
-export async function getTenantOrgContext(): Promise<TenantContext> {
+export async function getTenantOrgContext(): Promise<ResolvedTenantContext> {
   const headersList = await headers();
   const auth = await getAuthContext();
   
@@ -113,7 +113,7 @@ export async function getTenantOrgContext(): Promise<TenantContext> {
  * 
  * @throws Error if user is not a member of the team
  */
-export async function getTenantTeamContext(): Promise<TenantContext> {
+export async function getTenantTeamContext(): Promise<ResolvedTenantContext> {
   const context = await getTenantOrgContext();
   
   if (context.teamId && !context.isTeamMember) {
@@ -128,7 +128,7 @@ export async function getTenantTeamContext(): Promise<TenantContext> {
  * 
  * @throws Error if user is not authenticated or not a member
  */
-export async function assertTenantOrgAccess(): Promise<TenantContext> {
+export async function assertTenantOrgAccess(): Promise<ResolvedTenantContext> {
   const context = await getTenantOrgContext();
   
   if (!context.userId) {

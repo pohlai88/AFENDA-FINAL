@@ -28,6 +28,7 @@ import {
   ClientAlertDialogTitle,
   ClientAlertDialogTrigger,
 } from "@afenda/shadcn";
+import { toast } from "sonner";
 import { useOrganizationQuery, useUpdateOrganizationMutation, useDeleteOrganizationMutation } from "@afenda/tenancy";
 import { useRouter } from "next/navigation";
 import { routes } from "@afenda/shared/constants";
@@ -57,11 +58,11 @@ export default function OrganizationSettingsPage({
 
   const updateMutation = useUpdateOrganizationMutation({
     onSuccess: () => {
-      // Show success message (you can add a toast here)
-      console.log("Organization updated successfully");
+      // Show success message
+      toast.success("Organization updated successfully");
     },
     onError: (error) => {
-      console.error("Failed to update organization:", error);
+      toast.error("Failed to update organization", { description: error.message });
     },
   });
 
@@ -71,7 +72,7 @@ export default function OrganizationSettingsPage({
       router.push(routes.ui.tenancy.organizations.list());
     },
     onError: (error: Error) => {
-      console.error("Failed to delete organization:", error);
+      toast.error("Failed to delete organization", { description: error.message });
     },
   });
 

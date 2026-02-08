@@ -22,8 +22,11 @@ import { ClientSelect, ClientSelectContent, ClientSelectItem, ClientSelectTrigge
 import { AlertCircle, Calendar, Tag, Folder } from "lucide-react"
 import { useUser } from "@/app/_components/user-context"
 import {
-  useTasksStore,
-  useProjectsStore,
+  useTasksQuery,
+  useProjectsQuery,
+  useCreateTaskMutation,
+  useUpdateTaskMutation,
+  useDeleteTaskMutation,
   useMagictodoNavigation,
   useSnoozeTaskMutation,
   useUnsnoozeTaskMutation,
@@ -40,18 +43,18 @@ import { TenantScopeBadge } from "../_components"
 
 export default function TasksPage() {
   const { user, isLoading, isAuthenticated } = useUser()
-  const {
-    tasks,
-    loading,
-    error,
-    fetchTasks,
-    createTask,
-    updateTaskStatus,
-    updateTask: _updateTask,
-    deleteTask,
-  } = useTasksStore()
 
-  const { projects, fetchProjects } = useProjectsStore()
+  const { data: tasksData, isLoading: tasksLoading, error: tasksError } = useTasksQuery()
+  const { data: projectsData, isLoading: projectsLoading } = useProjectsQuery()
+  const createTaskMutation = useCreateTaskMutation()
+  const updateTaskMutation = useUpdateTaskMutation()
+  const deleteTaskMutation = useDeleteTaskMutation()
+
+  const tasks = useMemo(() => tasksData?.items ?? [], [tasksData?.items])
+  const projects = useMemo(() => projectsData?.items ?? [], [projectsData?.items])
+  const loading = tasksLoading || projectsLoading
+  const error = tasksError ? String(tasksError) : null
+
   const { goToDetail } = useMagictodoNavigation()
 
   const [quickAddInput, setQuickAddInput] = useState("")
@@ -76,17 +79,7 @@ export default function TasksPage() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration guard
     setIsMounted(true)
-  }, [])
-
-  // Load tasks on mount with authenticated user ID
-  useEffect(() => {
-    if (userId) {
-      fetchTasks(userId, { status: filter === "all" ? undefined : filter, projectId: selectedProject || undefined })
-      fetchProjects(userId)
-    }
-  }, [userId, fetchTasks, filter, selectedProject, fetchProjects])
-
-  // Focus quick-add input
+  }, [])  // Focus quick-add input
   useEffect(() => {
     inputRef.current?.focus()
   }, [])
@@ -96,10 +89,10 @@ export default function TasksPage() {
     e.preventDefault()
     if (!quickAddInput.trim() || !userId) return
 
-    await createTask(userId, quickAddInput.trim())
+    await createTaskMutation.mutateAsync({ title: quickAddInput.trim() })
     setQuickAddInput("")
     inputRef.current?.focus()
-  }, [quickAddInput, userId, createTask])
+  }, [quickAddInput, userId, createTaskMutation])
 
   const handleInputChange = useCallback((value: string) => {
     setQuickAddInput(value)
@@ -109,13 +102,13 @@ export default function TasksPage() {
   const handleToggleDone = useCallback(async (taskId: string, currentStatus: string) => {
     if (!userId) return
     const newStatus = currentStatus === "done" ? "todo" : "done"
-    await updateTaskStatus(userId, taskId, newStatus)
-  }, [userId, updateTaskStatus])
+    await updateTaskMutation.mutateAsync({ id: taskId, data: { status: newStatus } })
+  }, [userId, updateTaskMutation])
 
   const handleDelete = useCallback(async (taskId: string) => {
     if (!userId) return
-    await deleteTask(userId, taskId)
-  }, [userId, deleteTask])
+    await deleteTaskMutation.mutateAsync(taskId)
+  }, [userId, deleteTaskMutation])
 
   const handleTaskClick = useCallback(
     (task: TaskResponse) => goToDetail(task.id),
@@ -302,8 +295,8 @@ export default function TasksPage() {
               />
             )}
 
-            <Button type="submit" disabled={!quickAddInput.trim() || loading} className="w-full sm:w-auto" size="lg">
-              {loading ? <Spinner className="mr-1.5" /> : null}
+            <Button type="submit" disabled={!quickAddInput.trim() || createTaskMutation.isPending} className="w-full sm:w-auto" size="lg">
+              {createTaskMutation.isPending ? <Spinner className="mr-1.5" /> : null}
               Add Task
             </Button>
           </form>

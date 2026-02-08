@@ -6,6 +6,8 @@
  * @layer page
  */
 
+import "server-only";
+
 import { Suspense } from "react";
 import {
   IconCircleCheckFilled,

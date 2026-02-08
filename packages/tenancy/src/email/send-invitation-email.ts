@@ -4,6 +4,8 @@
  * High-level function to send invitation emails using Resend.
  */
 
+import "server-only";
+
 import type { TenancyInvitationRow } from '../drizzle/tenancy.schema';
 import { sendEmail } from './resend-client';
 import { tenancyLogger } from '../logger';

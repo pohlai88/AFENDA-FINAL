@@ -4,14 +4,18 @@
  * @responsibility MagicDrive storage page - storage management and analytics
  */
 
-"use client"
-
+import type { Metadata } from "next"
 import { Button } from "@afenda/shadcn"
 import { Card, CardContent, CardHeader, CardTitle } from "@afenda/shadcn"
 import { Progress } from "@afenda/shadcn"
 import { HardDrive, Cloud, TrendingUp, Zap } from "lucide-react"
 
-export default function StoragePage() {
+export const metadata: Metadata = {
+  title: "Storage",
+  description: "Manage your MagicDrive storage usage, limits, and plans",
+}
+
+export default function MagicdriveStoragePage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">

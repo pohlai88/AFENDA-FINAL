@@ -54,7 +54,7 @@ export {
   getActiveTeamForUser,
   TENANT_HEADERS,
 } from "./context";
-export type { TenantContext } from "./context";
+export type { ResolvedTenantContext } from "./context";
 
 // Export email functionality for server-side use
 export { sendInvitationEmail } from "../email/send-invitation-email";

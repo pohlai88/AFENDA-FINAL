@@ -8,7 +8,7 @@ import { Skeleton } from "@afenda/shadcn"
 
 export default function CalendarLoading() {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" aria-busy="true" aria-label="Loading calendar">
       <div className="flex justify-between">
         <Skeleton className="h-8 w-48" />
         <div className="flex gap-2">
