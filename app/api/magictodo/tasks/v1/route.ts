@@ -21,6 +21,7 @@ import {
 } from "@afenda/orchestra";
 import { magictodoTaskService } from "@afenda/magictodo/server";
 import { db } from "@afenda/shared/server/db";
+import { TENANT_HEADERS } from "@afenda/tenancy/server";
 
 type DbParam = Parameters<typeof magictodoTaskService.list>[5];
 
@@ -50,9 +51,13 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Extract tenant context from middleware-injected headers
+    const organizationId = request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const teamId = request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
+
     const id = request.nextUrl.searchParams.get("id");
     if (id) {
-      const result = await magictodoTaskService.getById(userId, id, null, null, db as DbParam);
+      const result = await magictodoTaskService.getById(userId, id, organizationId, teamId, db as DbParam);
       if (!result.ok) {
         const err = (result as unknown as { error: { code: string; message: string } }).error;
         return NextResponse.json(
@@ -80,8 +85,8 @@ export async function GET(request: NextRequest) {
 
     const result = await magictodoTaskService.list(
       userId,
-      null,
-      null,
+      organizationId,
+      teamId,
       { status: statuses, projectId },
       { limit, offset },
       db as DbParam
@@ -140,8 +145,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Extract tenant context from middleware-injected headers
+    const organizationId = request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const teamId = request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
+
     const body = await request.json();
-    const result = await magictodoTaskService.create(userId, null, null, body, db as DbParam);
+    const result = await magictodoTaskService.create(userId, organizationId, teamId, body, db as DbParam);
 
     if (!result.ok) {
       const err = (result as unknown as { error: { code: string; message: string } }).error;
@@ -215,8 +224,12 @@ export async function PUT(request: NextRequest) {
       );
     }
 
+    // Extract tenant context from middleware-injected headers
+    const organizationId = request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const teamId = request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
+
     const body = await request.json();
-    const result = await magictodoTaskService.update(userId, taskId, null, null, body, db as DbParam);
+    const result = await magictodoTaskService.update(userId, taskId, organizationId, teamId, body, db as DbParam);
 
     if (!result.ok) {
       const err = (result as unknown as { error: { code: string; message: string } }).error;
@@ -288,7 +301,11 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    const result = await magictodoTaskService.delete(userId, taskId, null, null, db as DbParam);
+    // Extract tenant context from middleware-injected headers
+    const organizationId = request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const teamId = request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
+
+    const result = await magictodoTaskService.delete(userId, taskId, organizationId, teamId, db as DbParam);
 
     if (!result.ok) {
       const err = (result as unknown as { error: { code: string; message: string } }).error;

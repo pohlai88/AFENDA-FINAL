@@ -16,44 +16,22 @@ import {
   KERNEL_ERROR_CODES,
   HTTP_STATUS,
   KERNEL_HEADERS,
-  getAuthContext,
 } from "@afenda/orchestra";
 import { isTenancyTableMissingError } from "@afenda/tenancy";
-import { tenancyMembershipService } from "@afenda/tenancy/server";
+import { tenancyMembershipService, withAuth } from "@afenda/tenancy/server";
 import { tenancyMembershipQuerySchema } from "@afenda/tenancy/zod";
 import { parseSearchParams } from "@afenda/shared/server/validate";
 
-export async function GET(request: NextRequest) {
+export const GET = withAuth(async (request: NextRequest, authContext) => {
   const traceId =
     request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
 
   try {
-    const auth = await getAuthContext();
-    const userId = auth.userId ?? undefined;
-    if (!userId) {
-      return NextResponse.json(
-        kernelFail(
-          {
-            code: KERNEL_ERROR_CODES.VALIDATION,
-            message: "Authentication required",
-          },
-          { traceId }
-        ),
-        {
-          status: HTTP_STATUS.UNAUTHORIZED,
-          headers: {
-            [KERNEL_HEADERS.REQUEST_ID]: traceId,
-            [KERNEL_HEADERS.TRACE_ID]: traceId,
-          },
-        }
-      );
-    }
-
     const query = parseSearchParams(
       request.nextUrl.searchParams,
       tenancyMembershipQuerySchema
     );
-    const result = await tenancyMembershipService.listForUser(userId, query);
+    const result = await tenancyMembershipService.listForUser(authContext.userId, query);
     return NextResponse.json(kernelOk(result, { traceId }), {
       status: HTTP_STATUS.OK,
       headers: {
@@ -79,4 +57,4 @@ export async function GET(request: NextRequest) {
       }
     );
   }
-}
+});

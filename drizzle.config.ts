@@ -26,6 +26,8 @@ export default defineConfig({
       return url
     })(),
   },
+  // Exclude extension-managed views that drizzle-kit cannot DROP.
+  tablesFilter: ["!pg_stat_statements*"],
   // Keep `push` non-interactive by default.
   strict: false,
 })

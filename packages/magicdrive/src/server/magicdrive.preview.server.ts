@@ -72,7 +72,7 @@ export async function generatePreviewAction(
     }
 
     const result = await runPreviewForVersion(
-      obj.tenantId,
+      obj.legacyTenantId,
       objectId,
       targetVersionId,
       version.mimeType || "application/octet-stream"
@@ -131,7 +131,7 @@ export async function generateThumbnailAction(
     }
 
     const result = await runThumbnailsForVersion(
-      obj.tenantId,
+      obj.legacyTenantId,
       objectId,
       targetVersionId,
       version.mimeType || "application/octet-stream"

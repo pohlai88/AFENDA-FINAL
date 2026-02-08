@@ -18,6 +18,7 @@
 // ============================================================================
 
 export * from "./app-sidebar"
+export * from "./app-site-header"
 export * from "./site-header"
 export * from "./section-cards"
 export * from "./sidebar-left"

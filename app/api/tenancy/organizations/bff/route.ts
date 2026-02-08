@@ -20,12 +20,28 @@ import {
   getAuthContext,
 } from "@afenda/orchestra";
 import { isTenancyTableMissingError } from "@afenda/tenancy";
-import { tenancyOrganizationService } from "@afenda/tenancy/server";
+import { 
+  tenancyOrganizationService,
+  withRateLimit,
+  orgCreationLimiter,
+  tenancyAuditService,
+} from "@afenda/tenancy/server";
 import {
   tenancyCreateOrganizationSchema,
   tenancyOrganizationQuerySchema,
 } from "@afenda/tenancy/zod";
 import { parseJson, parseSearchParams } from "@afenda/shared/server/validate";
+
+/**
+ * Extract client IP from request headers
+ */
+function getClientIp(request: NextRequest): string | undefined {
+  return (
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    request.headers.get("x-real-ip") ||
+    undefined
+  );
+}
 
 export async function GET(request: NextRequest) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
@@ -63,7 +79,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest) {
+export const POST = withRateLimit(async (request: NextRequest) => {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
 
   try {
@@ -81,6 +97,23 @@ export async function POST(request: NextRequest) {
 
     const body = await parseJson(request, tenancyCreateOrganizationSchema);
     const org = await tenancyOrganizationService.create(body, userId);
+    
+    // Audit log: organization created
+    await tenancyAuditService.log({
+      action: "organization.create",
+      actorId: userId,
+      actorEmail: auth.userEmail ?? undefined,
+      organizationId: org.id,
+      resourceType: "organization",
+      resourceId: org.id,
+      metadata: {
+        name: org.name,
+        slug: org.slug,
+      },
+      ipAddress: getClientIp(request),
+      userAgent: request.headers.get("user-agent") || undefined,
+    });
+    
     return NextResponse.json(
       kernelOk(
         {
@@ -99,4 +132,4 @@ export async function POST(request: NextRequest) {
       { status: HTTP_STATUS.BAD_REQUEST, headers: { [KERNEL_HEADERS.REQUEST_ID]: traceId, [KERNEL_HEADERS.TRACE_ID]: traceId } }
     );
   }
-}
+}, orgCreationLimiter);

@@ -55,4 +55,16 @@ export const TENANCY_QUERY_KEYS = {
     details: () => [...TENANCY_QUERY_KEYS.memberships.all(), "detail"] as const,
     byId: (id: string) => [...TENANCY_QUERY_KEYS.memberships.details(), id] as const,
   },
+
+  // Invitations
+  invitations: {
+    all: () => [...TENANCY_QUERY_KEYS.all, "invitations"] as const,
+    lists: () => [...TENANCY_QUERY_KEYS.invitations.all(), "list"] as const,
+    byOrg: (organizationId: string) => 
+      [...TENANCY_QUERY_KEYS.invitations.lists(), "org", organizationId] as const,
+    byTeam: (teamId: string) => 
+      [...TENANCY_QUERY_KEYS.invitations.lists(), "team", teamId] as const,
+    details: () => [...TENANCY_QUERY_KEYS.invitations.all(), "detail"] as const,
+    byToken: (token: string) => [...TENANCY_QUERY_KEYS.invitations.details(), token] as const,
+  },
 } as const;

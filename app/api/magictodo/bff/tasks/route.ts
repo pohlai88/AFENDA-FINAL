@@ -19,6 +19,7 @@ import {
 } from "@afenda/orchestra";
 import { magictodoTaskService, magictodoSnoozeService } from "@afenda/magictodo/server";
 import { db } from "@afenda/shared/server/db";
+import { TENANT_HEADERS } from "@afenda/tenancy/server";
 
 type DbParam = Parameters<typeof magictodoTaskService.list>[5];
 type SnoozeDbParam = Parameters<typeof magictodoSnoozeService.getSnoozedTasks>[4];
@@ -52,6 +53,10 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Extract tenant context from middleware-injected headers
+    const organizationId = request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const teamId = request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
+
     const status = request.nextUrl.searchParams.get("status");
     const statuses = status ? status.split(",").filter(Boolean) : undefined;
     const projectId = request.nextUrl.searchParams.get("projectId") ?? undefined;
@@ -67,8 +72,8 @@ export async function GET(request: NextRequest) {
     if (isSnoozedOnly) {
       const snoozeResult = await magictodoSnoozeService.getSnoozedTasks(
         userId,
-        null,
-        null,
+        organizationId,
+        teamId,
         false, // exclude expired
         db as SnoozeDbParam
       );
@@ -112,8 +117,8 @@ export async function GET(request: NextRequest) {
     } else {
       result = await magictodoTaskService.list(
         userId,
-        null,
-        null,
+        organizationId,
+        teamId,
         { status: statuses, projectId },
         { limit, offset },
         db as DbParam
@@ -186,8 +191,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Extract tenant context from middleware-injected headers
+    const organizationId = request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const teamId = request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
+
     const body = await request.json();
-    const result = await magictodoTaskService.create(userId, null, null, body, db as DbParam);
+    const result = await magictodoTaskService.create(userId, organizationId, teamId, body, db as DbParam);
 
     if (!result.ok) {
       const err = (result as unknown as { error: { code: string; message: string } }).error;

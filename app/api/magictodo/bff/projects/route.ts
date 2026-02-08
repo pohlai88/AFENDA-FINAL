@@ -19,6 +19,7 @@ import {
 } from "@afenda/orchestra";
 import { magictodoProjectService } from "@afenda/magictodo/server";
 import { db } from "@afenda/shared/server/db";
+import { TENANT_HEADERS } from "@afenda/tenancy/server";
 
 type DbParam = Parameters<typeof magictodoProjectService.list>[5];
 
@@ -45,14 +46,18 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Extract tenant context from middleware-injected headers
+    const organizationId = request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const teamId = request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
+
     const includeArchived = request.nextUrl.searchParams.get("includeArchived") === "true";
     const limit = Math.min(Number(request.nextUrl.searchParams.get("limit") ?? 50), 100);
     const offset = Number(request.nextUrl.searchParams.get("offset") ?? 0);
 
     const result = await magictodoProjectService.list(
       userId,
-      null,
-      null,
+      organizationId,
+      teamId,
       includeArchived,
       { limit, offset },
       db as DbParam

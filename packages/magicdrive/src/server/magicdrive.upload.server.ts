@@ -1,6 +1,7 @@
 /**
  * @layer domain (magicdrive)
  * @responsibility Upload server actions (presigned URLs, finalize).
+ * Phase 4: Enhanced with tenant context for org/team-scoped uploads.
  *
  * Wires to lib/server/magicdrive/ingest.ts and R2 presigned URLs.
  */
@@ -54,6 +55,7 @@ const PRESIGNED_EXPIRY_SECONDS = 3600
 
 /**
  * Server action: Request presigned URL for file upload.
+ * Phase 4: organizationId/teamId will be stored alongside the upload record.
  */
 export async function requestPresignedUploadAction(params: {
   workspaceId: string
@@ -61,6 +63,10 @@ export async function requestPresignedUploadAction(params: {
   mimeType: string
   sizeBytes: number
   sha256?: string
+  /** Phase 4: tenant org context */
+  organizationId?: string | null
+  /** Phase 4: tenant team context */
+  teamId?: string | null
 }): Promise<{ success: boolean; upload?: PresignedUploadResponse; error?: string }> {
   try {
     const auth = await getAuthContext()
@@ -103,7 +109,9 @@ export async function requestPresignedUploadAction(params: {
     // it will be computed server-side during finalize
     await db.insert(magicdriveUploads).values({
       id: uploadId,
-      tenantId,
+      legacyTenantId: tenantId,
+      organizationId: params.organizationId ?? null,
+      teamId: params.teamId ?? null,
       ownerId,
       objectId,
       versionId,
@@ -160,8 +168,11 @@ export async function finalizeUploadAction(
       return { success: false, error: "Forbidden" }
     }
 
-    // Call the actual ingest service
-    const result = await finalizeIngest(uploadId, upload.tenantId, auth.userId)
+    // Call the actual ingest service — pass tenant context for org/team scoped objects
+    const result = await finalizeIngest(uploadId, upload.legacyTenantId, auth.userId, {
+      organizationId: upload.organizationId,
+      teamId: upload.teamId,
+    })
 
     if (!result.ok) {
       return { success: false, error: result.error }
@@ -287,7 +298,7 @@ export async function requestDownloadUrlAction(
 
     const s3 = getR2Client()
     const bucket = getR2BucketName()
-    const sourceKey = canonicalSourceKey(obj.tenantId, objectId, targetVersionId)
+    const sourceKey = canonicalSourceKey(obj.legacyTenantId, objectId, targetVersionId)
 
     const command = new GetObjectCommand({
       Bucket: bucket,
@@ -348,7 +359,7 @@ export async function uploadNewVersionAction(params: {
 
     const uploadId = randomUUID()
     const versionId = randomUUID()
-    const tenantId = obj.tenantId
+    const tenantId = obj.legacyTenantId
     const quarantineKey = quarantineSourceKey(tenantId, uploadId)
 
     // Generate presigned PUT URL
@@ -366,9 +377,12 @@ export async function uploadNewVersionAction(params: {
     const expiresAt = new Date(Date.now() + PRESIGNED_EXPIRY_SECONDS * 1000).toISOString()
 
     // Create upload record (linked to existing object)
+    // Inherit org/team from the parent object
     await db.insert(magicdriveUploads).values({
       id: uploadId,
-      tenantId,
+      legacyTenantId: tenantId,
+      organizationId: obj.organizationId ?? null,
+      teamId: obj.teamId ?? null,
       ownerId: auth.userId,
       objectId: params.objectId,
       versionId,
@@ -442,7 +456,7 @@ export async function requestPreviewUrlAction(
 
     const s3 = getR2Client()
     const bucket = getR2BucketName()
-    const sourceKey = canonicalSourceKey(obj.tenantId, objectId, targetVersionId)
+    const sourceKey = canonicalSourceKey(obj.legacyTenantId, objectId, targetVersionId)
 
     const command = new GetObjectCommand({
       Bucket: bucket,
@@ -501,7 +515,7 @@ export async function requestThumbnailUrlAction(
 
     const s3 = getR2Client()
     const bucket = getR2BucketName()
-    const thumbKey = canonicalThumbKey(obj.tenantId, objectId, targetVersionId, page)
+    const thumbKey = canonicalThumbKey(obj.legacyTenantId, objectId, targetVersionId, page)
 
     const command = new GetObjectCommand({
       Bucket: bucket,

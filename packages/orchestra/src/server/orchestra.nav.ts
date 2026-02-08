@@ -7,7 +7,7 @@
 
 import "server-only";
 
-import type { NeonHttpDatabase } from "drizzle-orm/neon-http";
+import type { Database } from "@afenda/shared/server/db";
 
 import { orchestraServiceRegistry, type ServiceRegistryRow } from "../drizzle/orchestra.schema";
 import {
@@ -33,7 +33,7 @@ import {
 } from "../zod/orchestra.nav-tree.schema";
 
 export type NavServiceDeps = {
-  db: NeonHttpDatabase<Record<string, unknown>>;
+  db: Database;
 };
 
 /**

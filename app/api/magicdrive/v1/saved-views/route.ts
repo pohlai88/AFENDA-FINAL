@@ -12,6 +12,7 @@ import { NextResponse } from "next/server";
 
 import { HTTP_STATUS, KERNEL_HEADERS, getAuthContext } from "@afenda/orchestra";
 import { ok, fail, KERNEL_ERROR_CODES, envelopeHeaders } from "@afenda/shared/server";
+import { TENANT_HEADERS } from "@afenda/tenancy/server";
 
 export async function GET(_request: NextRequest) {
   const traceId = _request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
@@ -29,7 +30,11 @@ export async function GET(_request: NextRequest) {
       );
     }
 
-    // TODO: Load from saved-views store; return empty until then
+    // Extract tenant context from middleware-injected headers
+    const _organizationId = _request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const _teamId = _request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
+
+    // TODO: Load from saved-views store; filter by tenant context
     const items: unknown[] = [];
 
     return NextResponse.json(
@@ -69,10 +74,17 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json().catch(() => ({}));
+
+    // Extract tenant context from middleware-injected headers
+    const organizationId = request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const teamId = request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
+
     // TODO: Persist to saved-views store; return stub until then
     const created = {
       id: `view-${crypto.randomUUID()}`,
-      tenantId: "",
+      tenantId: organizationId ?? "",
+      organizationId,
+      teamId,
       userId,
       name: (body.name as string) ?? "Untitled view",
       description: (body.description as string) ?? "",

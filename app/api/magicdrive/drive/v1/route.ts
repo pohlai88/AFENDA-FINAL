@@ -14,6 +14,7 @@ import { HTTP_STATUS, KERNEL_HEADERS, getAuthContext } from "@afenda/orchestra";
 import { ok, fail, KERNEL_ERROR_CODES, envelopeHeaders } from "@afenda/shared/server";
 import { LIST_LIMIT } from "@afenda/magicdrive/constant";
 import { listDocumentsAction, getDocumentAction } from "@afenda/magicdrive/server";
+import { TENANT_HEADERS } from "@afenda/tenancy/server";
 
 /**
  * GET /api/magicdrive/drive/v1
@@ -37,9 +38,13 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Extract tenant context from middleware-injected headers
+    const organizationId = request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const teamId = request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
+
     const id = request.nextUrl.searchParams.get("id");
     if (id) {
-      const doc = await getDocumentAction(id);
+      const doc = await getDocumentAction(id, { organizationId, teamId });
       if (!doc) {
         return NextResponse.json(
           fail(
@@ -66,6 +71,8 @@ export async function GET(request: NextRequest) {
     const result = await listDocumentsAction({
       workspaceId,
       folderId: folderId ?? null,
+      organizationId,
+      teamId,
       limit,
       offset,
     });

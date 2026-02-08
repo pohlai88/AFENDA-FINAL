@@ -40,9 +40,13 @@ export function AppSiteHeader({
           className="mx-2 data-[orientation=vertical]:h-4"
         />
         {leftContent}
-        <div className="flex-1" />
-        {rightContent}
         {children}
+        {rightContent && (
+          <>
+            <div className="flex-1" />
+            {rightContent}
+          </>
+        )}
       </div>
     </header>
   );

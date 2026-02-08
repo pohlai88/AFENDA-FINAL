@@ -1,6 +1,7 @@
 /**
  * @layer domain (magicdrive)
  * @responsibility Saved views server actions.
+ * Phase 4: Enhanced with tenant context for org/team-scoped view management.
  */
 
 "use server"
@@ -9,13 +10,22 @@ import { revalidatePath } from "next/cache"
 import { routes } from "@afenda/shared/constants"
 import type { SavedView, CreateSavedViewInput, UpdateSavedViewInput } from "@afenda/shared/saved-views"
 
+/** Tenant context for saved view operations */
+interface TenantContext {
+  organizationId?: string | null
+  teamId?: string | null
+}
+
 /**
  * Server action: List saved views for a workspace.
+ * Phase 4: Filter by tenant context when provided.
  */
 export async function listSavedViewsAction(
-  workspaceId: string
+  workspaceId: string,
+  tenantContext?: TenantContext
 ): Promise<SavedView[]> {
   // TODO: Implement with actual DB query
+  // When tenantContext provided, filter: WHERE organization_id = ? AND team_id = ?
   return []
 }
 
@@ -23,7 +33,8 @@ export async function listSavedViewsAction(
  * Server action: Get single saved view by ID.
  */
 export async function getSavedViewAction(
-  id: string
+  id: string,
+  tenantContext?: TenantContext
 ): Promise<SavedView | null> {
   // TODO: Implement with actual DB query
   return null
@@ -31,9 +42,11 @@ export async function getSavedViewAction(
 
 /**
  * Server action: Create a new saved view.
+ * Phase 4: Associates view with active tenant.
  */
 export async function createSavedViewAction(
-  input: CreateSavedViewInput
+  input: CreateSavedViewInput,
+  tenantContext?: TenantContext
 ): Promise<{ success: boolean; view?: SavedView; error?: string }> {
   try {
     // TODO: Implement with actual DB insert
@@ -49,7 +62,8 @@ export async function createSavedViewAction(
  */
 export async function updateSavedViewAction(
   id: string,
-  input: UpdateSavedViewInput
+  input: UpdateSavedViewInput,
+  tenantContext?: TenantContext
 ): Promise<{ success: boolean; view?: SavedView; error?: string }> {
   try {
     // TODO: Implement with actual DB update
@@ -64,7 +78,8 @@ export async function updateSavedViewAction(
  * Server action: Delete a saved view.
  */
 export async function deleteSavedViewAction(
-  id: string
+  id: string,
+  tenantContext?: TenantContext
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Implement with actual DB delete
@@ -80,7 +95,8 @@ export async function deleteSavedViewAction(
  */
 export async function setDefaultViewAction(
   workspaceId: string,
-  viewId: string | null
+  viewId: string | null,
+  tenantContext?: TenantContext
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Implement set default logic
@@ -96,7 +112,8 @@ export async function setDefaultViewAction(
  */
 export async function reorderSavedViewsAction(
   workspaceId: string,
-  orderedIds: string[]
+  orderedIds: string[],
+  tenantContext?: TenantContext
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Implement reorder logic

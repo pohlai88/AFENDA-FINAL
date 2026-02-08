@@ -108,6 +108,11 @@ function getAdminItems(): CommandItemExt[] {
 function getNavItemsFromTree(navTree: NavTree): CommandItemExt[] {
   const items: CommandItemExt[] = [];
 
+  // Safety check: ensure services exists and is iterable
+  if (!navTree?.services || !Array.isArray(navTree.services)) {
+    return items;
+  }
+
   for (const service of navTree.services) {
     const isDown = service.status === "down";
     for (const group of service.groups) {

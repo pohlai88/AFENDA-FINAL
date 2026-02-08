@@ -18,7 +18,7 @@ import {
   SidebarMenuItem,
 } from "./sidebar"
 
-export function TeamSwitcher({
+export function TeamSwitcherBlock({
   teams,
 }: {
   teams: {

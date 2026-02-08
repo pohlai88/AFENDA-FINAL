@@ -19,7 +19,7 @@ import { NavFavorites } from "./nav-favorites"
 import { NavMain } from "./nav-main"
 import { NavSecondary } from "./nav-secondary"
 import { NavWorkspaces } from "./nav-workspaces"
-import { TeamSwitcher } from "./team-switcher"
+import { TeamSwitcherBlock } from "./team-switcher"
 import {
   Sidebar,
   SidebarContent,
@@ -264,7 +264,7 @@ export function SidebarLeft({
   return (
     <Sidebar className="border-r-0" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <TeamSwitcherBlock teams={data.teams} />
         <NavMain items={data.navMain} />
       </SidebarHeader>
       <SidebarContent>

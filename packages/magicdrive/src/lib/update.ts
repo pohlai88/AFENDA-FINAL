@@ -28,7 +28,7 @@ export async function updateObjectStatus(
     .where(
       and(
         eq(magicdriveObjects.id, objectId),
-        eq(magicdriveObjects.tenantId, tenantId)
+        eq(magicdriveObjects.legacyTenantId, tenantId)
       )
     )
     .limit(1)
@@ -61,7 +61,7 @@ export async function deleteObject(
     .where(
       and(
         eq(magicdriveObjects.id, objectId),
-        eq(magicdriveObjects.tenantId, tenantId)
+        eq(magicdriveObjects.legacyTenantId, tenantId)
       )
     )
     .limit(1)
@@ -101,7 +101,7 @@ export async function runBulkAction(
       .where(
         and(
           inArray(magicdriveObjects.id, objectIds),
-          eq(magicdriveObjects.tenantId, tenantId)
+          eq(magicdriveObjects.legacyTenantId, tenantId)
         )
       )
     return { ok: true, updated: objectIds.length }
@@ -118,7 +118,7 @@ export async function runBulkAction(
       .where(
         and(
           inArray(magicdriveObjects.id, objectIds),
-          eq(magicdriveObjects.tenantId, tenantId)
+          eq(magicdriveObjects.legacyTenantId, tenantId)
         )
       )
     return { ok: true, updated: objectIds.length }
@@ -134,7 +134,7 @@ export async function runBulkAction(
       .where(
         and(
           inArray(magicdriveObjects.id, objectIds),
-          eq(magicdriveObjects.tenantId, tenantId)
+          eq(magicdriveObjects.legacyTenantId, tenantId)
         )
       )
     return { ok: true, updated: objectIds.length }

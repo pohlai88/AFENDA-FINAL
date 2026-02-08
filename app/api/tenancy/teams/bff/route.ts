@@ -20,7 +20,7 @@ import {
   getAuthContext,
 } from "@afenda/orchestra";
 import { isTenancyTableMissingError } from "@afenda/tenancy";
-import { tenancyTeamService } from "@afenda/tenancy/server";
+import { tenancyTeamService, tenancyAuditService, withRateLimit, teamCreationLimiter } from "@afenda/tenancy/server";
 import {
   tenancyCreateTeamSchema,
   tenancyTeamQuerySchema,
@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest) {
+export const POST = withRateLimit(async (request: NextRequest) => {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
 
   try {
@@ -77,6 +77,20 @@ export async function POST(request: NextRequest) {
 
     const body = await parseJson(request, tenancyCreateTeamSchema);
     const team = await tenancyTeamService.create(body);
+
+    // Audit log: team creation
+    await tenancyAuditService.log({
+      actorId: auth.userId,
+      action: "team.create",
+      resourceType: "team",
+      resourceId: team.id,
+      metadata: {
+        teamName: team.name,
+        organizationId: body.organizationId ?? null,
+      },
+      ipAddress: request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || undefined,
+    });
+
     return NextResponse.json(
       kernelOk(
         {
@@ -95,4 +109,4 @@ export async function POST(request: NextRequest) {
       { status: HTTP_STATUS.BAD_REQUEST, headers: { [KERNEL_HEADERS.REQUEST_ID]: traceId, [KERNEL_HEADERS.TRACE_ID]: traceId } }
     );
   }
-}
+}, teamCreationLimiter);

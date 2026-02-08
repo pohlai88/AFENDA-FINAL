@@ -16,8 +16,8 @@ import { tenancyLogger } from "../logger";
 const ORG_ROLE_ORDER = ["member", "admin", "owner"] as const;
 const TEAM_ROLE_ORDER = ["member", "lead"] as const;
 
-type OrgRole = (typeof ORG_ROLE_ORDER)[number];
-type TeamRole = (typeof TEAM_ROLE_ORDER)[number];
+export type OrgRole = (typeof ORG_ROLE_ORDER)[number];
+export type TeamRole = (typeof TEAM_ROLE_ORDER)[number];
 
 function roleLevel(role: string, order: readonly string[]): number {
   const idx = order.indexOf(role);

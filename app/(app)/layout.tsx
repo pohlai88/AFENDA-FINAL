@@ -1,6 +1,6 @@
 /**
  * App Layout - Authenticated app routes
- * Wraps content with AppShell for navigation.
+ * Uses shadcn sidebar-07 pattern with proper SidebarProvider structure.
  * Requires authentication for all child routes.
  * Defense-in-depth: middleware + layout auth guard (CVE-2025-29927).
  */
@@ -11,14 +11,17 @@ import { redirect } from "next/navigation";
 import { Toaster } from "sonner";
 import { SkipLink } from "@afenda/shadcn";
 import { Skeleton } from "@afenda/shadcn";
+import { SidebarProvider, SidebarInset } from "@afenda/shadcn";
+import { AppSiteHeader } from "@afenda/shadcn/blocks/app-site-header";
 import { CommandPaletteProvider, OnboardingWizardProvider, OnboardingWizard, ContextualHelper } from "./(kernel)/_shell";
-import { AppShell } from "./(kernel)/_shell";
 import {
   UserProvider,
   ErrorBoundaryWithRecovery,
 } from "@/app/_components";
 import { auth } from "@afenda/auth/server";
 import { routes } from "@afenda/shared/constants";
+import { HeaderContent } from "./_components/header-content";
+import { AppSidebarWrapper } from "./_components/app-sidebar-wrapper";
 
 async function AuthGuard({ children }: { children: React.ReactNode }) {
   const { data: session } = await auth.getSession();
@@ -84,7 +87,17 @@ export default function AppLayout({
           <UserProvider>
             <OnboardingWizardProvider>
               <CommandPaletteProvider>
-                <AppShell>{children}</AppShell>
+                <SidebarProvider>
+                  <AppSidebarWrapper />
+                  <SidebarInset>
+                    <AppSiteHeader>
+                      <HeaderContent />
+                    </AppSiteHeader>
+                    <div className="flex flex-1 flex-col gap-4 p-4 pt-0 lg:gap-6 lg:p-6 lg:pt-0">
+                      {children}
+                    </div>
+                  </SidebarInset>
+                </SidebarProvider>
                 <OnboardingWizard />
                 <ContextualHelper />
                 <Toaster position="top-right" richColors />

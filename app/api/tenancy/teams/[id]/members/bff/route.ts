@@ -17,7 +17,6 @@ import {
   KERNEL_ERROR_CODES,
   HTTP_STATUS,
   KERNEL_HEADERS,
-  getAuthContext,
 } from "@afenda/orchestra";
 import {
   isTenancyTableMissingError,
@@ -26,36 +25,20 @@ import {
 import {
   tenancyTeamService,
   tenancyMembershipService,
+  tenancyAuditService,
+  withTeamAccess,
+  withRateLimitRoute,
+  memberInviteLimiter,
 } from "@afenda/tenancy/server";
 import { tenancyCreateTeamMembershipSchema } from "@afenda/tenancy/zod";
 import { parseJson } from "@afenda/shared/server/validate";
 
-type RouteParams = { params: Promise<{ id: string }> };
-
-export async function GET(request: NextRequest, { params }: RouteParams) {
+export const GET = withTeamAccess(async (request: NextRequest, context) => {
   const traceId =
     request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
-  const { id: teamId } = await params;
+  const { id: teamId } = context.params;
 
   try {
-    const auth = await getAuthContext();
-    const userId = auth.userId ?? undefined;
-    if (!userId) {
-      return NextResponse.json(
-        kernelFail(
-          {
-            code: KERNEL_ERROR_CODES.VALIDATION,
-            message: "Authentication required",
-          },
-          { traceId }
-        ),
-        {
-          status: HTTP_STATUS.UNAUTHORIZED,
-          headers: { [KERNEL_HEADERS.REQUEST_ID]: traceId, [KERNEL_HEADERS.TRACE_ID]: traceId },
-        }
-      );
-    }
-
     const team = await tenancyTeamService.getById(teamId);
     if (!team) {
       return NextResponse.json(
@@ -90,95 +73,108 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       }
     );
   }
-}
+}, "member");
 
-export async function POST(request: NextRequest, { params }: RouteParams) {
-  const traceId =
-    request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
-  const { id: teamId } = await params;
+export const POST = withRateLimitRoute(
+  withTeamAccess(async (request: NextRequest, authContext) => {
+    const traceId =
+      request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
+    const { id: teamId } = authContext.params;
 
-  try {
-    const auth = await getAuthContext();
-    const userId = auth.userId ?? undefined;
-    if (!userId) {
-      return NextResponse.json(
-        kernelFail(
+    try {
+      const team = await tenancyTeamService.getById(teamId);
+      if (!team) {
+        return NextResponse.json(
+          kernelFail(
+            { code: KERNEL_ERROR_CODES.NOT_FOUND, message: "Team not found" },
+            { traceId }
+          ),
           {
-            code: KERNEL_ERROR_CODES.VALIDATION,
-            message: "Authentication required",
-          },
-          { traceId }
-        ),
-        {
-          status: HTTP_STATUS.UNAUTHORIZED,
-          headers: { [KERNEL_HEADERS.REQUEST_ID]: traceId, [KERNEL_HEADERS.TRACE_ID]: traceId },
-        }
-      );
-    }
+            status: HTTP_STATUS.NOT_FOUND,
+            headers: { [KERNEL_HEADERS.REQUEST_ID]: traceId, [KERNEL_HEADERS.TRACE_ID]: traceId },
+          }
+        );
+      }
 
-    const team = await tenancyTeamService.getById(teamId);
-    if (!team) {
-      return NextResponse.json(
-        kernelFail(
-          { code: KERNEL_ERROR_CODES.NOT_FOUND, message: "Team not found" },
-          { traceId }
-        ),
-        {
-          status: HTTP_STATUS.NOT_FOUND,
-          headers: { [KERNEL_HEADERS.REQUEST_ID]: traceId, [KERNEL_HEADERS.TRACE_ID]: traceId },
-        }
-      );
-    }
-
-    if (team.organizationId !== null) {
-      return NextResponse.json(
-        kernelFail(
+      if (team.organizationId !== null) {
+        return NextResponse.json(
+          kernelFail(
+            {
+              code: KERNEL_ERROR_CODES.VALIDATION,
+              message:
+                "Adding members via this endpoint is only supported for standalone teams",
+            },
+            { traceId }
+          ),
           {
-            code: KERNEL_ERROR_CODES.VALIDATION,
-            message:
-              "Adding members via this endpoint is only supported for standalone teams",
-          },
-          { traceId }
-        ),
-        {
-          status: HTTP_STATUS.BAD_REQUEST,
-          headers: { [KERNEL_HEADERS.REQUEST_ID]: traceId, [KERNEL_HEADERS.TRACE_ID]: traceId },
-        }
-      );
-    }
+            status: HTTP_STATUS.BAD_REQUEST,
+            headers: { [KERNEL_HEADERS.REQUEST_ID]: traceId, [KERNEL_HEADERS.TRACE_ID]: traceId },
+          }
+        );
+      }
 
-    const body = await parseJson(request, tenancyCreateTeamMembershipSchema);
-    if (body.teamId !== teamId) {
-      return NextResponse.json(
-        kernelFail(
+      const body = await parseJson(request, tenancyCreateTeamMembershipSchema);
+      if (body.teamId !== teamId) {
+        return NextResponse.json(
+          kernelFail(
+            {
+              code: KERNEL_ERROR_CODES.VALIDATION,
+              message: "Team ID in body does not match route",
+            },
+            { traceId }
+          ),
           {
-            code: KERNEL_ERROR_CODES.VALIDATION,
-            message: "Team ID in body does not match route",
-          },
-          { traceId }
-        ),
-        {
-          status: HTTP_STATUS.BAD_REQUEST,
-          headers: { [KERNEL_HEADERS.REQUEST_ID]: traceId, [KERNEL_HEADERS.TRACE_ID]: traceId },
-        }
+            status: HTTP_STATUS.BAD_REQUEST,
+            headers: { [KERNEL_HEADERS.REQUEST_ID]: traceId, [KERNEL_HEADERS.TRACE_ID]: traceId },
+          }
+        );
+      }
+
+      const minMembers = TENANCY_CONSTANTS.CORE?.MIN_TEAM_MEMBERS ?? 2;
+
+      const membership = await tenancyMembershipService.createTeamMembership(
+        teamId,
+        body.userId,
+        body.role
       );
-    }
+      const newCount = await tenancyTeamService.getMemberCount(teamId);
 
-    const minMembers = TENANCY_CONSTANTS.CORE?.MIN_TEAM_MEMBERS ?? 2;
+      // Audit log: member addition to team
+      await tenancyAuditService.log({
+        actorId: authContext.userId,
+        action: "membership.add",
+        resourceType: "team",
+        resourceId: teamId,
+        metadata: {
+          newMemberId: body.userId,
+          role: body.role,
+          memberCount: newCount,
+        },
+        ipAddress: request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || undefined,
+      });
 
-    const membership = await tenancyMembershipService.createTeamMembership(
-      teamId,
-      body.userId,
-      body.role
-    );
-    const newCount = await tenancyTeamService.getMemberCount(teamId);
-    if (newCount < minMembers) {
+      if (newCount < minMembers) {
+        return NextResponse.json(
+          kernelOk(
+            {
+              ...membership,
+              joinedAt: membership.joinedAt?.toISOString() ?? "",
+              warning: `Team has ${newCount} member(s). Minimum ${minMembers} recommended.`,
+            },
+            { traceId }
+          ),
+          {
+            status: HTTP_STATUS.CREATED,
+            headers: { [KERNEL_HEADERS.REQUEST_ID]: traceId, [KERNEL_HEADERS.TRACE_ID]: traceId },
+          }
+        );
+      }
+
       return NextResponse.json(
         kernelOk(
           {
             ...membership,
             joinedAt: membership.joinedAt?.toISOString() ?? "",
-            warning: `Team has ${newCount} member(s). Minimum ${minMembers} recommended.`,
           },
           { traceId }
         ),
@@ -187,33 +183,20 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
           headers: { [KERNEL_HEADERS.REQUEST_ID]: traceId, [KERNEL_HEADERS.TRACE_ID]: traceId },
         }
       );
-    }
-
-    return NextResponse.json(
-      kernelOk(
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Failed to add team member";
+      return NextResponse.json(
+        kernelFail(
+          { code: KERNEL_ERROR_CODES.VALIDATION, message },
+          { traceId }
+        ),
         {
-          ...membership,
-          joinedAt: membership.joinedAt?.toISOString() ?? "",
-        },
-        { traceId }
-      ),
-      {
-        status: HTTP_STATUS.CREATED,
-        headers: { [KERNEL_HEADERS.REQUEST_ID]: traceId, [KERNEL_HEADERS.TRACE_ID]: traceId },
-      }
-    );
-  } catch (err) {
-    const message =
-      err instanceof Error ? err.message : "Failed to add team member";
-    return NextResponse.json(
-      kernelFail(
-        { code: KERNEL_ERROR_CODES.VALIDATION, message },
-        { traceId }
-      ),
-      {
-        status: HTTP_STATUS.BAD_REQUEST,
-        headers: { [KERNEL_HEADERS.REQUEST_ID]: traceId, [KERNEL_HEADERS.TRACE_ID]: traceId },
-      }
-    );
-  }
-}
+          status: HTTP_STATUS.BAD_REQUEST,
+          headers: { [KERNEL_HEADERS.REQUEST_ID]: traceId, [KERNEL_HEADERS.TRACE_ID]: traceId },
+        }
+      );
+    }
+  }, "lead"),
+  memberInviteLimiter
+);

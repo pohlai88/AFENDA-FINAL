@@ -12,6 +12,9 @@
 import * as React from "react";
 import { toast } from "sonner";
 import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
   Button,
   Card,
   CardContent,
@@ -19,32 +22,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@afenda/shadcn";
+import {
+  AlertTriangle,
+  RefreshCw,
+  Home,
+  Bug,
+} from "lucide-react";
 import { routes } from "@afenda/shared/constants";
-
-// Icons - using inline SVG to avoid tabler import restriction
-const IconAlertTriangle = ({ className }: { className?: string }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-  </svg>
-);
-
-const IconRefresh = ({ className }: { className?: string }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-  </svg>
-);
-
-const IconHome = ({ className }: { className?: string }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-  </svg>
-);
-
-const IconBug = ({ className }: { className?: string }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-  </svg>
-);
 
 interface RecoveryAction {
   label: string;
@@ -92,13 +76,13 @@ function getErrorContext(
       actions: [
         {
           label: "Retry",
-          icon: <IconRefresh className="size-4" />,
+          icon: <RefreshCw className="size-4" />,
           handler: () => window.location.reload(),
           variant: "default",
         },
         {
           label: "Go Home",
-          icon: <IconHome className="size-4" />,
+          icon: <Home className="size-4" />,
           handler: () => window.location.href = routes.ui.orchestra.dashboard(),
           variant: "outline",
         },
@@ -119,7 +103,7 @@ function getErrorContext(
         },
         {
           label: "Go Home",
-          icon: <IconHome className="size-4" />,
+          icon: <Home className="size-4" />,
           handler: () => window.location.href = routes.ui.marketing.home(),
           variant: "outline",
         },
@@ -140,7 +124,7 @@ function getErrorContext(
         },
         {
           label: "Go Home",
-          icon: <IconHome className="size-4" />,
+          icon: <Home className="size-4" />,
           handler: () => window.location.href = routes.ui.orchestra.dashboard(),
           variant: "outline",
         },
@@ -156,7 +140,7 @@ function getErrorContext(
       actions: [
         {
           label: "Try Again",
-          icon: <IconRefresh className="size-4" />,
+          icon: <RefreshCw className="size-4" />,
           handler: () => window.location.reload(),
           variant: "default",
         },
@@ -177,13 +161,13 @@ function getErrorContext(
       actions: [
         {
           label: "Retry",
-          icon: <IconRefresh className="size-4" />,
+          icon: <RefreshCw className="size-4" />,
           handler: () => window.location.reload(),
           variant: "default",
         },
         {
           label: "Go Home",
-          icon: <IconHome className="size-4" />,
+          icon: <Home className="size-4" />,
           handler: () => window.location.href = routes.ui.orchestra.dashboard(),
           variant: "outline",
         },
@@ -198,19 +182,19 @@ function getErrorContext(
     actions: [
       {
         label: "Reload Page",
-        icon: <IconRefresh className="size-4" />,
+        icon: <RefreshCw className="size-4" />,
         handler: () => window.location.reload(),
         variant: "default",
       },
       {
         label: "Go Home",
-        icon: <IconHome className="size-4" />,
+        icon: <Home className="size-4" />,
         handler: () => { window.location.href = routes.ui.orchestra.dashboard(); },
         variant: "outline",
       },
       {
         label: "Report Issue",
-        icon: <IconBug className="size-4" />,
+        icon: <Bug className="size-4" />,
         handler: () => {
           toast.info(
             "Thank you for reporting this issue. Our team will investigate.",
@@ -267,7 +251,7 @@ export class ErrorBoundaryWithRecovery extends React.Component<
             <CardHeader>
               <div className="flex items-center gap-3">
                 <div className="rounded-full bg-destructive/10 p-3">
-                  <IconAlertTriangle className="size-6 text-destructive" />
+                  <AlertTriangle className="size-6 text-destructive" />
                 </div>
                 <div>
                   <CardTitle>{context.title}</CardTitle>
@@ -278,32 +262,33 @@ export class ErrorBoundaryWithRecovery extends React.Component<
             <CardContent className="space-y-4">
               {/* Error Details (Development Only) */}
               {process.env.NODE_ENV === "development" && (
-                <details className="rounded-lg border p-4 text-sm">
-                  <summary className="cursor-pointer font-medium mb-2">
-                    Technical Details (Development Only)
-                  </summary>
-                  <div className="space-y-2 text-muted-foreground">
-                    <div>
-                      <strong>Error:</strong> {this.state.error.message}
+                <Alert variant="destructive">
+                  <Bug className="size-4" />
+                  <AlertTitle>Technical Details (Development Only)</AlertTitle>
+                  <AlertDescription>
+                    <div className="space-y-2 text-sm">
+                      <div>
+                        <strong>Error:</strong> {this.state.error.message}
+                      </div>
+                      {this.state.error.stack && (
+                        <div>
+                          <strong>Stack:</strong>
+                          <pre className="mt-1 overflow-auto text-xs bg-muted p-2 rounded">
+                            {this.state.error.stack}
+                          </pre>
+                        </div>
+                      )}
+                      {this.state.errorInfo?.componentStack && (
+                        <div>
+                          <strong>Component Stack:</strong>
+                          <pre className="mt-1 overflow-auto text-xs bg-muted p-2 rounded">
+                            {this.state.errorInfo.componentStack}
+                          </pre>
+                        </div>
+                      )}
                     </div>
-                    {this.state.error.stack && (
-                      <div>
-                        <strong>Stack:</strong>
-                        <pre className="mt-1 overflow-auto text-xs bg-muted p-2 rounded">
-                          {this.state.error.stack}
-                        </pre>
-                      </div>
-                    )}
-                    {this.state.errorInfo?.componentStack && (
-                      <div>
-                        <strong>Component Stack:</strong>
-                        <pre className="mt-1 overflow-auto text-xs bg-muted p-2 rounded">
-                          {this.state.errorInfo.componentStack}
-                        </pre>
-                      </div>
-                    )}
-                  </div>
-                </details>
+                  </AlertDescription>
+                </Alert>
               )}
 
               {/* Recovery Actions */}

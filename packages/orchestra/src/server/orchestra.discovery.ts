@@ -8,7 +8,7 @@
 import "server-only";
 
 import { eq } from "drizzle-orm";
-import type { NeonHttpDatabase } from "drizzle-orm/neon-http";
+import type { Database } from "@afenda/shared/server/db";
 
 import {
   orchestraServiceRegistry,
@@ -63,7 +63,7 @@ function rowToListItem(row: ServiceRegistryRow): ServiceListItem {
 }
 
 export type DiscoveryServiceDeps = {
-  db: NeonHttpDatabase<Record<string, unknown>>;
+  db: Database;
 };
 
 /**

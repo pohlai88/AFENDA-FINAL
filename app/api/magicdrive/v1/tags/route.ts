@@ -12,6 +12,7 @@ import { NextResponse } from "next/server";
 
 import { HTTP_STATUS, KERNEL_HEADERS, getAuthContext } from "@afenda/orchestra";
 import { ok, fail, KERNEL_ERROR_CODES, envelopeHeaders } from "@afenda/shared/server";
+import { TENANT_HEADERS } from "@afenda/tenancy/server";
 
 export async function GET(_request: NextRequest) {
   const traceId = _request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
@@ -29,7 +30,11 @@ export async function GET(_request: NextRequest) {
       );
     }
 
-    // TODO: Implement with actual tags store; return empty until then
+    // Extract tenant context from middleware-injected headers
+    const _organizationId = _request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const _teamId = _request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
+
+    // TODO: Implement with actual tags store; filter by tenant context
     const items: Array<{ id: string; name: string; slug: string }> = [];
 
     return NextResponse.json(

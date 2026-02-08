@@ -77,7 +77,7 @@ export async function runOcrAction(
     }
 
     const result = await runOcrForVersion(
-      obj.tenantId,
+      obj.legacyTenantId,
       objectId,
       targetVersionId,
       version.mimeType || "application/octet-stream"
@@ -144,11 +144,13 @@ export async function getExtractedMetadataAction(
 
 /**
  * Server action: Search documents by extracted text (full-text search).
+ * Phase 4: Filters by organization_id when tenant context is active.
  */
 export async function searchByTextAction(
   workspaceId: string,
   query: string,
-  limit: number = 50
+  limit: number = 50,
+  tenantContext?: { organizationId?: string | null; teamId?: string | null }
 ): Promise<{ objectId: string; title: string | null; snippet: string | null }[]> {
   try {
     const auth = await getAuthContext()
@@ -163,20 +165,37 @@ export async function searchByTextAction(
     // Use raw postgres.js client for full-text search with ts_headline
     const client = getDbClient()
 
-    const results = (await client`
-      SELECT 
-        moi.object_id,
-        mo.title,
-        ts_headline('english', moi.extracted_text, plainto_tsquery('english', ${query}), 
-          'StartSel=<mark>, StopSel=</mark>, MaxWords=50, MinWords=20') as snippet
-      FROM magicdrive_object_index moi
-      INNER JOIN magicdrive_objects mo ON mo.id = moi.object_id
-      WHERE mo.tenant_id = ${workspaceId}
-        AND mo.deleted_at IS NULL
-        AND moi.search_vector @@ plainto_tsquery('english', ${query})
-      ORDER BY ts_rank(moi.search_vector, plainto_tsquery('english', ${query})) DESC
-      LIMIT ${limit}
-    `) as { object_id: string; title: string | null; snippet: string | null }[]
+    // Phase 4: Prefer organizationId filter, fallback to legacy tenant_id
+    const orgId = tenantContext?.organizationId
+    const results = orgId
+      ? ((await client`
+          SELECT 
+            moi.object_id,
+            mo.title,
+            ts_headline('english', moi.extracted_text, plainto_tsquery('english', ${query}), 
+              'StartSel=<mark>, StopSel=</mark>, MaxWords=50, MinWords=20') as snippet
+          FROM magicdrive_object_index moi
+          INNER JOIN magicdrive_objects mo ON mo.id = moi.object_id
+          WHERE mo.organization_id = ${orgId}
+            AND mo.deleted_at IS NULL
+            AND moi.search_vector @@ plainto_tsquery('english', ${query})
+          ORDER BY ts_rank(moi.search_vector, plainto_tsquery('english', ${query})) DESC
+          LIMIT ${limit}
+        `) as { object_id: string; title: string | null; snippet: string | null }[])
+      : ((await client`
+          SELECT 
+            moi.object_id,
+            mo.title,
+            ts_headline('english', moi.extracted_text, plainto_tsquery('english', ${query}), 
+              'StartSel=<mark>, StopSel=</mark>, MaxWords=50, MinWords=20') as snippet
+          FROM magicdrive_object_index moi
+          INNER JOIN magicdrive_objects mo ON mo.id = moi.object_id
+          WHERE mo.tenant_id = ${workspaceId}
+            AND mo.deleted_at IS NULL
+            AND moi.search_vector @@ plainto_tsquery('english', ${query})
+          ORDER BY ts_rank(moi.search_vector, plainto_tsquery('english', ${query})) DESC
+          LIMIT ${limit}
+        `) as { object_id: string; title: string | null; snippet: string | null }[])
 
     return results.map((row) => ({
       objectId: row.object_id,

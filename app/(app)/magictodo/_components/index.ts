@@ -11,3 +11,4 @@ export {
   ListViewSkeleton,
   BoardViewSkeleton,
 } from "./loading-skeleton";
+export { TenantScopeBadge } from "./tenant-scope-badge";

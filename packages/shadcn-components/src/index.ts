@@ -86,6 +86,7 @@ export * from "./data-table-column-reorder";
 export * from "./data-table-column-pinning";
 export * from "./accessibility-skip-link";
 export * from "./accessibility-focus-trap";
+export * from "./team-switcher";
 
 // ============================================================================
 // HOOKS & UTILITIES
@@ -133,7 +134,7 @@ export {
     NavUser,
     NavWorkspaces,
     SearchForm,
-    TeamSwitcher,
+    TeamSwitcherBlock,
     VersionSwitcher,
     // Authentication
     LoginForm,

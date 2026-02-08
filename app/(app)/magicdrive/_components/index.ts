@@ -8,3 +8,4 @@
 
 export { MagicdriveNav } from "./magicdrive-nav";
 export { UploadDialog } from "./upload-dialog";
+export { TenantScopeBadge } from "./tenant-scope-badge";

@@ -130,4 +130,114 @@ export const tenancyMembershipService = {
       joinedAt: r.joinedAt?.toISOString() ?? "",
     }));
   },
+
+  async listOrgMembers(orgId: string, dbx: Database = db) {
+    const rows = await dbx
+      .select({
+        id: tenancyMemberships.id,
+        userId: tenancyMemberships.userId,
+        role: tenancyMemberships.role,
+        permissions: tenancyMemberships.permissions,
+        invitedBy: tenancyMemberships.invitedBy,
+        joinedAt: tenancyMemberships.joinedAt,
+      })
+      .from(tenancyMemberships)
+      .where(
+        and(
+          eq(tenancyMemberships.organizationId, orgId),
+          eq(tenancyMemberships.isActive, true)
+        )
+      )
+      .orderBy(desc(tenancyMemberships.joinedAt));
+
+    return rows.map((r) => ({
+      id: r.id,
+      userId: r.userId,
+      role: r.role,
+      permissions: r.permissions ?? {},
+      invitedBy: r.invitedBy,
+      joinedAt: r.joinedAt?.toISOString() ?? "",
+    }));
+  },
+
+  async updateMembership(
+    id: string,
+    updates: { role?: string; permissions?: Record<string, boolean> },
+    dbx: Database = db
+  ) {
+    const [row] = await dbx
+      .update(tenancyMemberships)
+      .set({
+        ...updates,
+        updatedAt: sql`now()`,
+      })
+      .where(eq(tenancyMemberships.id, id))
+      .returning();
+    
+    if (!row) throw new Error("Membership not found");
+    return row;
+  },
+
+  async deleteMembership(id: string, dbx: Database = db) {
+    // Soft delete by setting isActive to false
+    const [row] = await dbx
+      .update(tenancyMemberships)
+      .set({
+        isActive: false,
+        updatedAt: sql`now()`,
+      })
+      .where(eq(tenancyMemberships.id, id))
+      .returning();
+    
+    if (!row) throw new Error("Membership not found");
+    return row;
+  },
+
+  async addOrgMember(
+    orgId: string,
+    userId: string,
+    role: "owner" | "admin" | "member",
+    invitedBy: string,
+    dbx: Database = db
+  ) {
+    const id = randomUUID();
+    const [row] = await dbx
+      .insert(tenancyMemberships)
+      .values({
+        id,
+        userId,
+        organizationId: orgId,
+        teamId: null,
+        role,
+        invitedBy,
+      })
+      .returning();
+    
+    if (!row) throw new Error("Failed to add organization member");
+    return row;
+  },
+
+  async getMembership(id: string, dbx: Database = db) {
+    const [row] = await dbx
+      .select()
+      .from(tenancyMemberships)
+      .where(eq(tenancyMemberships.id, id));
+    
+    return row ?? null;
+  },
+
+  async countOrgOwners(orgId: string, dbx: Database = db) {
+    const [result] = await dbx
+      .select({ count: sql<number>`count(*)` })
+      .from(tenancyMemberships)
+      .where(
+        and(
+          eq(tenancyMemberships.organizationId, orgId),
+          eq(tenancyMemberships.role, "owner"),
+          eq(tenancyMemberships.isActive, true)
+        )
+      );
+    
+    return Number(result?.count ?? 0);
+  },
 };

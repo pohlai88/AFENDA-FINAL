@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Button, Sheet, SheetContent, SheetTrigger } from "@afenda/shadcn";
+import { Button, ClientSheet, ClientSheetContent, ClientSheetTrigger } from "@afenda/shadcn";
 import { useState } from "react";
 
 import { marketingSiteConfig } from "../../lib/marketing.site-config";
@@ -15,16 +15,16 @@ export function MobileMenu() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-      <SheetTrigger asChild>
+    <ClientSheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+      <ClientSheetTrigger asChild>
         <Button variant="ghost" size="icon" className="md:hidden">
           <svg className="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
           <span className="sr-only">Toggle menu</span>
         </Button>
-      </SheetTrigger>
-      <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+      </ClientSheetTrigger>
+      <ClientSheetContent side="right" className="w-[300px] sm:w-[400px]">
         <nav className="flex flex-col gap-4 pt-6">
           {marketingSiteConfig.navLinks.map((link) => (
             <Link
@@ -55,7 +55,7 @@ export function MobileMenu() {
             </Button>
           </div>
         </nav>
-      </SheetContent>
-    </Sheet>
+      </ClientSheetContent>
+    </ClientSheet>
   );
 }

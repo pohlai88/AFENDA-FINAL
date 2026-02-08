@@ -42,7 +42,7 @@ export async function setKeepBest(
   if (!group) {
     return { ok: false, error: "Group not found" }
   }
-  if (group.tenantId !== tenantId) {
+  if (group.legacyTenantId !== tenantId) {
     return { ok: false, error: "Forbidden" }
   }
 
@@ -75,7 +75,7 @@ export async function setKeepBest(
       .where(
         and(
           eq(magicdriveObjects.id, keptVersion.objectId),
-          eq(magicdriveObjects.tenantId, tenantId)
+          eq(magicdriveObjects.legacyTenantId, tenantId)
         )
       )
   }

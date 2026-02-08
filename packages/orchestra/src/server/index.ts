@@ -3,7 +3,7 @@
  * Zero domain knowledge — pure system infrastructure services.
  */
 
-import type { NeonHttpDatabase } from "drizzle-orm/neon-http";
+import type { Database } from "@afenda/shared/server/db";
 
 // Re-export constants needed by API routes
 export { KERNEL_ERROR_CODES, type KernelErrorCode } from "../constant/orchestra.system";
@@ -163,6 +163,6 @@ export * from "./orchestra.custom-template";
  * Use this when creating a db instance that works with all services.
  */
 export type KernelDbDeps = {
-  db: NeonHttpDatabase<Record<string, unknown>>;
+  db: Database;
 };
 

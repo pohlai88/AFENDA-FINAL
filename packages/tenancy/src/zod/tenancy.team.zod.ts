@@ -9,7 +9,7 @@ import { z } from "zod";
 import { TENANCY_CONSTANTS } from "../constant";
 
 export const tenancyCreateTeamSchema = z.object({
-  organizationId: z.string().min(1, "Organization ID is required").optional(),
+  organizationId: z.string().min(1, "Organization ID is required"),
   name: z
     .string()
     .min(1, "Team name is required")

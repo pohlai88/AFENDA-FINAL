@@ -19,6 +19,7 @@ import {
 } from "@afenda/orchestra";
 import { magictodoTaskService } from "@afenda/magictodo/server";
 import { db } from "@afenda/shared/server/db";
+import { TENANT_HEADERS } from "@afenda/tenancy/server";
 
 type DbParam = Parameters<typeof magictodoTaskService.list>[5];
 
@@ -61,7 +62,11 @@ export async function GET(_request: NextRequest, context: RouteContext) {
       );
     }
 
-    const result = await magictodoTaskService.getById(userId, id, null, null, db as DbParam);
+    // Extract tenant context from middleware-injected headers
+    const organizationId = _request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const teamId = _request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
+
+    const result = await magictodoTaskService.getById(userId, id, organizationId, teamId, db as DbParam);
     if (!result.ok) {
       const err = (result as unknown as { error: { code: string; message: string } }).error;
       return NextResponse.json(
@@ -127,8 +132,12 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
       );
     }
 
+    // Extract tenant context from middleware-injected headers
+    const organizationId = request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const teamId = request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
+
     const body = await request.json();
-    const result = await magictodoTaskService.update(userId, id, null, null, body, db as DbParam);
+    const result = await magictodoTaskService.update(userId, id, organizationId, teamId, body, db as DbParam);
     if (!result.ok) {
       const err = (result as unknown as { error: { code: string; message: string } }).error;
       return NextResponse.json(
@@ -194,7 +203,11 @@ export async function DELETE(_request: NextRequest, context: RouteContext) {
       );
     }
 
-    const result = await magictodoTaskService.delete(userId, id, null, null, db as DbParam);
+    // Extract tenant context from middleware-injected headers
+    const organizationId = _request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const teamId = _request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
+
+    const result = await magictodoTaskService.delete(userId, id, organizationId, teamId, db as DbParam);
     if (!result.ok) {
       const err = (result as unknown as { error: { code: string; message: string } }).error;
       return NextResponse.json(

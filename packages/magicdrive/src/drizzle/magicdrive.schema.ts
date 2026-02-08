@@ -15,6 +15,7 @@ import {
   index,
   uniqueIndex,
 } from "drizzle-orm/pg-core";
+import { tenancyColumns, tenancyForeignKeys, TENANCY_DB_COLUMNS } from "@afenda/tenancy/drizzle";
 
 // Enums
 export const magicdriveUploadStatusEnum = pgEnum("magicdrive_upload_status", [
@@ -52,7 +53,7 @@ export const magicdriveObjects = pgTable(
   "magicdrive_objects",
   {
     id: text("id").primaryKey(),
-    tenantId: text("tenant_id").notNull(),
+    ...tenancyColumns.withLegacy(),
     ownerId: text("owner_id").notNull(),
     currentVersionId: text("current_version_id"),
     title: text("title"),
@@ -64,9 +65,14 @@ export const magicdriveObjects = pgTable(
     updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }).defaultNow(),
   },
   (table) => ({
-    tenantIdx: index("magicdrive_objects_tenant_id_idx").on(table.tenantId),
+    legacyTenantIdx: index("magicdrive_objects_tenant_id_idx").on(table.legacyTenantId),
+    legacyTenantIdx2: index("idx_magicdrive_objects_legacy_tenant_id").on(table.legacyTenantId),
+    orgIdx: index("idx_magicdrive_objects_organization_id").on(table.organizationId),
+    teamIdx: index("idx_magicdrive_objects_team_id").on(table.teamId),
     statusIdx: index("magicdrive_objects_status_idx").on(table.status),
     docTypeIdx: index("magicdrive_objects_doc_type_idx").on(table.docType),
+    fkOrg: tenancyForeignKeys("magicdrive_objects", table)[0],
+    fkTeam: tenancyForeignKeys("magicdrive_objects", table)[1],
   })
 );
 
@@ -96,7 +102,7 @@ export const magicdriveUploads = pgTable(
   "magicdrive_uploads",
   {
     id: text("id").primaryKey(),
-    tenantId: text("tenant_id").notNull(),
+    ...tenancyColumns.withLegacy(),
     ownerId: text("owner_id").notNull(),
     objectId: text("object_id").notNull(),
     versionId: text("version_id").notNull(),
@@ -109,8 +115,13 @@ export const magicdriveUploads = pgTable(
     createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).defaultNow(),
   },
   (table) => ({
-    tenantIdx: index("magicdrive_uploads_tenant_id_idx").on(table.tenantId),
+    legacyTenantIdx: index("magicdrive_uploads_tenant_id_idx").on(table.legacyTenantId),
+    legacyTenantIdx2: index("idx_magicdrive_uploads_legacy_tenant_id").on(table.legacyTenantId),
+    orgIdx: index("idx_magicdrive_uploads_organization_id").on(table.organizationId),
+    teamIdx: index("idx_magicdrive_uploads_team_id").on(table.teamId),
     statusIdx: index("magicdrive_uploads_status_idx").on(table.status),
+    fkOrg: tenancyForeignKeys("magicdrive_uploads", table)[0],
+    fkTeam: tenancyForeignKeys("magicdrive_uploads", table)[1],
   })
 );
 
@@ -119,13 +130,18 @@ export const magicdriveDuplicateGroups = pgTable(
   "magicdrive_duplicate_groups",
   {
     id: text("id").primaryKey(),
-    tenantId: text("tenant_id").notNull(),
+    ...tenancyColumns.withLegacy(),
     reason: magicdriveDupReasonEnum("reason").notNull(),
     keepVersionId: text("keep_version_id"),
     createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).defaultNow(),
   },
   (table) => ({
-    tenantIdx: index("magicdrive_duplicate_groups_tenant_id_idx").on(table.tenantId),
+    legacyTenantIdx: index("magicdrive_duplicate_groups_tenant_id_idx").on(table.legacyTenantId),
+    legacyTenantIdx2: index("idx_magicdrive_duplicate_groups_legacy_tenant_id").on(table.legacyTenantId),
+    orgIdx: index("idx_magicdrive_duplicate_groups_organization_id").on(table.organizationId),
+    teamIdx: index("idx_magicdrive_duplicate_groups_team_id").on(table.teamId),
+    fkOrg: tenancyForeignKeys("magicdrive_duplicate_groups", table)[0],
+    fkTeam: tenancyForeignKeys("magicdrive_duplicate_groups", table)[1],
   })
 );
 
@@ -172,15 +188,20 @@ export const magicdriveTags = pgTable(
   "magicdrive_tags",
   {
     id: text("id").primaryKey(),
-    tenantId: text("tenant_id").notNull(),
+    ...tenancyColumns.withLegacy(),
     name: text("name").notNull(),
     slug: text("slug").notNull(),
     color: text("color"),
     createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).defaultNow(),
   },
   (table) => ({
-    tenantIdx: index("magicdrive_tags_tenant_id_idx").on(table.tenantId),
+    legacyTenantIdx: index("magicdrive_tags_tenant_id_idx").on(table.legacyTenantId),
+    legacyTenantIdx2: index("idx_magicdrive_tags_legacy_tenant_id").on(table.legacyTenantId),
+    orgIdx: index("idx_magicdrive_tags_organization_id").on(table.organizationId),
+    teamIdx: index("idx_magicdrive_tags_team_id").on(table.teamId),
     slugIdx: index("magicdrive_tags_slug_idx").on(table.slug),
+    fkOrg: tenancyForeignKeys("magicdrive_tags", table)[0],
+    fkTeam: tenancyForeignKeys("magicdrive_tags", table)[1],
   })
 );
 
@@ -207,7 +228,7 @@ export const magicdriveSavedViews = pgTable(
   "magicdrive_saved_views",
   {
     id: text("id").primaryKey(),
-    tenantId: text("tenant_id").notNull(),
+    ...tenancyColumns.withLegacy(),
     userId: text("user_id").notNull(),
     name: text("name").notNull(),
     description: text("description"),
@@ -221,8 +242,13 @@ export const magicdriveSavedViews = pgTable(
     updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }).defaultNow(),
   },
   (table) => ({
-    tenantIdx: index("magicdrive_saved_views_tenant_id_idx").on(table.tenantId),
+    legacyTenantIdx: index("magicdrive_saved_views_tenant_id_idx").on(table.legacyTenantId),
+    legacyTenantIdx2: index("idx_magicdrive_saved_views_legacy_tenant_id").on(table.legacyTenantId),
+    orgIdx: index("idx_magicdrive_saved_views_organization_id").on(table.organizationId),
+    teamIdx: index("idx_magicdrive_saved_views_team_id").on(table.teamId),
     userIdx: index("magicdrive_saved_views_user_id_idx").on(table.userId),
+    fkOrg: tenancyForeignKeys("magicdrive_saved_views", table)[0],
+    fkTeam: tenancyForeignKeys("magicdrive_saved_views", table)[1],
   })
 );
 
@@ -231,7 +257,7 @@ export const magicdriveUserPreferences = pgTable(
   "magicdrive_user_preferences",
   {
     id: text("id").primaryKey(),
-    tenantId: text("tenant_id").notNull(),
+    ...tenancyColumns.withLegacy(),
     userId: text("user_id").notNull(),
     defaultView: text("default_view").default("cards"),
     itemsPerPage: integer("items_per_page").default(20),
@@ -244,7 +270,12 @@ export const magicdriveUserPreferences = pgTable(
     updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }).defaultNow(),
   },
   (table) => ({
-    tenantUserIdx: uniqueIndex("magicdrive_up_tenant_user_idx").on(table.tenantId, table.userId),
+    tenantUserIdx: uniqueIndex("magicdrive_up_tenant_user_idx").on(table.legacyTenantId, table.userId),
+    legacyTenantIdx: index("idx_magicdrive_user_preferences_legacy_tenant_id").on(table.legacyTenantId),
+    orgIdx: index("idx_magicdrive_user_preferences_organization_id").on(table.organizationId),
+    teamIdx: index("idx_magicdrive_user_preferences_team_id").on(table.teamId),
+    fkOrg: tenancyForeignKeys("magicdrive_user_preferences", table)[0],
+    fkTeam: tenancyForeignKeys("magicdrive_user_preferences", table)[1],
   })
 );
 
@@ -253,7 +284,9 @@ export const magicdriveTenantSettings = pgTable(
   "magicdrive_tenant_settings",
   {
     id: text("id").primaryKey(),
-    tenantId: text("tenant_id").notNull().unique(),
+    ...tenancyColumns.withLegacy(),
+    // Override: unique constraint for single-row-per-tenant table
+    legacyTenantId: text(TENANCY_DB_COLUMNS.LEGACY_TENANT_ID).notNull().unique(),
     documentTypes: jsonb("document_types").default([]),
     statusWorkflow: jsonb("status_workflow").default([]),
     enableAiSuggestions: boolean("enable_ai_suggestions").default(false),
@@ -264,7 +297,11 @@ export const magicdriveTenantSettings = pgTable(
     updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }).defaultNow(),
   },
   (table) => ({
-    tenantIdx: index("magicdrive_tenant_settings_tenant_id_idx").on(table.tenantId),
+    legacyTenantIdx: index("magicdrive_tenant_settings_tenant_id_idx").on(table.legacyTenantId),
+    orgIdx: index("idx_magicdrive_tenant_settings_organization_id").on(table.organizationId),
+    teamIdx: index("idx_magicdrive_tenant_settings_team_id").on(table.teamId),
+    fkOrg: tenancyForeignKeys("magicdrive_tenant_settings", table, { onDeleteOrg: "cascade", onDeleteTeam: "cascade" })[0],
+    fkTeam: tenancyForeignKeys("magicdrive_tenant_settings", table, { onDeleteOrg: "cascade", onDeleteTeam: "cascade" })[1],
   })
 );
 
@@ -273,7 +310,7 @@ export const magicdriveCollections = pgTable(
   "magicdrive_collections",
   {
     id: text("id").primaryKey(),
-    tenantId: text("tenant_id").notNull(),
+    ...tenancyColumns.withLegacy(),
     ownerId: text("owner_id"),
     name: text("name").notNull(),
     description: text("description"),
@@ -286,7 +323,12 @@ export const magicdriveCollections = pgTable(
     updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }).defaultNow(),
   },
   (table) => ({
-    tenantIdx: index("magicdrive_collections_tenant_id_idx").on(table.tenantId),
+    legacyTenantIdx: index("magicdrive_collections_tenant_id_idx").on(table.legacyTenantId),
+    legacyTenantIdx2: index("idx_magicdrive_collections_legacy_tenant_id").on(table.legacyTenantId),
+    orgIdx: index("idx_magicdrive_collections_organization_id").on(table.organizationId),
+    teamIdx: index("idx_magicdrive_collections_team_id").on(table.teamId),
+    fkOrg: tenancyForeignKeys("magicdrive_collections", table)[0],
+    fkTeam: tenancyForeignKeys("magicdrive_collections", table)[1],
   })
 );
 

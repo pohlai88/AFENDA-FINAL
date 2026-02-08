@@ -13,6 +13,7 @@ import { NextResponse } from "next/server";
 import { HTTP_STATUS, KERNEL_HEADERS, getAuthContext } from "@afenda/orchestra";
 import { ok, fail, KERNEL_ERROR_CODES, envelopeHeaders } from "@afenda/shared/server";
 import { listDuplicateGroupsAction } from "@afenda/magicdrive/server";
+import { TENANT_HEADERS } from "@afenda/tenancy/server";
 
 export async function GET(request: NextRequest) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
@@ -31,15 +32,22 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Extract tenant context from middleware-injected headers
+    const organizationId = request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const teamId = request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
+
     const searchParams = request.nextUrl.searchParams;
     const limit = Math.min(Number(searchParams.get("limit") ?? 50), 100);
     const offset = Number(searchParams.get("offset") ?? 0);
 
-    const allGroups = await listDuplicateGroupsAction(userId);
+    // Use organization-scoped workspace when tenant context is active
+    const workspaceId = organizationId ?? userId;
+    const allGroups = await listDuplicateGroupsAction(workspaceId, { organizationId, teamId });
     const total = allGroups.length;
     const items = allGroups.slice(offset, offset + limit).map((g) => ({
       ...g,
-      tenantId: userId,
+      organizationId,
+      teamId,
     }));
 
     return NextResponse.json(

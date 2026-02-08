@@ -28,7 +28,8 @@ export type IngestResult =
 export async function finalizeIngest(
   uploadId: string,
   tenantId: string,
-  ownerId: string
+  ownerId: string,
+  tenantContext?: { organizationId?: string | null; teamId?: string | null }
 ): Promise<IngestResult> {
   const db = getDb()
 
@@ -41,7 +42,7 @@ export async function finalizeIngest(
   if (!upload) {
     return { ok: false, error: "Upload not found" }
   }
-  if (upload.tenantId !== tenantId || upload.ownerId !== ownerId) {
+  if (upload.legacyTenantId !== tenantId || upload.ownerId !== ownerId) {
     return { ok: false, error: "Forbidden" }
   }
   if (upload.status !== UPLOAD_STATUS.PRESIGNED && upload.status !== UPLOAD_STATUS.UPLOADED) {
@@ -106,7 +107,9 @@ export async function finalizeIngest(
 
   await db.insert(magicdriveObjects).values({
     id: objectId,
-    tenantId,
+    legacyTenantId: tenantId,
+    organizationId: tenantContext?.organizationId ?? null,
+    teamId: tenantContext?.teamId ?? null,
     ownerId,
     currentVersionId: versionId,
     title: upload.filename,

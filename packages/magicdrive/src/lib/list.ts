@@ -37,7 +37,9 @@ export type ListObjectsQuery = {
 
 export type ObjectWithVersion = {
   id: string
-  tenantId: string
+  legacyTenantId: string
+  organizationId?: string | null
+  teamId?: string | null
   ownerId: string
   title: string | null
   docType: string
@@ -60,11 +62,17 @@ export type ObjectWithVersion = {
 
 export async function listObjects(
   tenantId: string,
-  query: ListObjectsQuery
+  query: ListObjectsQuery,
+  tenantContext?: { organizationId?: string | null; teamId?: string | null }
 ): Promise<{ items: ObjectWithVersion[]; total: number; limit: number; offset: number }> {
   const db = getDb()
 
-  const conditions = [eq(magicdriveObjects.tenantId, tenantId), isNull(magicdriveObjects.deletedAt)]
+  // Phase 4: Prefer organizationId filter when tenant context available, fallback to legacyTenantId
+  const tenantFilter = tenantContext?.organizationId
+    ? eq(magicdriveObjects.organizationId, tenantContext.organizationId)
+    : eq(magicdriveObjects.legacyTenantId, tenantId)
+
+  const conditions = [tenantFilter, isNull(magicdriveObjects.deletedAt)]
   if (query.status) {
     conditions.push(
       eq(magicdriveObjects.status, query.status as (typeof magicdriveObjects.$inferSelect)["status"])
@@ -217,9 +225,15 @@ export type ObjectDetailWithVersions = ObjectWithVersion & {
 
 export async function getObjectById(
   tenantId: string,
-  objectId: string
+  objectId: string,
+  tenantContext?: { organizationId?: string | null; teamId?: string | null }
 ): Promise<ObjectDetailWithVersions | null> {
   const db = getDb()
+
+  // Phase 4: Prefer organizationId filter when available
+  const tenantFilter = tenantContext?.organizationId
+    ? eq(magicdriveObjects.organizationId, tenantContext.organizationId)
+    : eq(magicdriveObjects.legacyTenantId, tenantId)
 
   const [row] = await db
     .select({
@@ -239,7 +253,7 @@ export async function getObjectById(
     .where(
       and(
         eq(magicdriveObjects.id, objectId),
-        eq(magicdriveObjects.tenantId, tenantId),
+        tenantFilter,
         isNull(magicdriveObjects.deletedAt)
       )
     )
@@ -294,7 +308,7 @@ export async function getObjectById(
 
 export type DuplicateGroupWithVersions = {
   id: string
-  tenantId: string
+  legacyTenantId: string
   reason: string
   keepVersionId: string | null
   createdAt: Date | null
@@ -312,21 +326,27 @@ export type DuplicateGroupWithVersions = {
 export async function listDuplicateGroups(
   tenantId: string,
   limit: number,
-  offset: number
+  offset: number,
+  tenantContext?: { organizationId?: string | null; teamId?: string | null }
 ): Promise<{ items: DuplicateGroupWithVersions[]; total: number; limit: number; offset: number }> {
   const db = getDb()
+
+  // Phase 4: Prefer organizationId filter when available
+  const tenantFilter = tenantContext?.organizationId
+    ? eq(magicdriveDuplicateGroups.organizationId, tenantContext.organizationId)
+    : eq(magicdriveDuplicateGroups.legacyTenantId, tenantId)
 
   const totalResult = await db
     .select({ count: sql<number>`count(*)::int` })
     .from(magicdriveDuplicateGroups)
-    .where(eq(magicdriveDuplicateGroups.tenantId, tenantId))
+    .where(tenantFilter)
 
   const total = totalResult[0]?.count ?? 0
 
   const groups = await db
     .select()
     .from(magicdriveDuplicateGroups)
-    .where(eq(magicdriveDuplicateGroups.tenantId, tenantId))
+    .where(tenantFilter)
     .orderBy(desc(magicdriveDuplicateGroups.createdAt))
     .limit(limit)
     .offset(offset)
@@ -373,7 +393,7 @@ export async function listDuplicateGroups(
     const versions = versionsByGroup.get(g.id) ?? []
     return {
       id: g.id,
-      tenantId: g.tenantId,
+      legacyTenantId: g.legacyTenantId,
       reason: g.reason,
       keepVersionId: g.keepVersionId,
       createdAt: g.createdAt,
@@ -398,15 +418,22 @@ export async function listDuplicateGroups(
  */
 export async function dismissDuplicateGroup(
   tenantId: string,
-  groupId: string
+  groupId: string,
+  tenantContext?: { organizationId?: string | null; teamId?: string | null }
 ): Promise<{ deleted: boolean }> {
   const db = getDb()
+
+  // Phase 4: Prefer organizationId filter when available
+  const tenantFilter = tenantContext?.organizationId
+    ? eq(magicdriveDuplicateGroups.organizationId, tenantContext.organizationId)
+    : eq(magicdriveDuplicateGroups.legacyTenantId, tenantId)
+
   const deleted = await db
     .delete(magicdriveDuplicateGroups)
     .where(
       and(
         eq(magicdriveDuplicateGroups.id, groupId),
-        eq(magicdriveDuplicateGroups.tenantId, tenantId)
+        tenantFilter
       )
     )
     .returning({ id: magicdriveDuplicateGroups.id })

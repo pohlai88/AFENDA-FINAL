@@ -12,6 +12,7 @@ import { NextResponse } from "next/server";
 
 import { HTTP_STATUS, KERNEL_HEADERS, getAuthContext } from "@afenda/orchestra";
 import { ok, fail, KERNEL_ERROR_CODES, envelopeHeaders } from "@afenda/shared/server";
+import { TENANT_HEADERS } from "@afenda/tenancy/server";
 
 const DEFAULT_PREFERENCES = {
   quickSettings: {
@@ -24,6 +25,9 @@ const DEFAULT_PREFERENCES = {
 export async function GET(_request: NextRequest) {
   const traceId = _request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
   const headers = envelopeHeaders(traceId);
+  // Phase 4: Tenant context for user-scoped preferences
+  const organizationId = _request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+  const teamId = _request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
 
   try {
     const auth = await getAuthContext();
@@ -38,6 +42,7 @@ export async function GET(_request: NextRequest) {
     }
 
     // TODO: Load from user prefs store; return defaults until then
+    // Phase 4: Use organizationId/teamId to scope preferences per tenant
     const preferences = { ...DEFAULT_PREFERENCES };
 
     return NextResponse.json(
@@ -62,6 +67,9 @@ export async function GET(_request: NextRequest) {
 export async function PUT(request: NextRequest) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
   const headers = envelopeHeaders(traceId);
+  // Phase 4: Tenant context for user-scoped preferences
+  const organizationId = request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+  const teamId = request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
 
   try {
     const auth = await getAuthContext();
@@ -77,6 +85,7 @@ export async function PUT(request: NextRequest) {
 
     const body = await request.json().catch(() => ({}));
     // TODO: Persist to user prefs store; for now echo back merged with defaults
+    // Phase 4: Use organizationId/teamId to scope preferences per tenant
     const preferences = { ...DEFAULT_PREFERENCES, ...body };
 
     return NextResponse.json(

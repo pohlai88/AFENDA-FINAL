@@ -368,6 +368,37 @@ const eslintConfig = defineConfig([
       ],
     },
   },
+
+  // 7) Tenancy columns: use tenancyColumns spread from @afenda/tenancy/drizzle.
+  //    Block inline text("legacy_tenant_id") / text("organization_id") / text("team_id") in schema files.
+  //    tenancy-columns.ts itself is exempt (defines the source of truth).
+  {
+    files: ["packages/*/src/drizzle/**/*.ts"],
+    ignores: ["packages/tenancy/src/drizzle/tenancy-columns.ts"],
+    rules: {
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector:
+            'CallExpression[callee.name="text"] > Literal[value="legacy_tenant_id"]',
+          message:
+            "Use `...tenancyColumns.withLegacy()` from @afenda/tenancy/drizzle. See 02-ARCHITECTURE.md § 3.3.",
+        },
+        {
+          selector:
+            'CallExpression[callee.name="text"] > Literal[value="organization_id"]',
+          message:
+            "Use `...tenancyColumns.standard()` or `.withLegacy()` from @afenda/tenancy/drizzle. See 02-ARCHITECTURE.md § 3.3.",
+        },
+        {
+          selector:
+            'CallExpression[callee.name="text"] > Literal[value="team_id"]',
+          message:
+            "Use `...tenancyColumns.standard()` or `.withLegacy()` from @afenda/tenancy/drizzle. See 02-ARCHITECTURE.md § 3.3.",
+        },
+      ],
+    },
+  },
 ]);
 
 export default eslintConfig;

@@ -11,10 +11,13 @@ import type { Document, CreateDocumentInput, UpdateDocumentInput } from "../zod/
 
 /**
  * Server action: List documents with filters.
+ * Phase 4: Now accepts organizationId/teamId for tenant-scoped filtering.
  */
 export async function listDocumentsAction(params: {
   workspaceId: string
   folderId?: string | null
+  organizationId?: string | null
+  teamId?: string | null
   status?: string
   type?: string
   search?: string
@@ -25,15 +28,21 @@ export async function listDocumentsAction(params: {
   offset?: number
 }): Promise<{ documents: Document[]; total: number }> {
   // TODO: Implement with actual DB query
-  // const result = await listObjects(params.workspaceId, { ... })
+  // When organizationId/teamId are provided, filter by tenant context
+  // const result = await listObjects(params.workspaceId, { organizationId: params.organizationId, teamId: params.teamId, ... })
   return { documents: [], total: 0 }
 }
 
 /**
  * Server action: Get single document by ID.
+ * Phase 4: Now accepts tenant context for access validation.
  */
-export async function getDocumentAction(id: string): Promise<Document | null> {
+export async function getDocumentAction(
+  id: string,
+  tenantContext?: { organizationId?: string | null; teamId?: string | null }
+): Promise<Document | null> {
   // TODO: Implement with actual DB query
+  // Validate document belongs to tenant context when provided
   return null
 }
 

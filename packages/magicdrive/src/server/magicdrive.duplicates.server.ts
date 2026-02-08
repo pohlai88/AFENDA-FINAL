@@ -1,6 +1,7 @@
 /**
  * @layer domain (magicdrive)
  * @responsibility Duplicate detection server actions.
+ * Phase 4: Enhanced with tenant context for org/team-scoped duplicate management.
  *
  * Wires to lib/server/magicdrive/duplicates.ts and keep-best.ts
  */
@@ -9,7 +10,7 @@
 
 import { revalidatePath } from "next/cache"
 import { logError } from "../pino"
-import { eq, sql } from "drizzle-orm"
+import { eq, sql, and } from "drizzle-orm"
 
 import { routes } from "@afenda/shared/constants"
 import {
@@ -21,6 +22,12 @@ import {
 } from "@afenda/shared/db"
 import { setKeepBest } from "../lib/keep-best"
 import { getAuthContext } from "@afenda/auth/server"
+
+/** Tenant context for duplicate operations */
+interface TenantContext {
+  organizationId?: string | null
+  teamId?: string | null
+}
 
 export interface DuplicateGroup {
   id: string
@@ -40,9 +47,11 @@ export interface DuplicateGroup {
 
 /**
  * Server action: List duplicate groups for a workspace.
+ * Phase 4: When org/team columns are applied, will also filter by organization_id/team_id.
  */
 export async function listDuplicateGroupsAction(
-  workspaceId: string
+  workspaceId: string,
+  tenantContext?: TenantContext
 ): Promise<DuplicateGroup[]> {
   try {
     const auth = await getAuthContext()
@@ -52,11 +61,15 @@ export async function listDuplicateGroupsAction(
 
     const db = getDb()
 
-    // Get all duplicate groups for this tenant
+    // Get all duplicate groups for this tenant — prefer organizationId, fallback to legacyTenantId
+    const tenantFilter = tenantContext?.organizationId
+      ? eq(magicdriveDuplicateGroups.organizationId, tenantContext.organizationId)
+      : eq(magicdriveDuplicateGroups.legacyTenantId, workspaceId)
+
     const groups = await db
       .select()
       .from(magicdriveDuplicateGroups)
-      .where(eq(magicdriveDuplicateGroups.tenantId, workspaceId))
+      .where(tenantFilter)
       .orderBy(sql`${magicdriveDuplicateGroups.createdAt} DESC`)
 
     const result: DuplicateGroup[] = []
@@ -230,7 +243,7 @@ export async function resolveDuplicatesAction(params: {
     const result = await setKeepBest(
       params.groupId,
       params.keepVersionId,
-      group.tenantId,
+      group.legacyTenantId,
       auth.userId
     )
 
@@ -340,7 +353,7 @@ export async function mergeDuplicatesAction(params: {
     const result = await setKeepBest(
       params.groupId,
       params.keepVersionId,
-      group.tenantId,
+      group.legacyTenantId,
       auth.userId
     )
 
@@ -428,9 +441,11 @@ export async function mergeDuplicatesAction(params: {
 
 /**
  * Server action: Get duplicate count for a workspace (for badges/notifications).
+ * Phase 4: When org/team columns are applied, will also filter by organization_id/team_id.
  */
 export async function getDuplicateCountAction(
-  workspaceId: string
+  workspaceId: string,
+  tenantContext?: TenantContext
 ): Promise<number> {
   try {
     const auth = await getAuthContext()
@@ -443,7 +458,7 @@ export async function getDuplicateCountAction(
     const result = await db
       .select({ count: sql<number>`count(*)` })
       .from(magicdriveDuplicateGroups)
-      .where(eq(magicdriveDuplicateGroups.tenantId, workspaceId))
+      .where(eq(magicdriveDuplicateGroups.legacyTenantId, workspaceId))
 
     return result[0]?.count || 0
   } catch (error) {

@@ -2,7 +2,7 @@
   "$schema": "./component-registry.schema.json",
   "name": "@afenda/shadcn",
   "version": "0.1.0",
-  "generatedAt": "2026-02-08T05:46:13.047Z",
+  "generatedAt": "2026-02-08T17:07:07.577Z",
   "stats": {
     "primitives": 393,
     "hooks": 7,
@@ -4008,7 +4008,7 @@
         "category": "layout"
       },
       {
-        "name": "TeamSwitcher",
+        "name": "TeamSwitcherBlock",
         "path": "./blocks/team-switcher",
         "file": "blocks/team-switcher.tsx",
         "category": "layout"

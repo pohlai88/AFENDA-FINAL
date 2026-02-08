@@ -224,6 +224,7 @@ export const routesBase = {
         "/api/cron/process-magicdrive-queue" as const,
     },
     tenancy: {
+      bff: () => "/api/tenancy" as const,
       organizations: {
         bff: {
           list: () => "/api/tenancy/organizations/bff" as const,
@@ -240,6 +241,16 @@ export const routesBase = {
       memberships: {
         bff: {
           list: () => "/api/tenancy/memberships/bff" as const,
+          byId: (id: string) => `/api/tenancy/memberships/${id}/bff` as const,
+        },
+      },
+      tenant: {
+        active: () => "/api/tenancy/tenant/active" as const,
+        switchBff: () => "/api/tenancy/tenant/switch/bff" as const,
+      },
+      invitations: {
+        bff: {
+          accept: (token: string) => `/api/tenancy/invitations/${token}/accept/bff` as const,
         },
       },
     },

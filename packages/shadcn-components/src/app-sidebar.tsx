@@ -2,172 +2,102 @@
 
 import * as React from "react"
 import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
+  ListTodo,
+  Folder,
+  Building2,
+  Settings,
+  LayoutDashboard,
 } from "lucide-react"
+import { routes } from "@afenda/shared/constants"
 
-import { NavMain } from "packages/shadcn-components/src/nav-main"
-import { NavProjects } from "packages/shadcn-components/src/nav-projects"
-import { NavUser } from "packages/shadcn-components/src/nav-user"
-import { TeamSwitcher } from "packages/shadcn-components/src/team-switcher"
+import { NavMain } from "./nav-main"
+import { NavUser } from "./nav-user"
+import { TeamSwitcher } from "./team-switcher"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "packages/shadcn-components/src/sidebar"
+} from "./sidebar"
 
-// This is sample data.
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
+interface AppSidebarUser {
+  name: string
+  email: string
+  avatar: string
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({
+  user,
+  ...props
+}: React.ComponentProps<typeof Sidebar> & { user?: AppSidebarUser | null }) {
+  // AFENDA navigation — sidebar-07 pattern with collapsible groups
+  const navMain = [
+    {
+      title: "Dashboard",
+      url: routes.ui.orchestra.dashboard(),
+      icon: LayoutDashboard,
+    },
+    {
+      title: "MagicTodo",
+      url: routes.ui.magictodo.dashboard(),
+      icon: ListTodo,
+      items: [
+        { title: "Tasks", url: routes.ui.magictodo.tasks() },
+        { title: "Projects", url: routes.ui.magictodo.projects() },
+        { title: "Kanban", url: routes.ui.magictodo.kanban() },
+        { title: "Calendar", url: routes.ui.magictodo.calendar() },
+      ],
+    },
+    {
+      title: "MagicDrive",
+      url: routes.ui.magicdrive.root(),
+      icon: Folder,
+      items: [
+        { title: "Files", url: routes.ui.magicdrive.root() },
+        { title: "Recent", url: routes.ui.magicdrive.recent() },
+        { title: "Starred", url: routes.ui.magicdrive.starred() },
+      ],
+    },
+    {
+      title: "Tenancy",
+      url: routes.ui.tenancy.organizations.list(),
+      icon: Building2,
+      items: [
+        { title: "Organizations", url: routes.ui.tenancy.organizations.list() },
+        { title: "Teams", url: routes.ui.tenancy.teams.list() },
+        { title: "Members", url: routes.ui.tenancy.memberships() },
+      ],
+    },
+    {
+      title: "Admin",
+      url: routes.ui.admin.root(),
+      icon: Settings,
+      items: [
+        { title: "Services", url: routes.ui.admin.services() },
+        { title: "Health", url: routes.ui.admin.health() },
+        { title: "Configuration", url: routes.ui.admin.config() },
+      ],
+    },
+  ]
+
+  // User data for footer
+  const userData = {
+    name: user?.name || "User",
+    email: user?.email || "",
+    avatar: user?.avatar || "",
+  }
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <TeamSwitcher />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavMain items={navMain} label="AFENDA" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={userData} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

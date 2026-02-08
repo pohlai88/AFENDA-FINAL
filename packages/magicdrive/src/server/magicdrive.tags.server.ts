@@ -1,6 +1,7 @@
 /**
  * @layer domain (magicdrive)
  * @responsibility Tag management server actions.
+ * Phase 4: Enhanced with tenant context for org/team-scoped tag management.
  */
 
 "use server"
@@ -9,13 +10,22 @@ import { revalidatePath } from "next/cache"
 import { routes } from "@afenda/shared/constants"
 import type { Tag, CreateTagInput, UpdateTagInput } from "@afenda/shared/tags"
 
+/** Tenant context for tag operations */
+interface TenantContext {
+  organizationId?: string | null
+  teamId?: string | null
+}
+
 /**
  * Server action: List all tags for a workspace.
+ * Phase 4: Filter by tenant context when provided.
  */
 export async function listTagsAction(
-  workspaceId: string
+  workspaceId: string,
+  tenantContext?: TenantContext
 ): Promise<Tag[]> {
   // TODO: Implement with actual DB query via listTagsByTenant
+  // When tenantContext provided, filter: WHERE organization_id = ? AND team_id = ?
   return []
 }
 
@@ -23,7 +33,8 @@ export async function listTagsAction(
  * Server action: Get tags for a document.
  */
 export async function getDocumentTagsAction(
-  documentId: string
+  documentId: string,
+  tenantContext?: TenantContext
 ): Promise<Tag[]> {
   // TODO: Implement with actual DB query via listTagsForObject
   return []
@@ -31,10 +42,12 @@ export async function getDocumentTagsAction(
 
 /**
  * Server action: Create a new tag.
+ * Phase 4: Associates tag with active tenant.
  */
 export async function createTagAction(
   workspaceId: string,
-  input: CreateTagInput
+  input: CreateTagInput,
+  tenantContext?: TenantContext
 ): Promise<{ success: boolean; tag?: Tag; error?: string }> {
   try {
     // TODO: Implement with actual DB insert
@@ -50,7 +63,8 @@ export async function createTagAction(
  */
 export async function updateTagAction(
   tagId: string,
-  input: UpdateTagInput
+  input: UpdateTagInput,
+  tenantContext?: TenantContext
 ): Promise<{ success: boolean; tag?: Tag; error?: string }> {
   try {
     // TODO: Implement with actual DB update
@@ -65,7 +79,8 @@ export async function updateTagAction(
  * Server action: Delete a tag.
  */
 export async function deleteTagAction(
-  tagId: string
+  tagId: string,
+  tenantContext?: TenantContext
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // TODO: Implement with actual DB delete

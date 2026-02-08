@@ -18,6 +18,7 @@ import {
 } from "@afenda/orchestra";
 import { magictodoTaskService } from "@afenda/magictodo/server";
 import { db } from "@afenda/shared/server/db";
+import { TENANT_HEADERS } from "@afenda/tenancy/server";
 
 /**
  * GET /api/magictodo/tasks/bff
@@ -42,6 +43,10 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Extract tenant context from middleware-injected headers
+    const organizationId = request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const teamId = request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
+
     const status = request.nextUrl.searchParams.get("status");
     const statuses = status ? status.split(",").filter(Boolean) : undefined;
     const projectId = request.nextUrl.searchParams.get("projectId") ?? undefined;
@@ -50,8 +55,8 @@ export async function GET(request: NextRequest) {
 
     const result = await magictodoTaskService.list(
       userId,
-      null,
-      null,
+      organizationId,
+      teamId,
       { status: statuses, projectId },
       { limit, offset },
       db as Parameters<typeof magictodoTaskService.list>[5]

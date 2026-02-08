@@ -6,7 +6,7 @@
 
 import type { Metadata } from "next";
 import { routes } from "@afenda/shared/constants";
-import { MagicdriveNav } from "./_components";
+import { MagicdriveNav, TenantScopeBadge } from "./_components";
 
 export const metadata: Metadata = {
   title: {
@@ -43,7 +43,10 @@ interface MagicdriveLayoutProps {
 export default function MagicdriveLayout({ children }: MagicdriveLayoutProps) {
   return (
     <div className="flex flex-col gap-6">
-      <MagicdriveNav />
+      <div className="flex items-center justify-between">
+        <MagicdriveNav />
+        <TenantScopeBadge />
+      </div>
       {children}
     </div>
   );

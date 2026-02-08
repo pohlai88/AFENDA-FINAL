@@ -19,7 +19,9 @@ import { magicdriveLogger } from "@afenda/magicdrive/pino"
 
 export type TagRow = {
   id: string
-  tenantId: string
+  legacyTenantId: string
+  organizationId?: string | null
+  teamId?: string | null
   name: string
   slug: string
   color?: string | null
@@ -34,7 +36,7 @@ export async function listTagsByTenant(
     const rows = await db
       .select()
       .from(magicdriveTags)
-      .where(eq(magicdriveTags.tenantId, tenantId))
+      .where(eq(magicdriveTags.legacyTenantId, tenantId))
     return rows
   } catch (error) {
     magicdriveLogger.error({ err: error, tenantId }, "[magicdrive/tags] listTagsByTenant failed")
@@ -50,7 +52,7 @@ export async function listTagsForObject(
   const rows = await db
     .select({
       id: magicdriveTags.id,
-      tenantId: magicdriveTags.tenantId,
+      legacyTenantId: magicdriveTags.legacyTenantId,
       name: magicdriveTags.name,
       slug: magicdriveTags.slug,
       createdAt: magicdriveTags.createdAt,
@@ -63,7 +65,7 @@ export async function listTagsForObject(
     .where(
       and(
         eq(magicdriveObjectTags.objectId, objectId),
-        eq(magicdriveTags.tenantId, tenantId)
+        eq(magicdriveTags.legacyTenantId, tenantId)
       )
     )
   return rows
@@ -82,7 +84,7 @@ export async function listTagsForObjects(
     .select({
       objectId: magicdriveObjectTags.objectId,
       id: magicdriveTags.id,
-      tenantId: magicdriveTags.tenantId,
+      legacyTenantId: magicdriveTags.legacyTenantId,
       name: magicdriveTags.name,
       slug: magicdriveTags.slug,
       createdAt: magicdriveTags.createdAt,
@@ -95,7 +97,7 @@ export async function listTagsForObjects(
     .where(
       and(
         inArray(magicdriveObjectTags.objectId, objectIds),
-        eq(magicdriveTags.tenantId, tenantId)
+        eq(magicdriveTags.legacyTenantId, tenantId)
       )
     )
   const map: Record<string, TagRow[]> = {}
@@ -103,7 +105,7 @@ export async function listTagsForObjects(
   for (const r of rows) {
     const tag: TagRow = {
       id: r.id,
-      tenantId: r.tenantId,
+      legacyTenantId: r.legacyTenantId,
       name: r.name,
       slug: r.slug,
       createdAt: r.createdAt,
@@ -126,7 +128,7 @@ export async function addTagToObject(
     .where(
       and(
         eq(magicdriveObjects.id, objectId),
-        eq(magicdriveObjects.tenantId, tenantId)
+        eq(magicdriveObjects.legacyTenantId, tenantId)
       )
     )
     .limit(1)
@@ -138,7 +140,7 @@ export async function addTagToObject(
     .where(
       and(
         eq(magicdriveTags.id, tagId),
-        eq(magicdriveTags.tenantId, tenantId)
+        eq(magicdriveTags.legacyTenantId, tenantId)
       )
     )
     .limit(1)
@@ -164,7 +166,7 @@ export async function removeTagFromObject(
     .where(
       and(
         eq(magicdriveObjects.id, objectId),
-        eq(magicdriveObjects.tenantId, tenantId)
+        eq(magicdriveObjects.legacyTenantId, tenantId)
       )
     )
     .limit(1)
@@ -196,7 +198,7 @@ export async function deleteTag(
     .where(
       and(
         eq(magicdriveTags.id, tagId),
-        eq(magicdriveTags.tenantId, tenantId)
+        eq(magicdriveTags.legacyTenantId, tenantId)
       )
     )
     .limit(1)
@@ -217,7 +219,7 @@ export async function createTag(
   const id = randomUUID()
   await db.insert(magicdriveTags).values({
     id,
-    tenantId,
+    legacyTenantId: tenantId,
     name,
     slug: slug || id.slice(0, 8),
   })
@@ -239,7 +241,7 @@ export async function findOrCreateTagByName(
   const [existing] = await db
     .select({ id: magicdriveTags.id })
     .from(magicdriveTags)
-    .where(and(eq(magicdriveTags.tenantId, tenantId), eq(magicdriveTags.slug, slug)))
+    .where(and(eq(magicdriveTags.legacyTenantId, tenantId), eq(magicdriveTags.slug, slug)))
     .limit(1)
   if (existing) return { ok: true, tagId: existing.id }
   const created = await createTag(tenantId, name)

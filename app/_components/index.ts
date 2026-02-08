@@ -23,8 +23,4 @@ export {
 export { useApiWithRetry } from "./useApiWithRetry";
 export { useOptimisticUpdate, optimisticUpdate } from "./useOptimisticUpdate";
 export { useRetry, retryWithBackoff } from "./useRetry";
-export {
-  useSuppressRadixHydrationWarnings,
-  SuppressHydrationWarnings,
-} from "./useSuppressRadixHydrationWarnings";
 export { WebVitals } from "./web-vitals";

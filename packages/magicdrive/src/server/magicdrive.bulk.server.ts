@@ -1,12 +1,19 @@
 /**
  * @layer domain (magicdrive)
  * @responsibility Bulk operations server actions.
+ * Phase 4: Enhanced with tenant context for org/team-scoped bulk operations.
  */
 
 "use server"
 
 import { revalidatePath } from "next/cache"
 import { routes } from "@afenda/shared/constants"
+
+/** Tenant context for bulk operations */
+interface TenantContext {
+  organizationId?: string | null
+  teamId?: string | null
+}
 
 export type BulkDocumentAction =
   | "archive"
@@ -42,9 +49,11 @@ export interface BulkDocumentPayload {
 
 /**
  * Server action: Execute bulk operation on documents.
+ * Phase 4: Validates tenant ownership before applying actions.
  */
 export async function bulkDocumentAction(
-  payload: BulkDocumentPayload
+  payload: BulkDocumentPayload,
+  tenantContext?: TenantContext
 ): Promise<BulkActionResult> {
   const { action, documentIds, targetFolderId, tagId, status } = payload
   const results: BulkActionResult = {

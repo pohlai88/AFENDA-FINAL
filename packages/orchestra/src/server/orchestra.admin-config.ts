@@ -8,7 +8,7 @@
 import "server-only";
 
 import { eq, ilike } from "drizzle-orm";
-import type { NeonHttpDatabase } from "drizzle-orm/neon-http";
+import type { Database } from "@afenda/shared/server/db";
 
 import {
   orchestraAdminConfig,
@@ -33,7 +33,7 @@ import {
 import { logAudit } from "./orchestra.audit";
 
 export type AdminConfigServiceDeps = {
-  db: NeonHttpDatabase<Record<string, unknown>>;
+  db: Database;
 };
 
 

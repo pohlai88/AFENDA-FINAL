@@ -13,6 +13,7 @@ import { NextResponse } from "next/server";
 import { HTTP_STATUS, KERNEL_HEADERS, getAuthContext } from "@afenda/orchestra";
 import { ok, fail, KERNEL_ERROR_CODES, envelopeHeaders } from "@afenda/shared/server";
 import { listDocumentsAction } from "@afenda/magicdrive/server";
+import { TENANT_HEADERS } from "@afenda/tenancy/server";
 
 const LIST_LIMIT_MAX = 100;
 const LIST_LIMIT_DEFAULT = 50;
@@ -34,6 +35,10 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Extract tenant context from middleware-injected headers
+    const organizationId = request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const teamId = request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
+
     const searchParams = request.nextUrl.searchParams;
     const limit = Math.min(
       Number(searchParams.get("limit") ?? LIST_LIMIT_DEFAULT),
@@ -49,6 +54,8 @@ export async function GET(request: NextRequest) {
 
     const result = await listDocumentsAction({
       workspaceId: userId,
+      organizationId,
+      teamId,
       status,
       type: docType,
       search: q,

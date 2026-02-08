@@ -13,6 +13,7 @@ import { NextResponse } from "next/server";
 import { HTTP_STATUS, KERNEL_HEADERS, getAuthContext } from "@afenda/orchestra";
 import { ok, fail, KERNEL_ERROR_CODES, envelopeHeaders } from "@afenda/shared/server";
 import { getDocumentAction } from "@afenda/magicdrive/server";
+import { TENANT_HEADERS } from "@afenda/tenancy/server";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
@@ -47,7 +48,11 @@ export async function GET(_request: NextRequest, context: RouteContext) {
       );
     }
 
-    const doc = await getDocumentAction(id);
+    // Extract tenant context from middleware-injected headers
+    const organizationId = _request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const teamId = _request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
+
+    const doc = await getDocumentAction(id, { organizationId, teamId });
     if (!doc) {
       return NextResponse.json(
         fail(

@@ -35,7 +35,7 @@ export async function runHashAudit(sampleSize: number = DEFAULT_SAMPLE_SIZE): Pr
     .select({
       versionId: magicdriveObjectVersions.id,
       objectId: magicdriveObjectVersions.objectId,
-      tenantId: magicdriveObjects.tenantId,
+      tenantId: magicdriveObjects.legacyTenantId,
       sha256: magicdriveObjectVersions.sha256,
       r2Key: magicdriveObjectVersions.r2Key,
     })

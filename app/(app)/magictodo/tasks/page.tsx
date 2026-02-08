@@ -36,6 +36,7 @@ import {
   type SmartFilterType,
 } from "@afenda/magictodo"
 import { useTaskIndicators } from "@afenda/shared/hooks"
+import { TenantScopeBadge } from "../_components"
 
 export default function TasksPage() {
   const { user, isLoading, isAuthenticated } = useUser()
@@ -238,11 +239,14 @@ export default function TasksPage() {
 
   return (
     <div className="space-y-4 sm:space-y-6">
-      <div className="space-y-1">
-        <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Tasks</h1>
-        <p className="text-sm sm:text-base text-muted-foreground">
-          Minimal, keyboard-first task management.
-        </p>
+      <div className="flex items-start justify-between gap-4">
+        <div className="space-y-1 flex-1">
+          <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Tasks</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">
+            Minimal, keyboard-first task management.
+          </p>
+        </div>
+        <TenantScopeBadge className="mt-1" />
       </div>
 
       <Card>
