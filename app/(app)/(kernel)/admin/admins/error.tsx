@@ -10,6 +10,7 @@ import { IconAlertTriangle, IconRefresh, IconHome } from "@tabler/icons-react";
 import { Button, Alert, AlertDescription, AlertTitle } from "@afenda/shadcn";
 import Link from "next/link";
 import { routes } from "@afenda/shared/constants";
+import { logger } from "@afenda/shared";
 
 export default function AdminsError({
   error,
@@ -19,7 +20,7 @@ export default function AdminsError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error("[Admin Assignments Error]", error);
+    logger.error("Admin Assignments Error", error, { component: "AdminsError", digest: error.digest });
   }, [error]);
 
   return (

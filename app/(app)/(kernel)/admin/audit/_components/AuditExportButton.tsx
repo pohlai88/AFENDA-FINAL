@@ -12,6 +12,7 @@ import { IconDownload } from "@tabler/icons-react";
 import { Button } from "@afenda/shadcn";
 import { routes } from "@afenda/shared/constants";
 import { toast } from "sonner";
+import { logger } from "@afenda/shared";
 
 export function AuditExportButton() {
   const searchParams = useSearchParams();
@@ -47,7 +48,7 @@ export function AuditExportButton() {
 
       toast.success("Export downloaded", { description: filename });
     } catch (error) {
-      console.error("Export failed:", error);
+      logger.error("Export failed", error as Error, { component: "AuditExportButton" });
       toast.error("Export failed", {
         description: error instanceof Error ? error.message : "Could not download audit export",
       });

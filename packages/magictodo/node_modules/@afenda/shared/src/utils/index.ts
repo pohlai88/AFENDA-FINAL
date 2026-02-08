@@ -2,6 +2,9 @@ import { cn as shadcnCn } from "@afenda/shadcn/lib/utils";
 
 export const cn = shadcnCn;
 
+// Client-side logger
+export { logger, type LogContext } from "./client-logger";
+
 export type ParsedTaskInput = {
   title: string;
   dueDate?: string;

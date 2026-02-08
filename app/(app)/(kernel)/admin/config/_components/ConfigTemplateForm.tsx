@@ -37,6 +37,7 @@ import {
   AlertDescription,
 } from "@afenda/shadcn";
 import { routes } from "@afenda/shared/constants";
+import { logger } from "@afenda/shared";
 
 import type { ConfigTemplate, ConfigField } from "@afenda/orchestra/zod";
 
@@ -225,7 +226,7 @@ export const ConfigTemplateForm = React.memo<ConfigTemplateFormProps>(function C
           });
         }
       } catch (err) {
-        console.error('Failed to load draft:', err);
+        logger.error("Failed to load draft", err as Error, { component: "ConfigTemplateForm", templateId: template.id });
       }
     }
   }, [template.id, form]);

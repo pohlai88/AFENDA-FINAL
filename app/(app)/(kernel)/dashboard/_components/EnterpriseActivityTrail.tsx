@@ -38,6 +38,7 @@ import { formatDistanceToNow } from "date-fns";
 import { routes } from "@afenda/shared/constants";
 import { addAuditComment, getAuditComments, type AuditComment } from "../_actions/audit-comments.actions";
 import { useUser } from "@/app/_components/user-context";
+import { logger } from "@afenda/shared";
 import { useEnterpriseSearch } from "../../../_hooks/useEnterpriseSearch";
 
 interface AuditLogEntry {
@@ -169,7 +170,7 @@ function CommentSection({ auditLogId, onCommentAdded }: CommentSectionProps) {
       setComments(data);
       setHasLoaded(true);
     } catch (error) {
-      console.error("Failed to load comments:", error);
+      logger.error("Failed to load comments", error as Error, { component: "EnterpriseActivityTrail", auditLogId });
     }
   };
 
@@ -189,7 +190,7 @@ function CommentSection({ auditLogId, onCommentAdded }: CommentSectionProps) {
       setNewComment("");
       onCommentAdded?.();
     } catch (error) {
-      console.error("Failed to add comment:", error);
+      logger.error("Failed to add comment", error as Error, { component: "EnterpriseActivityTrail", auditLogId });
     } finally {
       setIsLoading(false);
     }

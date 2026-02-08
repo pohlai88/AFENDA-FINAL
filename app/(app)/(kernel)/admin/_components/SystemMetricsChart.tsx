@@ -10,6 +10,7 @@
 
 import * as React from "react";
 import { Card, CardContent, CardHeader, CardTitle, Badge } from "@afenda/shadcn";
+import { logger } from "@afenda/shared";
 
 interface MetricData {
   label: string;
@@ -37,7 +38,7 @@ export function SystemMetricsChart() {
 
         setMetrics(mockMetrics);
       } catch (error) {
-        console.error("Failed to fetch metrics:", error);
+        logger.error("Failed to fetch metrics", error as Error, { component: "SystemMetricsChart" });
       } finally {
         setIsLoading(false);
       }

@@ -9,6 +9,7 @@ import * as React from "react";
 import { IconAlertTriangle, IconRefresh } from "@tabler/icons-react";
 import { Button } from "@afenda/shadcn";
 import { getStatusColor, getStatusBgColor } from "./colorUtils";
+import { logger } from "@afenda/shared";
 
 interface DashboardErrorBoundaryProps {
   children: React.ReactNode;
@@ -31,7 +32,7 @@ export class DashboardErrorBoundary extends React.Component<DashboardErrorBounda
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error("Dashboard Error Boundary caught an error:", error, errorInfo);
+    logger.error("Dashboard Error Boundary caught an error", error, { component: "DashboardErrorBoundary", errorInfo });
   }
 
   render() {

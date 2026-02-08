@@ -10,6 +10,7 @@
 
 import * as React from "react";
 import { Card, CardContent, CardHeader, CardTitle, Badge } from "@afenda/shadcn";
+import { logger } from "@afenda/shared";
 
 interface VolumeData {
   hour: string;
@@ -43,7 +44,7 @@ export function AuditVolumeTimeline() {
 
         setData(mockData);
       } catch (error) {
-        console.error("Failed to fetch audit volume:", error);
+        logger.error("Failed to fetch audit volume", error as Error, { component: "AuditVolumeTimeline" });
       } finally {
         setIsLoading(false);
       }

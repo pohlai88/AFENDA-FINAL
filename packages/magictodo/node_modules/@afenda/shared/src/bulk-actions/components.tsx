@@ -9,19 +9,19 @@ import * as React from "react";
 import { AlertTriangle } from "lucide-react";
 import {
   Button,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
+  ClientDropdownMenu,
+  ClientDropdownMenuContent,
+  ClientDropdownMenuItem,
+  ClientDropdownMenuSeparator,
+  ClientDropdownMenuTrigger,
+  ClientAlertDialog,
+  ClientAlertDialogAction,
+  ClientAlertDialogCancel,
+  ClientAlertDialogContent,
+  ClientAlertDialogDescription,
+  ClientAlertDialogFooter,
+  ClientAlertDialogHeader,
+  ClientAlertDialogTitle,
   Badge,
 } from "@afenda/shadcn";
 import { cn } from "@afenda/shadcn/lib/utils";
@@ -41,14 +41,14 @@ function BulkActionConfirmation<T = unknown>({
   if (!action) return null;
 
   return (
-    <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle className="flex items-center gap-2">
+    <ClientAlertDialog open={open} onOpenChange={onOpenChange}>
+      <ClientAlertDialogContent>
+        <ClientAlertDialogHeader>
+          <ClientAlertDialogTitle className="flex items-center gap-2">
             <AlertTriangle className="h-5 w-5 text-destructive" />
             Confirm Bulk Action
-          </AlertDialogTitle>
-          <AlertDialogDescription>
+          </ClientAlertDialogTitle>
+          <ClientAlertDialogDescription>
             {action.confirmationMessage || (
               <>
                 Are you sure you want to <strong>{action.label.toLowerCase()}</strong>{" "}
@@ -57,21 +57,21 @@ function BulkActionConfirmation<T = unknown>({
                 This action cannot be undone.
               </>
             )}
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
+          </ClientAlertDialogDescription>
+        </ClientAlertDialogHeader>
+        <ClientAlertDialogFooter>
+          <ClientAlertDialogCancel>Cancel</ClientAlertDialogCancel>
+          <ClientAlertDialogAction
             onClick={onConfirm}
             className={cn(
               action.variant === "destructive" && "bg-destructive text-destructive-foreground hover:bg-destructive/90"
             )}
           >
             {action.label}
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+          </ClientAlertDialogAction>
+        </ClientAlertDialogFooter>
+      </ClientAlertDialogContent>
+    </ClientAlertDialog>
   );
 }
 
@@ -153,13 +153,13 @@ export function BulkActionToolbar<T = unknown>({
               })
             ) : (
               // Show as dropdown if more than 3 actions
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
+              <ClientDropdownMenu>
+                <ClientDropdownMenuTrigger asChild>
                   <Button variant="outline" size="sm" disabled={disabled || isExecuting}>
                     Actions
                   </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start">
+                </ClientDropdownMenuTrigger>
+                <ClientDropdownMenuContent align="start">
                   {visibleActions.map((action, index) => {
                     const Icon = action.icon;
                     const isDisabled = action.isDisabled?.(selectedItems);
@@ -167,9 +167,9 @@ export function BulkActionToolbar<T = unknown>({
                     return (
                       <React.Fragment key={action.id}>
                         {index > 0 && action.variant === "destructive" && (
-                          <DropdownMenuSeparator />
+                          <ClientDropdownMenuSeparator />
                         )}
-                        <DropdownMenuItem
+                        <ClientDropdownMenuItem
                           onClick={() => handleActionClick(action)}
                           disabled={isDisabled}
                           className={cn(
@@ -185,12 +185,12 @@ export function BulkActionToolbar<T = unknown>({
                               </div>
                             )}
                           </div>
-                        </DropdownMenuItem>
+                        </ClientDropdownMenuItem>
                       </React.Fragment>
                     );
                   })}
-                </DropdownMenuContent>
-              </DropdownMenu>
+                </ClientDropdownMenuContent>
+              </ClientDropdownMenu>
             )}
           </>
         )}

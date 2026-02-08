@@ -11,6 +11,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle, Badge } from "@afenda/shadcn";
+import { logger } from "@afenda/shared";
 
 interface Activity {
   id: string;
@@ -119,7 +120,7 @@ export function RecentActivityFeed({ maxItems = 10 }: RecentActivityFeedProps) {
 
         setActivities(mockActivities.slice(0, maxItems));
       } catch (error) {
-        console.error("Failed to fetch activities:", error);
+        logger.error("Failed to fetch activities", error as Error, { component: "RecentActivityFeed" });
       } finally {
         setIsLoading(false);
       }

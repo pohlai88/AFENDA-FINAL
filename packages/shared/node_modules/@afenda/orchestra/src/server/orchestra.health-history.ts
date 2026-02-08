@@ -8,7 +8,7 @@
 import "server-only";
 
 import { desc, eq, and, gte, sql } from "drizzle-orm";
-import type { NeonHttpDatabase } from "drizzle-orm/neon-http";
+import type { Database } from "@afenda/shared/server/db";
 
 import {
   orchestraHealthHistory,
@@ -24,7 +24,7 @@ import {
 import { kernelLogger } from "../constant/orchestra.logger";
 
 export type HealthHistoryServiceDeps = {
-  db: NeonHttpDatabase<Record<string, unknown>>;
+  db: Database;
 };
 
 export type RecordHealthCheckInput = {

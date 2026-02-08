@@ -55,6 +55,7 @@ import {
 } from "@afenda/shadcn";
 import { routes } from "@afenda/shared/constants";
 import { cn } from "@afenda/shadcn/lib/utils";
+import { logger } from "@afenda/shared";
 
 import type { ConfigTemplate, ConfigField } from "@afenda/orchestra/zod";
 
@@ -246,7 +247,7 @@ export const EnhancedTemplateForm = React.memo<EnhancedTemplateFormProps>(functi
           });
         }
       } catch (err) {
-        console.error('Failed to load draft:', err);
+        logger.error("Failed to load draft", err as Error, { component: "EnhancedTemplateForm", templateId: template.id });
       }
     }
   }, [template.id, form]);

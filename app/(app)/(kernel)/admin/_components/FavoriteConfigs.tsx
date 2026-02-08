@@ -12,6 +12,7 @@ import * as React from "react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle, Button, Badge } from "@afenda/shadcn";
 import { routes } from "@afenda/shared/constants";
+import { logger } from "@afenda/shared";
 
 interface ConfigItem {
   key: string;
@@ -49,7 +50,7 @@ export function FavoriteConfigs({ maxItems = 5 }: FavoriteConfigsProps) {
 
         setFavorites(mockFavorites.slice(0, maxItems));
       } catch (error) {
-        console.error("Failed to fetch favorites:", error);
+        logger.error("Failed to fetch favorites", error as Error, { component: "FavoriteConfigs" });
       } finally {
         setIsLoading(false);
       }

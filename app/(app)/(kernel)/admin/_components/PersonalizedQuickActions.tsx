@@ -12,6 +12,7 @@ import * as React from "react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle, Badge } from "@afenda/shadcn";
 import { routes } from "@afenda/shared/constants";
+import { logger } from "@afenda/shared";
 
 interface QuickAction {
   id: string;
@@ -135,7 +136,7 @@ export function PersonalizedQuickActions({ userId, maxActions = 6 }: Personalize
 
         setActions(mockActions.slice(0, maxActions));
       } catch (error) {
-        console.error("Failed to fetch personalized actions:", error);
+        logger.error("Failed to fetch personalized actions", error as Error, { component: "PersonalizedQuickActions", userId });
         // Fallback to default actions
         setActions([]);
       } finally {

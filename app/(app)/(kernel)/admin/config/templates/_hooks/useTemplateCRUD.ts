@@ -9,6 +9,7 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { routes } from "@afenda/shared/constants";
+import { logger } from "@afenda/shared";
 
 import type { ConfigTemplate } from "@afenda/orchestra/zod";
 
@@ -62,7 +63,7 @@ export function useTemplateCRUD() {
       // Log error in development only
       if (process.env.NODE_ENV === 'development') {
          
-        console.error("Failed to load drafts:", error);
+        logger.error("Failed to load drafts", error as Error, { component: "useTemplateCRUD" });
       }
     }
   }, []);
@@ -75,7 +76,7 @@ export function useTemplateCRUD() {
       // Log error in development only
       if (process.env.NODE_ENV === 'development') {
          
-        console.error("Failed to save drafts to storage:", error);
+        logger.error("Failed to save drafts to storage", error as Error, { component: "useTemplateCRUD" });
       }
     }
   }, []);

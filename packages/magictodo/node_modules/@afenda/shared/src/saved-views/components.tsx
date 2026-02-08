@@ -9,15 +9,15 @@ import * as React from "react";
 import { Save, FolderOpen, Star, Trash2, Edit2, Check } from "lucide-react";
 import {
   Button,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
+  ClientDropdownMenu,
+  ClientDropdownMenuContent,
+  ClientDropdownMenuTrigger,
+  ClientDialog,
+  ClientDialogContent,
+  ClientDialogDescription,
+  ClientDialogFooter,
+  ClientDialogHeader,
+  ClientDialogTitle,
   Input,
   Label,
   Textarea,
@@ -79,14 +79,14 @@ function SaveViewDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Save Current View</DialogTitle>
-          <DialogDescription>
+    <ClientDialog open={open} onOpenChange={onOpenChange}>
+      <ClientDialogContent>
+        <ClientDialogHeader>
+          <ClientDialogTitle>Save Current View</ClientDialogTitle>
+          <ClientDialogDescription>
             Save your current filter configuration for quick access later.
-          </DialogDescription>
-        </DialogHeader>
+          </ClientDialogDescription>
+        </ClientDialogHeader>
         <div className="space-y-4 py-4">
           <div className="space-y-2">
             <Label htmlFor="view-name">View Name *</Label>
@@ -116,7 +116,7 @@ function SaveViewDialog({
             </p>
           )}
         </div>
-        <DialogFooter>
+        <ClientDialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
@@ -124,9 +124,9 @@ function SaveViewDialog({
             <Save className="h-4 w-4 mr-2" />
             Save View
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </ClientDialogFooter>
+      </ClientDialogContent>
+    </ClientDialog>
   );
 }
 
@@ -188,15 +188,15 @@ export function SavedViewManager<TFilter = unknown>({
 
       {/* Saved views dropdown */}
       {savedViews.length > 0 && (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+        <ClientDropdownMenu>
+          <ClientDropdownMenuTrigger asChild>
             <Button variant="outline" size="sm" disabled={disabled} className="gap-2">
               <FolderOpen className="h-4 w-4" />
               Saved Views
               <Badge variant="secondary">{savedViews.length}</Badge>
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-80">
+          </ClientDropdownMenuTrigger>
+          <ClientDropdownMenuContent align="start" className="w-80">
             <ScrollArea className="max-h-96">
               <div className="p-2 space-y-1">
                 {savedViews.map((view) => (
@@ -263,8 +263,8 @@ export function SavedViewManager<TFilter = unknown>({
                 </p>
               </div>
             )}
-          </DropdownMenuContent>
-        </DropdownMenu>
+          </ClientDropdownMenuContent>
+        </ClientDropdownMenu>
       )}
 
       {/* Default view indicator */}
@@ -285,11 +285,11 @@ export function SavedViewManager<TFilter = unknown>({
 
       {/* Edit dialog */}
       {editingView && (
-        <Dialog open={!!editingView} onOpenChange={() => setEditingView(null)}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Edit View</DialogTitle>
-            </DialogHeader>
+        <ClientDialog open={!!editingView} onOpenChange={() => setEditingView(null)}>
+          <ClientDialogContent>
+            <ClientDialogHeader>
+              <ClientDialogTitle>Edit View</ClientDialogTitle>
+            </ClientDialogHeader>
             <div className="space-y-4 py-4">
               <div className="space-y-2">
                 <Label htmlFor="edit-view-name">View Name</Label>
@@ -314,7 +314,7 @@ export function SavedViewManager<TFilter = unknown>({
                 />
               </div>
             </div>
-            <DialogFooter>
+            <ClientDialogFooter>
               <Button variant="outline" onClick={() => setEditingView(null)}>
                 Cancel
               </Button>
@@ -328,9 +328,9 @@ export function SavedViewManager<TFilter = unknown>({
                 <Check className="h-4 w-4 mr-2" />
                 Update
               </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+            </ClientDialogFooter>
+          </ClientDialogContent>
+        </ClientDialog>
       )}
     </div>
   );

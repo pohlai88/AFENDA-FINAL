@@ -10,6 +10,7 @@
 
 import * as React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@afenda/shadcn";
+import { logger } from "@afenda/shared";
 
 interface ChangeData {
   date: string;
@@ -37,7 +38,7 @@ export function ConfigChangeFrequency() {
 
         setData(mockData);
       } catch (error) {
-        console.error("Failed to fetch change frequency:", error);
+        logger.error("Failed to fetch change frequency", error as Error, { component: "ConfigChangeFrequency" });
       } finally {
         setIsLoading(false);
       }

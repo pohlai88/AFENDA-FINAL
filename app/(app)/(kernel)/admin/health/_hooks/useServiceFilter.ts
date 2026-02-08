@@ -9,6 +9,7 @@
  */
 
 import { useState, useEffect, useMemo } from "react";
+import { logger } from "@afenda/shared";
 
 export interface ServiceFilterState {
   status: ("healthy" | "degraded" | "down")[];
@@ -39,7 +40,7 @@ export function useServiceFilter<T extends Service>(services: T[]) {
         return JSON.parse(stored);
       }
     } catch (error) {
-      console.warn("Failed to load service filters from localStorage:", error);
+      logger.warn("Failed to load service filters from localStorage", { component: "useServiceFilter", error });
     }
     return defaultFilters;
   });
@@ -49,7 +50,7 @@ export function useServiceFilter<T extends Service>(services: T[]) {
     try {
       localStorage.setItem(FILTER_STORAGE_KEY, JSON.stringify(filters));
     } catch (error) {
-      console.warn("Failed to save service filters to localStorage:", error);
+      logger.warn("Failed to save service filters to localStorage", { component: "useServiceFilter", error });
     }
   }, [filters]);
 

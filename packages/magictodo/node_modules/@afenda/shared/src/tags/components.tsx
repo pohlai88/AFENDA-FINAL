@@ -10,9 +10,9 @@ import { X, Plus, Tag as TagIcon } from "lucide-react";
 import {
   Badge,
   Button,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
+  ClientPopover,
+  ClientPopoverContent,
+  ClientPopoverTrigger,
   Input,
   Label,
   ScrollArea,
@@ -113,14 +113,14 @@ export function TagPicker<T extends Taggable>({
 
       {/* Add tag button */}
       {canAddMore && !disabled && (
-        <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger asChild>
+        <ClientPopover open={open} onOpenChange={setOpen}>
+          <ClientPopoverTrigger asChild>
             <Button variant="outline" size="sm" className="h-6 gap-1">
               <Plus className="h-3 w-3" />
               Add Tag
             </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-80 p-0" align="start">
+          </ClientPopoverTrigger>
+          <ClientPopoverContent className="w-80 p-0" align="start">
             <div className="p-3 space-y-3">
               {/* Search input */}
               <div className="space-y-1">
@@ -206,8 +206,8 @@ export function TagPicker<T extends Taggable>({
                 </>
               )}
             </div>
-          </PopoverContent>
-        </Popover>
+          </ClientPopoverContent>
+        </ClientPopover>
       )}
 
       {/* Max tags indicator */}

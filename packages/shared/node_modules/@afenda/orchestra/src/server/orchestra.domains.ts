@@ -7,7 +7,7 @@
 
 import "server-only";
 
-import type { NeonHttpDatabase } from "drizzle-orm/neon-http";
+import type { Database } from "@afenda/shared/server/db";
 import { asc, eq } from "drizzle-orm";
 
 import { orchestraAppDomains } from "../drizzle/orchestra.schema";
@@ -20,7 +20,7 @@ import {
 import type { AppDomainEntry } from "../zod/orchestra.nav-tree.schema";
 
 export type AppDomainsDeps = {
-  db: NeonHttpDatabase<Record<string, unknown>>;
+  db: Database;
 };
 
 /**

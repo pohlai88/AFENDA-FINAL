@@ -29,6 +29,7 @@ import {
 } from "@afenda/shadcn";
 import { routes } from "@afenda/shared/constants";
 import { toast } from "sonner";
+import { logger } from "@afenda/shared";
 import { ConfigDiffList } from "./ConfigDiffViewer";
 
 interface Template {
@@ -137,7 +138,7 @@ export function BulkTemplateApply({ templates, trigger }: BulkTemplateApplyProps
             ...prev!,
             failed,
           }));
-          console.error(`Failed to apply template ${template.name}:`, err);
+          logger.error(`Failed to apply template ${template.name}`, err as Error, { component: "BulkTemplateApply", templateId: template.id });
         }
       }
 

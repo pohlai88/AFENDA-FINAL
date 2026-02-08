@@ -10,6 +10,7 @@
 
 import * as React from "react";
 import { Card, CardContent, CardHeader, CardTitle, Badge, Progress } from "@afenda/shadcn";
+import { logger } from "@afenda/shared";
 
 interface UptimeData {
   percentage: number;
@@ -46,7 +47,7 @@ export function SystemUptimeCard() {
 
         setUptime(mockUptime);
       } catch (error) {
-        console.error("Failed to fetch uptime:", error);
+        logger.error("Failed to fetch uptime", error as Error, { component: "SystemUptimeCard" });
       } finally {
         setIsLoading(false);
       }

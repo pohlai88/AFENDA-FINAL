@@ -7,7 +7,7 @@
 
 import "server-only";
 
-import type { NeonHttpDatabase } from "drizzle-orm/neon-http";
+import type { Database } from "@afenda/shared/server/db";
 import { eq, and, desc, sql } from "drizzle-orm";
 
 import {
@@ -39,7 +39,7 @@ import {
 import { CONFIG_TEMPLATES } from "../constant/orchestra.config-templates";
 
 export type CustomTemplateDeps = {
-  db: NeonHttpDatabase<Record<string, unknown>>;
+  db: Database;
 };
 
 /**

@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { Button } from "@afenda/shadcn";
 import { Card, CardContent } from "@afenda/shadcn";
 import { IconAlertTriangle } from "@tabler/icons-react";
+import { logger } from "@afenda/shared";
 
 export default function DashboardError({
   error,
@@ -19,7 +20,7 @@ export default function DashboardError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error("[Dashboard] Error boundary:", error);
+    logger.error("Dashboard Error boundary", error, { component: "DashboardError", digest: error.digest });
   }, [error]);
 
   return (

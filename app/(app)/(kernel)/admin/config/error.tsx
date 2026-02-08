@@ -10,6 +10,7 @@ import { IconAlertTriangle, IconRefresh, IconHome } from "@tabler/icons-react";
 import { Button, Alert, AlertDescription, AlertTitle } from "@afenda/shadcn";
 import Link from "next/link";
 import { routes } from "@afenda/shared/constants";
+import { logger } from "@afenda/shared";
 
 export default function ConfigError({
   error,
@@ -20,7 +21,7 @@ export default function ConfigError({
 }) {
   useEffect(() => {
     // Log error to monitoring service in production
-    console.error("[Config Error]", error);
+    logger.error("Config Error", error, { component: "ConfigError", digest: error.digest });
   }, [error]);
 
   return (
