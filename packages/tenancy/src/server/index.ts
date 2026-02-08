@@ -6,11 +6,9 @@
 
 import "server-only";
 
-export interface TenantContext {
-  tenantId: string;
-  organizationId?: string | null;
-  teamId?: string | null;
-}
+import type { TenantContext } from "../types";
+
+export type { TenantContext };
 
 export async function getTenantContext(): Promise<TenantContext> {
   const { headers } = await import("next/headers");

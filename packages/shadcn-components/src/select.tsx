@@ -1,17 +1,5 @@
 "use client"
 
-/**
- * @domain shared
- * @layer ui
- * @responsibility shadcn/ui select component - UI building block
- * @owner afenda/shadcn
- * @dependencies
- * - radix-ui (external)
- * - @/lib/utils
- * @exports
- * - select component and related subcomponents
- */
-
 import * as React from "react"
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react"
 import { Select as SelectPrimitive } from "radix-ui"

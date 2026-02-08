@@ -1,17 +1,5 @@
 "use client"
 
-/**
- * @domain shared
- * @layer ui
- * @responsibility shadcn/ui tabs component - UI building block
- * @owner afenda/shadcn
- * @dependencies
- * - radix-ui (external)
- * - @/lib/utils
- * @exports
- * - tabs component and related subcomponents
- */
-
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { Tabs as TabsPrimitive } from "radix-ui"

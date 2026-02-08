@@ -2,7 +2,7 @@
   "$schema": "./component-registry.schema.json",
   "name": "@afenda/shadcn",
   "version": "0.1.0",
-  "generatedAt": "2026-02-07T15:13:25.518Z",
+  "generatedAt": "2026-02-08T05:46:13.047Z",
   "stats": {
     "primitives": 393,
     "hooks": 7,

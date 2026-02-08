@@ -18,6 +18,7 @@ import {
   KERNEL_HEADERS,
   getAuthContext,
 } from "@afenda/orchestra";
+import { isTenancyTableMissingError } from "@afenda/tenancy";
 import { tenancyMembershipService } from "@afenda/tenancy/server";
 import { tenancyMembershipQuerySchema } from "@afenda/tenancy/zod";
 import { parseSearchParams } from "@afenda/shared/server/validate";
@@ -61,12 +62,9 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (err) {
-    const raw = err instanceof Error ? err.message : String(err);
-    const isMissingTable =
-      /relation ["']tenancy_/i.test(raw) || /does not exist/i.test(raw);
-    const message = isMissingTable
+    const message = isTenancyTableMissingError(err)
       ? "Tenancy tables not found. Run: pnpm db:migrate"
-      : raw;
+      : (err instanceof Error ? err.message : String(err));
     return NextResponse.json(
       kernelFail(
         { code: KERNEL_ERROR_CODES.INTERNAL, message },

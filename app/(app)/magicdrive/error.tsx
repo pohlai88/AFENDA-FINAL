@@ -20,7 +20,6 @@ interface MagicdriveErrorProps {
 export default function MagicdriveError({ error, reset }: MagicdriveErrorProps) {
   useEffect(() => {
     if (process.env.NODE_ENV === "development") {
-      // eslint-disable-next-line no-console -- error boundary dev logging
       console.error("[MagicDrive] Error boundary:", error);
     }
   }, [error]);

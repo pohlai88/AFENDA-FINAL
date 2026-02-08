@@ -5,7 +5,8 @@
  */
 
 import { z } from "zod";
-import { TENANCY_CONSTANTS } from "../constant/tenancy.constant";
+
+import { TENANCY_CONSTANTS } from "../constant";
 
 export const tenancyCreateOrganizationSchema = z.object({
   name: z
@@ -63,6 +64,12 @@ export const tenancyOrganizationResponseSchema = z.object({
   teamCount: z.number().optional(),
 });
 
+/** BFF list response: GET /api/tenancy/organizations/bff */
+export const tenancyOrganizationListResponseSchema = z.object({
+  items: z.array(tenancyOrganizationResponseSchema),
+  total: z.number(),
+});
+
 export type TenancyCreateOrganization = z.infer<
   typeof tenancyCreateOrganizationSchema
 >;
@@ -77,4 +84,7 @@ export type TenancyOrganizationQuery = z.infer<
 >;
 export type TenancyOrganizationResponse = z.infer<
   typeof tenancyOrganizationResponseSchema
+>;
+export type TenancyOrganizationListResponse = z.infer<
+  typeof tenancyOrganizationListResponseSchema
 >;

@@ -12,14 +12,14 @@ import {
   Input,
   Button,
   Badge,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
+  ClientSelect,
+  ClientSelectContent,
+  ClientSelectItem,
+  ClientSelectTrigger,
+  ClientSelectValue,
+  ClientPopover,
+  ClientPopoverContent,
+  ClientPopoverTrigger,
 } from "@afenda/shadcn";
 
 export interface AuditSearchProps {
@@ -102,8 +102,8 @@ export function AuditSearch({
         </div>
 
         {/* Filters popover */}
-        <Popover>
-          <PopoverTrigger asChild>
+        <ClientPopover>
+          <ClientPopoverTrigger asChild>
             <Button variant="outline" className="shrink-0 gap-2">
               <IconFilter className="size-4" />
               Filters
@@ -113,55 +113,55 @@ export function AuditSearch({
                 </Badge>
               )}
             </Button>
-          </PopoverTrigger>
-          <PopoverContent align="start" className="w-64 p-3">
+          </ClientPopoverTrigger>
+          <ClientPopoverContent align="start" className="w-64 p-3">
             <div className="space-y-4">
               <div className="space-y-2">
                 <p className="text-xs font-medium text-muted-foreground">
                   Event Type
                 </p>
-                <Select
+                <ClientSelect
                   value={activeEventType ?? "all"}
                   onValueChange={(v) => onEventTypeFilter(v === "all" ? null : v)}
                 >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="All events" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All events</SelectItem>
+                  <ClientSelectTrigger className="w-full">
+                    <ClientSelectValue placeholder="All events" />
+                  </ClientSelectTrigger>
+                  <ClientSelectContent>
+                    <ClientSelectItem value="all">All events</ClientSelectItem>
                     {EVENT_TYPES.map((type) => (
-                      <SelectItem key={type.value} value={type.value}>
+                      <ClientSelectItem key={type.value} value={type.value}>
                         {type.label}
-                      </SelectItem>
+                      </ClientSelectItem>
                     ))}
-                  </SelectContent>
-                </Select>
+                  </ClientSelectContent>
+                </ClientSelect>
               </div>
 
               <div className="space-y-2">
                 <p className="text-xs font-medium text-muted-foreground">
                   Entity Type
                 </p>
-                <Select
+                <ClientSelect
                   value={activeEntityType ?? "all"}
                   onValueChange={(v) => onEntityTypeFilter(v === "all" ? null : v)}
                 >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="All entities" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All entities</SelectItem>
+                  <ClientSelectTrigger className="w-full">
+                    <ClientSelectValue placeholder="All entities" />
+                  </ClientSelectTrigger>
+                  <ClientSelectContent>
+                    <ClientSelectItem value="all">All entities</ClientSelectItem>
                     {ENTITY_TYPES.map((type) => (
-                      <SelectItem key={type.value} value={type.value}>
+                      <ClientSelectItem key={type.value} value={type.value}>
                         {type.label}
-                      </SelectItem>
+                      </ClientSelectItem>
                     ))}
-                  </SelectContent>
-                </Select>
+                  </ClientSelectContent>
+                </ClientSelect>
               </div>
             </div>
-          </PopoverContent>
-        </Popover>
+          </ClientPopoverContent>
+        </ClientPopover>
       </div>
 
       {/* Results count and clear */}

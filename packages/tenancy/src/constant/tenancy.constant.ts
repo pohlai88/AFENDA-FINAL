@@ -1,8 +1,17 @@
 /**
  * @domain tenancy
  * @layer constant
- * @responsibility Tenancy domain constants
+ * @responsibility Tenancy domain constants and error detection
  */
+
+/**
+ * Detects if an error indicates tenancy tables are missing (e.g. migration not run).
+ * Use in BFF/API catch blocks to return a clear message.
+ */
+export function isTenancyTableMissingError(err: unknown): boolean {
+  const raw = err instanceof Error ? err.message : String(err);
+  return /relation ["']tenancy_/i.test(raw) || /does not exist/i.test(raw);
+}
 
 export const TENANCY_ORGANIZATION = {
   MAX_NAME_LENGTH: 255,

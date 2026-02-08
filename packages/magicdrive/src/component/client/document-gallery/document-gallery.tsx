@@ -15,10 +15,10 @@ import { Button } from "@afenda/shadcn"
 import { Checkbox } from "@afenda/shadcn"
 import { Card, CardContent } from "@afenda/shadcn"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
+  ClientDropdownMenu,
+  ClientDropdownMenuContent,
+  ClientDropdownMenuItem,
+  ClientDropdownMenuTrigger,
 } from "@afenda/shadcn"
 import {
   FileText,
@@ -270,8 +270,8 @@ export function DocumentGallery({
                     >
                       <Download className="h-4 w-4" />
                     </Button>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
+                    <ClientDropdownMenu>
+                      <ClientDropdownMenuTrigger asChild>
                         <Button
                           size="sm"
                           variant="secondary"
@@ -280,22 +280,22 @@ export function DocumentGallery({
                         >
                           <MoreVertical className="h-4 w-4" />
                         </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={(e) => handleQuickAction(e, 'share', document.id)}>
+                      </ClientDropdownMenuTrigger>
+                      <ClientDropdownMenuContent align="end">
+                        <ClientDropdownMenuItem onClick={(e) => handleQuickAction(e, 'share', document.id)}>
                           <Share2 className="mr-2 h-4 w-4" />
                           Share
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={(e) => handleQuickAction(e, 'tag', document.id)}>
+                        </ClientDropdownMenuItem>
+                        <ClientDropdownMenuItem onClick={(e) => handleQuickAction(e, 'tag', document.id)}>
                           <Tag className="mr-2 h-4 w-4" />
                           Add Tags
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={(e) => handleQuickAction(e, 'archive', document.id)}>
+                        </ClientDropdownMenuItem>
+                        <ClientDropdownMenuItem onClick={(e) => handleQuickAction(e, 'archive', document.id)}>
                           <Archive className="mr-2 h-4 w-4" />
                           Archive
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                        </ClientDropdownMenuItem>
+                      </ClientDropdownMenuContent>
+                    </ClientDropdownMenu>
                   </div>
                 )}
               </div>

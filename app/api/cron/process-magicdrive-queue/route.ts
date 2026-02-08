@@ -7,6 +7,7 @@
  */
 
 import "server-only"
+import { routes } from "@afenda/shared/constants"
 import { ok, fail, KERNEL_ERROR_CODES, jsonResponse } from "@afenda/shared/server"
 import { processOneMagicdriveJobFromQueue } from "@afenda/magicdrive"
 
@@ -74,7 +75,7 @@ export async function GET() {
   return jsonResponse(
     ok({
       status: "ok",
-      endpoint: "/api/cron/process-magicdrive-queue",
+      endpoint: routes.api.cron.processMagicdriveQueue(),
       method: "POST",
       headers_required: ["Authorization: Bearer <CRON_SECRET> or x-cron-secret"],
       timestamp: new Date().toISOString(),

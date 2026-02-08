@@ -8,7 +8,7 @@ import type { NeonHttpDatabase } from "drizzle-orm/neon-http";
 // Re-export constants needed by API routes
 export { KERNEL_ERROR_CODES, type KernelErrorCode } from "../constant/orchestra.system";
 
-// Auth context
+// Auth context (from @afenda/auth — Neon Auth session)
 export {
   getAuthContext,
   getCurrentUserId,

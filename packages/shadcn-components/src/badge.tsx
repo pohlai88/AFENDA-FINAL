@@ -1,18 +1,6 @@
-/**
- * @domain shared
- * @layer ui
- * @responsibility shadcn/ui badge component - UI building block
- * @owner afenda/shadcn
- * @dependencies
- * - radix-ui (external)
- * - @/lib/utils
- * @exports
- * - badge component and related subcomponents
- */
-
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
-import * as Slot from "@radix-ui/react-slot"
+import { Slot } from "radix-ui"
 
 import { cn } from "./lib/utils"
 

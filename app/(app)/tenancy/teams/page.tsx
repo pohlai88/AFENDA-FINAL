@@ -1,12 +1,12 @@
 /**
  * @domain tenancy
  * @layer ui
- * @responsibility Teams list (all / standalone / by organization)
+ * @responsibility Teams list with Tabs/ToggleGroup filters, skeleton, search
  */
 
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useState, useMemo } from "react";
 import {
   Card,
   CardContent,
@@ -15,6 +15,7 @@ import {
   CardTitle,
 } from "@afenda/shadcn";
 import { Button } from "@afenda/shadcn";
+import { Input } from "@afenda/shadcn";
 import {
   ClientSelect,
   ClientSelectContent,
@@ -22,80 +23,85 @@ import {
   ClientSelectTrigger,
   ClientSelectValue,
 } from "@afenda/shadcn";
-import { PlusCircle, Users } from "lucide-react";
+import { ToggleGroup, ToggleGroupItem } from "@afenda/shadcn";
+import { Skeleton } from "@afenda/shadcn";
+import { Alert, AlertDescription } from "@afenda/shadcn";
+import { Badge } from "@afenda/shadcn";
+import { IconPlus, IconSearch, IconUsers } from "@tabler/icons-react";
 import Link from "next/link";
 import { routes } from "@afenda/shared/constants";
-import { Badge } from "@afenda/shadcn";
+import {
+  useTeamsQuery,
+  useOrganizationsQuery,
+  type TenancyOrganizationResponse,
+} from "@afenda/tenancy";
 
-interface Team {
-  id: string;
-  name: string;
-  slug: string;
-  description: string | null;
-  organizationId: string | null;
-  orgName?: string | null;
-}
-
-interface Org {
-  id: string;
-  name: string;
-  slug: string;
-}
-
+type Org = Pick<TenancyOrganizationResponse, "id" | "name" | "slug">;
 type Filter = "all" | "standalone" | "org";
 
+function TeamsGridSkeleton() {
+  return (
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {[1, 2, 3, 4, 5, 6].map((i) => (
+        <Card key={i}>
+          <CardHeader>
+            <div className="flex items-start justify-between gap-2">
+              <div className="space-y-2 min-w-0 flex-1">
+                <Skeleton className="h-5 w-32" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-5 w-20" />
+              </div>
+              <Skeleton className="h-5 w-16 shrink-0" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <Skeleton className="h-9 w-full" />
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
 export default function TeamsPage() {
-  const [teams, setTeams] = useState<Team[]>([]);
-  const [orgs, setOrgs] = useState<Org[]>([]);
   const [filter, setFilter] = useState<Filter>("all");
   const [selectedOrgId, setSelectedOrgId] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
 
-  const fetchTeams = useCallback(() => {
-    setLoading(true);
-    setError(null);
-    const base = routes.api.tenancy.teams.bff.list();
-    const params = new URLSearchParams();
+  // Fetch organizations for filter dropdown
+  const { data: orgsData } = useOrganizationsQuery();
+  const orgs = orgsData?.items ?? [];
+
+  // Auto-select first org when filter is 'org' and no org is selected
+  if (filter === "org" && !selectedOrgId && orgs.length > 0) {
+    setSelectedOrgId(orgs[0].id);
+  }
+
+  // Build query params based on filter
+  const queryParams = useMemo(() => {
     if (filter === "standalone") {
-      params.set("organizationId", "");
+      return { organizationId: "" };
     } else if (filter === "org" && selectedOrgId) {
-      params.set("organizationId", selectedOrgId);
+      return { organizationId: selectedOrgId };
     }
-    const url = params.toString() ? `${base}?${params.toString()}` : base;
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.ok && data.data?.items) {
-          setTeams(data.data.items);
-        } else if (data.error) {
-          setError(data.error?.message || "Failed to load teams");
-        }
-        setLoading(false);
-      })
-      .catch(() => {
-        setError("Failed to load teams");
-        setLoading(false);
-      });
+    return undefined;
   }, [filter, selectedOrgId]);
 
-  useEffect(() => {
-    fetch(routes.api.tenancy.organizations.bff.list())
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.ok && data.data?.items) {
-          setOrgs(data.data.items);
-          if (data.data.items.length > 0 && filter === "org" && !selectedOrgId) {
-            setSelectedOrgId(data.data.items[0].id);
-          }
-        }
-      })
-      .catch(() => {});
-  }, []);
+  // Fetch teams with dynamic params
+  const { data: teamsData, isLoading, error } = useTeamsQuery(queryParams);
+  const teams = teamsData?.items ?? [];
 
-  useEffect(() => {
-    fetchTeams();
-  }, [fetchTeams]);
+  const filtered = useMemo(() => {
+    if (!search.trim()) return teams;
+    const q = search.toLowerCase();
+    return teams.filter(
+      (t) =>
+        t.name.toLowerCase().includes(q) ||
+        t.slug.toLowerCase().includes(q) ||
+        (t.description ?? "").toLowerCase().includes(q) ||
+        (t.orgName ?? "").toLowerCase().includes(q)
+    );
+  }, [teams, search]);
 
   return (
     <div className="space-y-6">
@@ -108,104 +114,136 @@ export default function TeamsPage() {
         </div>
         <Button asChild>
           <Link href={routes.ui.tenancy.teams.new()}>
-            <PlusCircle className="mr-2 h-4 w-4" />
+            <IconPlus className="mr-2 h-4 w-4" />
             Create Team
           </Link>
         </Button>
       </div>
 
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="text-sm text-muted-foreground">Filter:</span>
-        <ClientSelect
-          value={filter}
-          onValueChange={(v) => setFilter(v as Filter)}
-        >
-          <ClientSelectTrigger className="w-[180px]">
-            <ClientSelectValue placeholder="Filter teams" />
-          </ClientSelectTrigger>
-          <ClientSelectContent>
-            <ClientSelectItem value="all">All teams</ClientSelectItem>
-            <ClientSelectItem value="standalone">Standalone</ClientSelectItem>
-            <ClientSelectItem value="org">By organization</ClientSelectItem>
-          </ClientSelectContent>
-        </ClientSelect>
-        {filter === "org" && (
-          <ClientSelect
-            value={selectedOrgId}
-            onValueChange={(v) => setSelectedOrgId(v)}
-          >
-            <ClientSelectTrigger className="w-[200px]">
-              <ClientSelectValue placeholder="Select organization" />
-            </ClientSelectTrigger>
-            <ClientSelectContent>
-              {orgs.map((org) => (
-                <ClientSelectItem key={org.id} value={org.id}>
-                  {org.name}
-                </ClientSelectItem>
-              ))}
-            </ClientSelectContent>
-          </ClientSelect>
-        )}
-      </div>
-
-      {loading ? (
-        <Card>
-          <CardContent className="py-10">
-            <div className="text-center text-muted-foreground">Loading teams...</div>
-          </CardContent>
-        </Card>
+      {isLoading ? (
+        <TeamsGridSkeleton />
       ) : error ? (
         <Card>
-          <CardContent className="py-10">
-            <div className="text-center text-destructive">{error}</div>
+          <CardContent className="pt-6">
+            <Alert variant="destructive">
+              <AlertDescription>{error.message}</AlertDescription>
+            </Alert>
           </CardContent>
         </Card>
       ) : teams.length === 0 ? (
         <Card>
-          <CardContent className="py-10">
-            <div className="text-center space-y-3">
-              <p className="text-muted-foreground">No teams yet</p>
-              <Button asChild>
-                <Link href={routes.ui.tenancy.teams.new()}>
-                  <PlusCircle className="mr-2 h-4 w-4" />
-                  Create Your First Team
-                </Link>
-              </Button>
-            </div>
+          <CardHeader>
+            <CardTitle>No teams yet</CardTitle>
+            <CardDescription>
+              Create your first team to start collaborating. You can create a
+              standalone team or add a team to an organization.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button asChild>
+              <Link href={routes.ui.tenancy.teams.new()}>
+                <IconPlus className="mr-2 h-4 w-4" />
+                Create Your First Team
+              </Link>
+            </Button>
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {teams.map((team) => (
-            <Card key={team.id}>
-              <CardHeader>
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-1 min-w-0">
-                    <CardTitle>{team.name}</CardTitle>
-                    <CardDescription>{team.description || "No description"}</CardDescription>
-                    {team.organizationId && team.orgName ? (
-                      <Badge variant="secondary" className="mt-1">
-                        {team.orgName}
-                      </Badge>
-                    ) : (
-                      <Badge variant="outline" className="mt-1">
-                        Standalone
-                      </Badge>
-                    )}
-                  </div>
-                  <Badge variant="outline" className="shrink-0">{team.slug}</Badge>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <Button variant="outline" size="sm" asChild className="w-full">
-                  <Link href={routes.ui.tenancy.teams.byId(team.id)}>
-                    <Users className="mr-2 h-4 w-4" />
-                    View Team
-                  </Link>
-                </Button>
+        <div className="space-y-4">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-wrap items-center gap-2">
+              <ToggleGroup
+                type="single"
+                value={filter}
+                onValueChange={(v) => v && setFilter(v as Filter)}
+                variant="outline"
+                size="sm"
+              >
+                <ToggleGroupItem value="all" aria-label="All teams">
+                  All teams
+                </ToggleGroupItem>
+                <ToggleGroupItem value="standalone" aria-label="Standalone">
+                  Standalone
+                </ToggleGroupItem>
+                <ToggleGroupItem value="org" aria-label="By organization">
+                  By org
+                </ToggleGroupItem>
+              </ToggleGroup>
+              {filter === "org" && orgs.length > 0 && (
+                <ClientSelect
+                  value={selectedOrgId}
+                  onValueChange={(v) => setSelectedOrgId(v)}
+                >
+                  <ClientSelectTrigger className="w-[200px]">
+                    <ClientSelectValue placeholder="Select organization" />
+                  </ClientSelectTrigger>
+                  <ClientSelectContent>
+                    {orgs.map((org) => (
+                      <ClientSelectItem key={org.id} value={org.id}>
+                        {org.name}
+                      </ClientSelectItem>
+                    ))}
+                  </ClientSelectContent>
+                </ClientSelect>
+              )}
+            </div>
+            <div className="relative w-full sm:w-64">
+              <IconSearch className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                placeholder="Search teams..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="pl-9"
+              />
+            </div>
+          </div>
+
+          {filtered.length === 0 ? (
+            <Card>
+              <CardContent className="py-10">
+                <p className="text-center text-muted-foreground">
+                  No teams match your search.
+                </p>
               </CardContent>
             </Card>
-          ))}
+          ) : (
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {filtered.map((team) => (
+                <Card key={team.id}>
+                  <CardHeader>
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="space-y-1 min-w-0">
+                        <CardTitle>{team.name}</CardTitle>
+                        <CardDescription>
+                          {team.description || "No description"}
+                        </CardDescription>
+                        {team.organizationId && team.orgName ? (
+                          <Badge variant="secondary" className="mt-1">
+                            {team.orgName}
+                          </Badge>
+                        ) : (
+                          <Badge variant="outline" className="mt-1">
+                            Standalone
+                          </Badge>
+                        )}
+                      </div>
+                      <Badge variant="outline" className="shrink-0">
+                        {team.slug}
+                      </Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <Button variant="outline" size="sm" asChild className="w-full">
+                      <Link href={routes.ui.tenancy.teams.byId(team.id)}>
+                        <IconUsers className="mr-2 h-4 w-4" />
+                        View Team
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>

@@ -27,7 +27,6 @@ export function WebVitals() {
         rating: metric.rating,
         delta: metric.delta,
       };
-      // eslint-disable-next-line no-console -- dev-only diagnostic
       console.log(`[Web Vitals] ${metric.name}:`, payload);
       // In dev, FCP/TTFB/LCP often exceed thresholds (cold start, HMR); skip threshold warnings.
     }
@@ -36,7 +35,6 @@ export function WebVitals() {
     if (process.env.NODE_ENV === "production") {
       const threshold = THRESHOLDS[metric.name];
       if (threshold != null && metric.value > threshold) {
-        // eslint-disable-next-line no-console -- production diagnostic
         console.warn(
           `[Web Vitals] ${metric.name} exceeded threshold: ${metric.value} > ${threshold}`
         );

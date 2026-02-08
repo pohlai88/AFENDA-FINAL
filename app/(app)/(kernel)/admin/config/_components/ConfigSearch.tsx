@@ -12,14 +12,14 @@ import {
   Input,
   Button,
   Badge,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
+  ClientSelect,
+  ClientSelectContent,
+  ClientSelectItem,
+  ClientSelectTrigger,
+  ClientSelectValue,
+  ClientPopover,
+  ClientPopoverContent,
+  ClientPopoverTrigger,
 } from "@afenda/shadcn";
 
 export interface ConfigSearchProps {
@@ -84,8 +84,8 @@ export function ConfigSearch({
         </div>
 
         {/* Scope filter */}
-        <Popover>
-          <PopoverTrigger asChild>
+        <ClientPopover>
+          <ClientPopoverTrigger asChild>
             <Button variant="outline" size="icon" className="shrink-0">
               <IconFilter className="size-4" />
               {activeScope && (
@@ -93,31 +93,31 @@ export function ConfigSearch({
               )}
               <span className="sr-only">Filter by scope</span>
             </Button>
-          </PopoverTrigger>
-          <PopoverContent align="start" className="w-48 p-2">
+          </ClientPopoverTrigger>
+          <ClientPopoverContent align="start" className="w-48 p-2">
             <div className="space-y-1">
               <p className="text-xs font-medium text-muted-foreground px-2 py-1">
                 Filter by Scope
               </p>
-              <Select
+              <ClientSelect
                 value={activeScope ?? "all"}
                 onValueChange={(v) => onScopeFilter(v === "all" ? null : v)}
               >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="All scopes" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All scopes</SelectItem>
+                <ClientSelectTrigger className="w-full">
+                  <ClientSelectValue placeholder="All scopes" />
+                </ClientSelectTrigger>
+                <ClientSelectContent>
+                  <ClientSelectItem value="all">All scopes</ClientSelectItem>
                   {SCOPES.map((scope) => (
-                    <SelectItem key={scope.value} value={scope.value}>
+                    <ClientSelectItem key={scope.value} value={scope.value}>
                       {scope.label}
-                    </SelectItem>
+                    </ClientSelectItem>
                   ))}
-                </SelectContent>
-              </Select>
+                </ClientSelectContent>
+              </ClientSelect>
             </div>
-          </PopoverContent>
-        </Popover>
+          </ClientPopoverContent>
+        </ClientPopover>
       </div>
 
       {/* Results count and clear */}

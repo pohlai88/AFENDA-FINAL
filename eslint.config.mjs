@@ -66,10 +66,13 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
 
-  // Linter options: warn on obsolete eslint-disable comments
+  // Linter options (see https://eslint.org/docs/latest/use/configure/configuration-files#configure-linter-options)
+  // - reportUnusedDisableDirectives: warn on obsolete eslint-disable/enable comments
+  // - reportUnusedInlineConfigs: warn when inline rule overrides are redundant with config
   {
     linterOptions: {
       reportUnusedDisableDirectives: "warn",
+      reportUnusedInlineConfigs: "warn",
     },
   },
 
@@ -261,6 +264,13 @@ const eslintConfig = defineConfig([
   // Exception: Magictodo API routes use kernelOk/kernelFail envelope from @afenda/orchestra.
   {
     files: ["app/api/magictodo/**/route.ts"],
+    rules: {
+      "no-restricted-properties": "off",
+    },
+  },
+  // Exception: Tenancy API routes use kernelOk/kernelFail envelope from @afenda/orchestra.
+  {
+    files: ["app/api/tenancy/**/route.ts"],
     rules: {
       "no-restricted-properties": "off",
     },

@@ -1,15 +1,3 @@
-/**
- * @domain shared
- * @layer ui
- * @responsibility shadcn/ui alert component - UI building block
- * @owner afenda/shadcn
- * @dependencies
- * - radix-ui (external)
- * - @/lib/utils
- * @exports
- * - alert component and related subcomponents
- */
-
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 

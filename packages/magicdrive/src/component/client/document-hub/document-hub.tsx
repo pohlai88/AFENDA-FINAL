@@ -17,14 +17,6 @@ import {
   CardContent,
 } from "@afenda/shadcn"
 import { Badge } from "@afenda/shadcn"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@afenda/shadcn"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@afenda/shadcn"
 import {
   Pagination,
   PaginationContent,
@@ -36,7 +28,7 @@ import {
 import { useShallow } from "zustand/react/shallow"
 import { routes } from "@afenda/shared/constants"
 import { useKeyboardShortcuts } from "@afenda/shared/hooks"
-import { useDocumentHubStore, useUploadStore, type SortBy, type SortOrder } from "@afenda/magicdrive/zustand"
+import { useDocumentHubStore, useUploadStore } from "@afenda/magicdrive/zustand"
 import { useDocuments } from "@afenda/magicdrive/hooks"
 import { EnhancedDocumentCard } from "../document-card/enhanced-document-card"
 import { DocumentTable } from "../document-table/document-table"
@@ -48,21 +40,15 @@ import { QuickSettingsToolbar } from "../quick-settings/quick-settings-toolbar"
 import { SavedViewManager } from "../saved-views/saved-view-manager"
 import { MagicdriveErrorBoundary } from "../ui/error-boundary"
 import { KeyboardShortcutsDialog } from "../ui/keyboard-shortcuts-dialog"
-import type { SavedView } from "@afenda/magicdrive/zod"
 import {
   FileText,
   Upload,
-  List,
-  Table,
-  Network,
   BarChart3,
   Archive,
   Tag,
   CheckCircle,
   AlertTriangle,
   RefreshCw,
-  LayoutGrid,
-  Calendar,
 } from "lucide-react"
 
 interface DocumentHubProps {
@@ -89,9 +75,6 @@ export function DocumentHub({ className }: DocumentHubProps) {
     setViewMode,
     setSorting,
     setFilters,
-    setDocuments,
-    setLoading,
-    setError,
     toggleSelection,
     selectDocument,
     clearSelection,
@@ -111,9 +94,6 @@ export function DocumentHub({ className }: DocumentHubProps) {
       setViewMode: s.setViewMode,
       setSorting: s.setSorting,
       setFilters: s.setFilters,
-      setDocuments: s.setDocuments,
-      setLoading: s.setLoading,
-      setError: s.setError,
       toggleSelection: s.toggleSelection,
       selectDocument: s.selectDocument,
       clearSelection: s.clearSelection,
@@ -605,9 +585,9 @@ export function DocumentHub({ className }: DocumentHubProps) {
               currentSortOrder={sortOrder}
               onViewApply={(view) => {
                 // Apply saved view
-                setFilters(view.filters as any)
+                setFilters(view.filters ?? {})
                 setViewMode(view.viewMode)
-                setSorting(view.sortBy as any, view.sortOrder)
+                setSorting(view.sortBy ?? "createdAt", view.sortOrder ?? "desc")
               }}
             />
           </MagicdriveErrorBoundary>

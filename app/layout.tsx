@@ -4,7 +4,7 @@ import { Geist_Mono, Figtree, Inter } from "next/font/google"
 import { headers } from "next/headers"
 import "./globals.css"
 
-import { ThemeProvider, TooltipProvider } from "@afenda/shadcn"
+import { ThemeProvider, ClientTooltipProvider } from "@afenda/shadcn"
 import { Toaster } from "@afenda/shadcn"
 import { siteConfig } from "@afenda/shared/constants"
 import {
@@ -76,7 +76,7 @@ export default async function RootLayout({
           }}
         />
         <ThemeProvider>
-          <TooltipProvider delayDuration={0}>
+          <ClientTooltipProvider delayDuration={0}>
             <QueryProvider>
               <AuthProvider>
                 <WebVitals />
@@ -84,7 +84,7 @@ export default async function RootLayout({
                 <Toaster />
               </AuthProvider>
             </QueryProvider>
-          </TooltipProvider>
+          </ClientTooltipProvider>
         </ThemeProvider>
         <ClientRuntime />
       </body>

@@ -8,10 +8,10 @@
 import * as React from "react";
 import { IconHelpCircle } from "@tabler/icons-react";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
+  ClientTooltip,
+  ClientTooltipContent,
+  ClientTooltipProvider,
+  ClientTooltipTrigger,
 } from "@afenda/shadcn";
 
 export interface HelpContent {
@@ -29,17 +29,17 @@ export interface CardHelpTooltipProps {
 
 export const CardHelpTooltip = React.memo(function CardHelpTooltip({ content, side = "top", align = "center" }: CardHelpTooltipProps) {
   return (
-    <TooltipProvider delayDuration={300}>
-      <Tooltip>
-        <TooltipTrigger asChild>
+    <ClientTooltipProvider delayDuration={300}>
+      <ClientTooltip>
+        <ClientTooltipTrigger asChild>
           <button
             className="inline-flex items-center justify-center rounded-full p-1 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
             aria-label={`Get help with ${content.title}`}
           >
             <IconHelpCircle className="h-4 w-4" />
           </button>
-        </TooltipTrigger>
-        <TooltipContent side={side} align={align} className="max-w-sm">
+        </ClientTooltipTrigger>
+        <ClientTooltipContent side={side} align={align} className="max-w-sm">
           <div className="space-y-2">
             <h4 className="font-semibold text-sm">{content.title}</h4>
             <p className="text-xs text-muted-foreground leading-relaxed">
@@ -66,8 +66,8 @@ export const CardHelpTooltip = React.memo(function CardHelpTooltip({ content, si
               </a>
             )}
           </div>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+        </ClientTooltipContent>
+      </ClientTooltip>
+    </ClientTooltipProvider>
   );
 });

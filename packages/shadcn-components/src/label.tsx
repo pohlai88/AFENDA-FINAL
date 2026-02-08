@@ -1,17 +1,5 @@
 "use client"
 
-/**
- * @domain shared
- * @layer ui
- * @responsibility shadcn/ui label component - UI building block
- * @owner afenda/shadcn
- * @dependencies
- * - radix-ui (external)
- * - @/lib/utils
- * @exports
- * - label component and related subcomponents
- */
-
 import * as React from "react"
 import { Label as LabelPrimitive } from "radix-ui"
 

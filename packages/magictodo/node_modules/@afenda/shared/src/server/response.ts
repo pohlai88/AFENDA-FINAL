@@ -31,6 +31,7 @@ export function envelopeHeaders(requestId: string): Record<string, string> {
 /**
  * Build a JSON Response with ok/fail envelope.
  * Use instead of NextResponse.json() to satisfy ESLint no-restricted-properties.
+ * Includes x-request-id and x-trace-id when requestId is provided.
  */
 export function jsonResponse(
   body: object,
@@ -39,7 +40,7 @@ export function jsonResponse(
 ): Response {
   const headersInit: HeadersInit = {
     "Content-Type": "application/json",
-    ...(requestId ? { [HEADER_NAMES.REQUEST_ID]: requestId } : {}),
+    ...(requestId ? envelopeHeaders(requestId) : {}),
   };
   return new Response(JSON.stringify(body), { status, headers: headersInit });
 }

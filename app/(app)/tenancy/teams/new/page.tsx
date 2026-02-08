@@ -1,7 +1,7 @@
 /**
  * @domain tenancy
  * @layer ui
- * @responsibility Create team (standalone or org-scoped)
+ * @responsibility Create team (standalone or org-scoped) with form polish and mobile Drawer
  */
 
 "use client";
@@ -25,20 +25,32 @@ import {
   ClientSelectTrigger,
   ClientSelectValue,
 } from "@afenda/shadcn";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@afenda/shadcn";
+import { Alert, AlertDescription } from "@afenda/shadcn";
+import { useIsMobile } from "@afenda/shadcn";
+import type { TenancyOrganizationResponse } from "@afenda/tenancy";
 import { routes } from "@afenda/shared/constants";
 import Link from "next/link";
 
-interface Org {
-  id: string;
-  name: string;
-  slug: string;
-}
-
+type Org = Pick<TenancyOrganizationResponse, "id" | "name" | "slug">;
 type TeamType = "standalone" | "org-scoped";
 
-export default function NewTeamPage() {
-  const router = useRouter();
-  const [orgs, setOrgs] = useState<Org[]>([]);
+function CreateTeamForm({
+  orgs,
+  onSuccess,
+  onCancel,
+}: {
+  orgs: Org[];
+  onSuccess: () => void;
+  onCancel?: () => void;
+}) {
   const [teamType, setTeamType] = useState<TeamType>("standalone");
   const [organizationId, setOrganizationId] = useState("");
   const [name, setName] = useState("");
@@ -48,18 +60,10 @@ export default function NewTeamPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(routes.api.tenancy.organizations.bff.list())
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.ok && data.data?.items) {
-          setOrgs(data.data.items);
-          if (data.data.items.length > 0) {
-            setOrganizationId((prev) => prev || data.data.items[0].id);
-          }
-        }
-      })
-      .catch(() => {});
-  }, []);
+    if (orgs.length > 0 && !organizationId) {
+      setOrganizationId(orgs[0].id);
+    }
+  }, [orgs, organizationId]);
 
   const derivedSlug =
     slug ||
@@ -78,9 +82,14 @@ export default function NewTeamPage() {
     setError(null);
     try {
       const payload = {
-        ...(teamType === "org-scoped" && organizationId ? { organizationId } : {}),
+        ...(teamType === "org-scoped" && organizationId
+          ? { organizationId }
+          : {}),
         name,
-        slug: slug || derivedSlug || name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+        slug:
+          slug ||
+          derivedSlug ||
+          name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
         description: description || undefined,
       };
       const res = await fetch(routes.api.tenancy.teams.bff.list(), {
@@ -90,7 +99,7 @@ export default function NewTeamPage() {
       });
       const data = await res.json();
       if (data.ok && data.data?.id) {
-        router.push(routes.ui.tenancy.teams.list());
+        onSuccess();
       } else {
         setError(data.error?.message || "Failed to create team");
       }
@@ -101,11 +110,170 @@ export default function NewTeamPage() {
     }
   };
 
+  const formContent = (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <Label htmlFor="teamType">Team type</Label>
+        <ClientSelect
+          value={teamType}
+          onValueChange={(v) => {
+            setTeamType(v as TeamType);
+            if (v === "standalone") setOrganizationId("");
+          }}
+        >
+          <ClientSelectTrigger id="teamType">
+            <ClientSelectValue placeholder="Select type" />
+          </ClientSelectTrigger>
+          <ClientSelectContent>
+            <ClientSelectItem value="standalone">
+              Create standalone team (no organization)
+            </ClientSelectItem>
+            <ClientSelectItem value="org-scoped">
+              Create team in organization
+            </ClientSelectItem>
+          </ClientSelectContent>
+        </ClientSelect>
+      </div>
+      {teamType === "org-scoped" && (
+        <div>
+          <Label htmlFor="org">Organization</Label>
+          <ClientSelect
+            value={organizationId}
+            onValueChange={setOrganizationId}
+          >
+            <ClientSelectTrigger id="org">
+              <ClientSelectValue placeholder="Select organization" />
+            </ClientSelectTrigger>
+            <ClientSelectContent>
+              {orgs.map((org) => (
+                <ClientSelectItem key={org.id} value={org.id}>
+                  {org.name}
+                </ClientSelectItem>
+              ))}
+            </ClientSelectContent>
+          </ClientSelect>
+        </div>
+      )}
+      <div>
+        <Label htmlFor="name">Name</Label>
+        <Input
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Engineering"
+          required
+        />
+      </div>
+      <div>
+        <Label htmlFor="slug">Slug</Label>
+        <Input
+          id="slug"
+          value={slug}
+          onChange={(e) => setSlug(e.target.value)}
+          placeholder="engineering"
+          pattern="^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        />
+        <p className="mt-1 text-xs text-muted-foreground">
+          Will use: {derivedSlug || "(auto from name)"}
+        </p>
+      </div>
+      <div>
+        <Label htmlFor="description">Description (optional)</Label>
+        <Input
+          id="description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Brief description"
+        />
+      </div>
+      {error && (
+        <Alert variant="destructive">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+      <div className="flex gap-2">
+        <Button type="submit" disabled={loading}>
+          {loading ? "Creating..." : "Create Team"}
+        </Button>
+        {onCancel && (
+          <Button type="button" variant="outline" onClick={onCancel}>
+            Cancel
+          </Button>
+        )}
+      </div>
+    </form>
+  );
+
+  return formContent;
+}
+
+export default function NewTeamPage() {
+  const router = useRouter();
+  const isMobile = useIsMobile();
+  const [orgs, setOrgs] = useState<Org[]>([]);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    fetch(routes.api.tenancy.organizations.bff.list())
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.ok && data.data?.items) {
+          setOrgs(data.data.items);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const handleSuccess = () => {
+    setDrawerOpen(false);
+    router.push(routes.ui.tenancy.teams.list());
+  };
+
+  if (isMobile) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">
+            Create Team
+          </h1>
+          <p className="text-muted-foreground mt-1">
+            Create a standalone team or add a team to an organization
+          </p>
+        </div>
+        <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
+          <DrawerTrigger asChild>
+            <Button className="w-full">Create Team</Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Create Team</DrawerTitle>
+              <DrawerDescription>
+                Enter the team name and slug
+              </DrawerDescription>
+            </DrawerHeader>
+            <div className="px-4 pb-4">
+              <CreateTeamForm
+                orgs={orgs}
+                onSuccess={handleSuccess}
+                onCancel={() => setDrawerOpen(false)}
+              />
+            </div>
+          </DrawerContent>
+        </Drawer>
+        <Button variant="outline" asChild className="w-full">
+          <Link href={routes.ui.tenancy.teams.list()}>Back to teams</Link>
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-lg space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Create Team</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-2xl font-semibold tracking-tight">
+          Create Team
+        </h1>
+        <p className="text-muted-foreground mt-1">
           Create a standalone team or add a team to an organization
         </p>
       </div>
@@ -116,91 +284,15 @@ export default function NewTeamPage() {
           <CardDescription>Enter the team name and slug</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <Label htmlFor="teamType">Team type</Label>
-              <ClientSelect
-                value={teamType}
-                onValueChange={(v) => {
-                  setTeamType(v as TeamType);
-                  if (v === "standalone") setOrganizationId("");
-                }}
-              >
-                <ClientSelectTrigger id="teamType">
-                  <ClientSelectValue placeholder="Select type" />
-                </ClientSelectTrigger>
-                <ClientSelectContent>
-                  <ClientSelectItem value="standalone">
-                    Create standalone team (no organization)
-                  </ClientSelectItem>
-                  <ClientSelectItem value="org-scoped">
-                    Create team in organization
-                  </ClientSelectItem>
-                </ClientSelectContent>
-              </ClientSelect>
-            </div>
-            {teamType === "org-scoped" && (
-              <div>
-                <Label htmlFor="org">Organization</Label>
-                <ClientSelect
-                  value={organizationId}
-                  onValueChange={setOrganizationId}
-                >
-                  <ClientSelectTrigger id="org">
-                    <ClientSelectValue placeholder="Select organization" />
-                  </ClientSelectTrigger>
-                  <ClientSelectContent>
-                    {orgs.map((org) => (
-                      <ClientSelectItem key={org.id} value={org.id}>
-                        {org.name}
-                      </ClientSelectItem>
-                    ))}
-                  </ClientSelectContent>
-                </ClientSelect>
-              </div>
-            )}
-            <div>
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Engineering"
-                required
-              />
-            </div>
-            <div>
-              <Label htmlFor="slug">Slug</Label>
-              <Input
-                id="slug"
-                value={slug}
-                onChange={(e) => setSlug(e.target.value)}
-                placeholder="engineering"
-                pattern="^[a-z0-9]+(?:-[a-z0-9]+)*$"
-              />
-              <p className="text-xs text-muted-foreground mt-1">
-                Will use: {derivedSlug || "(auto from name)"}
-              </p>
-            </div>
-            <div>
-              <Label htmlFor="description">Description (optional)</Label>
-              <Input
-                id="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Brief description"
-              />
-            </div>
-            {error && <p className="text-sm text-destructive">{error}</p>}
-            <div className="flex gap-2">
-              <Button type="submit" disabled={loading}>
-                {loading ? "Creating..." : "Create Team"}
-              </Button>
-              <Button variant="outline" asChild>
-                <Link href={routes.ui.tenancy.teams.list()}>Cancel</Link>
-              </Button>
-            </div>
-          </form>
+          <CreateTeamForm
+            orgs={orgs}
+            onSuccess={() => router.push(routes.ui.tenancy.teams.list())}
+          />
+          <div className="mt-4">
+            <Button variant="outline" asChild>
+              <Link href={routes.ui.tenancy.teams.list()}>Cancel</Link>
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>

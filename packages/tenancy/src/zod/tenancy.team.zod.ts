@@ -5,7 +5,8 @@
  */
 
 import { z } from "zod";
-import { TENANCY_CONSTANTS } from "../constant/tenancy.constant";
+
+import { TENANCY_CONSTANTS } from "../constant";
 
 export const tenancyCreateTeamSchema = z.object({
   organizationId: z.string().min(1, "Organization ID is required").optional(),
@@ -66,8 +67,23 @@ export const tenancyTeamResponseSchema = z.object({
   memberCount: z.number().optional(),
 });
 
+/** List item may include orgName from join (BFF list endpoint) */
+export const tenancyTeamListItemSchema = tenancyTeamResponseSchema.extend({
+  orgName: z.string().nullable().optional(),
+});
+
+/** BFF list response: GET /api/tenancy/teams/bff */
+export const tenancyTeamListResponseSchema = z.object({
+  items: z.array(tenancyTeamListItemSchema),
+  total: z.number(),
+});
+
 export type TenancyCreateTeam = z.infer<typeof tenancyCreateTeamSchema>;
 export type TenancyUpdateTeam = z.infer<typeof tenancyUpdateTeamSchema>;
 export type TenancyTeamParams = z.infer<typeof tenancyTeamParamsSchema>;
 export type TenancyTeamQuery = z.infer<typeof tenancyTeamQuerySchema>;
 export type TenancyTeamResponse = z.infer<typeof tenancyTeamResponseSchema>;
+export type TenancyTeamListItem = z.infer<typeof tenancyTeamListItemSchema>;
+export type TenancyTeamListResponse = z.infer<
+  typeof tenancyTeamListResponseSchema
+>;

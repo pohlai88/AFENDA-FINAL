@@ -1,17 +1,5 @@
 "use client"
 
-/**
- * @domain shared
- * @layer ui
- * @responsibility shadcn/ui drawer component - UI building block
- * @owner afenda/shadcn
- * @dependencies
- * - radix-ui (external)
- * - @/lib/utils
- * @exports
- * - drawer component and related subcomponents
- */
-
 import * as React from "react"
 import { Drawer as DrawerPrimitive } from "vaul"
 

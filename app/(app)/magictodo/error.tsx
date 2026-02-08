@@ -28,7 +28,6 @@ interface MagictodoErrorProps {
 export default function MagictodoError({ error, reset }: MagictodoErrorProps) {
   useEffect(() => {
     if (process.env.NODE_ENV === "development") {
-      // eslint-disable-next-line no-console -- error boundary dev logging
       console.error("[MagicTodo] Error boundary:", error);
     }
   }, [error]);

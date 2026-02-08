@@ -1,12 +1,12 @@
 /**
  * @domain tenancy
  * @layer ui
- * @responsibility Organizations list
+ * @responsibility Organizations list with DataTable, skeleton, empty state
  */
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Card,
   CardContent,
@@ -15,42 +15,87 @@ import {
   CardTitle,
 } from "@afenda/shadcn";
 import { Button } from "@afenda/shadcn";
-import { PlusCircle, Users, Settings } from "lucide-react";
+import { Input } from "@afenda/shadcn";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@afenda/shadcn";
+import { Skeleton } from "@afenda/shadcn";
+import { Alert, AlertDescription } from "@afenda/shadcn";
+import { IconPlus, IconSearch, IconUsers, IconSettings } from "@tabler/icons-react";
 import Link from "next/link";
 import { routes } from "@afenda/shared/constants";
+import { useOrganizationsQuery } from "@afenda/tenancy";
 
-interface Organization {
-  id: string;
-  name: string;
-  slug: string;
-  description: string | null;
+function OrganizationsTableSkeleton() {
+  return (
+    <Card>
+      <CardHeader>
+        <Skeleton className="h-6 w-48" />
+        <Skeleton className="h-4 w-96" />
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <Skeleton className="h-10 w-full max-w-sm" />
+        <div className="rounded-md border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead>Slug</TableHead>
+                <TableHead>Description</TableHead>
+                <TableHead className="w-[120px]">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {[1, 2, 3, 4, 5].map((i) => (
+                <TableRow key={i}>
+                  <TableCell>
+                    <Skeleton className="h-4 w-32" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-24" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-48" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-8 w-20" />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </CardContent>
+    </Card>
+  );
 }
 
 export default function OrganizationsPage() {
-  const [organizations, setOrganizations] = useState<Organization[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+  
+  const { data, isLoading, error } = useOrganizationsQuery();
 
-  useEffect(() => {
-    fetch(routes.api.tenancy.organizations.bff.list())
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.ok && data.data?.items) {
-          setOrganizations(data.data.items);
-        } else if (data.error) {
-          setError(data.error?.message || "Failed to load organizations");
-        }
-        setLoading(false);
-      })
-      .catch(() => {
-        setError("Failed to load organizations");
-        setLoading(false);
-      });
-  }, []);
+  const organizations = data?.items ?? [];
+
+  const filtered = useMemo(() => {
+    if (!search.trim()) return organizations;
+    const q = search.toLowerCase();
+    return organizations.filter(
+      (org) =>
+        org.name.toLowerCase().includes(q) ||
+        org.slug.toLowerCase().includes(q) ||
+        (org.description ?? "").toLowerCase().includes(q)
+    );
+  }, [organizations, search]);
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Organizations</h1>
           <p className="text-muted-foreground">
@@ -59,67 +104,117 @@ export default function OrganizationsPage() {
         </div>
         <Button asChild>
           <Link href={routes.ui.tenancy.organizations.new()}>
-            <PlusCircle className="mr-2 h-4 w-4" />
+            <IconPlus className="mr-2 h-4 w-4" />
             Create Organization
           </Link>
         </Button>
       </div>
 
-      {loading ? (
-        <Card>
-          <CardContent className="py-10">
-            <div className="text-center text-muted-foreground">
-              Loading organizations...
-            </div>
-          </CardContent>
-        </Card>
+      {isLoading ? (
+        <OrganizationsTableSkeleton />
       ) : error ? (
         <Card>
-          <CardContent className="py-10">
-            <div className="text-center text-destructive">{error}</div>
+          <CardContent className="pt-6">
+            <Alert variant="destructive">
+              <AlertDescription>{error.message}</AlertDescription>
+            </Alert>
           </CardContent>
         </Card>
       ) : organizations.length === 0 ? (
         <Card>
-          <CardContent className="py-10">
-            <div className="text-center space-y-3">
-              <p className="text-muted-foreground">No organizations yet</p>
-              <Button asChild>
-                <Link href={routes.ui.tenancy.organizations.new()}>
-                  <PlusCircle className="mr-2 h-4 w-4" />
-                  Create Your First Organization
-                </Link>
-              </Button>
-            </div>
+          <CardHeader>
+            <CardTitle>No organizations yet</CardTitle>
+            <CardDescription>
+              Create your first organization to start collaborating with teams
+              and members.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button asChild>
+              <Link href={routes.ui.tenancy.organizations.new()}>
+                <IconPlus className="mr-2 h-4 w-4" />
+                Create Your First Organization
+              </Link>
+            </Button>
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {organizations.map((org) => (
-            <Card key={org.id}>
-              <CardHeader>
-                <CardTitle>{org.name}</CardTitle>
-                <CardDescription>{org.description || "No description"}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm" asChild>
-                    <Link href={routes.ui.tenancy.organizations.byId(org.id)}>
-                      <Users className="mr-2 h-4 w-4" />
-                      View
-                    </Link>
-                  </Button>
-                  <Button variant="outline" size="sm" asChild>
-                    <Link href={routes.ui.tenancy.organizations.settings(org.id)}>
-                      <Settings className="mr-2 h-4 w-4" />
-                      Settings
-                    </Link>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        <Card>
+          <CardHeader>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <CardTitle>Organizations</CardTitle>
+                <CardDescription>
+                  {filtered.length} organization{filtered.length !== 1 ? "s" : ""}
+                </CardDescription>
+              </div>
+              <div className="relative w-full sm:w-64">
+                <IconSearch className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  placeholder="Search organizations..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="pl-9"
+                />
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            {filtered.length === 0 ? (
+              <p className="py-8 text-center text-muted-foreground">
+                No organizations match your search.
+              </p>
+            ) : (
+              <div className="rounded-md border">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Slug</TableHead>
+                      <TableHead>Description</TableHead>
+                      <TableHead className="w-[160px] text-right">
+                        Actions
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filtered.map((org) => (
+                      <TableRow key={org.id}>
+                        <TableCell className="font-medium">{org.name}</TableCell>
+                        <TableCell className="text-muted-foreground">
+                          {org.slug}
+                        </TableCell>
+                        <TableCell className="max-w-[300px] truncate text-muted-foreground">
+                          {org.description || "—"}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex justify-end gap-2">
+                            <Button variant="outline" size="sm" asChild>
+                              <Link href={routes.ui.tenancy.organizations.byId(org.id)}>
+                                <IconUsers className="mr-1.5 h-3.5 w-3.5" />
+                                View
+                              </Link>
+                            </Button>
+                            <Button variant="outline" size="sm" asChild>
+                              <Link
+                                href={routes.ui.tenancy.organizations.settings(
+                                  org.id
+                                )}
+                              >
+                                <IconSettings className="mr-1.5 h-3.5 w-3.5" />
+                                Settings
+                              </Link>
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            )}
+          </CardContent>
+        </Card>
       )}
     </div>
   );

@@ -1,15 +1,3 @@
-/**
- * @domain shared
- * @layer ui
- * @responsibility shadcn/ui card component - UI building block
- * @owner afenda/shadcn
- * @dependencies
- * - radix-ui (external)
- * - @/lib/utils
- * @exports
- * - card component and related subcomponents
- */
-
 import * as React from "react"
 
 import { cn } from "./lib/utils"

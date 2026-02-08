@@ -53,6 +53,19 @@ export const tenancyMembershipResponseSchema = z.object({
   isActive: z.boolean(),
 });
 
+/** List item includes orgName/teamName from joins (BFF list endpoint) */
+export const tenancyMembershipListItemSchema =
+  tenancyMembershipResponseSchema.extend({
+    orgName: z.string().nullable().optional(),
+    teamName: z.string().nullable().optional(),
+  });
+
+/** BFF list response: GET /api/tenancy/memberships/bff */
+export const tenancyMembershipListResponseSchema = z.object({
+  items: z.array(tenancyMembershipListItemSchema),
+  total: z.number(),
+});
+
 export type TenancyInviteUser = z.infer<typeof tenancyInviteUserSchema>;
 export type TenancyUpdateMembership = z.infer<typeof tenancyUpdateMembershipSchema>;
 export type TenancyMembershipParams = z.infer<typeof tenancyMembershipParamsSchema>;
@@ -68,4 +81,10 @@ export type TenancyCreateTeamMembership = z.infer<
 >;
 export type TenancyMembershipResponse = z.infer<
   typeof tenancyMembershipResponseSchema
+>;
+export type TenancyMembershipListItem = z.infer<
+  typeof tenancyMembershipListItemSchema
+>;
+export type TenancyMembershipListResponse = z.infer<
+  typeof tenancyMembershipListResponseSchema
 >;

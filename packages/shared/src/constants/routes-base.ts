@@ -219,6 +219,10 @@ export const routesBase = {
         cleanup: () => "/api/magicdrive/ops/cleanup" as const,
       },
     },
+    cron: {
+      processMagicdriveQueue: () =>
+        "/api/cron/process-magicdrive-queue" as const,
+    },
     tenancy: {
       organizations: {
         bff: {

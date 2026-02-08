@@ -15,9 +15,10 @@ import {
   CardTitle,
 } from "@afenda/shadcn";
 import { Button } from "@afenda/shadcn";
-import { Settings, Users, Building2 } from "lucide-react";
+import { IconSettings, IconUsers, IconBuilding } from "@tabler/icons-react";
 import Link from "next/link";
 import { routes } from "@afenda/shared/constants";
+import { useOrganizationQuery } from "@afenda/tenancy";
 
 interface Organization {
   id: string;
@@ -32,33 +33,18 @@ export default function OrganizationDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const [id, setId] = useState<string | null>(null);
-  const [org, setOrg] = useState<Organization | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     params.then((p) => setId(p.id));
   }, [params]);
 
-  useEffect(() => {
-    if (!id) return;
-    fetch(routes.api.tenancy.organizations.bff.byId(id))
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.ok && data.data) {
-          setOrg(data.data);
-        } else {
-          setError(data.error?.message || "Organization not found");
-        }
-        setLoading(false);
-      })
-      .catch(() => {
-        setError("Failed to load organization");
-        setLoading(false);
-      });
-  }, [id]);
+  const { data: org, isLoading, error } = useOrganizationQuery(id ?? "", {
+    enabled: !!id,
+  });
 
-  if (!id || loading) {
+  if (!id) return <div>Loading...</div>;
+
+  if (isLoading) {
     return (
       <div className="space-y-6">
         <p className="text-muted-foreground">Loading...</p>
@@ -69,7 +55,7 @@ export default function OrganizationDetailPage({
   if (error || !org) {
     return (
       <div className="space-y-6">
-        <p className="text-destructive">{error || "Organization not found"}</p>
+        <p className="text-destructive">{error?.message || "Organization not found"}</p>
         <Button variant="outline" asChild>
           <Link href={routes.ui.tenancy.organizations.list()}>Back to organizations</Link>
         </Button>
@@ -87,19 +73,19 @@ export default function OrganizationDetailPage({
         <div className="flex gap-2">
           <Button variant="outline" asChild>
             <Link href={routes.ui.tenancy.organizations.settings(id)}>
-              <Settings className="mr-2 h-4 w-4" />
+              <IconSettings className="mr-2 h-4 w-4" />
               Settings
             </Link>
           </Button>
           <Button variant="outline" asChild>
             <Link href={routes.ui.tenancy.organizations.members(id)}>
-              <Users className="mr-2 h-4 w-4" />
+              <IconUsers className="mr-2 h-4 w-4" />
               Members
             </Link>
           </Button>
           <Button variant="outline" asChild>
             <Link href={routes.ui.tenancy.organizations.teams(id)}>
-              <Building2 className="mr-2 h-4 w-4" />
+              <IconBuilding className="mr-2 h-4 w-4" />
               Teams
             </Link>
           </Button>

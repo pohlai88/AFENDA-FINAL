@@ -1,7 +1,7 @@
 /**
  * @domain tenancy
  * @layer ui
- * @responsibility Team detail
+ * @responsibility Team detail - Overview tab content
  */
 
 "use client";
@@ -15,17 +15,11 @@ import {
   CardTitle,
 } from "@afenda/shadcn";
 import { Button } from "@afenda/shadcn";
-import { Settings, Users } from "lucide-react";
+import { Skeleton } from "@afenda/shadcn";
+import { IconBuilding, IconUsers } from "@tabler/icons-react";
 import Link from "next/link";
 import { routes } from "@afenda/shared/constants";
-
-interface Team {
-  id: string;
-  name: string;
-  slug: string;
-  description: string | null;
-  organizationId: string | null;
-}
+import { useTeamQuery } from "@afenda/tenancy";
 
 export default function TeamDetailPage({
   params,
@@ -33,81 +27,80 @@ export default function TeamDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const [id, setId] = useState<string | null>(null);
-  const [team, setTeam] = useState<Team | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     params.then((p) => setId(p.id));
   }, [params]);
 
-  useEffect(() => {
-    if (!id) return;
-    fetch(routes.api.tenancy.teams.bff.byId(id))
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.ok && data.data) {
-          setTeam(data.data);
-        } else {
-          setError(data.error?.message || "Team not found");
-        }
-        setLoading(false);
-      })
-      .catch(() => {
-        setError("Failed to load team");
-        setLoading(false);
-      });
-  }, [id]);
+  const { data: team, isLoading, error } = useTeamQuery(id ?? "", {
+    enabled: !!id,
+  });
 
-  if (!id || loading) {
-    return <div className="space-y-6"><p className="text-muted-foreground">Loading...</p></div>;
+  if (!id) return <div>Loading...</div>;
+
+  if (isLoading) {
+    return (
+      <Card>
+        <CardHeader>
+          <Skeleton className="h-6 w-32" />
+          <Skeleton className="h-4 w-64" />
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-3/4" />
+          </div>
+        </CardContent>
+      </Card>
+    );
   }
 
   if (error || !team) {
     return (
-      <div className="space-y-6">
-        <p className="text-destructive">{error || "Team not found"}</p>
-        <Button variant="outline" asChild>
-          <Link href={routes.ui.tenancy.teams.list()}>Back to teams</Link>
-        </Button>
-      </div>
-    );
-  }
-
-  return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">{team.name}</h1>
-          <p className="text-muted-foreground">{team.slug}</p>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="outline" asChild>
-            <Link href={routes.ui.tenancy.teams.settings(id)}>
-              <Settings className="mr-2 h-4 w-4" />
-              Settings
-            </Link>
-          </Button>
-          <Button variant="outline" asChild>
-            <Link href={routes.ui.tenancy.teams.members(id)}>
-              <Users className="mr-2 h-4 w-4" />
-              Members
-            </Link>
-          </Button>
-        </div>
-      </div>
-
       <Card>
-        <CardHeader>
-          <CardTitle>Details</CardTitle>
-          <CardDescription>{team.description || "No description"}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button variant="outline" asChild>
+        <CardContent className="pt-6">
+          <p className="text-destructive">{error?.message || "Team not found"}</p>
+          <Button variant="outline" asChild className="mt-4">
             <Link href={routes.ui.tenancy.teams.list()}>Back to teams</Link>
           </Button>
         </CardContent>
       </Card>
-    </div>
+    );
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Overview</CardTitle>
+        <CardDescription>{team.description || "No description"}</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="flex items-center gap-2 text-sm">
+          <IconBuilding className="h-4 w-4 text-muted-foreground" />
+          <span className="text-muted-foreground">Organization:</span>
+          {team.organizationId ? (
+            <Link
+              href={routes.ui.tenancy.organizations.byId(team.organizationId)}
+              className="font-medium hover:underline"
+            >
+              {team.orgName ?? "Organization"}
+            </Link>
+          ) : (
+            <span>Standalone (no organization)</span>
+          )}
+        </div>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" asChild>
+            <Link href={routes.ui.tenancy.teams.members(id)}>
+              <IconUsers className="mr-2 h-4 w-4" />
+              View Members
+            </Link>
+          </Button>
+          <Button variant="outline" size="sm" asChild>
+            <Link href={routes.ui.tenancy.teams.list()}>Back to teams</Link>
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

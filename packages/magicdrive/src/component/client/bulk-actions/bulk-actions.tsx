@@ -15,17 +15,17 @@ import { Button } from "@afenda/shadcn"
 import { Card, CardContent } from "@afenda/shadcn"
 import { Badge } from "@afenda/shadcn"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
+  ClientDropdownMenu,
+  ClientDropdownMenuContent,
+  ClientDropdownMenuItem,
+  ClientDropdownMenuTrigger,
+  ClientDropdownMenuSeparator,
 } from "@afenda/shadcn"
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
+  ClientDialog,
+  ClientDialogContent,
+  ClientDialogHeader,
+  ClientDialogTitle,
 } from "@afenda/shadcn"
 import { Input } from "@afenda/shadcn"
 import { Label } from "@afenda/shadcn"
@@ -311,41 +311,41 @@ export function BulkActions({ className, compact = false }: BulkActionsProps) {
     return (
       <div className={cn("flex items-center gap-2", className)}>
         <Badge variant="secondary">{selectedCount} selected</Badge>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+        <ClientDropdownMenu>
+          <ClientDropdownMenuTrigger asChild>
             <Button variant="outline" size="sm">
               <MoreVertical className="h-4 w-4" />
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={handleBulkProcess} disabled={isProcessing}>
+          </ClientDropdownMenuTrigger>
+          <ClientDropdownMenuContent align="end">
+            <ClientDropdownMenuItem onClick={handleBulkProcess} disabled={isProcessing}>
               <CheckCircle className="mr-2 h-4 w-4" />
               Process
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setIsTagDialogOpen(true)}>
+            </ClientDropdownMenuItem>
+            <ClientDropdownMenuItem onClick={() => setIsTagDialogOpen(true)}>
               <Tag className="mr-2 h-4 w-4" />
               Add Tag
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleBulkArchive} disabled={isProcessing}>
+            </ClientDropdownMenuItem>
+            <ClientDropdownMenuSeparator />
+            <ClientDropdownMenuItem onClick={handleBulkArchive} disabled={isProcessing}>
               <Archive className="mr-2 h-4 w-4" />
               Archive
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleBulkDownload} disabled={isProcessing}>
+            </ClientDropdownMenuItem>
+            <ClientDropdownMenuItem onClick={handleBulkDownload} disabled={isProcessing}>
               <Download className="mr-2 h-4 w-4" />
               Download
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setIsShareDialogOpen(true)}>
+            </ClientDropdownMenuItem>
+            <ClientDropdownMenuItem onClick={() => setIsShareDialogOpen(true)}>
               <Share2 className="mr-2 h-4 w-4" />
               Share
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleBulkDelete} disabled={isProcessing} className="text-destructive">
+            </ClientDropdownMenuItem>
+            <ClientDropdownMenuSeparator />
+            <ClientDropdownMenuItem onClick={handleBulkDelete} disabled={isProcessing} className="text-destructive">
               <Trash2 className="mr-2 h-4 w-4" />
               Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+            </ClientDropdownMenuItem>
+          </ClientDropdownMenuContent>
+        </ClientDropdownMenu>
       </div>
     )
   }
@@ -443,33 +443,33 @@ export function BulkActions({ className, compact = false }: BulkActionsProps) {
 
               {/* Mobile overflow menu */}
               <div className="sm:hidden">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
+                <ClientDropdownMenu>
+                  <ClientDropdownMenuTrigger asChild>
                     <Button variant="outline" size="sm">
                       More Actions
                       <MoreVertical className="ml-2 h-4 w-4" />
                     </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={handleBulkArchive} disabled={isProcessing}>
+                  </ClientDropdownMenuTrigger>
+                  <ClientDropdownMenuContent align="end">
+                    <ClientDropdownMenuItem onClick={handleBulkArchive} disabled={isProcessing}>
                       <Archive className="mr-2 h-4 w-4" />
                       Archive
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={handleBulkDownload} disabled={isProcessing}>
+                    </ClientDropdownMenuItem>
+                    <ClientDropdownMenuItem onClick={handleBulkDownload} disabled={isProcessing}>
                       <Download className="mr-2 h-4 w-4" />
                       Download
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setIsShareDialogOpen(true)}>
+                    </ClientDropdownMenuItem>
+                    <ClientDropdownMenuItem onClick={() => setIsShareDialogOpen(true)}>
                       <Share2 className="mr-2 h-4 w-4" />
                       Share
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleBulkDelete} disabled={isProcessing} className="text-destructive">
+                    </ClientDropdownMenuItem>
+                    <ClientDropdownMenuSeparator />
+                    <ClientDropdownMenuItem onClick={handleBulkDelete} disabled={isProcessing} className="text-destructive">
                       <Trash2 className="mr-2 h-4 w-4" />
                       Delete
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                    </ClientDropdownMenuItem>
+                  </ClientDropdownMenuContent>
+                </ClientDropdownMenu>
               </div>
             </div>
 
@@ -490,11 +490,11 @@ export function BulkActions({ className, compact = false }: BulkActionsProps) {
       </Card>
 
       {/* Tag Dialog */}
-      <Dialog open={isTagDialogOpen} onOpenChange={setIsTagDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Add Tag to Documents</DialogTitle>
-          </DialogHeader>
+      <ClientDialog open={isTagDialogOpen} onOpenChange={setIsTagDialogOpen}>
+        <ClientDialogContent>
+          <ClientDialogHeader>
+            <ClientDialogTitle>Add Tag to Documents</ClientDialogTitle>
+          </ClientDialogHeader>
           <div className="space-y-4">
             {/* Existing tags selector */}
             {existingTags.length > 0 && (
@@ -562,15 +562,15 @@ export function BulkActions({ className, compact = false }: BulkActionsProps) {
               </Button>
             </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        </ClientDialogContent>
+      </ClientDialog>
 
       {/* Share Dialog */}
-      <Dialog open={isShareDialogOpen} onOpenChange={setIsShareDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Share Documents</DialogTitle>
-          </DialogHeader>
+      <ClientDialog open={isShareDialogOpen} onOpenChange={setIsShareDialogOpen}>
+        <ClientDialogContent>
+          <ClientDialogHeader>
+            <ClientDialogTitle>Share Documents</ClientDialogTitle>
+          </ClientDialogHeader>
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="share-email">Email Address</Label>
@@ -618,8 +618,8 @@ export function BulkActions({ className, compact = false }: BulkActionsProps) {
               </Button>
             </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        </ClientDialogContent>
+      </ClientDialog>
     </div>
   )
 }

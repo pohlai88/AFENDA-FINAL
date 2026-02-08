@@ -19,6 +19,7 @@ import {
   KERNEL_HEADERS,
   getAuthContext,
 } from "@afenda/orchestra";
+import { isTenancyTableMissingError } from "@afenda/tenancy";
 import { tenancyTeamService } from "@afenda/tenancy/server";
 import {
   tenancyCreateTeamSchema,
@@ -49,11 +50,9 @@ export async function GET(request: NextRequest) {
       headers: { [KERNEL_HEADERS.REQUEST_ID]: traceId, [KERNEL_HEADERS.TRACE_ID]: traceId },
     });
   } catch (err) {
-    const raw = err instanceof Error ? err.message : String(err);
-    const isMissingTable = /relation ["']tenancy_/i.test(raw) || /does not exist/i.test(raw);
-    const message = isMissingTable
+    const message = isTenancyTableMissingError(err)
       ? "Tenancy tables not found. Run: pnpm db:migrate"
-      : raw;
+      : (err instanceof Error ? err.message : String(err));
     return NextResponse.json(
       kernelFail({ code: KERNEL_ERROR_CODES.INTERNAL, message }, { traceId }),
       { status: HTTP_STATUS.INTERNAL_SERVER_ERROR, headers: { [KERNEL_HEADERS.REQUEST_ID]: traceId, [KERNEL_HEADERS.TRACE_ID]: traceId } }

@@ -8,7 +8,7 @@
 import type { Metadata } from "next";
 import { routes } from "@afenda/shared/constants";
 import Link from "next/link";
-import { Building2, Users, UserCircle } from "lucide-react";
+import { IconBuilding, IconUsers, IconUserCircle } from "@tabler/icons-react";
 
 export const metadata: Metadata = {
   title: { template: "%s | Tenancy", default: "Tenancy - Multi-tenancy Governance" },
@@ -17,12 +17,16 @@ export const metadata: Metadata = {
 };
 
 const navItems = [
-  { href: routes.ui.tenancy.organizations.list(), label: "Organizations", icon: Building2 },
-  { href: routes.ui.tenancy.teams.list(), label: "Teams", icon: Users },
-  { href: routes.ui.tenancy.memberships(), label: "Memberships", icon: UserCircle },
+  { href: routes.ui.tenancy.organizations.list(), label: "Organizations", icon: IconBuilding },
+  { href: routes.ui.tenancy.teams.list(), label: "Teams", icon: IconUsers },
+  { href: routes.ui.tenancy.memberships(), label: "Memberships", icon: IconUserCircle },
 ];
 
-export default function TenancyLayout({ children }: { children: React.ReactNode }) {
+export default function TenancyLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className="flex flex-col gap-6">
       <nav className="flex gap-2 border-b pb-2">
