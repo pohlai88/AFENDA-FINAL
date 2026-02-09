@@ -5,4 +5,5 @@
 
 export * from "./orchestra.system";
 export * from "./orchestra.config-templates";
-export { kernelLogger } from "./orchestra.logger";
+export * from "./orchestra.backup.constants";
+export { kernelLogger, createKernelLogger, logKernelError } from "./orchestra.logger";

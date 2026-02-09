@@ -7,7 +7,7 @@
 
 import "server-only";
 
-import { desc, eq, and, gte, lte, sql } from "drizzle-orm";
+import { desc, eq, and, gte, lte, sql, type SQL } from "drizzle-orm";
 import type { Database } from "@afenda/shared/server/db";
 
 import {
@@ -22,7 +22,9 @@ import {
   kernelFail,
   type KernelEnvelope,
 } from "../zod/orchestra.envelope.schema";
-import { kernelLogger } from "../constant/orchestra.logger";
+import { createKernelLogger } from "../pino/orchestra.pino";
+
+const logger = createKernelLogger("audit");
 
 export type AuditServiceDeps = {
   db: Database;
@@ -122,9 +124,10 @@ export async function logAudit(
     return kernelOk(rowToEntry(inserted));
   } catch (error) {
     // Audit logging should not fail silently but also shouldn't crash
-    kernelLogger.error("orchestra.audit", "Failed to log audit event", {
-      error: error instanceof Error ? error.message : String(error),
-    });
+    logger.error({
+      err: error instanceof Error ? error : undefined,
+      message: error instanceof Error ? error.message : String(error),
+    }, "Failed to log audit event");
     return kernelFail({
       code: KERNEL_ERROR_CODES.INTERNAL,
       message: "Failed to log audit event",
@@ -147,8 +150,7 @@ export async function queryAuditLogs(
 
   try {
     // Build conditions
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const conditions: any[] = [];
+    const conditions: SQL[] = [];
 
     if (input.eventType) {
       conditions.push(eq(orchestraAuditLog.eventType, input.eventType));

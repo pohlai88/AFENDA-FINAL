@@ -224,12 +224,5 @@ export const orchestraAppDomains = pgTable(
 export type AppDomainRow = typeof orchestraAppDomains.$inferSelect;
 export type AppDomainInsert = typeof orchestraAppDomains.$inferInsert;
 
-/**
- * Re-export custom template schemas
- */
-export * from "./config-templates.schema";
-
-/**
- * Re-export backup schemas
- */
-export * from "./orchestra.backup.schema";
+// Note: config-templates.schema and orchestra.backup.schema are re-exported
+// from drizzle/index.ts — NOT here, to avoid duplicate symbol re-exports.

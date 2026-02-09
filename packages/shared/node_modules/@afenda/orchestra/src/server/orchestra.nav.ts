@@ -22,7 +22,7 @@ import {
   type NavManifestV1,
   type NavGroup,
 } from "../zod/orchestra.nav-manifest.schema";
-import { kernelLogger } from "../constant/orchestra.logger";
+import { createKernelLogger } from "../pino/orchestra.pino";
 import {
   NAV_SERVICE_STATUS,
   type NavTree,
@@ -36,9 +36,7 @@ export type NavServiceDeps = {
   db: Database;
 };
 
-/**
- * Configuration for manifest fetching.
- */
+const navLogger = createKernelLogger("nav");
 const MANIFEST_CONFIG = {
   /** Timeout for each manifest fetch (ms) */
   TIMEOUT_MS: 5000,
@@ -123,9 +121,10 @@ async function fetchManifest(
     const parsed = safeParseNavManifest(data);
 
     if (!parsed.success) {
-      kernelLogger.warn("Nav", `Invalid manifest from ${service.id}`, {
-        error: parsed.error.message,
-      });
+      navLogger.warn({
+        serviceId: service.id,
+        zodError: parsed.error.message,
+      }, `Invalid manifest from ${service.id}`);
       recordFailure(service.id);
       return { manifest: null, error: "Invalid manifest schema" };
     }

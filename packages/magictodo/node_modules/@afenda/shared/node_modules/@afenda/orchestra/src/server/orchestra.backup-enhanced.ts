@@ -10,11 +10,13 @@ import "server-only";
 
 import { eq, count, sum } from "drizzle-orm";
 import {
+  AUDIT_EVENT_TYPES,
+} from "../drizzle/orchestra.schema";
+import {
   orchestraBackups,
   orchestraBackupHistory,
-  AUDIT_EVENT_TYPES,
   type BackupRow,
-} from "../drizzle/orchestra.schema";
+} from "../drizzle/orchestra.backup.schema";
 import {
   KERNEL_ERROR_CODES,
   kernelOk,

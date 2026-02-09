@@ -239,13 +239,9 @@ async function downloadFromR2(key: string): Promise<KernelEnvelope<Buffer>> {
       });
     }
 
-    // Convert stream to buffer
-    const chunks: Uint8Array[] = [];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    for await (const chunk of response.Body as any) {
-      chunks.push(chunk);
-    }
-    const buffer = Buffer.concat(chunks);
+    // Convert stream to buffer using AWS SDK's transformToByteArray
+    const bytes = await response.Body.transformToByteArray();
+    const buffer = Buffer.from(bytes);
 
     return kernelOk(buffer);
   } catch (error) {

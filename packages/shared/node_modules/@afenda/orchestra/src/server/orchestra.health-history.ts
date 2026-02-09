@@ -7,7 +7,7 @@
 
 import "server-only";
 
-import { desc, eq, and, gte, sql } from "drizzle-orm";
+import { desc, eq, and, gte, sql, type SQL } from "drizzle-orm";
 import type { Database } from "@afenda/shared/server/db";
 
 import {
@@ -21,7 +21,9 @@ import {
   kernelFail,
   type KernelEnvelope,
 } from "../zod/orchestra.envelope.schema";
-import { kernelLogger } from "../constant/orchestra.logger";
+import { createKernelLogger } from "../pino/orchestra.pino";
+
+const logger = createKernelLogger("health-history");
 
 export type HealthHistoryServiceDeps = {
   db: Database;
@@ -92,9 +94,9 @@ export async function recordHealthCheck(
 
     return kernelOk(rowToEntry(inserted), { traceId: opts?.traceId });
   } catch (error) {
-    kernelLogger.error("orchestra.health-history", "Failed to record health check", {
+    logger.error({
       error: error instanceof Error ? error.message : String(error),
-    });
+    }, "Failed to record health check");
     return kernelFail({
       code: KERNEL_ERROR_CODES.INTERNAL,
       message: "Failed to record health check",
@@ -117,8 +119,7 @@ export async function getHealthHistory(
 
   try {
     // Build conditions
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const conditions: any[] = [];
+    const conditions: SQL[] = [];
 
     if (input.serviceId) {
       conditions.push(eq(orchestraHealthHistory.serviceId, input.serviceId));
