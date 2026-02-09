@@ -22,9 +22,8 @@ export const magictodoLocalStorage = {
     try {
       localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(value));
     } catch {
-      if (process.env.NODE_ENV === "development") {
-        console.error("[magictodo] Failed to save to localStorage:", key);
-      }
+      // Silently fail — localStorage write failures are non-critical
+      // (quota exceeded, private browsing, etc.)
     }
   },
   

@@ -117,7 +117,7 @@ export function useTaskByIdQuery(id: string, options?: QueryOverrides<unknown>) 
 // Projects Query Hooks
 export function useProjectsQuery(options?: QueryOverrides<ProjectListResponse>) {
   return useQuery({
-    queryKey: ['magictodo', 'projects'],
+    queryKey: MAGICTODO_QUERY_KEYS.projects(),
     queryFn: async () => {
       const response = await fetch(api.projects());
       if (!response.ok) throw new Error('Failed to fetch projects');
@@ -149,7 +149,7 @@ export function useCreateProjectMutation() {
       return payload?.data ?? payload;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'projects'] });
+      queryClient.invalidateQueries({ queryKey: MAGICTODO_QUERY_KEYS.projects() });
     },
   });
 }
@@ -169,7 +169,7 @@ export function useUpdateProjectMutation() {
       return payload?.data ?? payload;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'projects'] });
+      queryClient.invalidateQueries({ queryKey: MAGICTODO_QUERY_KEYS.projects() });
     },
   });
 }
@@ -187,7 +187,7 @@ export function useDeleteProjectMutation() {
       return payload?.data ?? payload;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'projects'] });
+      queryClient.invalidateQueries({ queryKey: MAGICTODO_QUERY_KEYS.projects() });
       queryClient.invalidateQueries({ queryKey: MAGICTODO_QUERY_KEYS.lists() });
     },
   });
@@ -196,7 +196,7 @@ export function useDeleteProjectMutation() {
 // Focus Session Query Hooks
 export function useFocusStreakQuery() {
   return useQuery({
-    queryKey: ['magictodo', 'focus', 'streak'],
+    queryKey: MAGICTODO_QUERY_KEYS.focus.streak(),
     queryFn: async () => {
       const response = await fetch(api.focus.streak());
       if (!response.ok) throw new Error('Failed to fetch focus streak');
@@ -210,7 +210,7 @@ export function useFocusStreakQuery() {
 
 export function useFocusSessionQuery(options?: QueryOverrides<FocusSessionData>) {
   return useQuery({
-    queryKey: ['magictodo', 'focus', 'session'],
+    queryKey: MAGICTODO_QUERY_KEYS.focus.session(),
     queryFn: async () => {
       const response = await fetch(api.focus.session());
       if (!response.ok) throw new Error('Failed to fetch focus session');
@@ -226,7 +226,7 @@ export function useFocusSessionQuery(options?: QueryOverrides<FocusSessionData>)
 
 export function useDailyFocusStatsQuery(options?: QueryOverrides<DailyFocusStatsData>) {
   return useQuery({
-    queryKey: ['magictodo', 'focus', 'stats', 'today'],
+    queryKey: MAGICTODO_QUERY_KEYS.focus.stats("today"),
     queryFn: async () => {
       const response = await fetch(`${api.focus.stats()}?period=today`);
       if (!response.ok) throw new Error('Failed to fetch focus stats');
@@ -246,7 +246,7 @@ export function useDailyFocusStatsQuery(options?: QueryOverrides<DailyFocusStats
 // Snoozed Tasks Query Hook
 export function useSnoozedTasksQuery() {
   return useQuery({
-    queryKey: ['magictodo', 'snoozed'],
+    queryKey: MAGICTODO_QUERY_KEYS.snoozed(),
     queryFn: async () => {
       const response = await fetch(`${api.tasks()}?status=snoozed`);
       if (!response.ok) throw new Error('Failed to fetch snoozed tasks');
@@ -381,7 +381,7 @@ export function useStartFocusSessionMutation() {
       return payload?.data ?? payload;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'focus'] });
+      queryClient.invalidateQueries({ queryKey: MAGICTODO_QUERY_KEYS.focus.all() });
     },
   });
 }
@@ -401,7 +401,7 @@ export function useEndFocusSessionMutation() {
       return payload?.data ?? payload;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'focus'] });
+      queryClient.invalidateQueries({ queryKey: MAGICTODO_QUERY_KEYS.focus.all() });
     },
   });
 }
@@ -421,7 +421,7 @@ export function usePauseFocusSessionMutation() {
       return payload?.data ?? payload;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'focus', 'session'] });
+      queryClient.invalidateQueries({ queryKey: MAGICTODO_QUERY_KEYS.focus.session() });
     },
   });
 }
@@ -441,7 +441,7 @@ export function useResumeFocusSessionMutation() {
       return payload?.data ?? payload;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'focus', 'session'] });
+      queryClient.invalidateQueries({ queryKey: MAGICTODO_QUERY_KEYS.focus.session() });
     },
   });
 }
@@ -461,7 +461,7 @@ export function useCompleteFocusTaskMutation() {
       return payload?.data ?? payload;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'focus', 'session'] });
+      queryClient.invalidateQueries({ queryKey: MAGICTODO_QUERY_KEYS.focus.session() });
       queryClient.invalidateQueries({ queryKey: MAGICTODO_QUERY_KEYS.lists() });
     },
   });
@@ -482,7 +482,7 @@ export function useSkipFocusTaskMutation() {
       return payload?.data ?? payload;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['magictodo', 'focus', 'session'] });
+      queryClient.invalidateQueries({ queryKey: MAGICTODO_QUERY_KEYS.focus.session() });
     },
   });
 }

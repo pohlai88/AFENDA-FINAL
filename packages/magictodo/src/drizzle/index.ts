@@ -4,8 +4,9 @@ export * from "./magictodo.schema";
 /**
  * Type alias for Drizzle database instance.
  * Use this type for all service method parameters instead of 'any'.
+ * Type-only imports prevent drizzle-orm from leaking into the client bundle.
  */
-import { drizzle } from "drizzle-orm/neon-http";
-import * as schema from "./magictodo.schema";
+import type { NeonHttpDatabase } from "drizzle-orm/neon-http";
+import type * as schema from "./magictodo.schema";
 
-export type DrizzleDB = ReturnType<typeof drizzle<typeof schema>>;
+export type DrizzleDB = NeonHttpDatabase<typeof schema>;
