@@ -10,7 +10,7 @@ import "server-only";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-import { listServices, HTTP_STATUS, KERNEL_HEADERS } from "@afenda/orchestra";
+import { listServices, HTTP_STATUS, KERNEL_HEADERS, getAuthContext } from "@afenda/orchestra";
 import { ok, fail, KERNEL_ERROR_CODES, envelopeHeaders } from "@afenda/shared/server";
 import { db } from "@afenda/shared/server/db";
 
@@ -21,6 +21,14 @@ import { db } from "@afenda/shared/server/db";
 export async function GET(request: NextRequest) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
   const headers = envelopeHeaders(traceId);
+
+  const auth = await getAuthContext();
+  if (!auth.userId) {
+    return NextResponse.json(
+      fail({ code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" }, { traceId }),
+      { status: HTTP_STATUS.UNAUTHORIZED, headers }
+    );
+  }
 
   try {
     const result = await listServices({ db }, { traceId });

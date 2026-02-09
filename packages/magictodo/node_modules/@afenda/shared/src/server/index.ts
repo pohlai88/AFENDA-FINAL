@@ -1,5 +1,9 @@
 /**
  * Shared server utilities barrel export.
+ * All server-side utilities for cross-domain use.
+ *
+ * @domain shared
+ * @layer server
  */
 
 export { db, getDb, getDbClient, type Database } from "./db";

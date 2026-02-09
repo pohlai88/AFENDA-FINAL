@@ -10,18 +10,11 @@ import { FileText, Image, Video, File } from "lucide-react"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@afenda/shadcn"
 import { Badge } from "@afenda/shadcn"
 import type { DocumentItem } from "@afenda/magicdrive/zustand"
+import { formatFileSize } from "@afenda/magicdrive/constant"
 
 interface DocumentPreviewHoverProps {
   document: DocumentItem
   children: React.ReactNode
-}
-
-function formatFileSize(bytes: number): string {
-  if (bytes === 0) return "0 B"
-  const k = 1024
-  const sizes = ["B", "KB", "MB", "GB"]
-  const i = Math.floor(Math.log(bytes) / Math.log(k))
-  return `${Math.round(bytes / Math.pow(k, i) * 100) / 100} ${sizes[i]}`
 }
 
 function getDocumentIcon(docType: string) {

@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
     if (!userId) {
       return NextResponse.json(
         fail(
-          { code: KERNEL_ERROR_CODES.VALIDATION, message: "Authentication required" },
+          { code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" },
           { traceId }
         ),
         { status: HTTP_STATUS.UNAUTHORIZED, headers }
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Extract tenant context from middleware-injected headers
-    const organizationId = request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const tenantId = request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
     const teamId = request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
 
     const searchParams = request.nextUrl.searchParams;
@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
 
     const result = await listDocumentsAction({
       workspaceId: userId,
-      organizationId,
+      tenantId,
       teamId,
       status,
       type: docType,
@@ -87,3 +87,4 @@ export async function GET(request: NextRequest) {
     );
   }
 }
+

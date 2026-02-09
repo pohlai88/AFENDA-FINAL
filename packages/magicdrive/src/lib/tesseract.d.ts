@@ -13,3 +13,4 @@ declare module "tesseract.js" {
     terminate: () => Promise<void>
   }>
 }
+

@@ -94,7 +94,7 @@ export const updateFieldDefinitionRequestSchema = fieldDefinitionBaseSchema.part
 
 export const fieldDefinitionResponseSchema = fieldDefinitionBaseSchema.extend({
   id: z.string().uuid(),
-  organizationId: z.string().uuid(),
+  tenantId: z.string().uuid(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
 })
@@ -223,3 +223,5 @@ export function buildFieldValueObject(
       return base
   }
 }
+
+

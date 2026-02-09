@@ -9,8 +9,8 @@
 import "server-only";
 import type { NextRequest } from "next/server";
 
-import { KERNEL_HEADERS } from "@afenda/orchestra";
-import { envelopeHeaders } from "@afenda/shared/server";
+import { KERNEL_HEADERS, getAuthContext, KERNEL_ERROR_CODES, HTTP_STATUS } from "@afenda/orchestra";
+import { fail, envelopeHeaders } from "@afenda/shared/server";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +21,15 @@ export const dynamic = "force-dynamic";
 export async function GET(request: NextRequest) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
   const headers = envelopeHeaders(traceId);
+
+  const auth = await getAuthContext();
+  if (!auth.userId) {
+    return new Response(
+      JSON.stringify(fail({ code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" }, { traceId })),
+      { status: HTTP_STATUS.UNAUTHORIZED, headers: { ...headers, "Content-Type": "application/json" } }
+    );
+  }
+
   const encoder = new TextEncoder();
 
   const stream = new ReadableStream({
@@ -32,7 +41,7 @@ export async function GET(request: NextRequest) {
       // Set up interval to send health updates
       const interval = setInterval(() => {
         try {
-          // Mock health status update (in production, this would come from actual health checks)
+          // TODO(production): Replace mock data with real health check results from DB/message queue
           const mockHealthUpdate = {
             type: "health_update",
             data: {

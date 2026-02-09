@@ -12,12 +12,14 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import {
+  kernelOk,
   kernelFail,
   KERNEL_ERROR_CODES,
   HTTP_STATUS,
   KERNEL_HEADERS,
   getAuthContext,
 } from "@afenda/orchestra";
+import { envelopeHeaders } from "@afenda/shared/server";
 
 /**
  * GET /api/magictodo/bff/custom-fields
@@ -25,6 +27,7 @@ import {
  */
 export async function GET(request: NextRequest) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
+  const headers = envelopeHeaders(traceId);
 
   try {
     const auth = await getAuthContext();
@@ -33,29 +36,22 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         kernelFail(
           {
-            code: KERNEL_ERROR_CODES.VALIDATION,
+            code: KERNEL_ERROR_CODES.UNAUTHORIZED,
             message: "Authentication required",
           },
           { traceId }
         ),
-        { status: HTTP_STATUS.UNAUTHORIZED, headers: { [KERNEL_HEADERS.TRACE_ID]: traceId } }
+        { status: HTTP_STATUS.UNAUTHORIZED, headers }
       );
     }
 
     // Stub: return empty list until custom field definitions store is implemented.
     // Definitions may later come from project-level customFields or a dedicated table.
     return NextResponse.json(
-      {
-        ok: true,
-        data: {
-          items: [],
-          total: 0,
-        },
-        traceId,
-      },
+      kernelOk({ items: [], total: 0 }, { traceId }),
       {
         status: HTTP_STATUS.OK,
-        headers: { [KERNEL_HEADERS.TRACE_ID]: traceId },
+        headers,
       }
     );
   } catch (error) {
@@ -70,7 +66,7 @@ export async function GET(request: NextRequest) {
       ),
       {
         status: HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        headers: { [KERNEL_HEADERS.TRACE_ID]: traceId },
+        headers,
       }
     );
   }
@@ -82,6 +78,7 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
+  const headers = envelopeHeaders(traceId);
 
   try {
     const auth = await getAuthContext();
@@ -90,12 +87,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         kernelFail(
           {
-            code: KERNEL_ERROR_CODES.VALIDATION,
+            code: KERNEL_ERROR_CODES.UNAUTHORIZED,
             message: "Authentication required",
           },
           { traceId }
         ),
-        { status: HTTP_STATUS.UNAUTHORIZED, headers: { [KERNEL_HEADERS.TRACE_ID]: traceId } }
+        { status: HTTP_STATUS.UNAUTHORIZED, headers }
       );
     }
 
@@ -109,7 +106,7 @@ export async function POST(request: NextRequest) {
       ),
       {
         status: HTTP_STATUS.NOT_IMPLEMENTED,
-        headers: { [KERNEL_HEADERS.TRACE_ID]: traceId },
+        headers,
       }
     );
   } catch (error) {
@@ -124,7 +121,7 @@ export async function POST(request: NextRequest) {
       ),
       {
         status: HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        headers: { [KERNEL_HEADERS.TRACE_ID]: traceId },
+        headers,
       }
     );
   }

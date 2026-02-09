@@ -7,13 +7,29 @@ import {
   jsonb,
   uuid,
   pgEnum,
-  index
+  pgPolicy,
 } from "drizzle-orm/pg-core";
-import { tenancyColumns, tenancyForeignKeys } from "@afenda/tenancy/drizzle";
+import { sql } from "drizzle-orm";
+import { tenancyColumns, tenancyIndexes } from "@afenda/tenancy/drizzle";
+import {
+  authenticatedRole,
+  domainPolicies,
+  timestamps,
+  idx,
+} from "@afenda/shared/drizzle/manifest";
 
 /**
  * magictodo domain tables (authoritative DB schema slice).
  * Prefix all tables with "magictodo_" to avoid conflicts.
+ *
+ * ## Multi-Tenancy Contract
+ *
+ * Every domain table MUST have:
+ *   - tenant_id (required, FK to tenancy.teams.id)
+ *   - team_id (required, FK to tenancy.teams.id)
+ *   - RLS policies enforcing tenant isolation
+ *
+ * @see .dev-note/multi-tenancy-schema.md
  */
 
 // Enums
@@ -44,21 +60,18 @@ export const magictodoTasks: any = pgTable(
     tags: jsonb("tags"), // Array of tag strings
     customFields: jsonb("custom_fields"), // Custom field values
     position: integer("position").default(0), // For ordering
-    createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).defaultNow(),
-    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }).defaultNow(),
-    ...tenancyColumns.standard(),
+    ...timestamps(),
+    ...tenancyColumns.withTenancy(),
   },
-  (table) => ({
-    userIdIdx: index("magictodo_tasks_user_id_idx").on(table.userId),
-    projectIdIdx: index("magictodo_tasks_project_id_idx").on(table.projectId),
-    statusIdx: index("magictodo_tasks_status_idx").on(table.status),
-    dueDateIdx: index("magictodo_tasks_due_date_idx").on(table.dueDate),
-    parentTaskIdIdx: index("magictodo_tasks_parent_task_id_idx").on(table.parentTaskId),
-    orgIdx: index("idx_magictodo_tasks_organization_id").on(table.organizationId),
-    teamIdx: index("idx_magictodo_tasks_team_id").on(table.teamId),
-    fkOrg: tenancyForeignKeys("magictodo_tasks", table)[0],
-    fkTeam: tenancyForeignKeys("magictodo_tasks", table)[1],
-  })
+  (t) => [
+    ...tenancyIndexes("magictodo_tasks", t),
+    idx("magictodo_tasks", "user_id").on(t.userId),
+    idx("magictodo_tasks", "project_id").on(t.projectId),
+    idx("magictodo_tasks", "status").on(t.status),
+    idx("magictodo_tasks", "due_date").on(t.dueDate),
+    idx("magictodo_tasks", "parent_task_id").on(t.parentTaskId),
+    ...domainPolicies("magictodo_tasks", t),
+  ],
 );
 
 // Projects table
@@ -74,18 +87,15 @@ export const magictodoProjects = pgTable(
     defaultPriority: taskPriorityEnum("default_priority").default("medium"),
     tags: jsonb("tags"), // Array of tag strings
     customFields: jsonb("custom_fields"), // Project-level custom field definitions
-    createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).defaultNow(),
-    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }).defaultNow(),
-    ...tenancyColumns.standard(),
+    ...timestamps(),
+    ...tenancyColumns.withTenancy(),
   },
-  (table) => ({
-    userIdIdx: index("magictodo_projects_user_id_idx").on(table.userId),
-    archivedIdx: index("magictodo_projects_archived_idx").on(table.archived),
-    orgIdx: index("idx_magictodo_projects_organization_id").on(table.organizationId),
-    teamIdx: index("idx_magictodo_projects_team_id").on(table.teamId),
-    fkOrg: tenancyForeignKeys("magictodo_projects", table)[0],
-    fkTeam: tenancyForeignKeys("magictodo_projects", table)[1],
-  })
+  (t) => [
+    ...tenancyIndexes("magictodo_projects", t),
+    idx("magictodo_projects", "user_id").on(t.userId),
+    idx("magictodo_projects", "archived").on(t.archived),
+    ...domainPolicies("magictodo_projects", t),
+  ],
 );
 
 // Focus Sessions table
@@ -104,19 +114,16 @@ export const magictodoFocusSessions = pgTable(
     breaks: integer("breaks").default(0),
     dailyGoal: integer("daily_goal").default(5), // Target tasks per day
     settings: jsonb("settings"), // Focus session settings
-    createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).defaultNow(),
-    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }).defaultNow(),
-    ...tenancyColumns.standard(),
+    ...timestamps(),
+    ...tenancyColumns.withTenancy(),
   },
-  (table) => ({
-    userIdIdx: index("magictodo_focus_sessions_user_id_idx").on(table.userId),
-    statusIdx: index("magictodo_focus_sessions_status_idx").on(table.status),
-    startedAtIdx: index("magictodo_focus_sessions_started_at_idx").on(table.startedAt),
-    orgIdx: index("idx_magictodo_focus_sessions_organization_id").on(table.organizationId),
-    teamIdx: index("idx_magictodo_focus_sessions_team_id").on(table.teamId),
-    fkOrg: tenancyForeignKeys("magictodo_focus_sessions", table)[0],
-    fkTeam: tenancyForeignKeys("magictodo_focus_sessions", table)[1],
-  })
+  (t) => [
+    ...tenancyIndexes("magictodo_focus_sessions", t),
+    idx("magictodo_focus_sessions", "user_id").on(t.userId),
+    idx("magictodo_focus_sessions", "status").on(t.status),
+    idx("magictodo_focus_sessions", "started_at").on(t.startedAt),
+    ...domainPolicies("magictodo_focus_sessions", t),
+  ],
 );
 
 // Focus Session Queue table (tasks in a focus session)
@@ -131,11 +138,11 @@ export const magictodoFocusSessionQueue = pgTable(
     skippedCount: integer("skipped_count").default(0),
     completedAt: timestamp("completed_at", { withTimezone: true, mode: "date" }),
   },
-  (table) => ({
-    sessionIdIdx: index("magictodo_focus_queue_session_idx").on(table.sessionId),
-    taskIdIdx: index("magictodo_focus_queue_task_idx").on(table.taskId),
-    sessionPositionIdx: index("magictodo_focus_queue_session_position_idx").on(table.sessionId, table.position),
-  })
+  (t) => [
+    idx("magictodo_focus_session_queue", "session_id").on(t.sessionId),
+    idx("magictodo_focus_session_queue", "task_id").on(t.taskId),
+    idx("magictodo_focus_session_queue", "session_id", "position").on(t.sessionId, t.position),
+  ],
 );
 
 // Snoozed Tasks table
@@ -149,20 +156,17 @@ export const magictodoSnoozedTasks = pgTable(
     reason: text("reason"), // Optional reason for snoozing
     snoozeCount: integer("snooze_count").default(0), // Track how many times snoozed
     dependencyTaskId: text("dependency_task_id").references(() => magictodoTasks.id, { onDelete: "cascade" }), // Snoozed until this task is done
-    createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).defaultNow(),
-    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }).defaultNow(),
-    ...tenancyColumns.standard(),
+    ...timestamps(),
+    ...tenancyColumns.withTenancy(),
   },
-  (table) => ({
-    taskIdIdx: index("magictodo_snoozed_tasks_task_id_idx").on(table.taskId),
-    userIdIdx: index("magictodo_snoozed_tasks_user_id_idx").on(table.userId),
-    snoozedUntilIdx: index("magictodo_snoozed_tasks_snoozed_until_idx").on(table.snoozedUntil),
-    dependencyTaskIdIdx: index("magictodo_snoozed_tasks_dependency_task_id_idx").on(table.dependencyTaskId),
-    orgIdx: index("idx_magictodo_snoozed_tasks_organization_id").on(table.organizationId),
-    teamIdx: index("idx_magictodo_snoozed_tasks_team_id").on(table.teamId),
-    fkOrg: tenancyForeignKeys("magictodo_snoozed_tasks", table)[0],
-    fkTeam: tenancyForeignKeys("magictodo_snoozed_tasks", table)[1],
-  })
+  (t) => [
+    ...tenancyIndexes("magictodo_snoozed_tasks", t),
+    idx("magictodo_snoozed_tasks", "task_id").on(t.taskId),
+    idx("magictodo_snoozed_tasks", "user_id").on(t.userId),
+    idx("magictodo_snoozed_tasks", "snoozed_until").on(t.snoozedUntil),
+    idx("magictodo_snoozed_tasks", "dependency_task_id").on(t.dependencyTaskId),
+    ...domainPolicies("magictodo_snoozed_tasks", t),
+  ],
 );
 
 // Task Dependencies table
@@ -175,11 +179,11 @@ export const magictodoTaskDependencies = pgTable(
     dependencyType: text("dependency_type").notNull().default("finish_to_start"), // finish_to_start, start_to_start, etc.
     createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).defaultNow(),
   },
-  (table) => ({
-    taskIdIdx: index("magictodo_task_deps_task_idx").on(table.taskId),
-    dependsOnTaskIdIdx: index("magictodo_task_deps_depends_on_idx").on(table.dependsOnTaskId),
-    uniqueDependency: index("magictodo_task_deps_unique_idx").on(table.taskId, table.dependsOnTaskId),
-  })
+  (t) => [
+    idx("magictodo_task_dependencies", "task_id").on(t.taskId),
+    idx("magictodo_task_dependencies", "depends_on_task_id").on(t.dependsOnTaskId),
+    idx("magictodo_task_dependencies", "task_id", "depends_on_task_id").on(t.taskId, t.dependsOnTaskId),
+  ],
 );
 
 // Time Entries table (for time tracking)
@@ -195,19 +199,16 @@ export const magictodoTimeEntries = pgTable(
     description: text("description"),
     billable: boolean("billable").default(false),
     hourlyRate: integer("hourly_rate"), // In cents
-    createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).defaultNow(),
-    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }).defaultNow(),
-    ...tenancyColumns.standard(),
+    ...timestamps(),
+    ...tenancyColumns.withTenancy(),
   },
-  (table) => ({
-    taskIdIdx: index("magictodo_time_entries_task_id_idx").on(table.taskId),
-    userIdIdx: index("magictodo_time_entries_user_id_idx").on(table.userId),
-    startTimeIdx: index("magictodo_time_entries_start_time_idx").on(table.startTime),
-    orgIdx: index("idx_magictodo_time_entries_organization_id").on(table.organizationId),
-    teamIdx: index("idx_magictodo_time_entries_team_id").on(table.teamId),
-    fkOrg: tenancyForeignKeys("magictodo_time_entries", table)[0],
-    fkTeam: tenancyForeignKeys("magictodo_time_entries", table)[1],
-  })
+  (t) => [
+    ...tenancyIndexes("magictodo_time_entries", t),
+    idx("magictodo_time_entries", "task_id").on(t.taskId),
+    idx("magictodo_time_entries", "user_id").on(t.userId),
+    idx("magictodo_time_entries", "start_time").on(t.startTime),
+    ...domainPolicies("magictodo_time_entries", t),
+  ],
 );
 
 // Task Comments table (self-referential parentId causes TS circular ref - suppress)
@@ -220,18 +221,15 @@ export const magictodoTaskComments: any = pgTable(
     userId: text("user_id").notNull(),
     content: text("content").notNull(),
     parentId: uuid("parent_id").references(() => magictodoTaskComments.id, { onDelete: "cascade" }), // For threaded comments
-    createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).defaultNow(),
-    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }).defaultNow(),
-    ...tenancyColumns.standard(),
+    ...timestamps(),
+    ...tenancyColumns.withTenancy(),
   },
-  (table) => ({
-    taskIdIdx: index("magictodo_task_comments_task_id_idx").on(table.taskId),
-    userIdIdx: index("magictodo_task_comments_user_id_idx").on(table.userId),
-    parentIdIdx: index("magictodo_task_comments_parent_id_idx").on(table.parentId),
-    createdAtIdx: index("magictodo_task_comments_created_at_idx").on(table.createdAt),
-    orgIdx: index("idx_magictodo_task_comments_organization_id").on(table.organizationId),
-    teamIdx: index("idx_magictodo_task_comments_team_id").on(table.teamId),
-    fkOrg: tenancyForeignKeys("magictodo_task_comments", table)[0],
-    fkTeam: tenancyForeignKeys("magictodo_task_comments", table)[1],
-  })
+  (t) => [
+    ...tenancyIndexes("magictodo_task_comments", t),
+    idx("magictodo_task_comments", "task_id").on(t.taskId),
+    idx("magictodo_task_comments", "user_id").on(t.userId),
+    idx("magictodo_task_comments", "parent_id").on(t.parentId),
+    idx("magictodo_task_comments", "created_at").on(t.createdAt),
+    ...domainPolicies("magictodo_task_comments", t),
+  ],
 );

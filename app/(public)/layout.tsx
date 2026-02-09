@@ -1,4 +1,4 @@
-import * as React from "react";
+import type { ReactNode } from "react";
 import type { Metadata } from "next"
 
 import {
@@ -68,14 +68,12 @@ export const metadata: Metadata = {
 export default function PublicLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: ReactNode
 }) {
   return (
     <div className="flex min-h-screen flex-col">
       <MarketingHeader />
-      <main className="flex-1">
-        <React.Suspense fallback={null}>{children}</React.Suspense>
-      </main>
+      <main className="flex-1">{children}</main>
       <MarketingFooter />
     </div>
   )

@@ -18,7 +18,7 @@ import { Button } from "@afenda/shadcn"
 import { Badge } from "@afenda/shadcn"
 import { Separator } from "@afenda/shadcn"
 import { Keyboard } from "lucide-react"
-import { getKeyboardShortcutList } from "@afenda/shared/hooks"
+import { getKeyboardShortcutList } from "@afenda/magicdrive/hooks"
 
 export function KeyboardShortcutsDialog() {
   const shortcuts = getKeyboardShortcutList()

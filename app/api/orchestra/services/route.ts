@@ -18,6 +18,7 @@ import {
   KERNEL_HEADERS,
   HTTP_STATUS,
   RegisterServiceInputSchema,
+  getAuthContext,
 } from "@afenda/orchestra";
 import { fail, envelopeHeaders } from "@afenda/shared/server";
 import { db } from "@afenda/shared/server/db";
@@ -31,6 +32,14 @@ export const dynamic = "force-dynamic";
 export async function GET(request: NextRequest) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
   const headers = envelopeHeaders(traceId);
+
+  const auth = await getAuthContext();
+  if (!auth.userId) {
+    return NextResponse.json(
+      fail({ code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" }, { traceId }),
+      { status: HTTP_STATUS.UNAUTHORIZED, headers }
+    );
+  }
 
   try {
     const result = await listServices({ db }, { traceId });
@@ -61,6 +70,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
   const headers = envelopeHeaders(traceId);
+
+  const auth = await getAuthContext();
+  if (!auth.userId) {
+    return NextResponse.json(
+      fail({ code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" }, { traceId }),
+      { status: HTTP_STATUS.UNAUTHORIZED, headers }
+    );
+  }
 
   try {
     const body = await request.json();

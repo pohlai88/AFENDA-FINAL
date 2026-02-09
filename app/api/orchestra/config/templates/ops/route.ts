@@ -3,7 +3,7 @@
  * Internal operations for template application and validation.
  *
  * @domain orchestra
- * @tier ops
+ * @layer api/ops
  * @consumer Internal/Admin only
  */
 
@@ -34,9 +34,8 @@ import {
   DeleteCustomTemplateRequestSchema,
   ArchiveTemplateRequestSchema,
   PublishTemplateRequestSchema,
-  KERNEL_ERROR_CODES,
 } from "@afenda/orchestra/zod";
-import { KERNEL_HEADERS, HTTP_STATUS } from "@afenda/orchestra";
+import { KERNEL_HEADERS, HTTP_STATUS, KERNEL_ERROR_CODES, getAuthContext } from "@afenda/orchestra";
 import { fail, envelopeHeaders } from "@afenda/shared/server";
 
 function getTraceContext(request: NextRequest) {
@@ -238,7 +237,7 @@ async function handleCreateCustom(request: NextRequest) {
         { status: HTTP_STATUS.BAD_REQUEST, headers }
       );
     }
-    const result = await createCustomTemplate({ db }, parsed.data, "system");
+    const result = await createCustomTemplate({ db }, parsed.data, (await getAuthContext()).userId ?? "system");
     if (!result.ok) {
       return NextResponse.json(result, { status: HTTP_STATUS.BAD_REQUEST, headers });
     }
@@ -280,7 +279,7 @@ async function handleUpdateCustom(request: NextRequest) {
         { status: HTTP_STATUS.BAD_REQUEST, headers }
       );
     }
-    const result = await updateCustomTemplate({ db }, parsed.data, "system");
+    const result = await updateCustomTemplate({ db }, parsed.data, (await getAuthContext()).userId ?? "system");
     if (!result.ok) {
       return NextResponse.json(result, { status: HTTP_STATUS.BAD_REQUEST, headers });
     }
@@ -322,7 +321,7 @@ async function handleDeleteCustom(request: NextRequest) {
         { status: HTTP_STATUS.BAD_REQUEST, headers }
       );
     }
-    const result = await deleteCustomTemplate({ db }, parsed.data, "system");
+    const result = await deleteCustomTemplate({ db }, parsed.data, (await getAuthContext()).userId ?? "system");
     if (!result.ok) {
       return NextResponse.json(result, { status: HTTP_STATUS.BAD_REQUEST, headers });
     }
@@ -364,7 +363,7 @@ async function handleArchive(request: NextRequest) {
         { status: HTTP_STATUS.BAD_REQUEST, headers }
       );
     }
-    const result = await archiveRestoreTemplate({ db }, parsed.data, "system");
+    const result = await archiveRestoreTemplate({ db }, parsed.data, (await getAuthContext()).userId ?? "system");
     if (!result.ok) {
       return NextResponse.json(result, { status: HTTP_STATUS.BAD_REQUEST, headers });
     }
@@ -406,7 +405,7 @@ async function handlePublish(request: NextRequest) {
         { status: HTTP_STATUS.BAD_REQUEST, headers }
       );
     }
-    const result = await publishTemplate({ db }, parsed.data, "system");
+    const result = await publishTemplate({ db }, parsed.data, (await getAuthContext()).userId ?? "system");
     if (!result.ok) {
       return NextResponse.json(result, { status: HTTP_STATUS.BAD_REQUEST, headers });
     }
@@ -473,6 +472,15 @@ async function handleListCustom(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
   const headers = envelopeHeaders(traceId);
+
+  const auth = await getAuthContext();
+  if (!auth.userId) {
+    return NextResponse.json(
+      fail({ code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" }, { traceId }),
+      { status: HTTP_STATUS.UNAUTHORIZED, headers }
+    );
+  }
+
   const { searchParams } = new URL(request.url);
   const action = searchParams.get("action");
 
@@ -514,6 +522,15 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
   const headers = envelopeHeaders(traceId);
+
+  const auth = await getAuthContext();
+  if (!auth.userId) {
+    return NextResponse.json(
+      fail({ code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" }, { traceId }),
+      { status: HTTP_STATUS.UNAUTHORIZED, headers }
+    );
+  }
+
   const { searchParams } = new URL(request.url);
   const action = searchParams.get("action");
 

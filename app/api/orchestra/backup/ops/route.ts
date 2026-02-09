@@ -20,6 +20,7 @@ import {
   KERNEL_ERROR_CODES,
   HTTP_STATUS,
   KERNEL_HEADERS,
+  getAuthContext,
 } from "@afenda/orchestra";
 import { ok, fail, envelopeHeaders } from "@afenda/shared/server";
 import { db } from "@afenda/shared/server/db";
@@ -51,6 +52,14 @@ const ScheduleCreateSchema = z.object({
 export async function GET(request: NextRequest) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
   const headers = envelopeHeaders(traceId);
+
+  const auth = await getAuthContext();
+  if (!auth.userId) {
+    return NextResponse.json(
+      fail({ code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" }, { traceId }),
+      { status: HTTP_STATUS.UNAUTHORIZED, headers }
+    );
+  }
 
   try {
     const schedulesResult = await listBackupSchedules({ db });
@@ -111,7 +120,17 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
-  const actorId = request.headers.get(KERNEL_HEADERS.ACTOR_ID) ?? undefined;
+  const headers = envelopeHeaders(traceId);
+
+  const auth = await getAuthContext();
+  if (!auth.userId) {
+    return NextResponse.json(
+      fail({ code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" }, { traceId }),
+      { status: HTTP_STATUS.UNAUTHORIZED, headers }
+    );
+  }
+
+  const actorId = auth.userId;
   let action: string | undefined;
 
   try {

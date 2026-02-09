@@ -11,14 +11,17 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import {
+  kernelOk,
   kernelFail,
   KERNEL_ERROR_CODES,
   HTTP_STATUS,
   KERNEL_HEADERS,
   getAuthContext,
 } from "@afenda/orchestra";
+import { envelopeHeaders } from "@afenda/shared/server";
 import { magictodoFocusService } from "@afenda/magictodo/server";
 import { db } from "@afenda/shared/server/db";
+import { TENANT_HEADERS } from "@afenda/tenancy/server";
 
 type DbParam = Parameters<typeof magictodoFocusService.getStreak>[3];
 
@@ -28,6 +31,7 @@ type DbParam = Parameters<typeof magictodoFocusService.getStreak>[3];
  */
 export async function GET(request: NextRequest) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
+  const headers = envelopeHeaders(traceId);
 
   try {
     const auth = await getAuthContext();
@@ -36,16 +40,19 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         kernelFail(
           {
-            code: KERNEL_ERROR_CODES.VALIDATION,
+            code: KERNEL_ERROR_CODES.UNAUTHORIZED,
             message: "Authentication required",
           },
           { traceId }
         ),
-        { status: HTTP_STATUS.UNAUTHORIZED, headers: { [KERNEL_HEADERS.TRACE_ID]: traceId } }
+        { status: HTTP_STATUS.UNAUTHORIZED, headers }
       );
     }
 
-    const result = await magictodoFocusService.getStreak(userId, null, null, db as DbParam);
+    const organizationId = request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const teamId = request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
+
+    const result = await magictodoFocusService.getStreak(userId, organizationId, teamId, db as DbParam);
 
     if (!result.ok) {
       const err = (result as unknown as { error: { code: string; message: string } }).error;
@@ -59,20 +66,16 @@ export async function GET(request: NextRequest) {
         ),
         {
           status: err?.code === "NOT_FOUND" ? HTTP_STATUS.NOT_FOUND : HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          headers: { [KERNEL_HEADERS.TRACE_ID]: traceId },
+          headers,
         }
       );
     }
 
     return NextResponse.json(
-      {
-        ok: true,
-        data: result.data,
-        traceId,
-      },
+      kernelOk(result.data, { traceId }),
       {
         status: HTTP_STATUS.OK,
-        headers: { [KERNEL_HEADERS.TRACE_ID]: traceId },
+        headers,
       }
     );
   } catch (error) {
@@ -87,7 +90,7 @@ export async function GET(request: NextRequest) {
       ),
       {
         status: HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        headers: { [KERNEL_HEADERS.TRACE_ID]: traceId },
+        headers,
       }
     );
   }

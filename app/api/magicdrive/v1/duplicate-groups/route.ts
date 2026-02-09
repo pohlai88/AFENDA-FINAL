@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     if (!userId) {
       return NextResponse.json(
         fail(
-          { code: KERNEL_ERROR_CODES.VALIDATION, message: "Authentication required" },
+          { code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" },
           { traceId }
         ),
         { status: HTTP_STATUS.UNAUTHORIZED, headers }
@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Extract tenant context from middleware-injected headers
-    const organizationId = request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const tenantId = request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
     const teamId = request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
 
     const searchParams = request.nextUrl.searchParams;
@@ -41,12 +41,12 @@ export async function GET(request: NextRequest) {
     const offset = Number(searchParams.get("offset") ?? 0);
 
     // Use organization-scoped workspace when tenant context is active
-    const workspaceId = organizationId ?? userId;
-    const allGroups = await listDuplicateGroupsAction(workspaceId, { organizationId, teamId });
+    const workspaceId = tenantId ?? userId;
+    const allGroups = await listDuplicateGroupsAction(workspaceId, { tenantId, teamId });
     const total = allGroups.length;
     const items = allGroups.slice(offset, offset + limit).map((g) => ({
       ...g,
-      organizationId,
+      tenantId,
       teamId,
     }));
 
@@ -68,3 +68,4 @@ export async function GET(request: NextRequest) {
     );
   }
 }
+

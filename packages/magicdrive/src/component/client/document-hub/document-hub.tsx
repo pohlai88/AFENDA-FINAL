@@ -27,7 +27,7 @@ import {
 } from "@afenda/shadcn"
 import { useShallow } from "zustand/react/shallow"
 import { routes } from "@afenda/shared/constants"
-import { useKeyboardShortcuts } from "@afenda/shared/hooks"
+import { useKeyboardShortcuts } from "@afenda/magicdrive/hooks"
 import { useDocumentHubStore, useUploadStore } from "@afenda/magicdrive/zustand"
 import { useDocuments } from "@afenda/magicdrive/hooks"
 import { EnhancedDocumentCard } from "../document-card/enhanced-document-card"

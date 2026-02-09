@@ -16,6 +16,7 @@ import {
   KERNEL_HEADERS,
   KERNEL_ERROR_CODES,
   HTTP_STATUS,
+  getAuthContext,
 } from "@afenda/orchestra";
 import { fail, envelopeHeaders } from "@afenda/shared/server";
 import { db } from "@afenda/shared/server/db";
@@ -29,6 +30,15 @@ type RouteContext = { params: Promise<{ id: string }> };
 export async function GET(request: NextRequest, context: RouteContext) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
   const headers = envelopeHeaders(traceId);
+
+  const auth = await getAuthContext();
+  if (!auth.userId) {
+    return NextResponse.json(
+      fail({ code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" }, { traceId }),
+      { status: HTTP_STATUS.UNAUTHORIZED, headers }
+    );
+  }
+
   const { id } = await context.params;
 
   try {

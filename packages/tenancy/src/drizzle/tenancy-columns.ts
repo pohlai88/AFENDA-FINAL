@@ -17,6 +17,20 @@
  *   - `drizzle-orm/supabase` → `anonRole`, `authUsers`, `realtimeMessages`
  *   - Neon infra (Rust) → `TenantId`, `TenantShardId` typed wrappers
  *
+ * ## Migration Path (Updated)
+ *
+ * **Legacy Pattern** (before multi-tenancy schema upgrade):
+ *   - `organization_id` (nullable text)
+ *   - `team_id` (nullable text)
+ *   - `legacy_tenant_id` (nullable text, MagicDrive only)
+ *
+ * **New Pattern** (after schema manifest upgrade):
+ *   - `tenant_id` (required text, FK to tenancy.teams.id)
+ *   - `team_id` (required text, FK to tenancy.teams.id)
+ *
+ * @see packages/shared/src/drizzle/manifest/columns.ts (unified column factories)
+ * @see .dev-note/multi-tenancy-schema.md (architecture decision record)
+ *
  * ## Usage
  *
  * ```ts
@@ -25,8 +39,7 @@
  * export const myDomainTable = pgTable("my_domain_table", {
  *   id: text("id").primaryKey(),
  *   name: text("name").notNull(),
- *   ...tenancyColumns.withLegacy(),     // legacy + org + team
- *   // or ...tenancyColumns.standard(), // org + team only (new tables)
+ *   ...tenancyColumns.withTenancy(),     // tenant_id + team_id (both required)
  * }, (t) => [
  *   ...tenancyIndexes("my_domain_table", t),
  * ]);
@@ -42,10 +55,14 @@ import type { IndexBuilder, IndexColumn } from "drizzle-orm/pg-core";
 // surface every downstream breakage via the TS property key.
 
 export const TENANCY_DB_COLUMNS = {
-  /** @deprecated Transitional — will be removed once org/team migration completes */
-  LEGACY_TENANT_ID: "legacy_tenant_id",
-  ORGANIZATION_ID: "organization_id",
+  /** New standard: every row belongs to a tenant (team) */
+  TENANT_ID: "tenant_id",
+  /** Team ID (same as tenant_id, denormalized for query clarity) */
   TEAM_ID: "team_id",
+  /** @deprecated Legacy — for migration period only */
+  LEGACY_TENANT_ID: "legacy_tenant_id",
+  /** @deprecated Legacy — migrating to tenant_id */
+  ORGANIZATION_ID: "organization_id",
 } as const;
 
 // ─── Column Builder Factories ────────────────────────────────────────
@@ -54,12 +71,45 @@ export const TENANCY_DB_COLUMNS = {
 // receive its own builder instance — which is why these are functions.
 
 /**
- * Columns for tables that still carry the legacy single-string tenant ID.
- * Use this during the migration period.
+ * **New Standard**: tenant_id + team_id (both required).
+ *
+ * Every domain row belongs to a tenant (team). The tenant_id maps to
+ * tenancy.teams.id, which then links to tenancy.organizations via
+ * tenancy.team_members.
+ *
+ * Returns: `{ tenantId, teamId }` (both notNull)
+ */
+function withTenancy() {
+  return {
+    tenantId: text(TENANCY_DB_COLUMNS.TENANT_ID).notNull(),
+    teamId: text(TENANCY_DB_COLUMNS.TEAM_ID).notNull(),
+  };
+}
+
+/**
+ * **Legacy Pattern**: organization_id + team_id (both nullable).
+ *
+ * @deprecated Use `withTenancy()` for new tables.
+ * This is kept for backward compatibility during the migration period.
+ *
+ * Returns: `{ organizationId, teamId }`
+ */
+function withLegacyOrgTeam() {
+  return {
+    organizationId: text(TENANCY_DB_COLUMNS.ORGANIZATION_ID),
+    teamId: text(TENANCY_DB_COLUMNS.TEAM_ID),
+  };
+}
+
+/**
+ * **Legacy Pattern**: legacy_tenant_id + organization_id + team_id.
+ *
+ * @deprecated Only for MagicDrive during migration period.
+ * This will be removed once migration 0020 (drop legacy_tenant_id) completes.
  *
  * Returns: `{ legacyTenantId, organizationId, teamId }`
  */
-function withLegacy() {
+function withLegacyAll() {
   return {
     legacyTenantId: text(TENANCY_DB_COLUMNS.LEGACY_TENANT_ID).notNull(),
     organizationId: text(TENANCY_DB_COLUMNS.ORGANIZATION_ID),
@@ -67,38 +117,21 @@ function withLegacy() {
   };
 }
 
-/**
- * Standard tenancy columns for new tables or tables that have completed
- * the legacy migration.
- *
- * Returns: `{ organizationId, teamId }`
- */
-function standard() {
-  return {
-    organizationId: text(TENANCY_DB_COLUMNS.ORGANIZATION_ID),
-    teamId: text(TENANCY_DB_COLUMNS.TEAM_ID),
-  };
-}
-
-/**
- * Standard tenancy columns where organization is required (most common).
- *
- * Returns: `{ organizationId (notNull), teamId }`
- */
-function required() {
-  return {
-    organizationId: text(TENANCY_DB_COLUMNS.ORGANIZATION_ID).notNull(),
-    teamId: text(TENANCY_DB_COLUMNS.TEAM_ID),
-  };
-}
-
 export const tenancyColumns = {
-  /** Legacy + org + team (migration period) */
-  withLegacy,
-  /** Org (nullable) + team (nullable) */
-  standard,
-  /** Org (required) + team (nullable) — for new tables */
-  required,
+  /** NEW STANDARD: tenant_id + team_id (both required) */
+  withTenancy,
+  /** @deprecated Use withTenancy() for new tables */
+  withLegacyOrgTeam,
+  /** @deprecated MagicDrive only — migration period */
+  withLegacyAll,
+  
+  // Backward compatibility aliases (to avoid breaking existing imports)
+  /** @deprecated Renamed to withLegacyOrgTeam() */
+  standard: withLegacyOrgTeam,
+  /** @deprecated Renamed to withLegacyOrgTeam() */
+  required: withLegacyOrgTeam,
+  /** @deprecated Renamed to withLegacyAll() */
+  withLegacy: withLegacyAll,
 } as const;
 
 // ─── Index Factory ───────────────────────────────────────────────────
@@ -116,7 +149,7 @@ export const tenancyColumns = {
  * ```ts
  * export const myTable = pgTable("my_table", {
  *   id: text("id").primaryKey(),
- *   ...tenancyColumns.withLegacy(),
+ *   ...tenancyColumns.withTenancy(),
  * }, (t) => [
  *   ...tenancyIndexes("my_table", t),
  * ]);
@@ -125,13 +158,27 @@ export const tenancyColumns = {
 export function tenancyIndexes(
   tableName: string,
   t: {
+    tenantId?: IndexColumn;
+    teamId?: IndexColumn;
     legacyTenantId?: IndexColumn;
     organizationId?: IndexColumn;
-    teamId?: IndexColumn;
   },
 ): IndexBuilder[] {
   const indexes: IndexBuilder[] = [];
 
+  // New standard indexes (tenant_id + team_id)
+  if (t.tenantId) {
+    indexes.push(
+      index(`idx_${tableName}_tenant_id`).on(t.tenantId),
+    );
+  }
+  if (t.teamId) {
+    indexes.push(
+      index(`idx_${tableName}_team_id`).on(t.teamId),
+    );
+  }
+
+  // Legacy indexes (for migration period)
   if (t.legacyTenantId) {
     indexes.push(
       index(`idx_${tableName}_legacy_tenant_id`).on(t.legacyTenantId),
@@ -142,11 +189,6 @@ export function tenancyIndexes(
       index(`idx_${tableName}_organization_id`).on(t.organizationId),
     );
   }
-  if (t.teamId) {
-    indexes.push(
-      index(`idx_${tableName}_team_id`).on(t.teamId),
-    );
-  }
 
   return indexes;
 }
@@ -155,21 +197,29 @@ export function tenancyIndexes(
 // Extract the TS types that correspond to each column set.
 // Use these when you need to type function params or return values.
 
-/** Row shape for tables with legacy tenant ID */
-export type TenancyColumnsWithLegacy = {
+/** Row shape for NEW STANDARD tenancy (tenant_id + team_id, both required) */
+export type TenancyColumns = {
+  tenantId: string;
+  teamId: string;
+};
+
+/** Row shape for legacy pattern (org + team, both nullable) */
+export type TenancyColumnsLegacyOrgTeam = {
+  organizationId: string | null;
+  teamId: string | null;
+};
+
+/** Row shape for legacy pattern with all three columns */
+export type TenancyColumnsLegacyAll = {
   legacyTenantId: string;
   organizationId: string | null;
   teamId: string | null;
 };
 
-/** Row shape for standard tenancy (org + team) */
-export type TenancyColumnsStandard = {
-  organizationId: string | null;
-  teamId: string | null;
-};
-
-/** Row shape for required tenancy (org required + team nullable) */
-export type TenancyColumnsRequired = {
-  organizationId: string;
-  teamId: string | null;
-};
+// Backward compatibility type aliases
+/** @deprecated Use TenancyColumns instead */
+export type TenancyColumnsStandard = TenancyColumnsLegacyOrgTeam;
+/** @deprecated Use TenancyColumns instead */
+export type TenancyColumnsRequired = TenancyColumnsLegacyOrgTeam;
+/** @deprecated Use TenancyColumnsLegacyAll instead */
+export type TenancyColumnsWithLegacy = TenancyColumnsLegacyAll;

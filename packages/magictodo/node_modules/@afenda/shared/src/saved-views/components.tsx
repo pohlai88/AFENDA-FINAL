@@ -285,53 +285,75 @@ export function SavedViewManager<TFilter = unknown>({
 
       {/* Edit dialog */}
       {editingView && (
-        <ClientDialog open={!!editingView} onOpenChange={() => setEditingView(null)}>
-          <ClientDialogContent>
-            <ClientDialogHeader>
-              <ClientDialogTitle>Edit View</ClientDialogTitle>
-            </ClientDialogHeader>
-            <div className="space-y-4 py-4">
-              <div className="space-y-2">
-                <Label htmlFor="edit-view-name">View Name</Label>
-                <Input
-                  id="edit-view-name"
-                  defaultValue={editingView.name}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      const name = e.currentTarget.value;
-                      const desc = document.getElementById("edit-view-description") as HTMLTextAreaElement;
-                      handleUpdateView(editingView.id, name, desc?.value);
-                    }
-                  }}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="edit-view-description">Description</Label>
-                <Textarea
-                  id="edit-view-description"
-                  defaultValue={editingView.description || ""}
-                  rows={3}
-                />
-              </div>
-            </div>
-            <ClientDialogFooter>
-              <Button variant="outline" onClick={() => setEditingView(null)}>
-                Cancel
-              </Button>
-              <Button
-                onClick={() => {
-                  const name = (document.getElementById("edit-view-name") as HTMLInputElement)?.value;
-                  const desc = (document.getElementById("edit-view-description") as HTMLTextAreaElement)?.value;
-                  handleUpdateView(editingView.id, name, desc);
-                }}
-              >
-                <Check className="h-4 w-4 mr-2" />
-                Update
-              </Button>
-            </ClientDialogFooter>
-          </ClientDialogContent>
-        </ClientDialog>
+        <EditViewDialog
+          view={editingView}
+          onClose={() => setEditingView(null)}
+          onUpdate={handleUpdateView}
+        />
       )}
     </div>
+  );
+}
+
+/**
+ * Edit view dialog — uses React refs instead of DOM queries.
+ */
+function EditViewDialog<TFilter = unknown>({
+  view,
+  onClose,
+  onUpdate,
+}: {
+  view: SavedView<TFilter>;
+  onClose: () => void;
+  onUpdate: (viewId: string, name: string, description?: string) => void;
+}) {
+  const nameRef = React.useRef<HTMLInputElement>(null);
+  const descRef = React.useRef<HTMLTextAreaElement>(null);
+
+  const handleSubmit = () => {
+    const name = nameRef.current?.value ?? view.name;
+    const desc = descRef.current?.value;
+    onUpdate(view.id, name, desc || undefined);
+  };
+
+  return (
+    <ClientDialog open onOpenChange={() => onClose()}>
+      <ClientDialogContent>
+        <ClientDialogHeader>
+          <ClientDialogTitle>Edit View</ClientDialogTitle>
+        </ClientDialogHeader>
+        <div className="space-y-4 py-4">
+          <div className="space-y-2">
+            <Label htmlFor="edit-view-name">View Name</Label>
+            <Input
+              ref={nameRef}
+              id="edit-view-name"
+              defaultValue={view.name}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSubmit();
+              }}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="edit-view-description">Description</Label>
+            <Textarea
+              ref={descRef}
+              id="edit-view-description"
+              defaultValue={view.description || ""}
+              rows={3}
+            />
+          </div>
+        </div>
+        <ClientDialogFooter>
+          <Button variant="outline" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button onClick={handleSubmit}>
+            <Check className="h-4 w-4 mr-2" />
+            Update
+          </Button>
+        </ClientDialogFooter>
+      </ClientDialogContent>
+    </ClientDialog>
   );
 }

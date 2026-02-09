@@ -28,10 +28,13 @@ import {
   sendInvitationEmail,
 } from "@afenda/tenancy/server";
 import { tenancyCreateOrgInvitationSchema } from "@afenda/tenancy/zod";
+import { createLogger } from "@afenda/tenancy";
 import { parseJson } from "@afenda/shared/server/validate";
 import { db } from "@afenda/shared/server/db";
 import { tenancyOrganizations } from "@afenda/tenancy/drizzle";
 import { eq } from "drizzle-orm";
+
+const log = createLogger("invitations-bff");
 
 /**
  * Extract client IP from request headers
@@ -143,15 +146,10 @@ export const POST = withRateLimitRoute(
           baseUrl,
         });
 
-        // eslint-disable-next-line no-console -- success logging in API route
-        console.log(`Invitation email sent successfully to ${input.email}`, {
-          invitationId: invitation.id,
-          organizationId,
-        });
+        log.info({ invitationId: invitation.id, organizationId, email: input.email }, "Invitation email sent successfully");
       } catch (emailError) {
         // Log email error but don't fail the invitation creation
-        // eslint-disable-next-line no-console -- error logging in API route
-        console.error("Failed to send invitation email (invitation still created):", emailError);
+        log.error({ err: emailError, invitationId: invitation.id, organizationId }, "Failed to send invitation email (invitation still created)");
         
         // TODO: Consider implementing email retry queue or notification to admin
       }

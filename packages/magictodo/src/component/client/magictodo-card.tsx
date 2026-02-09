@@ -23,6 +23,7 @@ import {
 } from "lucide-react"
 import type { TaskResponse, TaskStatus, TaskPriority } from "@afenda/magictodo/zod"
 import { TASK_STATUS, TASK_PRIORITY } from "@afenda/magictodo/zod"
+import type { TaskIndicators } from "../../hooks/magictodo.use-task-indicators"
 
 const STATUS_ICONS: Record<TaskStatus, React.ReactNode> = {
   [TASK_STATUS.TODO]: <Circle className="h-4 w-4 text-muted-foreground" />,
@@ -38,21 +39,7 @@ const PRIORITY_COLORS: Record<TaskPriority, string> = {
   [TASK_PRIORITY.URGENT]: "bg-red-100 text-red-700",
 }
 
-/**
- * Indicator data for task cards - optional enriched data
- */
-export interface TaskIndicators {
-  subtaskCount?: number
-  completedSubtaskCount?: number
-  hasActiveTimer?: boolean
-  totalTimeSpent?: number // seconds
-  commentCount?: number
-  attachmentCount?: number
-  dependencyCount?: number
-  isSnoozed?: boolean
-  snoozedUntil?: string
-  isBlocked?: boolean
-}
+/** Re-export removed — canonical export lives in @afenda/magictodo/hooks (via hooks barrel). */
 
 export interface MagictodoTaskCardProps {
   task: TaskResponse

@@ -4,6 +4,64 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  default:
+    '@aws-sdk/client-s3':
+      specifier: ^3.981.0
+      version: 3.983.0
+    '@hookform/resolvers':
+      specifier: ^5.2.2
+      version: 5.2.2
+    '@neondatabase/auth':
+      specifier: 0.2.0-beta.1
+      version: 0.2.0-beta.1
+    '@neondatabase/serverless':
+      specifier: ^1.0.2
+      version: 1.0.2
+    '@tanstack/react-query':
+      specifier: ^5.90.20
+      version: 5.90.20
+    clsx:
+      specifier: ^2.1.1
+      version: 2.1.1
+    date-fns:
+      specifier: ^4.1.0
+      version: 4.1.0
+    drizzle-orm:
+      specifier: ^0.45.1
+      version: 0.45.1
+    ioredis:
+      specifier: ^5.9.2
+      version: 5.9.2
+    pino:
+      specifier: ^9.6.0
+      version: 9.14.0
+    react:
+      specifier: ^19.0.0
+      version: 19.2.3
+    react-dom:
+      specifier: ^19.0.0
+      version: 19.2.3
+    react-hook-form:
+      specifier: ^7.71.1
+      version: 7.71.1
+    resend:
+      specifier: ^6.9.1
+      version: 6.9.1
+    server-only:
+      specifier: ^0.0.1
+      version: 0.0.1
+    tailwind-merge:
+      specifier: ^2.6.0
+      version: 2.6.1
+    zod:
+      specifier: ^4.3.6
+      version: 4.3.6
+  zod3:
+    zod:
+      specifier: ^3.24.1
+      version: 3.25.76
+
 patchedDependencies:
   eslint-plugin-react:
     hash: yidvkcad5iuzowzsem2whierly
@@ -38,7 +96,7 @@ importers:
         specifier: workspace:*
         version: link:packages/tenancy
       '@aws-sdk/client-s3':
-        specifier: ^3.981.0
+        specifier: 'catalog:'
         version: 3.983.0
       '@aws-sdk/s3-request-presigner':
         specifier: ^3.981.0
@@ -62,13 +120,13 @@ importers:
         specifier: ^2.0.2
         version: 2.0.2
       '@hookform/resolvers':
-        specifier: ^5.2.2
+        specifier: 'catalog:'
         version: 5.2.2(react-hook-form@7.71.1(react@19.2.3))
       '@neondatabase/auth':
-        specifier: 0.2.0-beta.1
-        version: 0.2.0-beta.1(kinswvxol54pgvhdqij3p3kydq)
+        specifier: 'catalog:'
+        version: 0.2.0-beta.1(gy2sduobu3mrdkt2gklks5sf6m)
       '@neondatabase/serverless':
-        specifier: ^1.0.2
+        specifier: 'catalog:'
         version: 1.0.2
       '@radix-ui/react-accordion':
         specifier: ^1.2.12
@@ -161,7 +219,7 @@ importers:
         specifier: ^3.36.1
         version: 3.36.1(react@19.2.3)
       '@tanstack/react-query':
-        specifier: ^5.90.20
+        specifier: 'catalog:'
         version: 5.90.20(react@19.2.3)
       '@tanstack/react-table':
         specifier: ^8.21.3
@@ -179,13 +237,13 @@ importers:
         specifier: ^0.7.1
         version: 0.7.1
       clsx:
-        specifier: ^2.1.1
+        specifier: 'catalog:'
         version: 2.1.1
       cmdk:
         specifier: ^1.1.1
         version: 1.1.1(@types/react-dom@19.2.3(@types/react@19.2.11))(@types/react@19.2.11)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       date-fns:
-        specifier: ^4.1.0
+        specifier: 'catalog:'
         version: 4.1.0
       dexie:
         specifier: ^3.2.7
@@ -194,7 +252,7 @@ importers:
         specifier: ^1.1.7
         version: 1.1.7(@types/react@19.2.11)(dexie@3.2.7)(react@19.2.3)
       drizzle-orm:
-        specifier: ^0.45.1
+        specifier: 'catalog:'
         version: 0.45.1(@neondatabase/serverless@1.0.2)(@types/pg@8.16.0)(@upstash/redis@1.36.2)(kysely@0.28.11)(postgres@3.4.8)
       drizzle-zod:
         specifier: ^0.8.3
@@ -218,7 +276,7 @@ importers:
         specifier: ^1.4.2
         version: 1.4.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       ioredis:
-        specifier: ^5.9.2
+        specifier: 'catalog:'
         version: 5.9.2
       jose:
         specifier: ^6.1.3
@@ -266,7 +324,7 @@ importers:
         specifier: 19.2.3
         version: 19.2.3(react@19.2.3)
       react-hook-form:
-        specifier: ^7.71.1
+        specifier: 'catalog:'
         version: 7.71.1(react@19.2.3)
       react-resizable-panels:
         specifier: ^3.0.6
@@ -275,10 +333,10 @@ importers:
         specifier: 2.15.4
         version: 2.15.4(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       resend:
-        specifier: ^6.9.1
+        specifier: 'catalog:'
         version: 6.9.1(@react-email/render@2.0.4(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
       server-only:
-        specifier: ^0.0.1
+        specifier: 'catalog:'
         version: 0.0.1
       serwist:
         specifier: ^9.5.3
@@ -317,7 +375,7 @@ importers:
         specifier: ^0.18.5
         version: 0.18.5
       zod:
-        specifier: ^4.3.6
+        specifier: 'catalog:'
         version: 4.3.6
       zundo:
         specifier: ^2.3.0
@@ -387,16 +445,16 @@ importers:
   packages/auth:
     dependencies:
       '@neondatabase/auth':
-        specifier: 0.2.0-beta.1
-        version: 0.2.0-beta.1(gy2sduobu3mrdkt2gklks5sf6m)
+        specifier: 'catalog:'
+        version: 0.2.0-beta.1(kinswvxol54pgvhdqij3p3kydq)
       react:
-        specifier: ^19.0.0
+        specifier: 'catalog:'
         version: 19.2.3
       server-only:
-        specifier: ^0.0.1
+        specifier: 'catalog:'
         version: 0.0.1
       zod:
-        specifier: ^4.3.6
+        specifier: 'catalog:'
         version: 4.3.6
 
   packages/magicdrive:
@@ -405,19 +463,19 @@ importers:
         specifier: workspace:^
         version: link:../shared
       '@neondatabase/serverless':
-        specifier: ^1.0.2
+        specifier: 'catalog:'
         version: 1.0.2
       drizzle-orm:
-        specifier: ^0.45.1
+        specifier: 'catalog:'
         version: 0.45.1(@neondatabase/serverless@1.0.2)(@types/pg@8.16.0)(@upstash/redis@1.36.2)(kysely@0.28.11)(postgres@3.4.8)
       pino:
-        specifier: ^9.0.0
+        specifier: 'catalog:'
         version: 9.14.0
       server-only:
-        specifier: ^0.0.1
+        specifier: 'catalog:'
         version: 0.0.1
       zod:
-        specifier: ^3.24.1
+        specifier: catalog:zod3
         version: 3.25.76
 
   packages/magictodo:
@@ -426,40 +484,37 @@ importers:
         specifier: workspace:^
         version: link:../shared
       '@neondatabase/serverless':
-        specifier: ^1.0.2
+        specifier: 'catalog:'
         version: 1.0.2
       drizzle-orm:
-        specifier: ^0.45.1
+        specifier: 'catalog:'
         version: 0.45.1(@neondatabase/serverless@1.0.2)(@types/pg@8.16.0)(@upstash/redis@1.36.2)(kysely@0.28.11)(postgres@3.4.8)
       pino:
-        specifier: ^9.0.0
+        specifier: 'catalog:'
         version: 9.14.0
       server-only:
-        specifier: ^0.0.1
+        specifier: 'catalog:'
         version: 0.0.1
       zod:
-        specifier: ^3.24.1
+        specifier: catalog:zod3
         version: 3.25.76
 
   packages/marketing:
     dependencies:
       clsx:
-        specifier: ^2.1.1
+        specifier: 'catalog:'
         version: 2.1.1
-      lucide-react:
-        specifier: '>=0.400.0'
-        version: 0.563.0(react@19.2.3)
       next:
         specifier: '>=14.0.0'
         version: 16.1.6(@babel/core@7.29.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       react:
-        specifier: ^19.0.0
+        specifier: 'catalog:'
         version: 19.2.3
       react-dom:
-        specifier: ^19.0.0
+        specifier: 'catalog:'
         version: 19.2.3(react@19.2.3)
       tailwind-merge:
-        specifier: ^2.6.0
+        specifier: 'catalog:'
         version: 2.6.1
 
   packages/orchestra:
@@ -468,37 +523,37 @@ importers:
         specifier: workspace:*
         version: link:../auth
       '@aws-sdk/client-s3':
-        specifier: ^3.981.0
+        specifier: 'catalog:'
         version: 3.983.0
       drizzle-orm:
-        specifier: ^0.45.1
+        specifier: 'catalog:'
         version: 0.45.1(@neondatabase/serverless@1.0.2)(@types/pg@8.16.0)(@upstash/redis@1.36.2)(kysely@0.28.11)(postgres@3.4.8)
       next:
         specifier: '>=14.0.0'
         version: 16.1.6(@babel/core@7.29.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       pino:
-        specifier: ^9.6.0
+        specifier: 'catalog:'
         version: 9.14.0
       server-only:
-        specifier: ^0.0.1
+        specifier: 'catalog:'
         version: 0.0.1
       zod:
-        specifier: ^3.24.0
+        specifier: catalog:zod3
         version: 3.25.76
 
   packages/shadcn-components:
     dependencies:
       clsx:
-        specifier: ^2.1.1
+        specifier: 'catalog:'
         version: 2.1.1
       react:
-        specifier: ^19.0.0
+        specifier: 'catalog:'
         version: 19.2.3
       react-dom:
-        specifier: ^19.0.0
+        specifier: 'catalog:'
         version: 19.2.3(react@19.2.3)
       tailwind-merge:
-        specifier: ^2.6.0
+        specifier: 'catalog:'
         version: 2.6.1
 
   packages/shared:
@@ -510,16 +565,16 @@ importers:
         specifier: workspace:^
         version: link:../orchestra
       '@aws-sdk/client-s3':
-        specifier: ^3.981.0
+        specifier: 'catalog:'
         version: 3.983.0
       '@neondatabase/serverless':
-        specifier: ^1.0.2
+        specifier: 'catalog:'
         version: 1.0.2
       drizzle-orm:
-        specifier: ^0.45.1
+        specifier: 'catalog:'
         version: 0.45.1(@neondatabase/serverless@1.0.2)(@types/pg@8.16.0)(@upstash/redis@1.36.2)(kysely@0.28.11)(postgres@3.4.8)
       server-only:
-        specifier: ^0.0.1
+        specifier: 'catalog:'
         version: 0.0.1
 
   packages/tenancy:
@@ -531,40 +586,40 @@ importers:
         specifier: workspace:^
         version: link:../shared
       '@hookform/resolvers':
-        specifier: ^5.2.2
+        specifier: 'catalog:'
         version: 5.2.2(react-hook-form@7.71.1(react@19.2.3))
       '@tanstack/react-query':
-        specifier: ^5.90.20
+        specifier: 'catalog:'
         version: 5.90.20(react@19.2.3)
       date-fns:
-        specifier: ^4.1.0
+        specifier: 'catalog:'
         version: 4.1.0
       drizzle-orm:
-        specifier: ^0.45.1
+        specifier: 'catalog:'
         version: 0.45.1(@neondatabase/serverless@1.0.2)(@types/pg@8.16.0)(@upstash/redis@1.36.2)(kysely@0.28.11)(postgres@3.4.8)
       ioredis:
-        specifier: ^5.9.2
+        specifier: 'catalog:'
         version: 5.9.2
       pino:
-        specifier: ^9.0.0
+        specifier: 'catalog:'
         version: 9.14.0
       react:
-        specifier: ^19.0.0
+        specifier: 'catalog:'
         version: 19.2.3
       react-dom:
-        specifier: ^19.0.0
+        specifier: 'catalog:'
         version: 19.2.3(react@19.2.3)
       react-hook-form:
-        specifier: ^7.71.1
+        specifier: 'catalog:'
         version: 7.71.1(react@19.2.3)
       resend:
-        specifier: ^6.9.1
+        specifier: 'catalog:'
         version: 6.9.1(@react-email/render@2.0.4(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
       server-only:
-        specifier: ^0.0.1
+        specifier: 'catalog:'
         version: 0.0.1
       zod:
-        specifier: ^4.3.6
+        specifier: 'catalog:'
         version: 4.3.6
 
 packages:
@@ -12607,8 +12662,8 @@ snapshots:
       '@babel/parser': 7.29.0
       eslint: 9.39.2(jiti@2.6.1)
       hermes-parser: 0.25.1
-      zod: 3.25.76
-      zod-validation-error: 4.0.2(zod@3.25.76)
+      zod: 4.3.6
+      zod-validation-error: 4.0.2(zod@4.3.6)
     transitivePeerDependencies:
       - supports-color
 
@@ -15546,9 +15601,9 @@ snapshots:
     dependencies:
       zod: 3.25.76
 
-  zod-validation-error@4.0.2(zod@3.25.76):
+  zod-validation-error@4.0.2(zod@4.3.6):
     dependencies:
-      zod: 3.25.76
+      zod: 4.3.6
 
   zod@3.25.76: {}
 

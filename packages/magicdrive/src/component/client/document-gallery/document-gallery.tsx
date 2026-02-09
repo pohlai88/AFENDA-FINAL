@@ -7,7 +7,7 @@
 
 "use client"
 
-import { useState, useCallback, useEffect } from "react"
+import { useState, useCallback, useEffect, useRef } from "react"
 import Link from "next/link"
 import { cn } from "@afenda/shared/utils"
 import { Badge } from "@afenda/shadcn"
@@ -35,8 +35,9 @@ import {
   Image as ImageIcon,
 } from "lucide-react"
 import { routes } from "@afenda/shared/constants"
+import { formatFileSize, formatCompactDate, STATUS_CONFIG } from "@afenda/magicdrive/constant"
 
-// Document type icons mapping
+/** Document type → icon mapping */
 const DOCUMENT_TYPE_ICONS = {
   invoice: FileText,
   contract: FileText,
@@ -44,28 +45,15 @@ const DOCUMENT_TYPE_ICONS = {
   other: FileText,
 } as const
 
-// Status configuration
-const STATUS_CONFIG = {
-  needs_review: {
-    icon: AlertCircle,
-    color: "bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-300 dark:border-amber-700",
-    label: "Needs Review",
-  },
-  processed: {
-    icon: CheckCircle,
-    color: "bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-700",
-    label: "Processed",
-  },
-  duplicates: {
-    icon: XCircle,
-    color: "bg-destructive/10 text-destructive border-destructive/30",
-    label: "Duplicate",
-  },
-  inbox: {
-    icon: Clock,
-    color: "bg-primary/10 text-primary border-primary/30",
-    label: "Inbox",
-  },
+/** Status → icon mapping (labels/colors come from shared STATUS_CONFIG) */
+const STATUS_ICONS = {
+  needs_review: AlertCircle,
+  processed: CheckCircle,
+  duplicates: XCircle,
+  inbox: Clock,
+  active: CheckCircle,
+  archived: Archive,
+  error: XCircle,
 } as const
 
 export interface DocumentGalleryProps {
@@ -108,35 +96,45 @@ export function DocumentGallery({
   const [loadingStates, setLoadingStates] = useState<Record<string, boolean>>({})
   const [errorStates, setErrorStates] = useState<Record<string, boolean>>({})
 
-  // Fetch thumbnails for all documents
-  useEffect(() => {
-    documents.forEach(async (document) => {
-      if (!document.id || thumbnailUrls[document.id] || errorStates[document.id]) return
+  // Track which document IDs we've already requested thumbnails for
+  const fetchedRef = useRef<Set<string>>(new Set())
 
-      setLoadingStates(prev => ({ ...prev, [document.id]: true }))
+  // Fetch thumbnails — only depends on documents, uses ref to avoid re-triggering
+  useEffect(() => {
+    const controller = new AbortController()
+
+    documents.forEach(async (doc) => {
+      if (!doc.id || fetchedRef.current.has(doc.id)) return
+      fetchedRef.current.add(doc.id)
+
+      setLoadingStates(prev => ({ ...prev, [doc.id]: true }))
 
       try {
-        const res = await fetch(routes.api.v1.magicdrive.objectThumbUrl(document.id), {
+        const res = await fetch(routes.api.v1.magicdrive.objectThumbUrl(doc.id), {
           credentials: 'include',
+          signal: controller.signal,
         })
 
         if (res.ok) {
           const data = await res.json()
           if (data.data?.url) {
-            setThumbnailUrls(prev => ({ ...prev, [document.id]: data.data.url }))
+            setThumbnailUrls(prev => ({ ...prev, [doc.id]: data.data.url }))
           } else {
-            setErrorStates(prev => ({ ...prev, [document.id]: true }))
+            setErrorStates(prev => ({ ...prev, [doc.id]: true }))
           }
         } else {
-          setErrorStates(prev => ({ ...prev, [document.id]: true }))
+          setErrorStates(prev => ({ ...prev, [doc.id]: true }))
         }
-      } catch {
-        setErrorStates(prev => ({ ...prev, [document.id]: true }))
+      } catch (err) {
+        if (err instanceof DOMException && err.name === "AbortError") return
+        setErrorStates(prev => ({ ...prev, [doc.id]: true }))
       } finally {
-        setLoadingStates(prev => ({ ...prev, [document.id]: false }))
+        setLoadingStates(prev => ({ ...prev, [doc.id]: false }))
       }
     })
-  }, [documents, thumbnailUrls, errorStates])
+
+    return () => controller.abort()
+  }, [documents])
 
   const handleQuickAction = useCallback((e: React.MouseEvent, _action: string, _documentId: string) => {
     e.stopPropagation()
@@ -146,36 +144,17 @@ export function DocumentGallery({
     onToggleSelection(documentId)
   }, [onToggleSelection])
 
-  // Format file size
-  const formatFileSize = (bytes: number) => {
-    if (bytes < 1024) return `${bytes} B`
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
-  }
-
-  // Format date
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: date.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined,
-    })
-  }
-
-  // Check if document is an image type
   const isImageType = (mimeType?: string) => {
     return mimeType?.startsWith('image/') || false
   }
 
   return (
     <div className={cn("space-y-4", className)}>
-      {/* Gallery grid with masonry-like layout */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {documents.map((document) => {
-          const statusConfig = STATUS_CONFIG[document.status as keyof typeof STATUS_CONFIG] || STATUS_CONFIG.inbox
+          const statusConfig = STATUS_CONFIG[document.status as keyof typeof STATUS_CONFIG] ?? STATUS_CONFIG.inbox
           const TypeIcon = DOCUMENT_TYPE_ICONS[document.docType as keyof typeof DOCUMENT_TYPE_ICONS] || FileText
-          const StatusIcon = statusConfig.icon
+          const StatusIcon = STATUS_ICONS[document.status as keyof typeof STATUS_ICONS] ?? Clock
           const isHovered = hoveredCard === document.id
           const isSelected = selectedIds.has(document.id)
           const thumbnailUrl = thumbnailUrls[document.id]
@@ -316,7 +295,7 @@ export function DocumentGallery({
 
                   {/* Metadata */}
                   <div className="flex items-center justify-between text-xs text-muted-foreground">
-                    <span>{formatDate(document.createdAt)}</span>
+                    <span>{formatCompactDate(document.createdAt)}</span>
                     {document.version && (
                       <span>{formatFileSize(document.version.sizeBytes)}</span>
                     )}

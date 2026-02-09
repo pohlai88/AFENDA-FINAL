@@ -1,22 +1,65 @@
 /**
- * @layer domain (magicdrive)
- * @responsibility Document CRUD server actions.
+ * Document CRUD server actions.
+ * Wires to lib/list.ts and lib/update.ts for actual DB operations.
+ *
+ * @domain magicdrive
+ * @layer server
  */
 
 "use server"
 
 import { revalidatePath } from "next/cache"
 import { routes } from "@afenda/shared/constants"
-import type { Document, CreateDocumentInput, UpdateDocumentInput } from "../zod/magicdrive.document.zod"
+import { getAuthContext } from "@afenda/auth/server"
+import { logError } from "../pino"
+import { listObjects, getObjectById } from "../lib/list"
+import { updateObjectStatus, deleteObject } from "../lib/update"
+import type { ObjectWithVersion } from "../lib/list"
+
+/**
+ * Document DTO returned to the UI.
+ * Intentionally NOT the strict Zod Document type — the DB model
+ * uses different field names/enums than the Zod schema.
+ */
+export interface DocumentDTO {
+  id: string
+  title: string | null
+  type: string
+  status: string
+  folderId: string | null
+  workspaceId: string
+  createdAt: string
+  updatedAt: string
+  ownerId: string
+  isStarred: boolean
+  tags: Array<{ id: string; name: string }>
+}
+
+/** Map internal ObjectWithVersion to the DocumentDTO shape for the UI. */
+function toDocument(obj: ObjectWithVersion): DocumentDTO {
+  return {
+    id: obj.id,
+    title: obj.title,
+    type: obj.docType,
+    status: obj.status,
+    folderId: null,
+    workspaceId: obj.tenantId,
+    createdAt: obj.createdAt?.toISOString() ?? new Date().toISOString(),
+    updatedAt: obj.updatedAt?.toISOString() ?? new Date().toISOString(),
+    ownerId: obj.ownerId,
+    isStarred: false,
+    tags: obj.tags?.map((t) => ({ id: t.id, name: t.name })) ?? [],
+  }
+}
 
 /**
  * Server action: List documents with filters.
- * Phase 4: Now accepts organizationId/teamId for tenant-scoped filtering.
+ * Wires to lib/list.ts listObjects (full Drizzle query with FTS, pagination, sort).
  */
-export async function listDocumentsAction(_params: {
+export async function listDocumentsAction(params: {
   workspaceId: string
   folderId?: string | null
-  organizationId?: string | null
+  tenantId?: string | null
   teamId?: string | null
   status?: string
   type?: string
@@ -26,130 +69,173 @@ export async function listDocumentsAction(_params: {
   sortOrder?: "asc" | "desc"
   limit?: number
   offset?: number
-}): Promise<{ documents: Document[]; total: number }> {
-  // TODO: Implement with actual DB query
-  // When organizationId/teamId are provided, filter by tenant context
-  // const result = await listObjects(params.workspaceId, { organizationId: params.organizationId, teamId: params.teamId, ... })
-  return { documents: [], total: 0 }
+}): Promise<{ documents: DocumentDTO[]; total: number }> {
+  try {
+    const auth = await getAuthContext()
+    if (!auth?.userId) return { documents: [], total: 0 }
+
+    const tenantId = params.workspaceId || auth.userId
+    const result = await listObjects(
+      tenantId,
+      {
+        status: params.status,
+        docType: params.type,
+        q: params.search,
+        tagId: params.tagIds?.[0],
+        sortBy: (params.sortBy as "createdAt" | "title" | "sizeBytes") ?? "createdAt",
+        sortOrder: params.sortOrder ?? "desc",
+        limit: params.limit ?? 50,
+        offset: params.offset ?? 0,
+      },
+      { tenantId: params.tenantId, teamId: params.teamId }
+    )
+
+    return {
+      documents: result.items.map(toDocument),
+      total: result.total,
+    }
+  } catch (error) {
+    logError(error, { context: "listDocumentsAction" })
+    return { documents: [], total: 0 }
+  }
 }
 
-/**
- * Server action: Get single document by ID.
- * Phase 4: Now accepts tenant context for access validation.
- */
 export async function getDocumentAction(
-  _id: string,
-  _tenantContext?: { organizationId?: string | null; teamId?: string | null }
-): Promise<Document | null> {
-  // TODO: Implement with actual DB query
-  // Validate document belongs to tenant context when provided
-  return null
+  id: string,
+  tenantContext?: { tenantId?: string | null; teamId?: string | null }
+): Promise<DocumentDTO | null> {
+  try {
+    const auth = await getAuthContext()
+    if (!auth?.userId) return null
+
+    const obj = await getObjectById(auth.userId, id, tenantContext)
+    if (!obj) return null
+    return toDocument(obj)
+  } catch (error) {
+    logError(error, { context: "getDocumentAction" })
+    return null
+  }
 }
 
-/**
- * Server action: Create a new document.
- */
 export async function createDocumentAction(
-  _input: CreateDocumentInput
-): Promise<{ success: boolean; document?: Document; error?: string }> {
+  _input: unknown
+): Promise<{ success: boolean; document?: DocumentDTO; error?: string }> {
   try {
-    // TODO: Implement with actual DB insert
+    const auth = await getAuthContext()
+    if (!auth?.userId) return { success: false, error: "Authentication required" }
+
+    // Document creation is handled by the upload->ingest flow (upload.server.ts -> lib/ingest.ts).
     revalidatePath(routes.ui.magicdrive.root())
-    return { success: true }
+    return { success: false, error: "Use upload flow to create documents" }
   } catch (error) {
     return { success: false, error: String(error) }
   }
 }
 
-/**
- * Server action: Update a document.
- */
 export async function updateDocumentAction(
-  _id: string,
-  _input: UpdateDocumentInput
-): Promise<{ success: boolean; document?: Document; error?: string }> {
+  id: string,
+  input: { status?: string; title?: string }
+): Promise<{ success: boolean; document?: DocumentDTO; error?: string }> {
   try {
-    // TODO: Implement with actual DB update
+    const auth = await getAuthContext()
+    if (!auth?.userId) return { success: false, error: "Authentication required" }
+
+    if (input.status) {
+      const result = await updateObjectStatus(auth.userId, id, input.status)
+      if (!result.ok) return { success: false, error: result.error }
+    }
+
     revalidatePath(routes.ui.magicdrive.root())
     return { success: true }
   } catch (error) {
+    logError(error, { context: "updateDocumentAction" })
     return { success: false, error: String(error) }
   }
 }
 
-/**
- * Server action: Archive a document (soft delete).
- */
 export async function archiveDocumentAction(
-  _id: string
+  id: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    // TODO: Implement soft delete
+    const auth = await getAuthContext()
+    if (!auth?.userId) return { success: false, error: "Authentication required" }
+
+    const result = await updateObjectStatus(auth.userId, id, "archived")
+    if (!result.ok) return { success: false, error: result.error }
+
     revalidatePath(routes.ui.magicdrive.root())
     return { success: true }
   } catch (error) {
+    logError(error, { context: "archiveDocumentAction" })
     return { success: false, error: String(error) }
   }
 }
 
-/**
- * Server action: Permanently delete a document.
- */
 export async function deleteDocumentAction(
-  _id: string
+  id: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    // TODO: Implement hard delete
+    const auth = await getAuthContext()
+    if (!auth?.userId) return { success: false, error: "Authentication required" }
+
+    const result = await deleteObject(auth.userId, id)
+    if (!result.ok) return { success: false, error: result.error }
+
     revalidatePath(routes.ui.magicdrive.root())
     return { success: true }
   } catch (error) {
+    logError(error, { context: "deleteDocumentAction" })
     return { success: false, error: String(error) }
   }
 }
 
-/**
- * Server action: Restore an archived document.
- */
 export async function restoreDocumentAction(
-  _id: string
+  id: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    // TODO: Implement restore
+    const auth = await getAuthContext()
+    if (!auth?.userId) return { success: false, error: "Authentication required" }
+
+    const result = await updateObjectStatus(auth.userId, id, "inbox")
+    if (!result.ok) return { success: false, error: result.error }
+
     revalidatePath(routes.ui.magicdrive.root())
     return { success: true }
   } catch (error) {
+    logError(error, { context: "restoreDocumentAction" })
     return { success: false, error: String(error) }
   }
 }
 
-/**
- * Server action: Move document to a folder.
- */
 export async function moveDocumentAction(
   _documentId: string,
   _folderId: string | null
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    // TODO: Implement move
+    const auth = await getAuthContext()
+    if (!auth?.userId) return { success: false, error: "Authentication required" }
+
+    // Folder move: not yet in DB schema (no folder_id FK on magicdriveObjects).
     revalidatePath(routes.ui.magicdrive.root())
-    return { success: true }
+    return { success: false, error: "Folder move not yet supported" }
   } catch (error) {
     return { success: false, error: String(error) }
   }
 }
 
-/**
- * Server action: Star/unstar a document.
- */
 export async function toggleStarDocumentAction(
   _id: string,
   _starred: boolean
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    // TODO: Implement toggle star
+    const auth = await getAuthContext()
+    if (!auth?.userId) return { success: false, error: "Authentication required" }
+
+    // Star/favorite: not yet in DB schema (no is_starred column).
     revalidatePath(routes.ui.magicdrive.root())
-    return { success: true }
+    return { success: false, error: "Star toggle not yet supported" }
   } catch (error) {
     return { success: false, error: String(error) }
   }
 }
+

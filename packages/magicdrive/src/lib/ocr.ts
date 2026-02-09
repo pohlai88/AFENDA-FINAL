@@ -427,6 +427,8 @@ export async function runOcrForVersion(
     extractedText: text || null,
     extractedFields: extractedFieldsWithSuggestions,
     textHash: textHash || null,
+    tenantId,
+    teamId: tenantId,
   })
 
   if (textHash) {
@@ -458,3 +460,4 @@ export async function runOcrForVersion(
 
   return { ok: true, objectId, extractedLength: text.length }
 }
+

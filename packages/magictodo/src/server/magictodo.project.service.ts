@@ -35,7 +35,7 @@ export class MagictodoProjectService {
    */
   async list(
     userId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     includeArchived: boolean = false,
     pagination: {
@@ -46,8 +46,8 @@ export class MagictodoProjectService {
   ) {
     const conditions = [eq(magictodoProjects.userId, userId)]
 
-    if (organizationId) {
-      conditions.push(eq(magictodoProjects.organizationId, organizationId))
+    if (tenantId) {
+      conditions.push(eq(magictodoProjects.tenantId, tenantId))
     }
 
     if (teamId) {
@@ -80,7 +80,7 @@ export class MagictodoProjectService {
         customFields: magictodoProjects.customFields,
         createdAt: magictodoProjects.createdAt,
         updatedAt: magictodoProjects.updatedAt,
-        organizationId: magictodoProjects.organizationId,
+        tenantId: magictodoProjects.tenantId,
         teamId: magictodoProjects.teamId,
         // Subquery for task count
         taskCount: sql<number>`(
@@ -128,7 +128,7 @@ export class MagictodoProjectService {
   async getById(
     userId: string,
     projectId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     db: DrizzleDB
   ) {
@@ -137,8 +137,8 @@ export class MagictodoProjectService {
       eq(magictodoProjects.userId, userId),
     ]
 
-    if (organizationId) {
-      conditions.push(eq(magictodoProjects.organizationId, organizationId))
+    if (tenantId) {
+      conditions.push(eq(magictodoProjects.tenantId, tenantId))
     }
 
     if (teamId) {
@@ -158,7 +158,7 @@ export class MagictodoProjectService {
         customFields: magictodoProjects.customFields,
         createdAt: magictodoProjects.createdAt,
         updatedAt: magictodoProjects.updatedAt,
-        organizationId: magictodoProjects.organizationId,
+        tenantId: magictodoProjects.tenantId,
         teamId: magictodoProjects.teamId,
         taskCount: sql<number>`(
           SELECT count(*)
@@ -202,7 +202,7 @@ export class MagictodoProjectService {
    */
   async create(
     userId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     input: CreateProjectRequest,
     db: DrizzleDB
@@ -222,7 +222,7 @@ export class MagictodoProjectService {
       customFields: (input as { customFields?: Record<string, unknown> }).customFields || {},
       createdAt: now,
       updatedAt: now,
-      organizationId,
+      tenantId,
       teamId,
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- drizzle insert overload strictness with optional schema fields
@@ -248,13 +248,13 @@ export class MagictodoProjectService {
   async update(
     userId: string,
     projectId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     input: UpdateProjectRequest,
     db: DrizzleDB
   ) {
     // First check if project exists and user has permission
-    const existing = await this.getById(userId, projectId, organizationId, teamId, db)
+    const existing = await this.getById(userId, projectId, tenantId, teamId, db)
     if (!existing.ok) {
       return existing
     }
@@ -306,12 +306,12 @@ export class MagictodoProjectService {
   async delete(
     userId: string,
     projectId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     db: DrizzleDB
   ) {
     // First check if project exists
-    const existing = await this.getById(userId, projectId, organizationId, teamId, db)
+    const existing = await this.getById(userId, projectId, tenantId, teamId, db)
     if (!existing.ok) {
       return existing
     }
@@ -361,14 +361,14 @@ export class MagictodoProjectService {
    */
   async getStats(
     userId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     db: DrizzleDB
   ) {
     const conditions = [eq(magictodoProjects.userId, userId)]
 
-    if (organizationId) {
-      conditions.push(eq(magictodoProjects.organizationId, organizationId))
+    if (tenantId) {
+      conditions.push(eq(magictodoProjects.tenantId, tenantId))
     }
 
     if (teamId) {
@@ -418,4 +418,5 @@ export class MagictodoProjectService {
 }
 
 export const magictodoProjectService = new MagictodoProjectService()
+
 

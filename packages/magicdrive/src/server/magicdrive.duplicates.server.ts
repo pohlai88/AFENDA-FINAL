@@ -25,7 +25,7 @@ import { getAuthContext } from "@afenda/auth/server"
 
 /** Tenant context for duplicate operations */
 interface TenantContext {
-  organizationId?: string | null
+  tenantId?: string | null
   teamId?: string | null
 }
 
@@ -61,10 +61,10 @@ export async function listDuplicateGroupsAction(
 
     const db = getDb()
 
-    // Get all duplicate groups for this tenant — prefer organizationId, fallback to legacyTenantId
-    const tenantFilter = tenantContext?.organizationId
-      ? eq(magicdriveDuplicateGroups.organizationId, tenantContext.organizationId)
-      : eq(magicdriveDuplicateGroups.legacyTenantId, workspaceId)
+    // Get all duplicate groups for this tenant — prefer tenantId, fallback to tenantId
+    const tenantFilter = tenantContext?.tenantId
+      ? eq(magicdriveDuplicateGroups.tenantId, tenantContext.tenantId)
+      : eq(magicdriveDuplicateGroups.tenantId, workspaceId)
 
     const groups = await db
       .select()
@@ -243,7 +243,7 @@ export async function resolveDuplicatesAction(params: {
     const result = await setKeepBest(
       params.groupId,
       params.keepVersionId,
-      group.legacyTenantId,
+      group.tenantId,
       auth.userId
     )
 
@@ -353,7 +353,7 @@ export async function mergeDuplicatesAction(params: {
     const result = await setKeepBest(
       params.groupId,
       params.keepVersionId,
-      group.legacyTenantId,
+      group.tenantId,
       auth.userId
     )
 
@@ -458,7 +458,7 @@ export async function getDuplicateCountAction(
     const result = await db
       .select({ count: sql<number>`count(*)` })
       .from(magicdriveDuplicateGroups)
-      .where(eq(magicdriveDuplicateGroups.legacyTenantId, workspaceId))
+      .where(eq(magicdriveDuplicateGroups.tenantId, workspaceId))
 
     return result[0]?.count || 0
   } catch (error) {
@@ -466,4 +466,5 @@ export async function getDuplicateCountAction(
     return 0
   }
 }
+
 

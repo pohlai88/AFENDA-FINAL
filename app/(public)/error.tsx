@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { routes } from "@afenda/shared/constants";
 import { Alert, AlertDescription, AlertTitle } from "@afenda/shadcn";
@@ -15,15 +15,14 @@ export default function PublicError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  React.useEffect(() => {
+  useEffect(() => {
     if (process.env.NODE_ENV === "development") {
-       
       console.error("[Public Error]", {
-      message: error.message,
-      digest: error.digest,
-      stack: error.stack,
-      timestamp: new Date().toISOString(),
-      context: "public-routes",
+        message: error.message,
+        digest: error.digest,
+        stack: error.stack,
+        timestamp: new Date().toISOString(),
+        context: "public-routes",
       });
     }
   }, [error]);

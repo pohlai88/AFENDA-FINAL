@@ -3,9 +3,13 @@
  * Tables: service_registry, admin_config, audit_log
  *
  * Zero domain knowledge — pure system infrastructure tables.
+ * NO tenancy columns — these are global system tables.
+ *
+ * @see .dev-note/multi-tenancy-schema.md
  */
 
-import { index, pgTable, text, timestamp, jsonb, uuid, integer, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, jsonb, uuid, integer, boolean } from "drizzle-orm/pg-core";
+import { timestamps, createdAtOnly, idx } from "@afenda/shared/drizzle/manifest";
 
 /**
  * Service Registry Table
@@ -32,11 +36,11 @@ export const orchestraServiceRegistry = pgTable(
     healthCheckTimeoutMs: integer("health_check_timeout_ms").default(5000),
     // Timestamps
     registeredAt: timestamp("registered_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
-    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
+    ...timestamps(),
   },
   (t) => [
-    index("orchestra_service_registry_status_idx").on(t.status),
-    index("orchestra_service_registry_updated_idx").on(t.updatedAt),
+    idx("orchestra_service_registry", "status").on(t.status),
+    idx("orchestra_service_registry", "updated_at").on(t.updatedAt),
   ]
 );
 
@@ -53,12 +57,11 @@ export const orchestraAdminConfig = pgTable(
     key: text("key").primaryKey().notNull(),
     value: jsonb("value").notNull(),
     description: text("description"),
-    createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
-    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
     updatedBy: text("updated_by"),
+    ...timestamps(),
   },
   (t) => [
-    index("orchestra_admin_config_updated_idx").on(t.updatedAt),
+    idx("orchestra_admin_config", "updated_at").on(t.updatedAt),
   ]
 );
 
@@ -105,14 +108,14 @@ export const orchestraAuditLog = pgTable(
     ipAddress: text("ip_address"),
     userAgent: text("user_agent"),
     traceId: text("trace_id"),
-    createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
+    ...createdAtOnly(),
   },
   (t) => [
-    index("orchestra_audit_log_event_type_idx").on(t.eventType),
-    index("orchestra_audit_log_entity_idx").on(t.entityType, t.entityId),
-    index("orchestra_audit_log_actor_idx").on(t.actorId),
-    index("orchestra_audit_log_created_idx").on(t.createdAt),
-    index("orchestra_audit_log_trace_idx").on(t.traceId),
+    idx("orchestra_audit_log", "event_type").on(t.eventType),
+    idx("orchestra_audit_log", "entity_type", "entity_id").on(t.entityType, t.entityId),
+    idx("orchestra_audit_log", "actor_id").on(t.actorId),
+    idx("orchestra_audit_log", "created_at").on(t.createdAt),
+    idx("orchestra_audit_log", "trace_id").on(t.traceId),
   ]
 );
 
@@ -134,9 +137,9 @@ export const orchestraConfigHistory = pgTable(
     changedAt: timestamp("changed_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
   },
   (t) => [
-    index("orchestra_config_history_key_idx").on(t.configKey),
-    index("orchestra_config_history_changed_at_idx").on(t.changedAt),
-    index("orchestra_config_history_changed_by_idx").on(t.changedBy),
+    idx("orchestra_config_history", "config_key").on(t.configKey),
+    idx("orchestra_config_history", "changed_at").on(t.changedAt),
+    idx("orchestra_config_history", "changed_by").on(t.changedBy),
   ]
 );
 
@@ -158,10 +161,10 @@ export const orchestraHealthHistory = pgTable(
     recordedAt: timestamp("recorded_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
   },
   (t) => [
-    index("orchestra_health_history_service_idx").on(t.serviceId),
-    index("orchestra_health_history_recorded_idx").on(t.recordedAt),
-    index("orchestra_health_history_status_idx").on(t.status),
-    index("orchestra_health_history_service_time_idx").on(t.serviceId, t.recordedAt),
+    idx("orchestra_health_history", "service_id").on(t.serviceId),
+    idx("orchestra_health_history", "recorded_at").on(t.recordedAt),
+    idx("orchestra_health_history", "status").on(t.status),
+    idx("orchestra_health_history", "service_id", "recorded_at").on(t.serviceId, t.recordedAt),
   ]
 );
 
@@ -184,13 +187,12 @@ export const orchestraBackupSchedule = pgTable(
     lastRun: timestamp("last_run", { withTimezone: true, mode: "date" }),
     nextRun: timestamp("next_run", { withTimezone: true, mode: "date" }),
     createdBy: text("created_by"),
-    createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
-    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
+    ...timestamps(),
   },
   (t) => [
-    index("orchestra_backup_schedule_enabled_idx").on(t.enabled),
-    index("orchestra_backup_schedule_next_run_idx").on(t.nextRun),
-    index("orchestra_backup_schedule_created_by_idx").on(t.createdBy),
+    idx("orchestra_backup_schedule", "enabled").on(t.enabled),
+    idx("orchestra_backup_schedule", "next_run").on(t.nextRun),
+    idx("orchestra_backup_schedule", "created_by").on(t.createdBy),
   ]
 );
 
@@ -212,12 +214,11 @@ export const orchestraAppDomains = pgTable(
     sortOrder: integer("sort_order").notNull().default(0),
     enabled: boolean("enabled").notNull().default(true),
     description: text("description"),
-    createdAt: timestamp("created_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
-    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "date" }).notNull().defaultNow(),
+    ...timestamps(),
   },
   (t) => [
-    index("orchestra_app_domains_enabled_idx").on(t.enabled),
-    index("orchestra_app_domains_sort_order_idx").on(t.sortOrder),
+    idx("orchestra_app_domains", "enabled").on(t.enabled),
+    idx("orchestra_app_domains", "sort_order").on(t.sortOrder),
   ]
 );
 

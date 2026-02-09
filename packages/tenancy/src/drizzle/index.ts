@@ -39,3 +39,5 @@ export {
   type TenancyFkOnDelete,
   type TenancyForeignKeysOptions,
 } from "./tenancy-foreign-keys";
+
+export * from "./tenancy.relations";

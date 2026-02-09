@@ -11,7 +11,7 @@ import React, { Component, type ReactNode } from "react"
 import { Card, CardContent } from "@afenda/shadcn"
 import { Button } from "@afenda/shadcn"
 import { AlertTriangle, RefreshCw } from "lucide-react"
-import { cn } from "@afenda/shared/utils"
+import { cn, logger } from "@afenda/shared/utils"
 
 interface Props {
   children: ReactNode
@@ -37,7 +37,7 @@ export class MagicdriveErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('magicdriveErrorBoundary caught error:', error, errorInfo)
+    logger.error('magicdriveErrorBoundary caught error', error, { component: 'MagicdriveErrorBoundary' })
     this.props.onError?.(error, errorInfo)
   }
 

@@ -4,7 +4,7 @@
  */
 
 export * from "./magicdrive.schema";
-import type { InferSelectModel, InferInsertModel } from "drizzle-orm";
+export * from "./magicdrive.relations";
 import {
   magicdriveObjects,
   magicdriveObjectVersions,
@@ -18,19 +18,55 @@ import {
   magicdriveUserPreferences,
 } from "./magicdrive.schema";
 
-export type magicdriveObject = InferSelectModel<typeof magicdriveObjects>;
-export type magicdriveObjectInsert = InferInsertModel<typeof magicdriveObjects>;
-export type magicdriveVersion = InferSelectModel<typeof magicdriveObjectVersions>;
-export type magicdriveVersionInsert = InferInsertModel<typeof magicdriveObjectVersions>;
-export type magicdriveUpload = InferSelectModel<typeof magicdriveUploads>;
-export type magicdriveUploadInsert = InferInsertModel<typeof magicdriveUploads>;
-export type magicdriveDuplicateGroup = InferSelectModel<typeof magicdriveDuplicateGroups>;
-export type magicdriveTag = InferSelectModel<typeof magicdriveTags>;
-export type magicdriveSavedView = InferSelectModel<typeof magicdriveSavedViews>;
-export type magicdriveObjectIndexRow = InferSelectModel<typeof magicdriveObjectIndex>;
-export type magicdriveCollection = InferSelectModel<typeof magicdriveCollections>;
-export type magicdriveTenantSettingsRow = InferSelectModel<typeof magicdriveTenantSettings>;
-export type magicdriveUserPreferencesRow = InferSelectModel<typeof magicdriveUserPreferences>;
+// ─── Type Exports ($inferSelect / $inferInsert) ─────────────────────
+export type MagicDriveObjectRow = typeof magicdriveObjects.$inferSelect;
+export type MagicDriveObjectInsert = typeof magicdriveObjects.$inferInsert;
+export type MagicDriveVersionRow = typeof magicdriveObjectVersions.$inferSelect;
+export type MagicDriveVersionInsert = typeof magicdriveObjectVersions.$inferInsert;
+export type MagicDriveUploadRow = typeof magicdriveUploads.$inferSelect;
+export type MagicDriveUploadInsert = typeof magicdriveUploads.$inferInsert;
+export type MagicDriveDuplicateGroupRow = typeof magicdriveDuplicateGroups.$inferSelect;
+export type MagicDriveDuplicateGroupInsert = typeof magicdriveDuplicateGroups.$inferInsert;
+export type MagicDriveTagRow = typeof magicdriveTags.$inferSelect;
+export type MagicDriveTagInsert = typeof magicdriveTags.$inferInsert;
+export type MagicDriveSavedViewRow = typeof magicdriveSavedViews.$inferSelect;
+export type MagicDriveSavedViewInsert = typeof magicdriveSavedViews.$inferInsert;
+export type MagicDriveObjectIndexRow = typeof magicdriveObjectIndex.$inferSelect;
+export type MagicDriveObjectIndexInsert = typeof magicdriveObjectIndex.$inferInsert;
+export type MagicDriveCollectionRow = typeof magicdriveCollections.$inferSelect;
+export type MagicDriveCollectionInsert = typeof magicdriveCollections.$inferInsert;
+export type MagicDriveTenantSettingsRow = typeof magicdriveTenantSettings.$inferSelect;
+export type MagicDriveTenantSettingsInsert = typeof magicdriveTenantSettings.$inferInsert;
+export type MagicDriveUserPreferencesRow = typeof magicdriveUserPreferences.$inferSelect;
+export type MagicDriveUserPreferencesInsert = typeof magicdriveUserPreferences.$inferInsert;
+
+// ─── Legacy type aliases (deprecated — use PascalCase above) ────────
+/** @deprecated Use MagicDriveObjectRow */
+export type magicdriveObject = MagicDriveObjectRow;
+/** @deprecated Use MagicDriveObjectInsert */
+export type magicdriveObjectInsert = MagicDriveObjectInsert;
+/** @deprecated Use MagicDriveVersionRow */
+export type magicdriveVersion = MagicDriveVersionRow;
+/** @deprecated Use MagicDriveVersionInsert */
+export type magicdriveVersionInsert = MagicDriveVersionInsert;
+/** @deprecated Use MagicDriveUploadRow */
+export type magicdriveUpload = MagicDriveUploadRow;
+/** @deprecated Use MagicDriveUploadInsert */
+export type magicdriveUploadInsert = MagicDriveUploadInsert;
+/** @deprecated Use MagicDriveDuplicateGroupRow */
+export type magicdriveDuplicateGroup = MagicDriveDuplicateGroupRow;
+/** @deprecated Use MagicDriveTagRow */
+export type magicdriveTag = MagicDriveTagRow;
+/** @deprecated Use MagicDriveSavedViewRow */
+export type magicdriveSavedView = MagicDriveSavedViewRow;
+/** @deprecated Use MagicDriveObjectIndexRow */
+export type magicdriveObjectIndexRow = MagicDriveObjectIndexRow;
+/** @deprecated Use MagicDriveCollectionRow */
+export type magicdriveCollection = MagicDriveCollectionRow;
+/** @deprecated Use MagicDriveTenantSettingsRow */
+export type magicdriveTenantSettingsRow = MagicDriveTenantSettingsRow;
+/** @deprecated Use MagicDriveUserPreferencesRow */
+export type magicdriveUserPreferencesRow = MagicDriveUserPreferencesRow;
 
 /** Document status values. */
 export const DOCUMENT_STATUS = {

@@ -19,6 +19,7 @@ import {
   KERNEL_HEADERS,
   SetConfigInputSchema,
   GetConfigInputSchema,
+  getAuthContext,
 } from "@afenda/orchestra";
 import { fail, KERNEL_ERROR_CODES, envelopeHeaders } from "@afenda/shared/server";
 import { db } from "@afenda/shared/server/db";
@@ -30,6 +31,15 @@ import { db } from "@afenda/shared/server/db";
 export async function GET(request: NextRequest) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
   const headers = envelopeHeaders(traceId);
+
+  const auth = await getAuthContext();
+  if (!auth.userId) {
+    return NextResponse.json(
+      fail({ code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" }, { traceId }),
+      { status: HTTP_STATUS.UNAUTHORIZED, headers }
+    );
+  }
+
   const key = request.nextUrl.searchParams.get("key");
   const prefix = request.nextUrl.searchParams.get("prefix") ?? undefined;
 
@@ -81,7 +91,16 @@ export async function GET(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
   const headers = envelopeHeaders(traceId);
-  const actorId = request.headers.get(KERNEL_HEADERS.ACTOR_ID) ?? undefined;
+
+  const auth = await getAuthContext();
+  if (!auth.userId) {
+    return NextResponse.json(
+      fail({ code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" }, { traceId }),
+      { status: HTTP_STATUS.UNAUTHORIZED, headers }
+    );
+  }
+
+  const actorId = auth.userId;
 
   try {
     const body = await request.json();

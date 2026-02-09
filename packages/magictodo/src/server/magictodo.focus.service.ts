@@ -32,7 +32,7 @@ export class MagictodoFocusService {
    */
   async getCurrentSession(
     userId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     db: DrizzleDB
   ) {
@@ -41,8 +41,8 @@ export class MagictodoFocusService {
       inArray(magictodoFocusSessions.status, ["active", "paused"])
     ]
 
-    if (organizationId) {
-      conditions.push(eq(magictodoFocusSessions.organizationId, organizationId))
+    if (tenantId) {
+      conditions.push(eq(magictodoFocusSessions.tenantId, tenantId))
     }
 
     if (teamId) {
@@ -138,7 +138,7 @@ export class MagictodoFocusService {
    */
   async startSession(
     userId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     input: {
       taskIds: string[]
@@ -158,7 +158,7 @@ export class MagictodoFocusService {
     }
 
     // Check for existing active session
-    const existing = await this.getCurrentSession(userId, organizationId, teamId, db)
+    const existing = await this.getCurrentSession(userId, tenantId, teamId, db)
     if (existing.data.session) {
       return {
         ok: false,
@@ -175,8 +175,8 @@ export class MagictodoFocusService {
       eq(magictodoTasks.userId, userId)
     ]
 
-    if (organizationId) {
-      taskConditions.push(eq(magictodoTasks.organizationId, organizationId))
+    if (tenantId) {
+      taskConditions.push(eq(magictodoTasks.tenantId, tenantId))
     }
 
     const userTasks = await db
@@ -197,20 +197,29 @@ export class MagictodoFocusService {
     const sessionId = crypto.randomUUID()
     const now = new Date()
 
+    // Guard: tenantId and teamId are required by schema
+    if (!tenantId || !teamId) {
+      return {
+        ok: false,
+        error: {
+          code: "MISSING_TENANT",
+          message: "Tenant context is required to create a focus session",
+        },
+      }
+    }
+
     // Create session
     const [session] = await db
       .insert(magictodoFocusSessions)
       .values({
         id: sessionId,
         userId,
-        status: "active",
-        currentTaskId: input.taskIds[0],
+        status: "active" as const,
+        currentTaskId: input.taskIds[0] ?? null,
         dailyGoal: input.dailyGoal || 5,
         settings: input.settings || {},
         startedAt: now,
-        createdAt: now,
-        updatedAt: now,
-        organizationId,
+        tenantId,
         teamId,
       })
       .returning()
@@ -244,7 +253,7 @@ export class MagictodoFocusService {
   async toggleSession(
     userId: string,
     sessionId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     db: DrizzleDB
   ) {
@@ -253,8 +262,8 @@ export class MagictodoFocusService {
       eq(magictodoFocusSessions.userId, userId),
     ]
 
-    if (organizationId) {
-      conditions.push(eq(magictodoFocusSessions.organizationId, organizationId))
+    if (tenantId) {
+      conditions.push(eq(magictodoFocusSessions.tenantId, tenantId))
     }
 
     if (teamId) {
@@ -304,7 +313,7 @@ export class MagictodoFocusService {
   async endSession(
     userId: string,
     sessionId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     status: "completed" | "aborted" = "completed",
     db: DrizzleDB
@@ -314,8 +323,8 @@ export class MagictodoFocusService {
       eq(magictodoFocusSessions.userId, userId),
     ]
 
-    if (organizationId) {
-      conditions.push(eq(magictodoFocusSessions.organizationId, organizationId))
+    if (tenantId) {
+      conditions.push(eq(magictodoFocusSessions.tenantId, tenantId))
     }
 
     if (teamId) {
@@ -374,12 +383,12 @@ export class MagictodoFocusService {
   async completeTask(
     userId: string,
     sessionId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     db: DrizzleDB
   ) {
     // Get current session
-    const sessionResult = await this.getCurrentSession(userId, organizationId, teamId, db)
+    const sessionResult = await this.getCurrentSession(userId, tenantId, teamId, db)
     if (!sessionResult.ok || !sessionResult.data.session) {
       return {
         ok: false,
@@ -473,12 +482,12 @@ export class MagictodoFocusService {
   async skipTask(
     userId: string,
     sessionId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     db: DrizzleDB
   ) {
     // Get current session
-    const sessionResult = await this.getCurrentSession(userId, organizationId, teamId, db)
+    const sessionResult = await this.getCurrentSession(userId, tenantId, teamId, db)
     if (!sessionResult.ok || !sessionResult.data.session) {
       return {
         ok: false,
@@ -571,15 +580,15 @@ export class MagictodoFocusService {
    */
   async getStats(
     userId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     period: "today" | "week" | "month" | "all" = "all",
     db: DrizzleDB
   ) {
     const conditions = [eq(magictodoFocusSessions.userId, userId)]
 
-    if (organizationId) {
-      conditions.push(eq(magictodoFocusSessions.organizationId, organizationId))
+    if (tenantId) {
+      conditions.push(eq(magictodoFocusSessions.tenantId, tenantId))
     }
 
     if (teamId) {
@@ -639,7 +648,7 @@ export class MagictodoFocusService {
    */
   async getStreak(
     userId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     db: DrizzleDB
   ) {
@@ -649,8 +658,8 @@ export class MagictodoFocusService {
       sql`${magictodoFocusSessions.endedAt} is not null`,
     ]
 
-    if (organizationId) {
-      conditions.push(eq(magictodoFocusSessions.organizationId, organizationId))
+    if (tenantId) {
+      conditions.push(eq(magictodoFocusSessions.tenantId, tenantId))
     }
 
     if (teamId) {
@@ -716,4 +725,6 @@ export class MagictodoFocusService {
 }
 
 export const magictodoFocusService = new MagictodoFocusService()
+
+
 

@@ -8,7 +8,7 @@
 
 import { useEffect, useState, useRef, useMemo, useCallback } from "react"
 
-import { parseNaturalLanguage } from "@afenda/shared/utils"
+import { parseNaturalLanguage } from "@afenda/magictodo/hooks"
 import { Button } from "@afenda/shadcn"
 import { Input } from "@afenda/shadcn"
 import { Card, CardContent, CardHeader, CardTitle } from "@afenda/shadcn"
@@ -38,7 +38,7 @@ import {
   type TaskResponse,
   type SmartFilterType,
 } from "@afenda/magictodo"
-import { useTaskIndicators } from "@afenda/shared/hooks"
+import { useTaskIndicators } from "@afenda/magictodo/hooks"
 import { TenantScopeBadge } from "../_components"
 
 export default function TasksPage() {

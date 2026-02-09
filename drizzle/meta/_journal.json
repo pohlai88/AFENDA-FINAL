@@ -113,6 +113,27 @@
       "when": 1770471660000,
       "tag": "0015_magicdrive_tenancy_integration",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1770471670000,
+      "tag": "0016_tenancy_fk_constraints",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1770471680000,
+      "tag": "0017_cleanup_redundant_indexes",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1770471690000,
+      "tag": "0018_updated_at_trigger",
+      "breakpoints": true
     }
   ]
 }

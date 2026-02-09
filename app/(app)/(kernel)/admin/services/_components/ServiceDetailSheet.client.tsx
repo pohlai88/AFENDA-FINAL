@@ -6,6 +6,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import {
   ClientSheet,
   ClientSheetContent,
@@ -24,8 +25,12 @@ import { toast } from "sonner";
 import { IconExternalLink, IconRefresh } from "@tabler/icons-react";
 import type { ServiceRecord } from "@afenda/orchestra/zod";
 import { routes } from "@afenda/shared/constants";
-import { HealthHistoryChart } from "./HealthHistoryChart.client";
 import { UptimeStats } from "./UptimeStats.client";
+
+const HealthHistoryChart = dynamic(
+  () => import("./HealthHistoryChart.client").then((m) => ({ default: m.HealthHistoryChart })),
+  { ssr: false, loading: () => <Skeleton className="h-[180px] w-full" /> }
+);
 
 interface HealthHistoryEntry {
   id: string;

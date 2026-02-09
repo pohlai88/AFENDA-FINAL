@@ -16,6 +16,7 @@ import {
   KERNEL_ERROR_CODES,
   KERNEL_HEADERS,
   HTTP_STATUS,
+  getAuthContext,
 } from "@afenda/orchestra";
 import { ok, fail, envelopeHeaders } from "@afenda/shared/server";
 import { db } from "@afenda/shared/server/db";
@@ -32,6 +33,15 @@ export async function GET(
 ) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
   const headers = envelopeHeaders(traceId);
+
+  const auth = await getAuthContext();
+  if (!auth.userId) {
+    return NextResponse.json(
+      fail({ code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" }, { traceId }),
+      { status: HTTP_STATUS.UNAUTHORIZED, headers }
+    );
+  }
+
   const { id } = await params;
 
   try {
@@ -46,14 +56,14 @@ export async function GET(
     );
 
     if (!historyResult.ok) {
-      const status = historyResult.error.code === KERNEL_ERROR_CODES.NOT_FOUND ? 404 : 500;
+      const status = historyResult.error.code === KERNEL_ERROR_CODES.NOT_FOUND ? HTTP_STATUS.NOT_FOUND : HTTP_STATUS.INTERNAL_SERVER_ERROR;
       return NextResponse.json(historyResult, { status, headers });
     }
 
     const uptimeResult = await calculateUptime({ db }, id, hours, { traceId });
 
     if (!uptimeResult.ok) {
-      const status = uptimeResult.error.code === KERNEL_ERROR_CODES.NOT_FOUND ? 404 : 500;
+      const status = uptimeResult.error.code === KERNEL_ERROR_CODES.NOT_FOUND ? HTTP_STATUS.NOT_FOUND : HTTP_STATUS.INTERNAL_SERVER_ERROR;
       return NextResponse.json(uptimeResult, { status, headers });
     }
 

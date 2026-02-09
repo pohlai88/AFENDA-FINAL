@@ -22,7 +22,7 @@ import { getAuthContext } from "@afenda/auth/server"
 
 /** Tenant context for collection operations */
 interface TenantContext {
-  organizationId?: string | null
+  tenantId?: string | null
   teamId?: string | null
 }
 
@@ -47,7 +47,7 @@ export interface CreateCollectionInput {
   icon?: string
   workspaceId: string
   /** Phase 4: Optional tenant association */
-  organizationId?: string | null
+  tenantId?: string | null
   teamId?: string | null
 }
 
@@ -74,10 +74,10 @@ export async function listCollectionsAction(
 
     const db = getDb()
 
-    // Prefer organizationId filter when tenant context available, fallback to legacyTenantId
-    const tenantFilter = tenantContext?.organizationId
-      ? eq(magicdriveCollections.organizationId, tenantContext.organizationId)
-      : eq(magicdriveCollections.legacyTenantId, workspaceId)
+    // Prefer tenantId filter when tenant context available, fallback to tenantId
+    const tenantFilter = tenantContext?.tenantId
+      ? eq(magicdriveCollections.tenantId, tenantContext.tenantId)
+      : eq(magicdriveCollections.tenantId, workspaceId)
 
     const collections = await db
       .select()
@@ -96,7 +96,7 @@ export async function listCollectionsAction(
 
       result.push({
         id: col.id,
-        workspaceId: col.legacyTenantId,
+        workspaceId: col.tenantId,
         name: col.name,
         description: col.description,
         color: col.color,
@@ -147,7 +147,7 @@ export async function getCollectionAction(
 
     return {
       id: col.id,
-      workspaceId: col.legacyTenantId,
+      workspaceId: col.tenantId,
       name: col.name,
       description: col.description,
       color: col.color,
@@ -183,9 +183,8 @@ export async function createCollectionAction(
       .insert(magicdriveCollections)
       .values({
         id: randomUUID(),
-        legacyTenantId: input.workspaceId,
-        organizationId: input.organizationId ?? null,
-        teamId: input.teamId ?? null,
+        tenantId: input.tenantId ?? input.workspaceId,
+        teamId: input.teamId ?? input.workspaceId,
         ownerId: auth.userId,
         name: input.name,
         description: input.description || null,
@@ -200,7 +199,7 @@ export async function createCollectionAction(
       success: true,
       collection: {
         id: created.id,
-        workspaceId: created.legacyTenantId,
+        workspaceId: created.tenantId,
         name: created.name,
         description: created.description,
         color: created.color,
@@ -460,7 +459,8 @@ export async function createSmartCollectionAction(params: {
       .insert(magicdriveCollections)
       .values({
         id: randomUUID(),
-        legacyTenantId: params.workspaceId,
+        tenantId: params.workspaceId,
+        teamId: params.workspaceId,
         ownerId: auth.userId,
         name: params.name,
         description: params.description || null,
@@ -476,7 +476,7 @@ export async function createSmartCollectionAction(params: {
       success: true,
       collection: {
         id: created.id,
-        workspaceId: created.legacyTenantId,
+        workspaceId: created.tenantId,
         name: created.name,
         description: created.description,
         color: created.color,
@@ -522,3 +522,4 @@ export async function reorderCollectionsAction(
     return { success: false, error: String(error) }
   }
 }
+

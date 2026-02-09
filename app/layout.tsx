@@ -29,6 +29,7 @@ export const metadata: Metadata = {
   title: siteConfig.name,
   description: siteConfig.description,
   manifest: "/manifest.json",
+  viewport: { width: "device-width", initialScale: 1 },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -50,6 +51,7 @@ export const metadata: Metadata = {
   },
 }
 
+// Root layout uses headers() for CSP nonce — intentional dynamic rendering (auth/CSP).
 export default async function RootLayout({
   children,
 }: Readonly<{

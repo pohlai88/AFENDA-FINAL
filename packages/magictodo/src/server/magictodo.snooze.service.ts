@@ -32,7 +32,7 @@ export class MagictodoSnoozeService {
   async snoozeTask(
     userId: string,
     taskId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     input: {
       snoozedUntil: Date
@@ -47,8 +47,8 @@ export class MagictodoSnoozeService {
       eq(magictodoTasks.userId, userId),
     ]
 
-    if (organizationId) {
-      taskConditions.push(eq(magictodoTasks.organizationId, organizationId))
+    if (tenantId) {
+      taskConditions.push(eq(magictodoTasks.tenantId, tenantId))
     }
 
     const [task] = await db
@@ -80,6 +80,17 @@ export class MagictodoSnoozeService {
     const snoozeId = crypto.randomUUID()
     const now = new Date()
 
+    // Guard: tenantId and teamId are required by schema
+    if (!tenantId || !teamId) {
+      return {
+        ok: false,
+        error: {
+          code: "MISSING_TENANT",
+          message: "Tenant context is required to create a snooze",
+        },
+      }
+    }
+
     if (existing) {
       // Update existing snooze
       await db
@@ -97,16 +108,13 @@ export class MagictodoSnoozeService {
       await db
         .insert(magictodoSnoozedTasks)
         .values({
-          id: snoozeId,
           taskId,
           userId,
           snoozedUntil: input.snoozedUntil,
           reason: input.reason || null,
           snoozeCount: 1,
           dependencyTaskId: input.dependencyTaskId || null,
-          createdAt: now,
-          updatedAt: now,
-          organizationId,
+          tenantId,
           teamId,
         })
     }
@@ -128,7 +136,7 @@ export class MagictodoSnoozeService {
   async unsnoozeTask(
     userId: string,
     taskId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     db: DrizzleDB
   ) {
@@ -137,8 +145,8 @@ export class MagictodoSnoozeService {
       eq(magictodoSnoozedTasks.userId, userId),
     ]
 
-    if (organizationId) {
-      conditions.push(eq(magictodoSnoozedTasks.organizationId, organizationId))
+    if (tenantId) {
+      conditions.push(eq(magictodoSnoozedTasks.tenantId, tenantId))
     }
 
     const result = await db
@@ -170,15 +178,15 @@ export class MagictodoSnoozeService {
    */
   async getSnoozedTasks(
     userId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     includeExpired: boolean = false,
     db: DrizzleDB
   ) {
     const conditions = [eq(magictodoSnoozedTasks.userId, userId)]
 
-    if (organizationId) {
-      conditions.push(eq(magictodoSnoozedTasks.organizationId, organizationId))
+    if (tenantId) {
+      conditions.push(eq(magictodoSnoozedTasks.tenantId, tenantId))
     }
 
     if (teamId) {
@@ -232,7 +240,7 @@ export class MagictodoSnoozeService {
    */
   async getExpiredSnoozes(
     userId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     db: DrizzleDB
   ) {
@@ -241,8 +249,8 @@ export class MagictodoSnoozeService {
       lt(magictodoSnoozedTasks.snoozedUntil, new Date()),
     ]
 
-    if (organizationId) {
-      conditions.push(eq(magictodoSnoozedTasks.organizationId, organizationId))
+    if (tenantId) {
+      conditions.push(eq(magictodoSnoozedTasks.tenantId, tenantId))
     }
 
     if (teamId) {
@@ -281,7 +289,7 @@ export class MagictodoSnoozeService {
    */
   async processExpiredSnoozes(
     userId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     db: DrizzleDB
   ) {
@@ -290,8 +298,8 @@ export class MagictodoSnoozeService {
       lt(magictodoSnoozedTasks.snoozedUntil, new Date()),
     ]
 
-    if (organizationId) {
-      conditions.push(eq(magictodoSnoozedTasks.organizationId, organizationId))
+    if (tenantId) {
+      conditions.push(eq(magictodoSnoozedTasks.tenantId, tenantId))
     }
 
     if (teamId) {
@@ -319,7 +327,7 @@ export class MagictodoSnoozeService {
   async isTaskSnoozed(
     userId: string,
     taskId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     db: DrizzleDB
   ) {
@@ -329,8 +337,8 @@ export class MagictodoSnoozeService {
       sql`${magictodoSnoozedTasks.snoozedUntil} > NOW()`,
     ]
 
-    if (organizationId) {
-      conditions.push(eq(magictodoSnoozedTasks.organizationId, organizationId))
+    if (tenantId) {
+      conditions.push(eq(magictodoSnoozedTasks.tenantId, tenantId))
     }
 
     const [snooze] = await db
@@ -360,14 +368,14 @@ export class MagictodoSnoozeService {
    */
   async getStats(
     userId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     db: DrizzleDB
   ) {
     const conditions = [eq(magictodoSnoozedTasks.userId, userId)]
 
-    if (organizationId) {
-      conditions.push(eq(magictodoSnoozedTasks.organizationId, organizationId))
+    if (tenantId) {
+      conditions.push(eq(magictodoSnoozedTasks.tenantId, tenantId))
     }
 
     if (teamId) {
@@ -401,4 +409,6 @@ export class MagictodoSnoozeService {
 }
 
 export const magictodoSnoozeService = new MagictodoSnoozeService()
+
+
 

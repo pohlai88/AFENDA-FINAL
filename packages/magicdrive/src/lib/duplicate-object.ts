@@ -41,7 +41,7 @@ export async function duplicateObject(
     .where(
       and(
         eq(magicdriveObjects.id, objectId),
-        eq(magicdriveObjects.legacyTenantId, tenantId)
+        eq(magicdriveObjects.tenantId, tenantId)
       )
     )
     .limit(1)
@@ -73,7 +73,8 @@ export async function duplicateObject(
 
   await db.insert(magicdriveObjects).values({
     id: newObjectId,
-    legacyTenantId: tenantId,
+    tenantId: tenantId,
+    teamId: tenantId,
     ownerId,
     currentVersionId: newVersionId,
     title,
@@ -89,7 +90,10 @@ export async function duplicateObject(
     mimeType: row.versionMimeType,
     sizeBytes: row.versionSizeBytes,
     sha256: row.versionSha256,
+    tenantId,
+    teamId: tenantId,
   })
 
   return { ok: true, objectId: newObjectId, versionId: newVersionId }
 }
+

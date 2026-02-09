@@ -41,7 +41,7 @@ export async function GET(_request: NextRequest, context: RouteContext) {
     if (!_userId) {
       return NextResponse.json(
         fail(
-          { code: KERNEL_ERROR_CODES.VALIDATION, message: "Authentication required" },
+          { code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" },
           { traceId }
         ),
         { status: HTTP_STATUS.UNAUTHORIZED, headers }
@@ -49,10 +49,10 @@ export async function GET(_request: NextRequest, context: RouteContext) {
     }
 
     // Extract tenant context from middleware-injected headers
-    const organizationId = _request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
+    const tenantId = _request.headers.get(TENANT_HEADERS.ORG_ID) ?? null;
     const teamId = _request.headers.get(TENANT_HEADERS.TEAM_ID) ?? null;
 
-    const doc = await getDocumentAction(id, { organizationId, teamId });
+    const doc = await getDocumentAction(id, { tenantId, teamId });
     if (!doc) {
       return NextResponse.json(
         fail(

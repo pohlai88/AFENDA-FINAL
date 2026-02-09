@@ -16,8 +16,16 @@ const nextConfig: NextConfig = {
   // Enable gzip compression for production
   compress: true,
 
+  // Enterprise: strict mode for safer renders and future React compatibility
+  reactStrictMode: true,
+
+  // Security: remove X-Powered-By header
+  poweredByHeader: false,
+
   // turbopack root auto-detected via pnpm-lock.yaml
   experimental: {
+    // Global 404 for unmatched routes (enterprise: consistent 404 without layout)
+    globalNotFound: true,
     // lucide-react, @tabler/icons-react, recharts are optimized by default
     optimizePackageImports: [
       "@radix-ui/react-icons",

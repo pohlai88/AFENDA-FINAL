@@ -11,12 +11,12 @@
     "./component/server": "./src/component/server/index.ts"
   },
   "dependencies": {
-    "clsx": "^2.1.1",
-    "tailwind-merge": "^2.6.0"
+    "clsx": "catalog:",
+    "tailwind-merge": "catalog:"
   },
   "peerDependencies": {
     "next": ">=14.0.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react": "catalog:",
+    "react-dom": "catalog:"
   }
 }

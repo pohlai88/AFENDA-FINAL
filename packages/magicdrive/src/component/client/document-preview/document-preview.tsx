@@ -29,7 +29,7 @@ import {
   Eye,
   ImageIcon,
 } from "lucide-react"
-import { format } from "date-fns"
+import { formatFileSize, formatCompactDate } from "@afenda/magicdrive/constant"
 import Image from "next/image"
 
 interface DocumentPreviewProps {
@@ -64,18 +64,6 @@ export function DocumentPreview({ document, className, onClose }: DocumentPrevie
   const [zoom, setZoom] = useState(1)
   const [rotation, setRotation] = useState(0)
   const [isFullscreen, setIsFullscreen] = useState(false)
-
-  // Format file size
-  const formatFileSize = useCallback((bytes: number) => {
-    if (bytes < 1024) return `${bytes} B`
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
-  }, [])
-
-  // Format date
-  const formatDate = useCallback((dateString: string) => {
-    return format(new Date(dateString), 'PPP p')
-  }, [])
 
   // Get file icon
   const getFileIcon = useCallback((mimeType: string) => {
@@ -318,7 +306,7 @@ export function DocumentPreview({ document, className, onClose }: DocumentPrevie
                         </div>
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">Created:</span>
-                          <span className="font-medium">{formatDate(document.createdAt)}</span>
+                          <span className="font-medium">{formatCompactDate(document.createdAt)}</span>
                         </div>
                       </>
                     )}

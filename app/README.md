@@ -26,6 +26,15 @@ Key routes:
 
 ## Performance Optimizations
 
+### Next.js production checklist (applied)
+
+- **Root layout**: `reactStrictMode`, `poweredByHeader: false`, explicit viewport metadata; root uses `headers()` for CSP nonce (intentional dynamic).
+- **Loading/error**: Segment-level `loading.tsx` and `error.tsx` across (app), (public), magicdrive, magictodo, tenancy, admin; `global-error.tsx` and `global-not-found.tsx` for full-app fallbacks.
+- **Proxy**: Next.js 16 `proxy.ts` (replaces deprecated middleware); matcher limited to app/API routes; auth redirect and tenant header injection.
+- **Bundle**: `optimizePackageImports` for Radix, workspace packages, Neon Auth; Serwist PWA with cache-on-navigation; heavy UI (e.g. HealthHistoryChart) lazy-loaded with `next/dynamic`.
+- **SEO**: `metadataBase`, sitemap, robots, OG/twitter metadata, JSON-LD in layout.
+- **Images**: Use `next/image` for stable URLs (CMS, static assets). For blob or transient thumbnail URLs (e.g. MagicDrive thumbnails), keep `<img>` with `eslint-disable-next-line @next/next/no-img-element` and appropriate `alt`/error handling.
+
 ### Proxy Middleware (`proxy.ts`)
 
 The proxy middleware has been enhanced to:

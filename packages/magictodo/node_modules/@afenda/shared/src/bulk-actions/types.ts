@@ -1,18 +1,26 @@
 /**
  * Shared Bulk Actions Infrastructure
- * Generic bulk operations pattern for cross-domain use
- * 
+ * Generic bulk operations pattern for cross-domain use.
+ *
+ * @domain shared
+ * @layer types
+ *
  * @example
+ * ```ts
  * import { BulkAction, useBulkSelection } from "@afenda/shared/bulk-actions";
+ * ```
  */
 
+import type { ComponentType } from "react";
+
 /**
- * Generic bulk action definition
+ * Generic bulk action definition.
+ * Domain packages provide concrete action implementations.
  */
 export interface BulkAction<T = unknown> {
   id: string;
   label: string;
-  icon?: React.ComponentType<{ className?: string }>;
+  icon?: ComponentType<{ className?: string }>;
   description?: string;
   variant?: "default" | "destructive" | "outline";
   requiresConfirmation?: boolean;

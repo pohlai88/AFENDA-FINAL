@@ -39,7 +39,7 @@ export class MagictodoTaskService {
    */
   async list(
     userId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     filters: {
       status?: string[]
@@ -55,8 +55,8 @@ export class MagictodoTaskService {
     // Build where conditions
     const conditions = [eq(magictodoTasks.userId, userId)]
 
-    if (organizationId) {
-      conditions.push(eq(magictodoTasks.organizationId, organizationId))
+    if (tenantId) {
+      conditions.push(eq(magictodoTasks.tenantId, tenantId))
     }
 
     if (teamId) {
@@ -107,7 +107,7 @@ export class MagictodoTaskService {
         position: magictodoTasks.position,
         createdAt: magictodoTasks.createdAt,
         updatedAt: magictodoTasks.updatedAt,
-        organizationId: magictodoTasks.organizationId,
+        tenantId: magictodoTasks.tenantId,
         teamId: magictodoTasks.teamId,
         // Optional project info
         projectName: magictodoProjects.name,
@@ -147,7 +147,7 @@ export class MagictodoTaskService {
   async getById(
     userId: string,
     taskId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     db: DrizzleDB
   ) {
@@ -156,8 +156,8 @@ export class MagictodoTaskService {
       eq(magictodoTasks.userId, userId),
     ]
 
-    if (organizationId) {
-      conditions.push(eq(magictodoTasks.organizationId, organizationId))
+    if (tenantId) {
+      conditions.push(eq(magictodoTasks.tenantId, tenantId))
     }
 
     if (teamId) {
@@ -185,7 +185,7 @@ export class MagictodoTaskService {
         position: magictodoTasks.position,
         createdAt: magictodoTasks.createdAt,
         updatedAt: magictodoTasks.updatedAt,
-        organizationId: magictodoTasks.organizationId,
+        tenantId: magictodoTasks.tenantId,
         teamId: magictodoTasks.teamId,
         projectName: magictodoProjects.name,
         projectColor: magictodoProjects.color,
@@ -222,7 +222,7 @@ export class MagictodoTaskService {
    */
   async create(
     userId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     input: CreateTaskRequest,
     db: DrizzleDB
@@ -248,7 +248,7 @@ export class MagictodoTaskService {
         position: 0, // TODO: Calculate position based on existing tasks
         createdAt: now,
         updatedAt: now,
-        organizationId,
+        tenantId,
         teamId,
       })
       .returning()
@@ -273,13 +273,13 @@ export class MagictodoTaskService {
   async update(
     userId: string,
     taskId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     input: UpdateTaskRequest,
     db: DrizzleDB
   ) {
     // First check if task exists and user has permission
-    const existing = await this.getById(userId, taskId, organizationId, teamId, db)
+    const existing = await this.getById(userId, taskId, tenantId, teamId, db)
     if (!existing.ok) {
       return existing
     }
@@ -331,12 +331,12 @@ export class MagictodoTaskService {
   async delete(
     userId: string,
     taskId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     db: DrizzleDB
   ) {
     // First check if task exists
-    const existing = await this.getById(userId, taskId, organizationId, teamId, db)
+    const existing = await this.getById(userId, taskId, tenantId, teamId, db)
     if (!existing.ok) {
       return existing
     }
@@ -374,14 +374,14 @@ export class MagictodoTaskService {
    */
   async getStats(
     userId: string,
-    organizationId: string | null,
+    tenantId: string | null,
     teamId: string | null,
     db: DrizzleDB
   ) {
     const conditions = [eq(magictodoTasks.userId, userId)]
 
-    if (organizationId) {
-      conditions.push(eq(magictodoTasks.organizationId, organizationId))
+    if (tenantId) {
+      conditions.push(eq(magictodoTasks.tenantId, tenantId))
     }
 
     if (teamId) {
@@ -418,4 +418,5 @@ export class MagictodoTaskService {
 }
 
 export const magictodoTaskService = new MagictodoTaskService()
+
 

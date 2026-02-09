@@ -11,12 +11,14 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import {
+  kernelOk,
   kernelFail,
   KERNEL_ERROR_CODES,
   HTTP_STATUS,
   KERNEL_HEADERS,
   getAuthContext,
 } from "@afenda/orchestra";
+import { envelopeHeaders } from "@afenda/shared/server";
 import { magictodoTaskService } from "@afenda/magictodo/server";
 import { db } from "@afenda/shared/server/db";
 import { TENANT_HEADERS } from "@afenda/tenancy/server";
@@ -38,6 +40,7 @@ interface RouteContext {
  */
 export async function GET(_request: NextRequest, context: RouteContext) {
   const traceId = _request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
+  const headers = envelopeHeaders(traceId);
   const { id } = await context.params;
   if (!id) {
     return NextResponse.json(
@@ -45,7 +48,7 @@ export async function GET(_request: NextRequest, context: RouteContext) {
         { code: KERNEL_ERROR_CODES.VALIDATION, message: "Task id is required" },
         { traceId }
       ),
-      { status: HTTP_STATUS.BAD_REQUEST, headers: { [KERNEL_HEADERS.TRACE_ID]: traceId } }
+      { status: HTTP_STATUS.BAD_REQUEST, headers }
     );
   }
 
@@ -55,10 +58,10 @@ export async function GET(_request: NextRequest, context: RouteContext) {
     if (!userId) {
       return NextResponse.json(
         kernelFail(
-          { code: KERNEL_ERROR_CODES.VALIDATION, message: "Authentication required" },
+          { code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" },
           { traceId }
         ),
-        { status: HTTP_STATUS.UNAUTHORIZED, headers: { [KERNEL_HEADERS.TRACE_ID]: traceId } }
+        { status: HTTP_STATUS.UNAUTHORIZED, headers }
       );
     }
 
@@ -77,13 +80,13 @@ export async function GET(_request: NextRequest, context: RouteContext) {
         {
           status:
             err.code === "NOT_FOUND" ? HTTP_STATUS.NOT_FOUND : HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          headers: { [KERNEL_HEADERS.TRACE_ID]: traceId },
+          headers,
         }
       );
     }
     return NextResponse.json(
-      { ok: true, data: result.data, traceId },
-      { status: HTTP_STATUS.OK, headers: { [KERNEL_HEADERS.TRACE_ID]: traceId } }
+      kernelOk(result.data, { traceId }),
+      { status: HTTP_STATUS.OK, headers }
     );
   } catch (error) {
     return NextResponse.json(
@@ -97,7 +100,7 @@ export async function GET(_request: NextRequest, context: RouteContext) {
       ),
       {
         status: HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        headers: { [KERNEL_HEADERS.TRACE_ID]: traceId },
+        headers,
       }
     );
   }
@@ -108,6 +111,7 @@ export async function GET(_request: NextRequest, context: RouteContext) {
  */
 export async function PATCH(request: NextRequest, context: RouteContext) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
+  const headers = envelopeHeaders(traceId);
   const { id } = await context.params;
   if (!id) {
     return NextResponse.json(
@@ -115,7 +119,7 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
         { code: KERNEL_ERROR_CODES.VALIDATION, message: "Task id is required" },
         { traceId }
       ),
-      { status: HTTP_STATUS.BAD_REQUEST, headers: { [KERNEL_HEADERS.TRACE_ID]: traceId } }
+      { status: HTTP_STATUS.BAD_REQUEST, headers }
     );
   }
 
@@ -125,10 +129,10 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
     if (!userId) {
       return NextResponse.json(
         kernelFail(
-          { code: KERNEL_ERROR_CODES.VALIDATION, message: "Authentication required" },
+          { code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" },
           { traceId }
         ),
-        { status: HTTP_STATUS.UNAUTHORIZED, headers: { [KERNEL_HEADERS.TRACE_ID]: traceId } }
+        { status: HTTP_STATUS.UNAUTHORIZED, headers }
       );
     }
 
@@ -148,13 +152,13 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
         {
           status:
             err.code === "NOT_FOUND" ? HTTP_STATUS.NOT_FOUND : HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          headers: { [KERNEL_HEADERS.TRACE_ID]: traceId },
+          headers,
         }
       );
     }
     return NextResponse.json(
-      { ok: true, data: result.data, traceId },
-      { status: HTTP_STATUS.OK, headers: { [KERNEL_HEADERS.TRACE_ID]: traceId } }
+      kernelOk(result.data, { traceId }),
+      { status: HTTP_STATUS.OK, headers }
     );
   } catch (error) {
     return NextResponse.json(
@@ -168,7 +172,7 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
       ),
       {
         status: HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        headers: { [KERNEL_HEADERS.TRACE_ID]: traceId },
+        headers,
       }
     );
   }
@@ -179,6 +183,7 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
  */
 export async function DELETE(_request: NextRequest, context: RouteContext) {
   const traceId = _request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
+  const headers = envelopeHeaders(traceId);
   const { id } = await context.params;
   if (!id) {
     return NextResponse.json(
@@ -186,7 +191,7 @@ export async function DELETE(_request: NextRequest, context: RouteContext) {
         { code: KERNEL_ERROR_CODES.VALIDATION, message: "Task id is required" },
         { traceId }
       ),
-      { status: HTTP_STATUS.BAD_REQUEST, headers: { [KERNEL_HEADERS.TRACE_ID]: traceId } }
+      { status: HTTP_STATUS.BAD_REQUEST, headers }
     );
   }
 
@@ -196,10 +201,10 @@ export async function DELETE(_request: NextRequest, context: RouteContext) {
     if (!userId) {
       return NextResponse.json(
         kernelFail(
-          { code: KERNEL_ERROR_CODES.VALIDATION, message: "Authentication required" },
+          { code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" },
           { traceId }
         ),
-        { status: HTTP_STATUS.UNAUTHORIZED, headers: { [KERNEL_HEADERS.TRACE_ID]: traceId } }
+        { status: HTTP_STATUS.UNAUTHORIZED, headers }
       );
     }
 
@@ -218,17 +223,13 @@ export async function DELETE(_request: NextRequest, context: RouteContext) {
         {
           status:
             err.code === "NOT_FOUND" ? HTTP_STATUS.NOT_FOUND : HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          headers: { [KERNEL_HEADERS.TRACE_ID]: traceId },
+          headers,
         }
       );
     }
     return NextResponse.json(
-      {
-        ok: true,
-        data: (result as { data: unknown }).data ?? { deleted: true },
-        traceId,
-      },
-      { status: HTTP_STATUS.OK, headers: { [KERNEL_HEADERS.TRACE_ID]: traceId } }
+      kernelOk((result as { data: unknown }).data ?? { deleted: true }, { traceId }),
+      { status: HTTP_STATUS.OK, headers }
     );
   } catch (error) {
     return NextResponse.json(
@@ -242,7 +243,7 @@ export async function DELETE(_request: NextRequest, context: RouteContext) {
       ),
       {
         status: HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        headers: { [KERNEL_HEADERS.TRACE_ID]: traceId },
+        headers,
       }
     );
   }

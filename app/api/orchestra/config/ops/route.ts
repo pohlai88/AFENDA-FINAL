@@ -31,7 +31,13 @@ export async function POST(request: NextRequest) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
   const headers = envelopeHeaders(traceId);
   const authContext = await getAuthContext();
-  const actorId = authContext.userId ?? undefined;
+  if (!authContext.userId) {
+    return NextResponse.json(
+      fail({ code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" }, { traceId }),
+      { status: HTTP_STATUS.UNAUTHORIZED, headers }
+    );
+  }
+  const actorId = authContext.userId;
 
   try {
     const body = await request.json();
@@ -74,7 +80,13 @@ export async function DELETE(request: NextRequest) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
   const headers = envelopeHeaders(traceId);
   const authContext = await getAuthContext();
-  const actorId = authContext.userId ?? undefined;
+  if (!authContext.userId) {
+    return NextResponse.json(
+      fail({ code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" }, { traceId }),
+      { status: HTTP_STATUS.UNAUTHORIZED, headers }
+    );
+  }
+  const actorId = authContext.userId;
   const key = request.nextUrl.searchParams.get("key");
 
   if (!key) {

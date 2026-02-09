@@ -11,6 +11,7 @@ import { useState, useMemo } from "react"
 import { cn } from "@afenda/shared/utils"
 import { Card, CardContent } from "@afenda/shadcn"
 import type { DocumentItem } from "@afenda/magicdrive/zustand"
+import { formatFileSize, formatCompactDate } from "@afenda/magicdrive/constant"
 import { Button } from "@afenda/shadcn"
 import { ScrollArea } from "@afenda/shadcn"
 import { Separator } from "@afenda/shadcn"
@@ -32,37 +33,6 @@ interface TimelineViewProps {
   documents: DocumentItem[]
   selectedIds: Set<string>
   onToggleSelection: (id: string) => void
-}
-
-function formatFileSize(bytes: number): string {
-  if (bytes === 0) return "0 B"
-  const k = 1024
-  const sizes = ["B", "KB", "MB", "GB"]
-  const i = Math.floor(Math.log(bytes) / Math.log(k))
-  return `${Math.round(bytes / Math.pow(k, i) * 100) / 100} ${sizes[i]}`
-}
-
-function formatDate(date: Date): string {
-  const now = new Date()
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-  const yesterday = new Date(today)
-  yesterday.setDate(yesterday.getDate() - 1)
-
-  const documentDate = new Date(date.getFullYear(), date.getMonth(), date.getDate())
-
-  if (documentDate.getTime() === today.getTime()) {
-    return "Today"
-  } else if (documentDate.getTime() === yesterday.getTime()) {
-    return "Yesterday"
-  } else if (documentDate > new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)) {
-    return date.toLocaleDateString("en-US", { weekday: "long" })
-  } else {
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: date.getFullYear() !== now.getFullYear() ? "numeric" : undefined
-    })
-  }
 }
 
 function TimelineDocumentCard({
@@ -202,8 +172,7 @@ export function TimelineView({ documents, selectedIds, onToggleSelection }: Time
     const groups = new Map<string, DocumentItem[]>()
 
     documents.forEach((document) => {
-      const date = new Date(document.createdAt)
-      const formattedDate = formatDate(date)
+      const formattedDate = formatCompactDate(document.createdAt)
 
       if (!groups.has(formattedDate)) {
         groups.set(formattedDate, [])

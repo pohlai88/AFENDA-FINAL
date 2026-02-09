@@ -30,6 +30,7 @@ import { STATUS } from "@afenda/shared/constants"
 import { routes } from "@afenda/shared/constants"
 import { useDocumentHubStore } from "@afenda/magicdrive/zustand"
 import { useThumbnailCache } from "@afenda/magicdrive/zustand"
+import { formatFileSize, formatCompactDate, STATUS_CONFIG } from "@afenda/magicdrive/constant"
 
 // Document type icons mapping
 const DOCUMENT_TYPE_ICONS = {
@@ -39,37 +40,13 @@ const DOCUMENT_TYPE_ICONS = {
   other: FileText,
 } as const
 
-// Status configuration aligned with backend (lib/constants/magicdrive STATUS)
-const STATUS_CONFIG: Record<
-  string,
-  { icon: typeof Clock; color: string; label: string }
-> = {
-  [STATUS.INBOX]: {
-    icon: Clock,
-    color: "bg-primary/10 text-primary border-primary/30",
-    label: "Inbox",
-  },
-  [STATUS.ACTIVE]: {
-    icon: CheckCircle,
-    color: "bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-700",
-    label: "Active",
-  },
-  [STATUS.ARCHIVED]: {
-    icon: Archive,
-    color: "bg-muted text-muted-foreground border-border",
-    label: "Archived",
-  },
-  [STATUS.DELETED]: {
-    icon: XCircle,
-    color: "bg-destructive/10 text-destructive border-destructive/30",
-    label: "Deleted",
-  },
+// Status icon components (shared STATUS_CONFIG provides color/label; icons mapped locally)
+const STATUS_ICONS: Record<string, typeof Clock> = {
+  [STATUS.INBOX]: Clock,
+  [STATUS.ACTIVE]: CheckCircle,
+  [STATUS.ARCHIVED]: Archive,
+  [STATUS.DELETED]: XCircle,
 }
-const DEFAULT_STATUS_CONFIG = {
-  icon: Clock,
-  color: "bg-primary/10 text-primary border-primary/30",
-  label: "Inbox",
-} as const
 
 export interface EnhancedDocumentCardProps {
   document: {
@@ -170,28 +147,11 @@ export function EnhancedDocumentCard({
   }, [])
 
   const statusConfig =
-    STATUS_CONFIG[document.status] ?? DEFAULT_STATUS_CONFIG
+    STATUS_CONFIG[document.status as keyof typeof STATUS_CONFIG] ?? STATUS_CONFIG.inbox
   const TypeIcon = DOCUMENT_TYPE_ICONS[document.docType as keyof typeof DOCUMENT_TYPE_ICONS] || FileText
-  const StatusIcon = statusConfig.icon
+  const StatusIcon = STATUS_ICONS[document.status] ?? Clock
   const isDuplicate =
     document.aiClassifications?.duplicateGroupId != null
-
-  // Format file size
-  const formatFileSize = (bytes: number) => {
-    if (bytes < 1024) return `${bytes} B`
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
-  }
-
-  // Format date
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: date.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined,
-    })
-  }
 
   if (viewMode === 'list') {
     return (
@@ -261,7 +221,7 @@ export function EnhancedDocumentCard({
                 {document.version && (
                   <span>{formatFileSize(document.version.sizeBytes)}</span>
                 )}
-                <span>{formatDate(document.createdAt)}</span>
+                <span>{formatCompactDate(document.createdAt)}</span>
                 {document.tags && document.tags.length > 0 && (
                   <div className="flex gap-1">
                     {document.tags.slice(0, 2).map((tag) => (
@@ -439,7 +399,7 @@ export function EnhancedDocumentCard({
             )}
 
             <div className="text-xs text-muted-foreground">
-              {formatDate(document.createdAt)}
+              {formatCompactDate(document.createdAt)}
             </div>
           </div>
         </CardContent>

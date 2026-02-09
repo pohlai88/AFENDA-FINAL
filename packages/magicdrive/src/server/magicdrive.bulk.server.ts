@@ -1,17 +1,24 @@
 /**
- * @layer domain (magicdrive)
- * @responsibility Bulk operations server actions.
- * Phase 4: Enhanced with tenant context for org/team-scoped bulk operations.
+ * Bulk operations server actions.
+ * Wires to lib/update.ts runBulkAction for actual DB operations.
+ *
+ * @domain magicdrive
+ * @layer server
  */
 
 "use server"
 
 import { revalidatePath } from "next/cache"
 import { routes } from "@afenda/shared/constants"
+import { getAuthContext } from "@afenda/auth/server"
+import { logError } from "../pino"
+import { runBulkAction, updateObjectStatus } from "../lib/update"
+import { removeTagFromObject } from "../lib/tags"
+import type { BulkAction } from "../lib/update"
 
 /** Tenant context for bulk operations */
 interface TenantContext {
-  organizationId?: string | null
+  tenantId?: string | null
   teamId?: string | null
 }
 
@@ -47,15 +54,30 @@ export interface BulkDocumentPayload {
   status?: string
 }
 
+/** Map UI action names to lib BulkAction names */
+function toLibAction(action: BulkDocumentAction): BulkAction | null {
+  switch (action) {
+    case "archive":
+      return "archive"
+    case "delete":
+      return "delete"
+    case "restore":
+      return "activate"
+    default:
+      return null
+  }
+}
+
 /**
  * Server action: Execute bulk operation on documents.
- * Phase 4: Validates tenant ownership before applying actions.
+ * Delegates to lib/update.ts runBulkAction for archive/delete/restore,
+ * and lib/tags.ts for tag operations.
  */
 export async function bulkDocumentAction(
   payload: BulkDocumentPayload,
   _tenantContext?: TenantContext
 ): Promise<BulkActionResult> {
-  const { action, documentIds, targetFolderId: _targetFolderId, tagId, status } = payload
+  const { action, documentIds, tagId, status } = payload
   const results: BulkActionResult = {
     success: true,
     totalCount: documentIds.length,
@@ -66,67 +88,83 @@ export async function bulkDocumentAction(
   }
 
   try {
-    switch (action) {
-      case "archive":
-        // TODO: Implement bulk archive
-        results.successCount = documentIds.length
-        break
-
-      case "delete":
-        // TODO: Implement bulk delete
-        results.successCount = documentIds.length
-        break
-
-      case "restore":
-        // TODO: Implement bulk restore
-        results.successCount = documentIds.length
-        break
-
-      case "move":
-        // TODO: Implement bulk move
-        results.successCount = documentIds.length
-        break
-
-      case "add-tag":
-        if (!tagId) throw new Error("tagId required for add-tag action")
-        // TODO: Implement bulk add tag
-        results.successCount = documentIds.length
-        break
-
-      case "remove-tag":
-        if (!tagId) throw new Error("tagId required for remove-tag action")
-        // TODO: Implement bulk remove tag
-        results.successCount = documentIds.length
-        break
-
-      case "star":
-        // TODO: Implement bulk star
-        results.successCount = documentIds.length
-        break
-
-      case "unstar":
-        // TODO: Implement bulk unstar
-        results.successCount = documentIds.length
-        break
-
-      case "change-status":
-        if (!status) throw new Error("status required for change-status action")
-        // TODO: Implement bulk status change
-        results.successCount = documentIds.length
-        break
-
-      case "download":
-        // Download is handled client-side, this is a no-op
-        results.successCount = documentIds.length
-        break
-
-      default:
-        throw new Error(`Unknown bulk action: ${action}`)
+    const auth = await getAuthContext()
+    if (!auth?.userId) {
+      return {
+        ...results,
+        success: false,
+        errors: ["Authentication required"],
+      }
     }
 
-    revalidatePath(routes.ui.magicdrive.root())
-    return results
+    const tenantId = auth.userId
+
+    // Handle bulk archive / delete / restore via runBulkAction
+    const libAction = toLibAction(action)
+    if (libAction) {
+      const r = await runBulkAction(tenantId, documentIds, libAction)
+      if (!r.ok) {
+        return { ...results, success: false, errors: [r.error] }
+      }
+      results.successCount = r.updated
+      revalidatePath(routes.ui.magicdrive.root())
+      return results
+    }
+
+    // Handle tag operations
+    if (action === "add-tag") {
+      if (!tagId) throw new Error("tagId required for add-tag action")
+      const r = await runBulkAction(tenantId, documentIds, "addTag", tagId)
+      if (!r.ok) return { ...results, success: false, errors: [r.error] }
+      results.successCount = r.updated
+      revalidatePath(routes.ui.magicdrive.root())
+      return results
+    }
+
+    if (action === "remove-tag") {
+      if (!tagId) throw new Error("tagId required for remove-tag action")
+      const errors: string[] = []
+      for (const docId of documentIds) {
+        const r = await removeTagFromObject(tenantId, docId, tagId)
+        if (r.ok) results.successCount++
+        else errors.push(`${docId}: ${r.error}`)
+      }
+      results.failedCount = documentIds.length - results.successCount
+      if (errors.length) results.errors = errors
+      results.success = results.failedCount === 0
+      revalidatePath(routes.ui.magicdrive.root())
+      return results
+    }
+
+    if (action === "change-status") {
+      if (!status) throw new Error("status required for change-status action")
+      const errors: string[] = []
+      for (const docId of documentIds) {
+        const r = await updateObjectStatus(tenantId, docId, status)
+        if (r.ok) results.successCount++
+        else errors.push(`${docId}: ${r.error}`)
+      }
+      results.failedCount = documentIds.length - results.successCount
+      if (errors.length) results.errors = errors
+      results.success = results.failedCount === 0
+      revalidatePath(routes.ui.magicdrive.root())
+      return results
+    }
+
+    if (action === "download") {
+      // Download is handled client-side; no-op on server
+      results.successCount = documentIds.length
+      return results
+    }
+
+    // Unsupported actions (move, star, unstar)
+    return {
+      ...results,
+      success: false,
+      errors: [`Action "${action}" not yet supported`],
+    }
   } catch (error) {
+    logError(error, { context: "bulkDocumentAction" })
     return {
       ...results,
       success: false,
@@ -138,15 +176,32 @@ export async function bulkDocumentAction(
 }
 
 /**
- * Server action: Get download URLs for multiple documents.
+ * Server action: Bulk archive documents.
+ * Convenience wrapper over bulkDocumentAction.
  */
-export async function getBulkDownloadUrlsAction(
-  _documentIds: string[]
-): Promise<{ urls: { id: string; url: string; filename: string }[]; error?: string }> {
-  try {
-    // TODO: Generate presigned URLs for each document
-    return { urls: [] }
-  } catch (error) {
-    return { urls: [], error: String(error) }
-  }
+export async function bulkArchiveAction(
+  documentIds: string[]
+): Promise<BulkActionResult> {
+  return bulkDocumentAction({ action: "archive", documentIds })
 }
+
+/**
+ * Server action: Bulk delete documents.
+ * Convenience wrapper over bulkDocumentAction.
+ */
+export async function bulkDeleteAction(
+  documentIds: string[]
+): Promise<BulkActionResult> {
+  return bulkDocumentAction({ action: "delete", documentIds })
+}
+
+/**
+ * Server action: Bulk restore documents.
+ * Convenience wrapper over bulkDocumentAction.
+ */
+export async function bulkRestoreAction(
+  documentIds: string[]
+): Promise<BulkActionResult> {
+  return bulkDocumentAction({ action: "restore", documentIds })
+}
+

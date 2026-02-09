@@ -7,3 +7,4 @@ export * from "./orchestra.schema";
 export * from "./orchestra.backup.schema";
 export * from "./audit-comments.schema";
 export * from "./config-templates.schema";
+export * from "./orchestra.relations";

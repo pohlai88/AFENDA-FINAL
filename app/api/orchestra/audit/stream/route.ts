@@ -9,8 +9,8 @@
 import "server-only";
 import type { NextRequest } from "next/server";
 
-import { KERNEL_HEADERS } from "@afenda/orchestra";
-import { envelopeHeaders } from "@afenda/shared/server";
+import { KERNEL_HEADERS, getAuthContext, KERNEL_ERROR_CODES, HTTP_STATUS } from "@afenda/orchestra";
+import { fail, envelopeHeaders } from "@afenda/shared/server";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +21,15 @@ export const dynamic = "force-dynamic";
 export async function GET(request: NextRequest) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
   const headers = envelopeHeaders(traceId);
+
+  const auth = await getAuthContext();
+  if (!auth.userId) {
+    return new Response(
+      JSON.stringify(fail({ code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" }, { traceId })),
+      { status: HTTP_STATUS.UNAUTHORIZED, headers: { ...headers, "Content-Type": "application/json" } }
+    );
+  }
+
   const encoder = new TextEncoder();
 
   // Create a readable stream for SSE
@@ -37,7 +46,7 @@ export async function GET(request: NextRequest) {
           const heartbeat = `data: ${JSON.stringify({ type: "heartbeat", timestamp: new Date().toISOString() })}\n\n`;
           controller.enqueue(encoder.encode(heartbeat));
 
-          // Mock audit event (in production, this would come from a message queue or database trigger)
+          // TODO(production): Replace mock events with real audit events from DB triggers/message queue
           if (Math.random() > 0.7) {
             const mockEvent = {
               type: "audit_event",

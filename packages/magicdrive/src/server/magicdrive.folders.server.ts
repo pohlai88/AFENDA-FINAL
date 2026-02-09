@@ -12,7 +12,7 @@ import type { Folder, CreateFolderInput, UpdateFolderInput } from "../zod/magicd
 
 /** Tenant context for folder operations */
 interface TenantContext {
-  organizationId?: string | null
+  tenantId?: string | null
   teamId?: string | null
 }
 
@@ -158,3 +158,4 @@ export async function reorderFoldersAction(
     return { success: false, error: String(error) }
   }
 }
+

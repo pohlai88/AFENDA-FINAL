@@ -30,6 +30,7 @@ import {
   Play,
 } from "lucide-react"
 import { ALLOWED_MIME_TYPES, MAX_FILE_BYTES } from "@afenda/shared/constants/magicdrive"
+import { formatFileSize } from "@afenda/magicdrive/constant"
 
 interface UploadZoneProps {
   className?: string
@@ -243,13 +244,6 @@ export function UploadZone({ className, compact = false }: UploadZoneProps) {
     if (mimeType.startsWith('image/')) return ImageIcon
     if (mimeType === 'application/pdf') return FileText
     return File
-  }, [])
-
-  // Format file size
-  const formatFileSize = useCallback((bytes: number) => {
-    if (bytes < 1024) return `${bytes} B`
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
   }, [])
 
   if (compact) {

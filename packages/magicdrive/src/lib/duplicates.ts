@@ -43,7 +43,7 @@ export async function runExactDuplicateCheck(
     )
     .where(
       and(
-        eq(magicdriveObjects.legacyTenantId, tenantId),
+        eq(magicdriveObjects.tenantId, tenantId),
         eq(magicdriveObjectVersions.sha256, sha256)
       )
     )
@@ -84,7 +84,8 @@ export async function runExactDuplicateCheck(
   const groupId = randomUUID()
   await db.insert(magicdriveDuplicateGroups).values({
     id: groupId,
-    legacyTenantId: tenantId,
+    tenantId: tenantId,
+    teamId: tenantId,
     reason: DUP_REASON.EXACT,
   })
   for (const vid of versionIds) {
@@ -123,7 +124,7 @@ export async function runNearDuplicateCheck(
     )
     .where(
       and(
-        eq(magicdriveObjects.legacyTenantId, tenantId),
+        eq(magicdriveObjects.tenantId, tenantId),
         eq(magicdriveObjectIndex.textHash, textHash),
         ne(magicdriveObjectIndex.objectId, objectId)
       )
@@ -150,7 +151,7 @@ export async function runNearDuplicateCheck(
     )
     .where(
       and(
-        eq(magicdriveDuplicateGroups.legacyTenantId, tenantId),
+        eq(magicdriveDuplicateGroups.tenantId, tenantId),
         eq(magicdriveDuplicateGroups.reason, DUP_REASON.NEAR),
         sql`${magicdriveDuplicateGroupVersions.versionId} IN (${sql.join(
           versionIds.map((id: string) => sql`${id}`),
@@ -174,7 +175,8 @@ export async function runNearDuplicateCheck(
   const groupId = randomUUID()
   await db.insert(magicdriveDuplicateGroups).values({
     id: groupId,
-    legacyTenantId: tenantId,
+    tenantId: tenantId,
+    teamId: tenantId,
     reason: DUP_REASON.NEAR,
   })
   for (const vid of versionIds) {
@@ -182,3 +184,4 @@ export async function runNearDuplicateCheck(
   }
   return groupId
 }
+

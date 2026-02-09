@@ -6,3 +6,40 @@ packages:
   - "."
   - "packages/*"
   - "!packages/afenda-template"
+
+# ─── Dependency Catalog ────────────────────────────────────────────────
+# Single source of truth for shared dependency versions.
+# Packages reference these via  "dep": "catalog:"  or  "dep": "catalog:<name>"
+# See: https://pnpm.io/catalogs
+# ───────────────────────────────────────────────────────────────────────
+catalog:
+  # --- Cloud / Database ---
+  "@aws-sdk/client-s3": "^3.981.0"
+  "@neondatabase/auth": "0.2.0-beta.1"
+  "@neondatabase/serverless": "^1.0.2"
+  drizzle-orm: "^0.45.1"
+  ioredis: "^5.9.2"
+
+  # --- Server ---
+  pino: "^9.6.0"
+  resend: "^6.9.1"
+  server-only: "^0.0.1"
+
+  # --- React / UI ---
+  clsx: "^2.1.1"
+  react: "^19.0.0"
+  react-dom: "^19.0.0"
+  "@hookform/resolvers": "^5.2.2"
+  "@tanstack/react-query": "^5.90.20"
+  date-fns: "^4.1.0"
+  react-hook-form: "^7.71.1"
+  tailwind-merge: "^2.6.0"
+
+  # --- Validation (v4 — target) ---
+  zod: "^4.3.6"
+
+# Named catalogs for version-split dependencies
+catalogs:
+  # Zod v3 — legacy packages migrating to v4
+  zod3:
+    zod: "^3.24.1"

@@ -125,3 +125,4 @@ export function classify(input: ClassifyInput): ClassifyResult {
     suggestedTags: suggestTags(input),
   }
 }
+

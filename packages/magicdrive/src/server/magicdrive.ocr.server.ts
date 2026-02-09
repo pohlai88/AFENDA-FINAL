@@ -77,7 +77,7 @@ export async function runOcrAction(
     }
 
     const result = await runOcrForVersion(
-      obj.legacyTenantId,
+      obj.tenantId,
       objectId,
       targetVersionId,
       version.mimeType || "application/octet-stream"
@@ -150,7 +150,7 @@ export async function searchByTextAction(
   workspaceId: string,
   query: string,
   limit: number = 50,
-  tenantContext?: { organizationId?: string | null; teamId?: string | null }
+  tenantContext?: { tenantId?: string | null; teamId?: string | null }
 ): Promise<{ objectId: string; title: string | null; snippet: string | null }[]> {
   try {
     const auth = await getAuthContext()
@@ -165,8 +165,8 @@ export async function searchByTextAction(
     // Use raw postgres.js client for full-text search with ts_headline
     const client = getDbClient()
 
-    // Phase 4: Prefer organizationId filter, fallback to legacy tenant_id
-    const orgId = tenantContext?.organizationId
+    // Phase 4: Prefer tenantId filter, fallback to legacy tenant_id
+    const orgId = tenantContext?.tenantId
     const results = orgId
       ? ((await client`
           SELECT 
@@ -307,6 +307,8 @@ export async function updateExtractedFieldsAction(
           manuallyEdited: true,
           manualEditedAt: new Date().toISOString(),
         },
+        tenantId: obj.tenantId,
+        teamId: obj.teamId,
       })
     }
 
@@ -316,4 +318,5 @@ export async function updateExtractedFieldsAction(
     return { success: false, error: String(error) }
   }
 }
+
 

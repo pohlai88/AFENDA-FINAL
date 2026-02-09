@@ -2,7 +2,7 @@
  * App Layout - Authenticated app routes
  * Uses shadcn sidebar-07 pattern with proper SidebarProvider structure.
  * Requires authentication for all child routes.
- * Defense-in-depth: middleware + layout auth guard (CVE-2025-29927).
+ * Defense-in-depth: proxy (auth redirect) + layout auth guard (CVE-2025-29927).
  */
 
 import * as React from "react";

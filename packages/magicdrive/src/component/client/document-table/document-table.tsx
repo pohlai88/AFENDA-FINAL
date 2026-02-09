@@ -33,53 +33,27 @@ import {
 } from "lucide-react"
 import { STATUS } from "@afenda/shared/constants"
 import { routes } from "@afenda/shared/constants"
+import { formatFileSize, formatCompactDate, STATUS_CONFIG } from "@afenda/magicdrive/constant"
 
-// Status configuration aligned with backend (lib/constants/magicdrive STATUS)
-const STATUS_CONFIG: Record<
-  string,
-  { icon: typeof Clock; color: string; label: string }
-> = {
-  [STATUS.INBOX]: {
-    icon: Clock,
-    color: "bg-primary/10 text-primary border-primary/30",
-    label: "Inbox",
-  },
-  [STATUS.ACTIVE]: {
-    icon: CheckCircle,
-    color: "bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-700",
-    label: "Active",
-  },
-  [STATUS.ARCHIVED]: {
-    icon: Archive,
-    color: "bg-muted text-muted-foreground border-border",
-    label: "Archived",
-  },
-  [STATUS.DELETED]: {
-    icon: XCircle,
-    color: "bg-destructive/10 text-destructive border-destructive/30",
-    label: "Deleted",
-  },
+// Status icon components (shared STATUS_CONFIG provides color/label; icons mapped locally)
+const STATUS_ICONS: Record<string, typeof Clock> = {
+  [STATUS.INBOX]: Clock,
+  [STATUS.ACTIVE]: CheckCircle,
+  [STATUS.ARCHIVED]: Archive,
+  [STATUS.DELETED]: XCircle,
 }
-const DEFAULT_STATUS = {
-  icon: Clock,
-  color: "bg-primary/10 text-primary border-primary/30",
-  label: "Inbox",
-}
+
+const getStatusConfig = (status: string) =>
+  STATUS_CONFIG[status as keyof typeof STATUS_CONFIG] ?? STATUS_CONFIG.inbox
 
 const getStatusIcon = (status: string) => {
-  const config = STATUS_CONFIG[status] ?? DEFAULT_STATUS
-  return <config.icon className="h-3 w-3 mr-1" />
+  const Icon = STATUS_ICONS[status] ?? Clock
+  return <Icon className="h-3 w-3 mr-1" />
 }
 
-const getStatusColor = (status: string) => {
-  const config = STATUS_CONFIG[status] ?? DEFAULT_STATUS
-  return config.color
-}
+const getStatusColor = (status: string) => getStatusConfig(status).color
 
-const getStatusText = (status: string) => {
-  const config = STATUS_CONFIG[status] ?? DEFAULT_STATUS
-  return config.label
-}
+const getStatusText = (status: string) => getStatusConfig(status).label
 
 export interface DocumentTableProps {
   documents: Array<{
@@ -145,23 +119,6 @@ export function DocumentTable({
       return 0
     })
   }, [documents, sortConfig])
-
-  // Format file size
-  const formatFileSize = (bytes: number) => {
-    if (bytes < 1024) return `${bytes} B`
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
-  }
-
-  // Format date
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: date.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined,
-    })
-  }
 
   const formatTime = (dateString: string) => {
     const date = new Date(dateString)
@@ -305,7 +262,7 @@ export function DocumentTable({
                 </TableCell>
                 <TableCell>
                   <div className="text-sm">
-                    {formatDate(document.createdAt)}
+                    {formatCompactDate(document.createdAt)}
                     <div className="text-xs text-muted-foreground">
                       {formatTime(document.createdAt)}
                     </div>

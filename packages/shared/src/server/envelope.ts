@@ -4,6 +4,9 @@
  *
  * @see 01-AGENT: All APIs return ok()/fail() envelope
  * @see 02-ARCHITECTURE: Response Envelope (Mandatory)
+ *
+ * @domain shared
+ * @layer server
  */
 
 export {
@@ -15,4 +18,4 @@ export {
   type KernelEnvelopeFail,
   type KernelApiError,
   type KernelErrorCode,
-} from "@afenda/orchestra/zod";
+} from "@afenda/orchestra";

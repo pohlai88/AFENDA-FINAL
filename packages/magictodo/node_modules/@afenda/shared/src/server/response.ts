@@ -1,14 +1,18 @@
 /**
  * API Response Helpers
- * Standardized response envelope for all API routes
+ * Standardized response envelope for all API routes.
+ *
  * @see 01-AGENT: All APIs return ok()/fail() envelope, include x-request-id
+ * @see 02-ARCHITECTURE § 7: Response Envelope (Mandatory)
+ *
+ * @domain shared
+ * @layer server
  */
 
 import { HEADER_NAMES } from "../constants";
 
 export { ok, fail, KERNEL_ERROR_CODES } from "./envelope";
 
-// Re-export for convenience
 export type {
   KernelEnvelope,
   KernelEnvelopeOk,
@@ -18,8 +22,13 @@ export type {
 } from "./envelope";
 
 /**
- * Standard headers for envelope API responses (x-request-id, x-trace-id).
- * Use with NextResponse.json(body, { status, headers: envelopeHeaders(traceId) }).
+ * Standard headers for envelope API responses (`x-request-id`, `x-trace-id`).
+ *
+ * @example
+ * ```ts
+ * const headers = envelopeHeaders(traceId);
+ * return NextResponse.json(ok(data, { traceId }), { status: HTTP_STATUS.OK, headers });
+ * ```
  */
 export function envelopeHeaders(requestId: string): Record<string, string> {
   return {
@@ -30,8 +39,7 @@ export function envelopeHeaders(requestId: string): Record<string, string> {
 
 /**
  * Build a JSON Response with ok/fail envelope.
- * Use instead of NextResponse.json() to satisfy ESLint no-restricted-properties.
- * Includes x-request-id and x-trace-id when requestId is provided.
+ * Includes `x-request-id` and `x-trace-id` when requestId is provided.
  */
 export function jsonResponse(
   body: object,

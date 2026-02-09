@@ -2,13 +2,13 @@
   "$schema": "./component-registry.schema.json",
   "name": "@afenda/shadcn",
   "version": "0.1.0",
-  "generatedAt": "2026-02-09T00:09:44.049Z",
+  "generatedAt": "2026-02-09T04:40:53.244Z",
   "stats": {
-    "primitives": 393,
+    "primitives": 388,
     "hooks": 7,
     "custom": 16,
     "blocks": 193,
-    "total": 609
+    "total": 604
   },
   "exports": {
     ".": "./src/index.ts",
@@ -2016,20 +2016,6 @@
         "kind": "named"
       },
       {
-        "name": "NavActions",
-        "path": "./nav-actions",
-        "file": "nav-actions.tsx",
-        "category": "misc",
-        "kind": "function"
-      },
-      {
-        "name": "NavFavorites",
-        "path": "./nav-favorites",
-        "file": "nav-favorites.tsx",
-        "category": "misc",
-        "kind": "function"
-      },
-      {
         "name": "NavigationMenu",
         "path": "./navigation-menu",
         "file": "navigation-menu.tsx",
@@ -2093,30 +2079,9 @@
         "kind": "function"
       },
       {
-        "name": "NavProjects",
-        "path": "./nav-projects",
-        "file": "nav-projects.tsx",
-        "category": "misc",
-        "kind": "function"
-      },
-      {
-        "name": "NavSecondary",
-        "path": "./nav-secondary",
-        "file": "nav-secondary.tsx",
-        "category": "misc",
-        "kind": "function"
-      },
-      {
         "name": "NavUser",
         "path": "./nav-user",
         "file": "nav-user.tsx",
-        "category": "misc",
-        "kind": "function"
-      },
-      {
-        "name": "NavWorkspaces",
-        "path": "./nav-workspaces",
-        "file": "nav-workspaces.tsx",
         "category": "misc",
         "kind": "function"
       },

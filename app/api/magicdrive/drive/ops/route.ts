@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
     if (!userId) {
       return NextResponse.json(
         fail(
-          { code: KERNEL_ERROR_CODES.VALIDATION, message: "Authentication required" },
+          { code: KERNEL_ERROR_CODES.UNAUTHORIZED, message: "Authentication required" },
           { traceId }
         ),
         { status: HTTP_STATUS.UNAUTHORIZED, headers }

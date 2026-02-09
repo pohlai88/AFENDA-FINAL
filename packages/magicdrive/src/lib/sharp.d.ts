@@ -18,3 +18,4 @@ declare module "sharp" {
   function sharp(input: Buffer): SharpInstance
   export default sharp
 }
+

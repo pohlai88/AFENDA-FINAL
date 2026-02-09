@@ -85,3 +85,71 @@ export const FOLDER_COLORS = [
   "#06b6d4", // cyan
   "#3b82f6", // blue
 ] as const
+
+/**
+ * Shared file size formatter — single source of truth for all components.
+ */
+export function formatFileSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+  if (bytes < 1024 * 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+  return `${(bytes / (1024 * 1024 * 1024)).toFixed(1)} GB`
+}
+
+/**
+ * Shared date formatter for compact display.
+ */
+export function formatCompactDate(dateString: string): string {
+  const date = new Date(dateString)
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: date.getFullYear() !== new Date().getFullYear() ? "numeric" : undefined,
+  })
+}
+
+/**
+ * Status configuration for consistent badge rendering across all views.
+ * Used by EnhancedDocumentCard, DocumentTable, DocumentGallery, RelationshipView, etc.
+ */
+export const STATUS_CONFIG = {
+  needs_review: {
+    color: "bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-300 dark:border-amber-700",
+    label: "Needs Review",
+  },
+  processed: {
+    color: "bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-700",
+    label: "Processed",
+  },
+  duplicates: {
+    color: "bg-destructive/10 text-destructive border-destructive/30",
+    label: "Duplicate",
+  },
+  inbox: {
+    color: "bg-primary/10 text-primary border-primary/30",
+    label: "Inbox",
+  },
+  active: {
+    color: "bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-700",
+    label: "Active",
+  },
+  archived: {
+    color: "bg-muted text-muted-foreground border-muted",
+    label: "Archived",
+  },
+  error: {
+    color: "bg-destructive/10 text-destructive border-destructive/30",
+    label: "Error",
+  },
+  // Aliases for STATUS enum values (STATUS.ACTIVE = "ready", STATUS.DELETED = "deleted")
+  ready: {
+    color: "bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-700",
+    label: "Active",
+  },
+  deleted: {
+    color: "bg-destructive/10 text-destructive border-destructive/30",
+    label: "Deleted",
+  },
+} as const
+
+export type StatusConfigKey = keyof typeof STATUS_CONFIG

@@ -17,6 +17,7 @@ import {
   KERNEL_HEADERS,
   getAuthContext,
 } from "@afenda/orchestra";
+import { envelopeHeaders } from "@afenda/shared/server";
 import { magictodoTaskService } from "@afenda/magictodo/server";
 
 /**
@@ -25,6 +26,7 @@ import { magictodoTaskService } from "@afenda/magictodo/server";
  */
 export async function GET(request: NextRequest) {
   const traceId = request.headers.get(KERNEL_HEADERS.TRACE_ID) ?? crypto.randomUUID();
+  const headers = envelopeHeaders(traceId);
 
   try {
     const auth = await getAuthContext();
@@ -33,12 +35,12 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         kernelFail(
           {
-            code: KERNEL_ERROR_CODES.VALIDATION,
+            code: KERNEL_ERROR_CODES.UNAUTHORIZED,
             message: "Authentication required",
           },
           { traceId }
         ),
-        { status: HTTP_STATUS.UNAUTHORIZED, headers: { [KERNEL_HEADERS.TRACE_ID]: traceId } }
+        { status: HTTP_STATUS.UNAUTHORIZED, headers }
       );
     }
 
@@ -56,7 +58,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(result, {
       status: HTTP_STATUS.OK,
-      headers: { [KERNEL_HEADERS.TRACE_ID]: traceId },
+      headers,
     });
   } catch (error) {
     return NextResponse.json(
@@ -70,7 +72,7 @@ export async function GET(request: NextRequest) {
       ),
       {
         status: HTTP_STATUS.INTERNAL_SERVER_ERROR,
-        headers: { [KERNEL_HEADERS.TRACE_ID]: traceId },
+        headers,
       }
     );
   }

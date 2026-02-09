@@ -17,6 +17,7 @@ import {
 import { Badge } from "@afenda/shadcn"
 import { CardDescription, CardTitle } from "@afenda/shadcn"
 import type { DocumentItem } from "@afenda/magicdrive/zustand"
+import { formatFileSize } from "@afenda/magicdrive/constant"
 import { DocumentActionsDropdown } from "../ui/document-actions-dropdown"
 import { DocumentPreviewHover } from "../ui/document-preview-hover"
 
@@ -38,14 +39,6 @@ const COLUMNS = [
   { id: "active", name: "Active" },
   { id: "archived", name: "Archived" },
 ]
-
-function formatFileSize(bytes: number): string {
-  if (bytes === 0) return "0 B"
-  const k = 1024
-  const sizes = ["B", "KB", "MB", "GB"]
-  const i = Math.floor(Math.log(bytes) / Math.log(k))
-  return `${Math.round(bytes / Math.pow(k, i) * 100) / 100} ${sizes[i]}`
-}
 
 export function BoardView({ documents, selectedIds, onToggleSelection }: BoardViewProps) {
   const initialData = useMemo<KanbanDocumentItem[]>(() =>

@@ -6,9 +6,32 @@
  * This file re-exports them all for the shared db connection.
  *
  * @see drizzle.config.ts (points here for migrations)
+ * @see .dev-note/multi-tenancy-schema.md for manifest system
  */
 
-// Orchestra Kernel schemas
+// ─── Schema Manifest (New Standard — Use This) ─────────────────────
+export * from "./manifest";
+
+// ─── Shared Constants & Column Helpers (Legacy) ───────────────────────
+export {
+  DOMAIN_PREFIX,
+  PK_STRATEGY,
+  TIMESTAMP_CONFIG,
+  INDEX_PREFIX,
+  FK_PREFIX,
+  ON_DELETE_DEFAULTS,
+  SCHEMA,
+  type DomainPrefix,
+} from "./constants";
+
+/** @deprecated Use manifest/columns.ts */
+export {
+  timestampColumns,
+  createdAtColumn,
+  auditColumns,
+} from "./columns";
+
+// ─── Orchestra Kernel schemas ────────────────────────────────────────
 export {
   orchestraServiceRegistry,
   orchestraAdminConfig,

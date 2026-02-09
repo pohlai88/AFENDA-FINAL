@@ -36,6 +36,7 @@ import {
   Minimize2,
 } from "lucide-react"
 import { routes } from "@afenda/shared/constants"
+import { formatFileSize, STATUS_CONFIG } from "@afenda/magicdrive/constant"
 
 // Document type icons mapping
 const DOCUMENT_TYPE_ICONS = {
@@ -45,29 +46,13 @@ const DOCUMENT_TYPE_ICONS = {
   other: FileText,
 } as const
 
-// Status configuration
-const STATUS_CONFIG = {
-  needs_review: {
-    icon: AlertCircle,
-    color: "bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-300 dark:border-amber-700",
-    label: "Needs Review",
-  },
-  processed: {
-    icon: CheckCircle,
-    color: "bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-700",
-    label: "Processed",
-  },
-  duplicates: {
-    icon: XCircle,
-    color: "bg-destructive/10 text-destructive border-destructive/30",
-    label: "Duplicate",
-  },
-  inbox: {
-    icon: Clock,
-    color: "bg-primary/10 text-primary border-primary/30",
-    label: "Inbox",
-  },
-} as const
+// Status icon components (shared STATUS_CONFIG provides color/label; icons mapped locally)
+const STATUS_ICONS: Record<string, typeof AlertCircle> = {
+  needs_review: AlertCircle,
+  processed: CheckCircle,
+  duplicates: XCircle,
+  inbox: Clock,
+}
 
 // Relationship types
 const RELATIONSHIP_TYPES = {
@@ -316,12 +301,6 @@ export function RelationshipView({
     e.stopPropagation()
   }, [])
 
-  const formatFileSize = (bytes: number) => {
-    if (bytes < 1024) return `${bytes} B`
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
-  }
-
   const getNodeSize = (connections: number) => {
     return Math.max(20, Math.min(40, 20 + connections * 5))
   }
@@ -504,7 +483,7 @@ export function RelationshipView({
               if (!centerDoc) return null
 
               const TypeIcon = DOCUMENT_TYPE_ICONS[centerDoc.docType as keyof typeof DOCUMENT_TYPE_ICONS] || FileText
-              const StatusIcon = STATUS_CONFIG[centerDoc.status as keyof typeof STATUS_CONFIG]?.icon || Clock
+              const StatusIcon = STATUS_ICONS[centerDoc.status] || Clock
               const statusColor = STATUS_CONFIG[centerDoc.status as keyof typeof STATUS_CONFIG]?.color || STATUS_CONFIG.inbox.color
               const connections = edges.filter(edge => edge.source === centerNode || edge.target === centerNode)
 
