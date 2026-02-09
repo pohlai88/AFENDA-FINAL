@@ -9,7 +9,8 @@
 
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AfendaIcon, marketingRoutes } from "@afenda/marketing";
+import { KeyRound, GitBranch, Building2, Puzzle, ClipboardList, Link2, Lock } from "lucide-react";
+import { marketingRoutes } from "@afenda/marketing";
 
 import {
   Button,
@@ -54,7 +55,7 @@ async function getAPIDocumentation() {
     endpoints: [
       {
         category: "Authentication",
-        icon: AfendaIcon,
+        icon: KeyRound,
         description: "OAuth 2.0 authentication endpoints",
         endpoints: [
           {
@@ -85,7 +86,7 @@ async function getAPIDocumentation() {
       },
       {
         category: "Workflows",
-        icon: AfendaIcon,
+        icon: GitBranch,
         description: "Workflow management and orchestration",
         endpoints: [
           {
@@ -122,7 +123,7 @@ async function getAPIDocumentation() {
       },
       {
         category: "Tenants",
-        icon: AfendaIcon,
+        icon: Building2,
         description: "Multi-tenant management",
         endpoints: [
           {
@@ -153,7 +154,7 @@ async function getAPIDocumentation() {
       },
       {
         category: "Modules",
-        icon: AfendaIcon,
+        icon: Puzzle,
         description: "Module orchestration and integration",
         endpoints: [
           {
@@ -178,7 +179,7 @@ async function getAPIDocumentation() {
       },
       {
         category: "Audit Logs",
-        icon: AfendaIcon,
+        icon: ClipboardList,
         description: "Audit trail and compliance logging",
         endpoints: [
           {
@@ -224,7 +225,7 @@ export default async function APIDocsPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <AfendaIcon className="h-5 w-5" aria-hidden="true" />
+              <Link2 className="h-5 w-5" aria-hidden="true" />
               Base URL
             </CardTitle>
           </CardHeader>
@@ -279,7 +280,7 @@ export default async function APIDocsPage() {
                             </p>
                             {endpoint.authenticated && (
                               <Badge variant="outline" className="mt-2 text-xs">
-                                <AfendaIcon className="h-3 w-3 mr-1" />
+                                <Lock className="h-3 w-3 mr-1" aria-hidden="true" />
                                 Requires Authentication
                               </Badge>
                             )}

@@ -21,9 +21,10 @@ export async function proxy(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
   const isAuthRoute = pathname.startsWith("/auth/");
+  const isAuthApiRoute = pathname.startsWith("/api/auth/");
   const isPublicRoute = pathname === "/" || pathname.startsWith("/public");
 
-  if (!session?.user && !isAuthRoute && !isPublicRoute) {
+  if (!session?.user && !isAuthRoute && !isAuthApiRoute && !isPublicRoute) {
     return NextResponse.redirect(new URL("/auth/sign-in", request.url));
   }
 

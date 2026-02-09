@@ -71,7 +71,8 @@ export const DOCUMENT_TYPE_ICONS = {
 } as const
 
 /**
- * Folder colors.
+ * Folder colors (hex for storage/API). For theme-aware UI use var(--primary) as default
+ * when no color is selected; optional palette tokens --palette-1 … --palette-10 in globals.css.
  */
 export const FOLDER_COLORS = [
   "#6366f1", // indigo

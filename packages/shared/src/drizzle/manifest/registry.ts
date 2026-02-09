@@ -5,7 +5,7 @@
  * Used by CI to enforce best practices.
  */
 
-import type { PgTable } from "drizzle-orm/pg-core";
+import type { PgTable as _PgTable } from "drizzle-orm/pg-core";
 
 export interface TableMetadata {
   /** Table name */

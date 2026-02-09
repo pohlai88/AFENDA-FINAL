@@ -7,12 +7,12 @@ import {
   jsonb,
   uuid,
   pgEnum,
-  pgPolicy,
+  pgPolicy as _pgPolicy,
 } from "drizzle-orm/pg-core";
-import { sql } from "drizzle-orm";
+import { sql as _sql } from "drizzle-orm";
 import { tenancyColumns, tenancyIndexes } from "@afenda/tenancy/drizzle";
 import {
-  authenticatedRole,
+  authenticatedRole as _authenticatedRole,
   domainPolicies,
   timestamps,
   idx,

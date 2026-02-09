@@ -9,7 +9,8 @@
 
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AfendaIcon, marketingRoutes } from "@afenda/marketing";
+import { CheckCircle, AlertTriangle, XCircle, Wrench, RefreshCw } from "lucide-react";
+import { marketingRoutes } from "@afenda/marketing";
 
 import {
   Button,
@@ -121,13 +122,13 @@ async function getSystemStatus() {
 function getStatusIcon(status: ServiceStatus) {
   switch (status) {
     case "operational":
-      return <AfendaIcon className="h-5 w-5 text-green-600" />;
+      return <CheckCircle className="h-5 w-5 text-green-600" aria-hidden="true" />;
     case "degraded":
-      return <AfendaIcon className="h-5 w-5 text-yellow-600" />;
+      return <AlertTriangle className="h-5 w-5 text-yellow-600" aria-hidden="true" />;
     case "outage":
-      return <AfendaIcon className="h-5 w-5 text-red-600" />;
+      return <XCircle className="h-5 w-5 text-red-600" aria-hidden="true" />;
     case "maintenance":
-      return <AfendaIcon className="h-5 w-5 text-blue-600" />;
+      return <Wrench className="h-5 w-5 text-blue-600" aria-hidden="true" />;
   }
 }
 
@@ -165,7 +166,7 @@ export default async function StatusPage() {
           <div className="flex items-center justify-center gap-2">
             {getStatusBadge(status.overallStatus)}
             <Badge variant="outline">
-              <AfendaIcon className="h-3 w-3 mr-1" />
+              <RefreshCw className="h-3 w-3 mr-1" aria-hidden="true" />
               Auto-refreshes every 60s
             </Badge>
           </div>
@@ -228,7 +229,7 @@ export default async function StatusPage() {
           <CardContent>
             {status.incidents.length === 0 ? (
               <div className="text-center py-8 text-muted-foreground">
-                <AfendaIcon className="h-12 w-12 mx-auto mb-3 text-green-600" />
+                <CheckCircle className="h-12 w-12 mx-auto mb-3 text-green-600" aria-hidden="true" />
                 <p className="font-semibold">No incidents reported</p>
                 <p className="text-sm">All systems have been operational</p>
               </div>

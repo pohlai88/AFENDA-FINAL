@@ -6,7 +6,7 @@
 
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AfendaIcon } from "@afenda/marketing";
+import { Mail, Shield, Headphones, FileText, Contact } from "lucide-react";
 
 import {
   Button,
@@ -54,7 +54,7 @@ export default function ContactPage() {
               <Card>
                 <CardHeader>
                   <div className="flex items-center gap-2">
-                    <AfendaIcon className="h-5 w-5 text-blue-600" aria-hidden="true" />
+                    <Mail className="h-5 w-5 text-blue-600" aria-hidden="true" />
                     <CardTitle className="text-base">General Inquiries</CardTitle>
                   </div>
                 </CardHeader>
@@ -82,7 +82,7 @@ export default function ContactPage() {
               <Card>
                 <CardHeader>
                   <div className="flex items-center gap-2">
-                    <AfendaIcon className="h-5 w-5 text-red-600" aria-hidden="true" />
+                    <Shield className="h-5 w-5 text-red-600" aria-hidden="true" />
                     <CardTitle className="text-base">Security Reports</CardTitle>
                   </div>
                 </CardHeader>
@@ -110,7 +110,7 @@ export default function ContactPage() {
               <Card>
                 <CardHeader>
                   <div className="flex items-center gap-2">
-                    <AfendaIcon className="h-5 w-5 text-green-600" aria-hidden="true" />
+                    <Headphones className="h-5 w-5 text-green-600" aria-hidden="true" />
                     <CardTitle className="text-base">Technical Support</CardTitle>
                   </div>
                 </CardHeader>
@@ -138,7 +138,7 @@ export default function ContactPage() {
               <Card>
                 <CardHeader>
                   <div className="flex items-center gap-2">
-                    <AfendaIcon className="h-5 w-5 text-purple-600" aria-hidden="true" />
+                    <FileText className="h-5 w-5 text-purple-600" aria-hidden="true" />
                     <CardTitle className="text-base">PDPA Data Requests</CardTitle>
                   </div>
                 </CardHeader>
@@ -166,7 +166,7 @@ export default function ContactPage() {
 
             <section className="space-y-4">
               <div className="flex items-center gap-2">
-                <AfendaIcon className="h-5 w-5 text-indigo-600" aria-hidden="true" />
+                <Contact className="h-5 w-5 text-indigo-600" aria-hidden="true" />
                 <h3 className="text-lg font-semibold">Contact Information</h3>
               </div>
               <Separator />

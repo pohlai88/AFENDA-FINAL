@@ -15,6 +15,7 @@ packages:
 catalog:
   # --- Cloud / Database ---
   "@aws-sdk/client-s3": "^3.981.0"
+  "@aws-sdk/s3-request-presigner": "^3.981.0"
   "@neondatabase/auth": "0.2.0-beta.1"
   "@neondatabase/serverless": "^1.0.2"
   drizzle-orm: "^0.45.1"

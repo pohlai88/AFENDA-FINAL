@@ -13,7 +13,7 @@ import {
   tenancyOrganizations,
   tenancyTeams,
   tenancyMemberships,
-  tenancyTenantDesignSystem,
+  tenancyTenantDesignSystem as _tenancyTenantDesignSystem,
   tenancyAuditLogs,
   tenancyInvitations,
 } from "./tenancy.schema";

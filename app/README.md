@@ -31,9 +31,12 @@ Key routes:
 - **Root layout**: `reactStrictMode`, `poweredByHeader: false`, explicit viewport metadata; root uses `headers()` for CSP nonce (intentional dynamic).
 - **Loading/error**: Segment-level `loading.tsx` and `error.tsx` across (app), (public), magicdrive, magictodo, tenancy, admin; `global-error.tsx` and `global-not-found.tsx` for full-app fallbacks.
 - **Proxy**: Next.js 16 `proxy.ts` (replaces deprecated middleware); matcher limited to app/API routes; auth redirect and tenant header injection.
-- **Bundle**: `optimizePackageImports` for Radix, workspace packages, Neon Auth; Serwist PWA with cache-on-navigation; heavy UI (e.g. HealthHistoryChart) lazy-loaded with `next/dynamic`.
+- **Bundle**: `optimizePackageImports` for Radix, workspace packages, Neon Auth; Serwist PWA with cache-on-navigation; heavy UI (e.g. HealthHistoryChart) lazy-loaded with `next/dynamic`. Run `pnpm run build:analyze` periodically and add any large tree-shakeable packages to `next.config.ts` experimental.optimizePackageImports if they appear in the client bundle.
 - **SEO**: `metadataBase`, sitemap, robots, OG/twitter metadata, JSON-LD in layout.
 - **Images**: Use `next/image` for stable URLs (CMS, static assets). For blob or transient thumbnail URLs (e.g. MagicDrive thumbnails), keep `<img>` with `eslint-disable-next-line @next/next/no-img-element` and appropriate `alt`/error handling.
+- **Server-first data**: Where possible, fetch initial list/data in a Server Component and pass as props (e.g. `initialData`) to avoid client-side waterfalls; see tenancy organizations page.
+- **Suspense**: For server pages that await data, wrap the data-dependent part in `<Suspense fallback={...}>` so the shell streams first (e.g. tenancy organizations, dashboard, admin).
+- **New segments**: When adding new route segments that perform async work or data fetch, add a `loading.tsx` (and optionally `error.tsx`) for that segment.
 
 ### Proxy Middleware (`proxy.ts`)
 

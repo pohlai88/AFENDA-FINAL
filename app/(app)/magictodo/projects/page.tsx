@@ -211,7 +211,7 @@ export default function ProjectsPage() {
                       <div className="flex items-center gap-2 min-w-0">
                         <div
                           className="h-3 w-3 rounded-full shrink-0"
-                          style={{ backgroundColor: project.color || "#3b82f6" }}
+                          style={{ backgroundColor: project.color ?? "var(--primary)" }}
                         />
                         <h3 className="font-medium truncate">{project.name}</h3>
                       </div>

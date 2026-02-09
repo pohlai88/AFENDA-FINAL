@@ -22,6 +22,18 @@ export function getR2BucketName(): string {
   return name;
 }
 
+/**
+ * Optional public base URL for the R2 bucket (e.g. https://pub-xxx.r2.dev).
+ * When set, use with object key to build public read URLs; leave unset for private buckets
+ * and use presigned GET URLs instead.
+ * @see https://neon.com/docs/guides/cloudflare-r2
+ */
+export function getR2PublicBaseUrl(): string | null {
+  const url = process.env.R2_PUBLIC_BASE_URL;
+  if (!url || typeof url !== "string") return null;
+  return url.replace(/\/$/, "");
+}
+
 export function getR2Client(): S3Client {
   if (!_client) {
     const accountId = process.env.R2_ACCOUNT_ID;

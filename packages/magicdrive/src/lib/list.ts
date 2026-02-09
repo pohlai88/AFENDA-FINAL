@@ -16,7 +16,7 @@ import {
   magicdriveObjectTags,
   magicdriveObjectVersions,
   magicdriveObjects,
-} from "@afenda/shared/db"
+} from "@afenda/magicdrive/server/db"
 import type { TagRow } from "./tags"
 import { listTagsForObject, listTagsForObjects } from "./tags"
 

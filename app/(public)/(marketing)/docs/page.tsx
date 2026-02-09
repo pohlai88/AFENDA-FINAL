@@ -9,7 +9,7 @@
 
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AfendaIcon } from "@afenda/marketing";
+import { Rocket, LayoutGrid, Shield, Code, Server, BookOpen, HelpCircle } from "lucide-react";
 
 import {
   Button,
@@ -53,7 +53,7 @@ async function getDocumentation() {
       {
         id: "getting-started",
         title: "Getting Started",
-        icon: AfendaIcon,
+        icon: Rocket,
         description: "Quick start guides and initial setup",
         articles: [
           { title: "Introduction to AFENDA", href: "#intro", readTime: "5 min" },
@@ -65,7 +65,7 @@ async function getDocumentation() {
       {
         id: "architecture",
         title: "Architecture",
-        icon: AfendaIcon,
+        icon: LayoutGrid,
         description: "System architecture and design patterns",
         articles: [
           { title: "Multi-Tenant Architecture", href: "#multi-tenant", readTime: "20 min" },
@@ -77,7 +77,7 @@ async function getDocumentation() {
       {
         id: "security",
         title: "Security & Compliance",
-        icon: AfendaIcon,
+        icon: Shield,
         description: "Security best practices and compliance guides",
         articles: [
           { title: "Row-Level Security (RLS)", href: "#rls", readTime: "20 min" },
@@ -89,7 +89,7 @@ async function getDocumentation() {
       {
         id: "development",
         title: "Development",
-        icon: AfendaIcon,
+        icon: Code,
         description: "Development guides and API usage",
         articles: [
           { title: "Local Development Setup", href: "#dev-setup", readTime: "15 min" },
@@ -101,7 +101,7 @@ async function getDocumentation() {
       {
         id: "infrastructure",
         title: "Infrastructure",
-        icon: AfendaIcon,
+        icon: Server,
         description: "NexusCanon Infrastructure Fabric guides",
         articles: [
           { title: "Branching Strategies", href: "#branching", readTime: "15 min" },
@@ -113,7 +113,7 @@ async function getDocumentation() {
       {
         id: "reference",
         title: "Reference",
-        icon: AfendaIcon,
+        icon: BookOpen,
         description: "Technical reference and specifications",
         articles: [
           { title: "Environment Variables", href: "#env-vars", readTime: "10 min" },
@@ -190,7 +190,7 @@ export default async function DocsPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <AfendaIcon className="h-5 w-5" aria-hidden="true" />
+              <HelpCircle className="h-5 w-5" aria-hidden="true" />
               Need Help?
             </CardTitle>
           </CardHeader>

@@ -21,7 +21,7 @@ import {
   getDb,
   magicdriveObjectIndex,
   magicdriveObjects,
-} from "@afenda/shared/db"
+} from "@afenda/magicdrive/server/db"
 import {
   getR2BucketName,
   getR2Client,

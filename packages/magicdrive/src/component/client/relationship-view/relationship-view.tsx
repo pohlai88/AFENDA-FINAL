@@ -54,13 +54,13 @@ const STATUS_ICONS: Record<string, typeof AlertCircle> = {
   inbox: Clock,
 }
 
-// Relationship types
+// Relationship types (use CSS variables for theme/dark mode)
 const RELATIONSHIP_TYPES = {
-  duplicate: { color: '#ef4444', label: 'Duplicate', icon: Link2 },
-  same_tags: { color: '#3b82f6', label: 'Same Tags', icon: Tag },
-  similar_content: { color: '#10b981', label: 'Similar Content', icon: Zap },
-  same_source: { color: '#8b5cf6', label: 'Same Source', icon: Users },
-  same_type: { color: '#f59e0b', label: 'Same Type', icon: Folder },
+  duplicate: { color: 'var(--critical)', label: 'Duplicate', icon: Link2 },
+  same_tags: { color: 'var(--primary)', label: 'Same Tags', icon: Tag },
+  similar_content: { color: 'var(--success)', label: 'Similar Content', icon: Zap },
+  same_source: { color: 'var(--chart-4)', label: 'Same Source', icon: Users },
+  same_type: { color: 'var(--warning)', label: 'Same Type', icon: Folder },
 } as const
 
 export interface RelationshipViewProps {
@@ -307,7 +307,7 @@ export function RelationshipView({
 
   const getNodeColor = (status: string) => {
     const config = STATUS_CONFIG[status as keyof typeof STATUS_CONFIG]
-    return config?.color.replace(/text-|bg-|border-/, '').split(' ')[0] || '#6b7280'
+    return config?.color.replace(/text-|bg-|border-/, '').split(' ')[0] || 'var(--muted-foreground)'
   }
 
   return (
@@ -436,7 +436,7 @@ export function RelationshipView({
                       cy={node.y}
                       r={nodeSize}
                       fill={nodeColor}
-                      stroke={isSelected ? '#000' : '#fff'}
+                      stroke={isSelected ? 'var(--foreground)' : 'var(--background)'}
                       strokeWidth={isSelected ? 3 : 2}
                       opacity={isCenter ? 1 : isHovered ? 0.9 : 0.7}
                       className="cursor-pointer transition-all"
@@ -450,7 +450,7 @@ export function RelationshipView({
                         cy={node.y}
                         r={nodeSize + 5}
                         fill="none"
-                        stroke="#000"
+                        stroke="var(--foreground)"
                         strokeWidth="2"
                         strokeDasharray="5,5"
                         className="animate-pulse"
@@ -459,7 +459,7 @@ export function RelationshipView({
                     <text
                       x={node.x}
                       y={node.y + nodeSize + 15}
-                      fill="#000"
+                      fill="var(--foreground)"
                       fontSize="10"
                       textAnchor="middle"
                       className="pointer-events-none"

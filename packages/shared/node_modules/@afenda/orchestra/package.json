@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@afenda/auth": "workspace:*",
+    "@afenda/shared": "workspace:*",
     "@aws-sdk/client-s3": "catalog:",
     "drizzle-orm": "catalog:",
     "pino": "catalog:",

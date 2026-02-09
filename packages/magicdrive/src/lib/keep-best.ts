@@ -14,7 +14,7 @@ import {
   magicdriveDuplicateGroups,
   magicdriveObjects,
   magicdriveObjectVersions,
-} from "@afenda/shared/db"
+} from "@afenda/magicdrive/server/db"
 
 export type KeepBestResult =
   | { ok: true; groupId: string }

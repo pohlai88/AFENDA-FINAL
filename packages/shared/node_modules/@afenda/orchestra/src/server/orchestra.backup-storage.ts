@@ -1,6 +1,7 @@
 /**
  * Orchestra Kernel Backup Storage Service
  * Dual storage: Cloudflare R2 (primary) + Local filesystem (fallback)
+ * Uses @afenda/shared/r2 for R2 client; backup bucket is R2_BACKUP_BUCKET or R2_BUCKET_NAME.
  *
  * @domain orchestra
  * @layer server
@@ -8,7 +9,7 @@
 
 import "server-only";
 
-import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { promises as fs } from "fs";
 import { join, dirname } from "path";
 import { createHash } from "crypto";
@@ -19,16 +20,18 @@ import {
   type KernelEnvelope,
 } from "../zod/orchestra.envelope.schema";
 import { STORAGE_PROVIDERS, BACKUP_STORAGE_PATHS } from "../constant/orchestra.backup.constants";
-
-// Environment configuration
-const R2_CONFIG = {
-  accountId: process.env.R2_ACCOUNT_ID,
-  accessKeyId: process.env.R2_ACCESS_KEY_ID,
-  secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
-  bucket: process.env.R2_BACKUP_BUCKET,
-};
+import {
+  getR2Client,
+  getR2BucketName,
+  isR2Configured as isSharedR2Configured,
+} from "@afenda/shared/r2";
 
 const LOCAL_STORAGE_PATH = process.env.BACKUP_STORAGE_PATH || BACKUP_STORAGE_PATHS.LOCAL_DEFAULT;
+
+/** Backup bucket: R2_BACKUP_BUCKET when set, otherwise main R2_BUCKET_NAME. */
+function getBackupBucket(): string {
+  return process.env.R2_BACKUP_BUCKET || getR2BucketName();
+}
 
 export interface StorageMetadata {
   storageProvider: string;
@@ -38,34 +41,9 @@ export interface StorageMetadata {
   checksum: string;
 }
 
-/**
- * Check if R2 is configured
- */
+/** R2 configured for backups (shared credentials; bucket is R2_BACKUP_BUCKET or R2_BUCKET_NAME). */
 export function isR2Configured(): boolean {
-  return !!(
-    R2_CONFIG.accountId &&
-    R2_CONFIG.accessKeyId &&
-    R2_CONFIG.secretAccessKey &&
-    R2_CONFIG.bucket
-  );
-}
-
-/**
- * Get R2 client (S3-compatible)
- */
-function getR2Client(): S3Client {
-  if (!isR2Configured()) {
-    throw new Error("R2 is not configured");
-  }
-
-  return new S3Client({
-    region: "auto",
-    endpoint: `https://${R2_CONFIG.accountId}.r2.cloudflarestorage.com`,
-    credentials: {
-      accessKeyId: R2_CONFIG.accessKeyId!,
-      secretAccessKey: R2_CONFIG.secretAccessKey!,
-    },
-  });
+  return isSharedR2Configured();
 }
 
 /**
@@ -92,10 +70,11 @@ async function uploadToR2(
 ): Promise<KernelEnvelope<{ location: string; checksum: string }>> {
   try {
     const client = getR2Client();
+    const bucket = getBackupBucket();
     const key = `${BACKUP_STORAGE_PATHS.R2_PREFIX}${filename}`;
 
     const command = new PutObjectCommand({
-      Bucket: R2_CONFIG.bucket!,
+      Bucket: bucket,
       Key: key,
       Body: data,
       ContentType: "application/octet-stream",
@@ -224,9 +203,10 @@ export async function storeBackup(
 async function downloadFromR2(key: string): Promise<KernelEnvelope<Buffer>> {
   try {
     const client = getR2Client();
+    const bucket = getBackupBucket();
 
     const command = new GetObjectCommand({
-      Bucket: R2_CONFIG.bucket!,
+      Bucket: bucket,
       Key: key,
     });
 
@@ -312,9 +292,10 @@ export async function retrieveBackup(
 async function deleteFromR2(key: string): Promise<KernelEnvelope<void>> {
   try {
     const client = getR2Client();
+    const bucket = getBackupBucket();
 
     const command = new DeleteObjectCommand({
-      Bucket: R2_CONFIG.bucket!,
+      Bucket: bucket,
       Key: key,
     });
 

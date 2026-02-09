@@ -22,10 +22,39 @@ const nextConfig: NextConfig = {
   // Security: remove X-Powered-By header
   poweredByHeader: false,
 
+  // Type safety: Enable statically typed links
+  typedRoutes: true,
+
+  // Logging: Configure development logging for better debugging
+  logging: {
+    fetches: {
+      fullUrl: true,
+      hmrRefreshes: false,
+    },
+  },
+
+  // Server-side optimizations: Exclude heavy packages from bundling
+  serverExternalPackages: [
+    "canvas",
+    "tesseract.js",
+    "pdf-parse",
+    "bullmq",
+    "ws",
+    "ioredis",
+    "pdfjs-dist",
+  ],
+
+  // Development indicators configuration
+  devIndicators: {
+    position: "bottom-right",
+  },
+
   // turbopack root auto-detected via pnpm-lock.yaml
   experimental: {
     // Global 404 for unmatched routes (enterprise: consistent 404 without layout)
     globalNotFound: true,
+    // CSS optimization: Enable CSS chunking (experimental - better performance)
+    cssChunking: "strict",
     // lucide-react, @tabler/icons-react, recharts are optimized by default
     optimizePackageImports: [
       "@radix-ui/react-icons",
@@ -38,6 +67,13 @@ const nextConfig: NextConfig = {
     ],
     // Experimental: persistent cache for production builds
     turbopackFileSystemCacheForBuild: true,
+    // Inline CSS for better performance (smaller initial bundles)
+    inlineCss: true,
+    // Client-side router cache optimization (experimental)
+    staleTimes: {
+      dynamic: 30,
+      static: 180,
+    },
   },
   async headers() {
     return [
@@ -114,6 +150,10 @@ const nextConfig: NextConfig = {
         hostname: "images.unsplash.com",
       },
     ],
+    // Image optimization: enable formats for better performance
+    formats: ["image/avif", "image/webp"],
+    // Image optimization: optimize quality/performance balance
+    minimumCacheTTL: 60,
   },
 };
 

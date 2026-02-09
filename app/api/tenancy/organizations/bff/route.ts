@@ -10,6 +10,7 @@
 import "server-only";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { unstable_cache, revalidateTag } from "next/cache";
 
 import {
   kernelFail,
@@ -31,6 +32,22 @@ import {
   tenancyOrganizationQuerySchema,
 } from "@afenda/tenancy/zod";
 import { parseJson, parseSearchParams } from "@afenda/shared/server/validate";
+
+const TENANCY_ORGS_CACHE_TTL = 60;
+const TENANCY_ORGS_TAG = "tenancy-orgs";
+
+const DEFAULT_LIST_QUERY = { page: 1, limit: 100 };
+
+const getCachedOrgList = unstable_cache(
+  async (userId: string, queryJson: string) => {
+    const query = queryJson
+      ? tenancyOrganizationQuerySchema.parse(Object.fromEntries(new URLSearchParams(queryJson)))
+      : DEFAULT_LIST_QUERY;
+    return tenancyOrganizationService.listForUser(userId, { ...DEFAULT_LIST_QUERY, ...query });
+  },
+  ["tenancy-orgs-list"],
+  { revalidate: TENANCY_ORGS_CACHE_TTL, tags: [TENANCY_ORGS_TAG] }
+);
 
 /**
  * Extract client IP from request headers
@@ -59,11 +76,12 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const query = parseSearchParams(
+    const _query = parseSearchParams(
       request.nextUrl.searchParams,
       tenancyOrganizationQuerySchema
     );
-    const result = await tenancyOrganizationService.listForUser(userId, query);
+    const queryJson = request.nextUrl.searchParams.toString();
+    const result = await getCachedOrgList(userId, queryJson);
     return NextResponse.json(kernelOk(result, { traceId }), {
       status: HTTP_STATUS.OK,
       headers: { [KERNEL_HEADERS.REQUEST_ID]: traceId, [KERNEL_HEADERS.TRACE_ID]: traceId },
@@ -97,7 +115,8 @@ export const POST = withRateLimit(async (request: NextRequest) => {
 
     const body = await parseJson(request, tenancyCreateOrganizationSchema);
     const org = await tenancyOrganizationService.create(body, userId);
-    
+    revalidateTag(TENANCY_ORGS_TAG, { expire: TENANCY_ORGS_CACHE_TTL });
+
     // Audit log: organization created
     await tenancyAuditService.log({
       action: "organization.create",

@@ -10,7 +10,7 @@ import { GetObjectCommand } from "@aws-sdk/client-s3"
 import { createHash } from "node:crypto"
 import { eq, sql } from "drizzle-orm"
 
-import { getDb, magicdriveObjectVersions, magicdriveObjects } from "@afenda/shared/db"
+import { getDb, magicdriveObjectVersions, magicdriveObjects } from "@afenda/magicdrive/server/db"
 import { getR2BucketName, getR2Client } from "@afenda/shared/r2"
 
 export type HashAuditResult = {

@@ -77,7 +77,7 @@ export class MagictodoSnoozeService {
         )
       )
 
-    const snoozeId = crypto.randomUUID()
+    const _snoozeId = crypto.randomUUID()
     const now = new Date()
 
     // Guard: tenantId and teamId are required by schema

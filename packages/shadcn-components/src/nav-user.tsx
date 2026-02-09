@@ -56,8 +56,17 @@ export function NavUser({
   const initials = getInitials(user.name)
 
   async function handleSignOut() {
-    await authClient.signOut()
-    router.push(routes.ui.auth.login())
+    try {
+      const { error } = await authClient.signOut()
+      if (error) {
+        console.error("[NavUser] sign-out error:", error)
+      }
+    } catch (err) {
+      console.error("[NavUser] sign-out failed:", err)
+    } finally {
+      // Always redirect to login — even if sign-out fails the cookie may be stale
+      router.push(routes.ui.auth.login())
+    }
   }
 
   const triggerContent = (

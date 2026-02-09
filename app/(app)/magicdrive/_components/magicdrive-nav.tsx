@@ -70,7 +70,7 @@ export function MagicdriveNav() {
     "flex items-center gap-2 rounded-none border-b-2 border-transparent px-4 py-3 data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
 
   return (
-    <ScrollArea className="w-full">
+    <ScrollArea className="min-w-0 w-full">
       <ClientTabs
         value={activeValue}
         className="w-full"

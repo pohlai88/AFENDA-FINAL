@@ -15,7 +15,7 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@afenda/shadcn"
-import { AfendaIcon } from "@afenda/marketing"
+import { WifiOff, CheckCircle, AlertTriangle } from "lucide-react"
 
 import { OfflinePageClient } from "./offline-client"
 
@@ -39,7 +39,7 @@ export default function OfflinePage() {
       <Card className="w-full">
         <CardHeader className="text-center">
           <div className="mb-4 flex justify-center">
-            <AfendaIcon className="h-16 w-16 text-muted-foreground" />
+            <WifiOff className="h-16 w-16 text-muted-foreground" aria-hidden="true" />
           </div>
           <CardTitle className="text-3xl">You&apos;re offline</CardTitle>
           <CardDescription className="text-base">
@@ -51,7 +51,7 @@ export default function OfflinePage() {
 
         <CardContent className="space-y-4">
           <Alert>
-            <AfendaIcon className="h-4 w-4" />
+            <CheckCircle className="h-4 w-4" aria-hidden="true" />
             <AlertTitle>What you can do offline:</AlertTitle>
             <AlertDescription>
               <ul className="mt-2 space-y-1 text-sm">
@@ -65,7 +65,7 @@ export default function OfflinePage() {
           </Alert>
 
           <Alert className="border-yellow-200 bg-yellow-50 text-yellow-900">
-            <AfendaIcon className="h-4 w-4" />
+            <AlertTriangle className="h-4 w-4" aria-hidden="true" />
             <AlertTitle>What requires internet:</AlertTitle>
             <AlertDescription className="text-yellow-800">
               <ul className="mt-2 space-y-1 text-sm">

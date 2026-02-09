@@ -14,7 +14,7 @@ import {
   magicdriveObjectTags,
   magicdriveObjects,
   magicdriveTags,
-} from "@afenda/shared/db"
+} from "@afenda/magicdrive/server/db"
 import { magicdriveLogger } from "@afenda/magicdrive/pino"
 
 export type TagRow = {

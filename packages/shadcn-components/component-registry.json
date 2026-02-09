@@ -2,13 +2,13 @@
   "$schema": "./component-registry.schema.json",
   "name": "@afenda/shadcn",
   "version": "0.1.0",
-  "generatedAt": "2026-02-09T04:40:53.244Z",
+  "generatedAt": "2026-02-09T07:56:36.437Z",
   "stats": {
-    "primitives": 388,
+    "primitives": 391,
     "hooks": 7,
     "custom": 16,
     "blocks": 193,
-    "total": 604
+    "total": 607
   },
   "exports": {
     ".": "./src/index.ts",
@@ -501,6 +501,27 @@
         "path": "./client-radix",
         "file": "client-radix.tsx",
         "category": "feedback",
+        "kind": "named"
+      },
+      {
+        "name": "ClientCollapsible",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "layout",
+        "kind": "function"
+      },
+      {
+        "name": "ClientCollapsibleContent",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "layout",
+        "kind": "named"
+      },
+      {
+        "name": "ClientCollapsibleTrigger",
+        "path": "./client-radix",
+        "file": "client-radix.tsx",
+        "category": "layout",
         "kind": "named"
       },
       {

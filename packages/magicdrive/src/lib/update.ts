@@ -9,7 +9,7 @@ import "server-only"
 import { and, eq, inArray } from "drizzle-orm"
 
 import { STATUS } from "@afenda/shared/constants/magicdrive"
-import { getDb, magicdriveObjects } from "@afenda/shared/db"
+import { getDb, magicdriveObjects } from "@afenda/magicdrive/server/db"
 import { addTagToObject } from "./tags"
 
 export type UpdateStatusResult =

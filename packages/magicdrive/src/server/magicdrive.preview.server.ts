@@ -14,7 +14,7 @@ import {
   getDb,
   magicdriveObjects,
   magicdriveObjectVersions,
-} from "@afenda/shared/db"
+} from "@afenda/magicdrive/server/db"
 import { runPreviewForVersion } from "../lib/preview"
 import { runThumbnailsForVersion } from "../lib/thumbs"
 import { getAuthContext } from "@afenda/auth/server"

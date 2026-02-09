@@ -41,7 +41,7 @@ export function exportToPDF<TData extends Record<string, unknown>>(
     pageSize = "a4",
     includeHeaders = true,
     includeFooter = true,
-    headerColor = "#3b82f6",
+    headerColor = "#3b82f6", // Defaults match light theme primary/muted; pass theme-derived hex if needed for PDF
     alternateRowColor = "#f9fafb",
     fontSize = 10,
     formatters = {},

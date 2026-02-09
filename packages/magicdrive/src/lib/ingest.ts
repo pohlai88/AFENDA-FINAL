@@ -15,7 +15,7 @@ import {
   magicdriveObjectVersions,
   magicdriveObjects,
   magicdriveUploads,
-} from "@afenda/shared/db"
+} from "@afenda/magicdrive/server/db"
 import { getR2BucketName, getR2Client, canonicalSourceKey } from "@afenda/shared/r2"
 import { suggestDocType } from "./classify"
 import { runExactDuplicateCheck } from "./duplicates"

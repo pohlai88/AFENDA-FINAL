@@ -6,10 +6,10 @@ import { usePathname } from "next/navigation"
 import { ChevronRight, type LucideIcon } from "lucide-react"
 
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "./collapsible"
+  ClientCollapsible,
+  ClientCollapsibleContent,
+  ClientCollapsibleTrigger,
+} from "./client-radix"
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -71,21 +71,21 @@ export function NavMain({
 
           // Items with sub-items render as collapsible
           return (
-            <Collapsible
+            <ClientCollapsible
               key={item.title}
               asChild
               defaultOpen={isActive}
               className="group/collapsible"
             >
               <SidebarMenuItem>
-                <CollapsibleTrigger asChild>
+                <ClientCollapsibleTrigger asChild>
                   <SidebarMenuButton tooltip={item.title}>
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
                     <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                   </SidebarMenuButton>
-                </CollapsibleTrigger>
-                <CollapsibleContent>
+                </ClientCollapsibleTrigger>
+                <ClientCollapsibleContent>
                   <SidebarMenuSub>
                     {item.items?.map((subItem) => (
                       <SidebarMenuSubItem key={subItem.title}>
@@ -100,9 +100,9 @@ export function NavMain({
                       </SidebarMenuSubItem>
                     ))}
                   </SidebarMenuSub>
-                </CollapsibleContent>
+                </ClientCollapsibleContent>
               </SidebarMenuItem>
-            </Collapsible>
+            </ClientCollapsible>
           )
         })}
       </SidebarMenu>

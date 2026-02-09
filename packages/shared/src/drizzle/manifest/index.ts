@@ -1,12 +1,14 @@
 /**
  * Schema Manifest — Unified Schema Infrastructure
- * 
+ *
  * Single source of truth for Neon-Drizzle best practices.
- * All new tables MUST use these factories.
- * 
+ * All new tables MUST use these factories. Column names come from column-names.ts
+ * to prevent field name mismatch across domains.
+ *
  * @see .dev-note/multi-tenancy-schema.md for design rationale
  */
 
+export { COLUMN_NAMES, type ColumnName } from "./column-names";
 export * from "./columns";
 export * from "./indexes";
 export * from "./foreign-keys";

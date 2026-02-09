@@ -8,7 +8,6 @@
 import * as React from "react";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { Toaster } from "sonner";
 import { SkipLink } from "@afenda/shadcn";
 import { Skeleton } from "@afenda/shadcn";
 import { SidebarProvider, SidebarInset } from "@afenda/shadcn";
@@ -93,14 +92,15 @@ export default function AppLayout({
                     <AppSiteHeader>
                       <HeaderContent />
                     </AppSiteHeader>
-                    <div className="flex flex-1 flex-col gap-4 p-4 pt-0 lg:gap-6 lg:p-6 lg:pt-0">
-                      {children}
+                    <div id="main-content" className="flex flex-1 min-w-0 flex-col overflow-x-hidden overflow-y-auto">
+                      <div className="@container/main flex flex-1 flex-col gap-2 px-4 py-4 md:px-6 md:py-6">
+                        {children}
+                      </div>
                     </div>
                   </SidebarInset>
                 </SidebarProvider>
                 <OnboardingWizard />
                 <ContextualHelper />
-                <Toaster position="top-right" richColors />
               </CommandPaletteProvider>
             </OnboardingWizardProvider>
           </UserProvider>

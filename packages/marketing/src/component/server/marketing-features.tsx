@@ -1,4 +1,11 @@
-import { AfendaIcon } from "../client/afenda-icon";
+import {
+  Server,
+  Shield,
+  Building2,
+  FileCode,
+  Scale,
+  Puzzle,
+} from "lucide-react";
 
 import {
   Card,
@@ -16,37 +23,37 @@ interface Feature {
 
 const features: Feature[] = [
   {
-    icon: AfendaIcon,
+    icon: Server,
     title: "NexusCanon Infrastructure",
     description:
       "Built on enterprise-grade infrastructure fabric with proven reliability and scalability for mission-critical workflows.",
   },
   {
-    icon: AfendaIcon,
+    icon: Shield,
     title: "Row Level Security",
     description:
       "Advanced RLS implementation ensures data isolation at the database level, protecting tenant data with zero-trust architecture.",
   },
   {
-    icon: AfendaIcon,
+    icon: Building2,
     title: "Multi-tenant Architecture",
     description:
       "Sophisticated tenant isolation with shared infrastructure, optimized for performance and cost-efficiency.",
   },
   {
-    icon: AfendaIcon,
+    icon: FileCode,
     title: "Type-safe API Contracts",
     description:
       "End-to-end type safety with validated API contracts, reducing runtime errors and improving developer experience.",
   },
   {
-    icon: AfendaIcon,
+    icon: Scale,
     title: "PDPA Compliance",
     description:
       "Malaysia PDPA compliant by design with comprehensive data protection, privacy controls, and audit trails.",
   },
   {
-    icon: AfendaIcon,
+    icon: Puzzle,
     title: "Module-based Design",
     description:
       "Flexible module orchestration allowing seamless integration of business capabilities with iframe-first approach.",
@@ -85,7 +92,7 @@ export function MarketingFeatures({ className }: MarketingFeaturesProps) {
               >
                 <CardHeader>
                   <div className="mb-2 flex size-12 items-center justify-center rounded-lg bg-primary/10">
-                    <Icon className="size-6 text-primary" aria-hidden="true" />
+                    <Icon className="size-6 text-primary" />
                   </div>
                   <CardTitle className="text-xl">{feature.title}</CardTitle>
                 </CardHeader>

@@ -9,6 +9,7 @@
 import "server-only";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { unstable_cache } from "next/cache";
 
 import {
   kernelOk,
@@ -24,6 +25,29 @@ import { db } from "@afenda/shared/server/db";
 import { TENANT_HEADERS } from "@afenda/tenancy/server";
 
 type DbParam = Parameters<typeof magictodoProjectService.list>[5];
+
+const MAGICTODO_PROJECTS_CACHE_TTL = 60;
+const getCachedProjectList = unstable_cache(
+  async (
+    userId: string,
+    organizationId: string | null,
+    teamId: string | null,
+    includeArchived: boolean,
+    limit: number,
+    offset: number
+  ) => {
+    return magictodoProjectService.list(
+      userId,
+      organizationId,
+      teamId,
+      includeArchived,
+      { limit, offset },
+      db as DbParam
+    );
+  },
+  ["magictodo-projects-list"],
+  { revalidate: MAGICTODO_PROJECTS_CACHE_TTL, tags: ["magictodo-projects"] }
+);
 
 /**
  * GET /api/magictodo/bff/projects
@@ -57,13 +81,13 @@ export async function GET(request: NextRequest) {
     const limit = Math.min(Number(request.nextUrl.searchParams.get("limit") ?? 50), 100);
     const offset = Number(request.nextUrl.searchParams.get("offset") ?? 0);
 
-    const result = await magictodoProjectService.list(
+    const result = await getCachedProjectList(
       userId,
       organizationId,
       teamId,
       includeArchived,
-      { limit, offset },
-      db as DbParam
+      limit,
+      offset
     );
 
     if (!result.ok) {

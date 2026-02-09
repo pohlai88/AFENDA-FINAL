@@ -1,4 +1,4 @@
-export { getR2BucketName, getR2Client, isR2Configured } from "./client";
+export { getR2BucketName, getR2Client, getR2PublicBaseUrl, isR2Configured } from "./client";
 export {
   quarantineSourceKey,
   canonicalSourceKey,
@@ -6,3 +6,9 @@ export {
   canonicalPreviewKey,
   canonicalTextKey,
 } from "./keys";
+export {
+  presignPutObject,
+  presignGetObject,
+  type PresignPutOptions,
+  type PresignGetOptions,
+} from "./presigner";

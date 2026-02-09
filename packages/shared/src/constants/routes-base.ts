@@ -104,6 +104,9 @@ export const routesBase = {
     },
   },
   api: {
+    analytics: {
+      webVitals: () => "/api/analytics/web-vitals" as const,
+    },
     orchestra: {
       services: () => "/api/orchestra/services/v1" as const,
       serviceById: (id: string) => `/api/orchestra/services/${id}` as const,

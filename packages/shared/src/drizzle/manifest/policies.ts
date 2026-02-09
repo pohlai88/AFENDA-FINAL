@@ -12,15 +12,15 @@
  * @see https://orm.drizzle.team/docs/neon#row-level-security
  */
 
-import { sql, type SQL } from "drizzle-orm";
+import { sql, type SQL as _SQL } from "drizzle-orm";
 import {
   pgPolicy,
   type AnyPgColumn,
-  type PgPolicyConfig,
-  type PgTable,
+  type PgPolicyConfig as _PgPolicyConfig,
+  type PgTable as _PgTable,
 } from "drizzle-orm/pg-core";
 import { authUid, crudPolicy } from "drizzle-orm/neon";
-import { authenticatedRole, anonymousRole } from "./roles";
+import { authenticatedRole, anonymousRole as _anonymousRole } from "./roles";
 
 /**
  * Tenant membership policy — SELECT/UPDATE/DELETE
@@ -152,7 +152,7 @@ export function policyTeamMember(
  * 
  * Allow admins read-only or full CRUD via Neon helper.
  */
-export function policyAdminReadOnly(tableName: string) {
+export function policyAdminReadOnly(_tableName: string) {
   return crudPolicy({
     role: authenticatedRole,
     read: sql`EXISTS (

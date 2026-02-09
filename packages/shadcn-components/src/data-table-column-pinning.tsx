@@ -166,7 +166,7 @@ export function getPinnedColumnStyles(
   const baseStyles: React.CSSProperties = {
     position: "sticky",
     zIndex: 1,
-    backgroundColor: "hsl(var(--background))",
+    backgroundColor: "var(--background)",
   }
 
   if (isPinnedLeft) {
@@ -177,7 +177,7 @@ export function getPinnedColumnStyles(
     return {
       ...baseStyles,
       left: leftOffset,
-      boxShadow: "2px 0 4px rgba(0,0,0,0.1)",
+      boxShadow: "var(--panel-shadow-left)",
     }
   }
 
@@ -189,7 +189,7 @@ export function getPinnedColumnStyles(
     return {
       ...baseStyles,
       right: rightOffset,
-      boxShadow: "-2px 0 4px rgba(0,0,0,0.1)",
+      boxShadow: "var(--panel-shadow-right)",
     }
   }
 

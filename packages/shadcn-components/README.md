@@ -33,6 +33,17 @@ pnpm run sync:registry
 
 The registry includes metadata for all 500+ exports across primitives, hooks, custom components, and blocks.
 
+## Drift checks
+
+To detect UI/component drift (custom CSS or patterns that diverge from official shadcn and Next.js/React conventions):
+
+- **Lint:** ESLint forbids internal path imports (`packages/shadcn-components/...`) within this package; use relative imports. The app must use `Client*` Radix components only (see 01-AGENT § 6.10).
+- **Audit script:** From the repo root run `pnpm run check:shadcn-drift` (or `node scripts/audit-shadcn-drift.mjs`). Checks: forbidden imports, direct colors (hex/rgb/hsl), Tailwind palette utilities (e.g. `bg-red-500`), inline styles; warn-only for missing `"use client"`. Use `--json` for CI, `--max=N` to cap output.
+- **Pragmas:** Per-line `// shadcn-drift:ignore-color`, `// shadcn-drift:ignore-tw-color`, `// shadcn-drift:ignore-style`, etc. to allow exceptions (see .dev-note).
+- **Upstream:** `npx shadcn@latest diff <component>` for primitives.
+
+See **.dev-note/SHADCN-DRIFT.md** for the full baseline, governance, semantic token canon, and pragmas.
+
 ## Installation
 
 This package is internal to the monorepo. No separate installation needed.

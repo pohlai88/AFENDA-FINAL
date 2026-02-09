@@ -6,7 +6,7 @@
 
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AfendaIcon } from "@afenda/marketing";
+import { Info, LayoutGrid, Cpu, Lightbulb } from "lucide-react";
 
 import {
   Button,
@@ -52,7 +52,7 @@ export default function AboutPage() {
           <CardContent className="space-y-8">
             <section className="space-y-4">
               <div className="flex items-center gap-2">
-                <AfendaIcon className="h-5 w-5 text-indigo-600" aria-hidden="true" />
+                <Info className="h-5 w-5 text-indigo-600" aria-hidden="true" />
                 <h3 className="text-lg font-semibold">About AFENDA · NexusCanon · AXIS</h3>
               </div>
               <Separator />
@@ -97,7 +97,7 @@ export default function AboutPage() {
 
             <section className="space-y-4">
               <div className="flex items-center gap-2">
-                <AfendaIcon className="h-5 w-5 text-blue-600" aria-hidden="true" />
+                <LayoutGrid className="h-5 w-5 text-blue-600" aria-hidden="true" />
                 <h3 className="text-lg font-semibold">Core Operational Disciplines</h3>
               </div>
               <Separator />
@@ -169,7 +169,7 @@ export default function AboutPage() {
 
             <section className="space-y-4">
               <div className="flex items-center gap-2">
-                <AfendaIcon className="h-5 w-5 text-green-600" aria-hidden="true" />
+                <Cpu className="h-5 w-5 text-green-600" aria-hidden="true" />
                 <h3 className="text-lg font-semibold">Dual-Kernel Architecture</h3>
               </div>
               <Separator />
@@ -214,7 +214,7 @@ export default function AboutPage() {
 
             <section className="space-y-4">
               <div className="flex items-center gap-2">
-                <AfendaIcon className="h-5 w-5 text-orange-600" aria-hidden="true" />
+                <Lightbulb className="h-5 w-5 text-orange-600" aria-hidden="true" />
                 <h3 className="text-lg font-semibold">Business Truth Engine</h3>
               </div>
               <Separator />

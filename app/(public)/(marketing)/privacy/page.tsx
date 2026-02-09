@@ -6,7 +6,7 @@
 
 import type { Metadata } from "next"
 import Link from "next/link"
-import { AfendaIcon as BrandIcon } from "@afenda/marketing"
+import { Shield, Cpu } from "lucide-react"
 
 import {
   Button,
@@ -57,16 +57,16 @@ export default function PrivacyPage() {
             </CardDescription>
             <div className="flex flex-wrap justify-center gap-2">
               <Badge variant="outline" className="gap-1">
-                <BrandIcon className="h-3 w-3" aria-hidden="true" /> SOC 2 Type II
+                <Shield className="h-3 w-3" aria-hidden="true" /> SOC 2 Type II
               </Badge>
               <Badge variant="outline" className="gap-1">
-                <BrandIcon className="h-3 w-3" aria-hidden="true" /> HIPAA BAA
+                <Shield className="h-3 w-3" aria-hidden="true" /> HIPAA BAA
               </Badge>
               <Badge variant="outline" className="gap-1">
-                <BrandIcon className="h-3 w-3" aria-hidden="true" /> GDPR + CCPA
+                <Shield className="h-3 w-3" aria-hidden="true" /> GDPR + CCPA
               </Badge>
               <Badge variant="outline" className="gap-1">
-                <BrandIcon className="h-3 w-3" aria-hidden="true" /> NexusCanon Engine
+                <Cpu className="h-3 w-3" aria-hidden="true" /> NexusCanon Engine
               </Badge>
             </div>
           </CardHeader>

@@ -11,16 +11,16 @@
 import { relations } from "drizzle-orm";
 import {
   orchestraServiceRegistry,
-  orchestraAdminConfig,
+  orchestraAdminConfig as _orchestraAdminConfig,
   orchestraAuditLog,
-  orchestraConfigHistory,
+  orchestraConfigHistory as _orchestraConfigHistory,
   orchestraHealthHistory,
-  orchestraBackupSchedule,
-  orchestraAppDomains,
+  orchestraBackupSchedule as _orchestraBackupSchedule,
+  orchestraAppDomains as _orchestraAppDomains,
 } from "./orchestra.schema";
 import { orchestraBackups, orchestraBackupHistory } from "./orchestra.backup.schema";
 import { auditLogComments } from "./audit-comments.schema";
-import { orchestraCustomTemplates } from "./config-templates.schema";
+import { orchestraCustomTemplates as _orchestraCustomTemplates } from "./config-templates.schema";
 
 // ─── Service Registry ────────────────────────────────────────────────
 export const orchestraServiceRegistryRelations = relations(

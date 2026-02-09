@@ -19,7 +19,7 @@ import {
   magicdriveDuplicateGroupVersions,
   magicdriveObjects,
   magicdriveObjectVersions,
-} from "@afenda/shared/db"
+} from "@afenda/magicdrive/server/db"
 import { setKeepBest } from "../lib/keep-best"
 import { getAuthContext } from "@afenda/auth/server"
 
@@ -374,7 +374,7 @@ export async function mergeDuplicatesAction(params: {
 
     // Merge tags if requested
     if (params.mergeTags) {
-      const { magicdriveObjectTags } = await import("@afenda/shared/db")
+      const { magicdriveObjectTags } = await import("@afenda/magicdrive/server/db")
 
       const groupVersions = await db
         .select({ versionId: magicdriveDuplicateGroupVersions.versionId })

@@ -32,6 +32,10 @@
     "env:backup": "node scripts/backup-env.mjs",
     "env:restore": "node scripts/restore-env-from-backup.mjs",
     "sync:registry": "node scripts/sync-component-registry.mjs",
+    "check:shadcn-drift": "node scripts/audit-shadcn-drift.mjs",
+    "check:shadcn-drift:app": "node scripts/audit-shadcn-drift.mjs --path=app/_components",
+    "check:shadcn-drift:app-shell": "node scripts/audit-shadcn-drift.mjs --path=app/(app)/_components",
+    "check:shadcn-drift:kernel": "node scripts/audit-shadcn-drift.mjs --path=app/(app)/(kernel)",
     "migrate": "node scripts/run-migration.mjs",
     "postinstall": "node scripts/sync-component-registry.mjs"
   },

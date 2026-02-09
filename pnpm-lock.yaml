@@ -9,6 +9,9 @@ catalogs:
     '@aws-sdk/client-s3':
       specifier: ^3.981.0
       version: 3.983.0
+    '@aws-sdk/s3-request-presigner':
+      specifier: ^3.981.0
+      version: 3.983.0
     '@hookform/resolvers':
       specifier: ^5.2.2
       version: 5.2.2
@@ -504,6 +507,9 @@ importers:
       clsx:
         specifier: 'catalog:'
         version: 2.1.1
+      lucide-react:
+        specifier: ^0.563.0
+        version: 0.563.0(react@19.2.3)
       next:
         specifier: '>=14.0.0'
         version: 16.1.6(@babel/core@7.29.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -522,6 +528,9 @@ importers:
       '@afenda/auth':
         specifier: workspace:*
         version: link:../auth
+      '@afenda/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@aws-sdk/client-s3':
         specifier: 'catalog:'
         version: 3.983.0
@@ -558,13 +567,13 @@ importers:
 
   packages/shared:
     dependencies:
-      '@afenda/magicdrive':
-        specifier: workspace:^
-        version: link:../magicdrive
       '@afenda/orchestra':
         specifier: workspace:^
         version: link:../orchestra
       '@aws-sdk/client-s3':
+        specifier: 'catalog:'
+        version: 3.983.0
+      '@aws-sdk/s3-request-presigner':
         specifier: 'catalog:'
         version: 3.983.0
       '@neondatabase/serverless':

@@ -307,6 +307,26 @@ const eslintConfig = defineConfig([
     },
   },
 
+  // 4b) Shadcn package: use relative imports only (no packages/shadcn-components/src/...).
+  //     See .dev-note/SHADCN-DRIFT.md.
+  {
+    files: ["packages/shadcn-components/**/*.{ts,tsx,js,jsx,mjs}"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["packages/shadcn-components/**"],
+              message:
+                "Use relative imports within @afenda/shadcn (e.g. ./lib/utils, ./button). See .dev-note/SHADCN-DRIFT.md.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+
   // 5) Radix UI: Use Client* components only in app and packages (avoid hydration)
   //    See .dev-note/HYDRATION-RADIX.md. packages/shadcn-components is exempt (defines Client*).
   {
@@ -370,31 +390,40 @@ const eslintConfig = defineConfig([
   },
 
   // 7) Tenancy columns: use tenancyColumns spread from @afenda/tenancy/drizzle.
-  //    Block inline text("legacy_tenant_id") / text("organization_id") / text("team_id") in schema files.
-  //    tenancy-columns.ts itself is exempt (defines the source of truth).
+  //    Block inline text("tenant_id") / text("legacy_tenant_id") / text("organization_id") / text("team_id") in schema files.
+  //    tenancy-columns.ts and tenancy.schema.ts are exempt (source of truth for tenancy domain).
   {
     files: ["packages/*/src/drizzle/**/*.ts"],
-    ignores: ["packages/tenancy/src/drizzle/tenancy-columns.ts"],
+    ignores: [
+      "packages/tenancy/src/drizzle/tenancy-columns.ts",
+      "packages/tenancy/src/drizzle/tenancy.schema.ts",
+    ],
     rules: {
       "no-restricted-syntax": [
         "error",
         {
           selector:
+            'CallExpression[callee.name="text"] > Literal[value="tenant_id"]',
+          message:
+            "Use `...tenancyColumns.withTenancy` from @afenda/tenancy/drizzle. Do not define tenant columns inline. See 02-ARCHITECTURE.md § 3.3.",
+        },
+        {
+          selector:
             'CallExpression[callee.name="text"] > Literal[value="legacy_tenant_id"]',
           message:
-            "Use `...tenancyColumns.withLegacy()` from @afenda/tenancy/drizzle. See 02-ARCHITECTURE.md § 3.3.",
+            "Use `...tenancyColumns.withLegacy` from @afenda/tenancy/drizzle (legacy). Prefer tenancyColumns.withTenancy for new tables. See 02-ARCHITECTURE.md § 3.3.",
         },
         {
           selector:
             'CallExpression[callee.name="text"] > Literal[value="organization_id"]',
           message:
-            "Use `...tenancyColumns.standard()` or `.withLegacy()` from @afenda/tenancy/drizzle. See 02-ARCHITECTURE.md § 3.3.",
+            "Use `...tenancyColumns.withTenancy` or `.standard` / `.withLegacy` from @afenda/tenancy/drizzle. Do not define tenant columns inline. See 02-ARCHITECTURE.md § 3.3.",
         },
         {
           selector:
             'CallExpression[callee.name="text"] > Literal[value="team_id"]',
           message:
-            "Use `...tenancyColumns.standard()` or `.withLegacy()` from @afenda/tenancy/drizzle. See 02-ARCHITECTURE.md § 3.3.",
+            "Use `...tenancyColumns.withTenancy` or `.standard` / `.withLegacy` from @afenda/tenancy/drizzle. Do not define tenant columns inline. See 02-ARCHITECTURE.md § 3.3.",
         },
       ],
     },

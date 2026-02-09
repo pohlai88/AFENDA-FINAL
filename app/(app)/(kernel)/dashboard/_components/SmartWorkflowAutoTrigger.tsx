@@ -119,9 +119,13 @@ const SmartWorkflowAutoTriggerComponent = ({
       suggestedWorkflow.severity === "high" ? "default" :
       "secondary";
 
+    const borderColorToken =
+      suggestedWorkflow.severity === "critical" ? "var(--badge-critical)" :
+      suggestedWorkflow.severity === "high" ? "var(--badge-warning)" :
+      "var(--badge-info)";
     return (
       <Card className="fixed top-20 right-6 z-40 w-96 shadow-2xl border-l-4" 
-            style={{ borderLeftColor: 'hsl(var(--badge-' + suggestedWorkflow.severity + '))' }}>
+            style={{ borderLeftColor: borderColorToken }}>
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-2">

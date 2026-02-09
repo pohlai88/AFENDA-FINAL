@@ -6,7 +6,16 @@
 
 import type { Metadata } from "next"
 import Link from "next/link"
-import { AfendaIcon } from "@afenda/marketing"
+import {
+  GitBranch,
+  Cpu,
+  MinusCircle,
+  RotateCcw,
+  LayoutGrid,
+  Activity,
+  Shield,
+  BookOpen,
+} from "lucide-react"
 
 import {
   Button,
@@ -60,16 +69,16 @@ export default function InfrastructurePage() {
             </CardDescription>
             <div className="flex flex-wrap justify-center gap-2">
               <Badge variant="outline" className="gap-1">
-                <AfendaIcon className="h-3 w-3" aria-hidden="true" /> Branch-First
+                <GitBranch className="h-3 w-3" aria-hidden="true" /> Branch-First
               </Badge>
               <Badge variant="outline" className="gap-1">
-                <AfendaIcon className="h-3 w-3" aria-hidden="true" /> Elastic Compute
+                <Cpu className="h-3 w-3" aria-hidden="true" /> Elastic Compute
               </Badge>
               <Badge variant="outline" className="gap-1">
-                <AfendaIcon className="h-3 w-3" aria-hidden="true" /> Scale-to-Zero
+                <MinusCircle className="h-3 w-3" aria-hidden="true" /> Scale-to-Zero
               </Badge>
               <Badge variant="outline" className="gap-1">
-                <AfendaIcon className="h-3 w-3" aria-hidden="true" /> Resilient Recovery
+                <RotateCcw className="h-3 w-3" aria-hidden="true" /> Resilient Recovery
               </Badge>
             </div>
           </CardHeader>
@@ -98,7 +107,7 @@ export default function InfrastructurePage() {
             {/* Core Infrastructure Primitives */}
             <section className="space-y-4">
               <div className="flex items-center gap-2">
-                <AfendaIcon className="h-5 w-5 text-indigo-600" aria-hidden="true" />
+                <LayoutGrid className="h-5 w-5 text-indigo-600" aria-hidden="true" />
                 <h3 className="text-lg font-semibold">Core Infrastructure Primitives</h3>
               </div>
               <Separator />
@@ -107,7 +116,7 @@ export default function InfrastructurePage() {
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-base flex items-center gap-2">
-                      <AfendaIcon className="h-4 w-4 text-indigo-600" aria-hidden="true" /> Instant Branching
+                      <GitBranch className="h-4 w-4 text-indigo-600" aria-hidden="true" /> Instant Branching
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="text-sm text-muted-foreground space-y-2">
@@ -123,7 +132,7 @@ export default function InfrastructurePage() {
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-base flex items-center gap-2">
-                      <AfendaIcon className="h-4 w-4 text-indigo-600" aria-hidden="true" /> Elastic Compute
+                      <Cpu className="h-4 w-4 text-indigo-600" aria-hidden="true" /> Elastic Compute
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="text-sm text-muted-foreground space-y-2">
@@ -139,7 +148,7 @@ export default function InfrastructurePage() {
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-base flex items-center gap-2">
-                      <AfendaIcon className="h-4 w-4 text-indigo-600" aria-hidden="true" /> Scale-to-Zero
+                      <MinusCircle className="h-4 w-4 text-indigo-600" aria-hidden="true" /> Scale-to-Zero
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="text-sm text-muted-foreground space-y-2">
@@ -155,7 +164,7 @@ export default function InfrastructurePage() {
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-base flex items-center gap-2">
-                      <AfendaIcon className="h-4 w-4 text-indigo-600" aria-hidden="true" /> Point-in-Time Recovery
+                      <RotateCcw className="h-4 w-4 text-indigo-600" aria-hidden="true" /> Point-in-Time Recovery
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="text-sm text-muted-foreground space-y-2">
@@ -171,7 +180,7 @@ export default function InfrastructurePage() {
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-base flex items-center gap-2">
-                      <AfendaIcon className="h-4 w-4 text-indigo-600" aria-hidden="true" /> Read Scaling
+                      <Activity className="h-4 w-4 text-indigo-600" aria-hidden="true" /> Read Scaling
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="text-sm text-muted-foreground space-y-2">
@@ -187,7 +196,7 @@ export default function InfrastructurePage() {
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-base flex items-center gap-2">
-                      <AfendaIcon className="h-4 w-4 text-indigo-600" aria-hidden="true" /> Connection Pooling
+                      <LayoutGrid className="h-4 w-4 text-indigo-600" aria-hidden="true" /> Connection Pooling
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="text-sm text-muted-foreground space-y-2">
@@ -205,7 +214,7 @@ export default function InfrastructurePage() {
             {/* Architecture Doctrine */}
             <section className="space-y-4">
               <div className="flex items-center gap-2">
-                <AfendaIcon className="h-5 w-5 text-indigo-600" aria-hidden="true" />
+                <BookOpen className="h-5 w-5 text-indigo-600" aria-hidden="true" />
                 <h3 className="text-lg font-semibold">Architecture Doctrine</h3>
               </div>
               <Separator />
@@ -272,7 +281,7 @@ export default function InfrastructurePage() {
             {/* Resilience Plane */}
             <section className="space-y-4">
               <div className="flex items-center gap-2">
-                <AfendaIcon className="h-5 w-5 text-orange-600" aria-hidden="true" />
+                <Shield className="h-5 w-5 text-orange-600" aria-hidden="true" />
                 <h3 className="text-lg font-semibold">Resilience Plane</h3>
               </div>
               <Separator />
@@ -282,19 +291,19 @@ export default function InfrastructurePage() {
                   <h4 className="font-semibold text-sm mb-3">Backup Strategy</h4>
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-start gap-2">
-                      <div className="h-1.5 w-1.5 rounded-full bg-green-600 mt-1.5 flex-shrink-0" />
+                      <div className="h-1.5 w-1.5 rounded-full bg-green-600 mt-1.5 shrink-0" />
                       <span><strong>Hourly snapshots</strong> - Automated continuous backups</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <div className="h-1.5 w-1.5 rounded-full bg-green-600 mt-1.5 flex-shrink-0" />
+                      <div className="h-1.5 w-1.5 rounded-full bg-green-600 mt-1.5 shrink-0" />
                       <span><strong>7-day PITR</strong> - Point-in-time recovery window</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <div className="h-1.5 w-1.5 rounded-full bg-green-600 mt-1.5 flex-shrink-0" />
+                      <div className="h-1.5 w-1.5 rounded-full bg-green-600 mt-1.5 shrink-0" />
                       <span><strong>WAL archiving</strong> - Write-Ahead Log preservation</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <div className="h-1.5 w-1.5 rounded-full bg-green-600 mt-1.5 flex-shrink-0" />
+                      <div className="h-1.5 w-1.5 rounded-full bg-green-600 mt-1.5 shrink-0" />
                       <span><strong>Cross-region</strong> - Geographic redundancy</span>
                     </li>
                   </ul>
@@ -327,7 +336,7 @@ export default function InfrastructurePage() {
             {/* Observability Plane */}
             <section className="space-y-4">
               <div className="flex items-center gap-2">
-                <AfendaIcon className="h-5 w-5 text-pink-600" aria-hidden="true" />
+                <Activity className="h-5 w-5 text-pink-600" aria-hidden="true" />
                 <h3 className="text-lg font-semibold">Observability Plane</h3>
               </div>
               <Separator />

@@ -17,7 +17,7 @@ import {
   getDb,
   magicdriveCollections,
   magicdriveCollectionObjects,
-} from "@afenda/shared/db"
+} from "@afenda/magicdrive/server/db"
 import { getAuthContext } from "@afenda/auth/server"
 
 /** Tenant context for collection operations */

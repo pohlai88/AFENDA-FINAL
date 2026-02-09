@@ -50,6 +50,23 @@ const SCHEMA_FILES = [
   },
 ]
 
+// Inline tenant column pattern — domain schemas must use tenancyColumns spread only
+const INLINE_TENANT_COLUMN_RE =
+  /text\s*\(\s*["'](?:tenant_id|legacy_tenant_id|organization_id|team_id)["']\s*\)/g
+
+/** Fail if domain schema contains inline tenant column definitions */
+function validateNoInlineTenantColumns(source, filePath, requiresTenancy) {
+  const errors = []
+  if (!requiresTenancy) return errors
+  const re = new RegExp(INLINE_TENANT_COLUMN_RE.source, "g")
+  if (re.test(source)) {
+    errors.push(
+      `Inline tenant column found: use ...tenancyColumns.withTenancy() (or .standard/.withLegacy) from @afenda/tenancy/drizzle. File: ${filePath}`
+    )
+  }
+  return errors
+}
+
 // ─── Validation Rules ────────────────────────────────────────────────
 
 /** Extract all pgTable declarations from source */
@@ -171,6 +188,9 @@ async function main() {
     }
 
     summary.files++
+    allErrors.push(
+      ...validateNoInlineTenantColumns(source, schemaFile.path, schemaFile.requiresTenancy)
+    )
     const tables = extractTables(source)
     summary.tables += tables.length
 

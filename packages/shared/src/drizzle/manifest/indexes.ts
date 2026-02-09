@@ -1,13 +1,16 @@
 /**
  * Schema Manifest — Index Factories
- * 
+ *
  * Deterministic index naming enforcing INDEX_PREFIX convention.
- * 
+ * Column name strings come from COLUMN_NAMES to avoid field name mismatch.
+ *
  * @see https://orm.drizzle.team/docs/indexes-constraints
+ * @see ./column-names.ts
  */
 
 import { index, uniqueIndex, type AnyPgColumn } from "drizzle-orm/pg-core";
 import { INDEX_PREFIX } from "../constants";
+import { COLUMN_NAMES } from "./column-names";
 
 /**
  * Standard index with deterministic naming
@@ -33,13 +36,13 @@ export function uidx(tableName: string, ...cols: string[]) {
  */
 export function tenantIndexes(tableName: string, t: { tenantId: AnyPgColumn; teamId?: AnyPgColumn }) {
   const indexes = [
-    idx(tableName, "tenant_id").on(t.tenantId),
+    idx(tableName, COLUMN_NAMES.TENANT_ID).on(t.tenantId),
   ];
-  
+
   if (t.teamId) {
-    indexes.push(idx(tableName, "team_id").on(t.teamId));
+    indexes.push(idx(tableName, COLUMN_NAMES.TEAM_ID).on(t.teamId));
   }
-  
+
   return indexes;
 }
 
@@ -47,12 +50,12 @@ export function tenantIndexes(tableName: string, t: { tenantId: AnyPgColumn; tea
  * User index — for user-scoped tables
  */
 export function userIndex(tableName: string, t: { userId: AnyPgColumn }) {
-  return idx(tableName, "user_id").on(t.userId);
+  return idx(tableName, COLUMN_NAMES.USER_ID).on(t.userId);
 }
 
 /**
  * Composite tenant + user index — for common query pattern
  */
 export function tenantUserIndex(tableName: string, t: { tenantId: AnyPgColumn; userId: AnyPgColumn }) {
-  return idx(tableName, "tenant_id_user_id").on(t.tenantId, t.userId);
+  return idx(tableName, COLUMN_NAMES.TENANT_ID, COLUMN_NAMES.USER_ID).on(t.tenantId, t.userId);
 }

@@ -328,7 +328,7 @@ export default function TasksPage() {
                   <div className="flex items-center gap-2">
                     <div
                       className="h-2 w-2 rounded-full"
-                      style={{ backgroundColor: project.color || "#3b82f6" }}
+                      style={{ backgroundColor: project.color ?? "var(--primary)" }}
                     />
                     {project.name}
                   </div>

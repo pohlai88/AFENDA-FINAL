@@ -117,6 +117,12 @@ import {
   TabsContent,
 } from "./tabs";
 
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from "./collapsible";
+
 // ============================================================================
 // CLIENT-ONLY WRAPPER COMPONENTS
 // ============================================================================
@@ -241,6 +247,21 @@ export function ClientTabs({
   );
 }
 
+/**
+ * Client-only Collapsible - renders only on client to prevent aria-controls mismatch
+ */
+export function ClientCollapsible({
+  children,
+  fallback,
+  ...props
+}: React.ComponentProps<typeof Collapsible> & { fallback?: React.ReactNode }) {
+  return (
+    <ClientOnly fallback={fallback}>
+      <Collapsible {...props}>{children}</Collapsible>
+    </ClientOnly>
+  );
+}
+
 // ============================================================================
 // RE-EXPORT CHILD COMPONENTS FOR CONVENIENCE
 // (These don't need client-only wrapping as they're always inside the parent)
@@ -309,4 +330,7 @@ export {
   TabsList as ClientTabsList,
   TabsTrigger as ClientTabsTrigger,
   TabsContent as ClientTabsContent,
+  // Collapsible children
+  CollapsibleTrigger as ClientCollapsibleTrigger,
+  CollapsibleContent as ClientCollapsibleContent,
 };

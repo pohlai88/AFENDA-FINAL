@@ -11,7 +11,7 @@
 import { revalidatePath } from "next/cache"
 import { routes } from "@afenda/shared/constants"
 import { getAuthContext } from "@afenda/auth/server"
-import { getDb } from "@afenda/shared/db"
+import { getDb } from "@afenda/magicdrive/server/db"
 import { eq, and } from "drizzle-orm"
 import { randomUUID } from "node:crypto"
 import { logError } from "../pino"

@@ -10,8 +10,6 @@
  * that should use tenancyColumns spreads.
  */
 
-/* eslint-disable no-restricted-syntax */
-
 import { sql } from "drizzle-orm";
 import {
   pgTable,
@@ -19,7 +17,7 @@ import {
   timestamp,
   boolean,
   jsonb,
-  uniqueIndex,
+  uniqueIndex as _uniqueIndex,
   foreignKey,
   check,
   uuid,

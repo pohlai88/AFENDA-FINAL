@@ -351,7 +351,7 @@ function DependencyEdgeSVG({
           refY="3.5"
           orient="auto"
         >
-          <polygon points="0 0, 10 3.5, 0 7" fill="hsl(var(--primary))" />
+          <polygon points="0 0, 10 3.5, 0 7" fill="var(--primary)" />
         </marker>
         <marker
           id="arrowhead-circular"
@@ -361,7 +361,7 @@ function DependencyEdgeSVG({
           refY="3.5"
           orient="auto"
         >
-          <polygon points="0 0, 10 3.5, 0 7" fill="rgb(239, 68, 68)" />
+          <polygon points="0 0, 10 3.5, 0 7" fill="var(--destructive)" />
         </marker>
       </defs>
 

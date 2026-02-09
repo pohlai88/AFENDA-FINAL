@@ -6,7 +6,7 @@
 
 import type { Metadata } from "next"
 import Link from "next/link"
-import { AfendaIcon } from "@afenda/marketing"
+import { CheckCircle, Cpu, Gauge } from "lucide-react"
 
 import {
   Button,
@@ -57,13 +57,13 @@ export default function TermsPage() {
             </CardDescription>
             <div className="flex flex-wrap justify-center gap-2">
               <Badge variant="outline" className="gap-1">
-                <AfendaIcon className="h-3 w-3" aria-hidden="true" /> 99.95% Uptime
+                <CheckCircle className="h-3 w-3" aria-hidden="true" /> 99.95% Uptime
               </Badge>
               <Badge variant="outline" className="gap-1">
-                <AfendaIcon className="h-3 w-3" aria-hidden="true" /> NexusCanon Engine
+                <Cpu className="h-3 w-3" aria-hidden="true" /> NexusCanon Engine
               </Badge>
               <Badge variant="outline" className="gap-1">
-                <AfendaIcon className="h-3 w-3" aria-hidden="true" /> Elastic 0.25-8 CU
+                <Gauge className="h-3 w-3" aria-hidden="true" /> Elastic 0.25-8 CU
               </Badge>
             </div>
           </CardHeader>

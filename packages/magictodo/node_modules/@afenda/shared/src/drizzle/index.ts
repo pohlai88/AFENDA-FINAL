@@ -55,7 +55,8 @@ export {
   type AuditEventType,
 } from "@afenda/orchestra/drizzle";
 
-// Add more domain schemas as they are created:
+// Add more domain schemas as they are created.
+// NOTE: @afenda/magicdrive is NOT re-exported here to avoid cyclic workspace deps (shared ↔ magicdrive).
+// Consumers that need magicdrive schema use @afenda/magicdrive/server/db or @afenda/magicdrive/drizzle.
 export * from "@afenda/magictodo/drizzle";
-export * from "@afenda/magicdrive/drizzle";
 export * from "@afenda/tenancy/drizzle";

@@ -10,7 +10,7 @@ import { CopyObjectCommand } from "@aws-sdk/client-s3"
 import { and, eq } from "drizzle-orm"
 import { randomUUID } from "node:crypto"
 
-import { getDb, magicdriveObjectVersions, magicdriveObjects } from "@afenda/shared/db"
+import { getDb, magicdriveObjectVersions, magicdriveObjects } from "@afenda/magicdrive/server/db"
 import { getR2BucketName, getR2Client, canonicalSourceKey } from "@afenda/shared/r2"
 
 export type DuplicateObjectResult =

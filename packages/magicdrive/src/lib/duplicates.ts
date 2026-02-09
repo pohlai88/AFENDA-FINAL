@@ -10,14 +10,14 @@ import { and, eq, ne, sql } from "drizzle-orm"
 import { randomUUID } from "node:crypto"
 
 import { DUP_REASON } from "@afenda/shared/constants/magicdrive"
-import type { Database } from "@afenda/shared/db"
+import type { Database } from "@afenda/magicdrive/server/db"
 import {
   magicdriveDuplicateGroupVersions,
   magicdriveDuplicateGroups,
   magicdriveObjectIndex,
   magicdriveObjects,
   magicdriveObjectVersions,
-} from "@afenda/shared/db"
+} from "@afenda/magicdrive/server/db"
 
 /**
  * Find other versions in the same tenant with the same sha256.

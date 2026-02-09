@@ -79,13 +79,13 @@ export function HealthHistoryChart({ entries, hours = 24 }: HealthHistoryChartPr
   const getStatusColor = (status: string) => {
     switch (status) {
       case "healthy":
-        return "hsl(var(--chart-1))"; // green
+        return "var(--chart-1)"; // green
       case "degraded":
-        return "hsl(var(--chart-3))"; // yellow
+        return "var(--chart-3)"; // yellow
       case "down":
-        return "hsl(var(--chart-5))"; // red
+        return "var(--chart-5)"; // red
       default:
-        return "hsl(var(--muted))";
+        return "var(--muted)";
     }
   };
 
@@ -119,7 +119,7 @@ export function HealthHistoryChart({ entries, hours = 24 }: HealthHistoryChartPr
             {/* Area under curve */}
             <path
               d={areaPath}
-              fill="hsl(var(--primary))"
+              fill="var(--primary)"
               opacity={0.1}
             />
 
@@ -127,7 +127,7 @@ export function HealthHistoryChart({ entries, hours = 24 }: HealthHistoryChartPr
             <path
               d={linePath}
               fill="none"
-              stroke="hsl(var(--primary))"
+              stroke="var(--primary)"
               strokeWidth={2}
             />
 
@@ -186,15 +186,15 @@ export function HealthHistoryChart({ entries, hours = 24 }: HealthHistoryChartPr
           {/* Legend */}
           <div className="flex items-center gap-4 mt-4 text-xs">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "hsl(var(--chart-1))" }} />
+              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "var(--chart-1)" }} />
               <span>Healthy</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "hsl(var(--chart-3))" }} />
+              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "var(--chart-3)" }} />
               <span>Degraded</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "hsl(var(--chart-5))" }} />
+              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "var(--chart-5)" }} />
               <span>Down</span>
             </div>
           </div>

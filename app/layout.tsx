@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Geist_Mono, Figtree, Inter } from "next/font/google"
 import { headers } from "next/headers"
 import "./globals.css"
@@ -24,12 +24,29 @@ const geistMono = Geist_Mono({
   display: "swap",
 })
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.appUrl),
-  title: siteConfig.name,
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
   description: siteConfig.description,
+  keywords: ["productivity", "task management", "file storage", "collaboration"],
+  authors: [{ name: "AFENDA" }],
+  creator: "AFENDA",
+  publisher: "AFENDA",
   manifest: "/manifest.json",
-  viewport: { width: "device-width", initialScale: 1 },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -43,6 +60,7 @@ export const metadata: Metadata = {
     siteName: "AFENDA",
     title: siteConfig.name,
     description: siteConfig.description,
+    locale: "en_US",
   },
   twitter: {
     card: "summary",
@@ -67,7 +85,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en" className={`${figtree.variable} ${inter.variable}`} suppressHydrationWarning>
+    <html lang="en" data-scroll-behavior="smooth" className={`${figtree.variable} ${inter.variable}`} suppressHydrationWarning>
       <body className={`${geistMono.variable} bg-background text-foreground min-h-svh antialiased font-sans`}>
         <script
           type="application/ld+json"
@@ -83,7 +101,7 @@ export default async function RootLayout({
               <AuthProvider>
                 <WebVitals />
                 {children}
-                <Toaster />
+                <Toaster position="top-right" richColors />
               </AuthProvider>
             </QueryProvider>
           </ClientTooltipProvider>

@@ -20,7 +20,7 @@ import {
   magicdriveUploads,
   magicdriveObjects,
   magicdriveObjectVersions,
-} from "@afenda/shared/db"
+} from "@afenda/magicdrive/server/db"
 import {
   getR2Client,
   getR2BucketName,

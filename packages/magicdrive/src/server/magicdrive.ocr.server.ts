@@ -10,13 +10,13 @@
 import { eq } from "drizzle-orm"
 import { logError } from "../pino"
 
+import { getDbClient } from "@afenda/shared/server/db"
 import {
   getDb,
-  getDbClient,
   magicdriveObjects,
   magicdriveObjectVersions,
   magicdriveObjectIndex,
-} from "@afenda/shared/db"
+} from "@afenda/magicdrive/server/db"
 import { runOcrForVersion } from "../lib/ocr"
 import { getAuthContext } from "@afenda/auth/server"
 
