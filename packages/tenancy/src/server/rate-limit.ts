@@ -12,18 +12,34 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import {
   kernelFail,
+  getAuthContext,
   KERNEL_ERROR_CODES,
   HTTP_STATUS,
   KERNEL_HEADERS,
 } from "@afenda/orchestra";
+import { envelopeHeaders } from "@afenda/shared/server";
 import { tenancyLogger } from "../logger";
 
-// Initialize Redis client (uses REDIS_URL env var)
-const redis = new Redis(process.env.REDIS_URL!, {
-  maxRetriesPerRequest: 3,
-  enableReadyCheck: false,
-  lazyConnect: true,
-});
+// ─── Lazy Redis Singleton ────────────────────────────────────────────
+let _redis: Redis | null = null;
+
+/**
+ * Lazy-initialized Redis client — only created on first call.
+ * Prevents crash at module-load time when REDIS_URL is absent.
+ */
+function getRedis(): Redis {
+  if (!_redis) {
+    if (!process.env.REDIS_URL) {
+      tenancyLogger.warn("REDIS_URL not set — rate limiting will fail open");
+    }
+    _redis = new Redis(process.env.REDIS_URL ?? "", {
+      maxRetriesPerRequest: 3,
+      enableReadyCheck: false,
+      lazyConnect: true,
+    });
+  }
+  return _redis;
+}
 
 // Rate limiter configuration
 interface RateLimitConfig {
@@ -81,6 +97,8 @@ async function slidingWindowRateLimit(
   const windowStart = now - config.window;
 
   try {
+    const redis = getRedis();
+
     // Remove old entries outside the window
     await redis.zremrangebyscore(key, 0, windowStart);
 
@@ -151,8 +169,7 @@ export async function checkRateLimit(
       {
         status: HTTP_STATUS.TOO_MANY_REQUESTS,
         headers: {
-          [KERNEL_HEADERS.REQUEST_ID]: traceId,
-          [KERNEL_HEADERS.TRACE_ID]: traceId,
+          ...envelopeHeaders(traceId),
           "X-RateLimit-Limit": limit.toString(),
           "X-RateLimit-Remaining": remaining.toString(),
           "X-RateLimit-Reset": reset.toString(),
@@ -215,13 +232,7 @@ export function withRateLimit(
 
       return NextResponse.json(
         kernelFail({ code: KERNEL_ERROR_CODES.INTERNAL, message }, { traceId }),
-        {
-          status: HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          headers: {
-            [KERNEL_HEADERS.REQUEST_ID]: traceId,
-            [KERNEL_HEADERS.TRACE_ID]: traceId,
-          },
-        }
+        { status: HTTP_STATUS.INTERNAL_SERVER_ERROR, headers: envelopeHeaders(traceId) }
       );
     }
   };
@@ -252,9 +263,6 @@ export function withRateLimitAuth(
   config: RateLimitConfig
 ): (request: NextRequest) => Promise<NextResponse> {
   return withRateLimit(handler, config, async (request) => {
-    // Extract userId from authorization header or session
-    // This is a simplified version - in production, use getAuthContext()
-    const { getAuthContext } = await import("@afenda/orchestra");
     const auth = await getAuthContext();
     return auth.userId ?? request.headers.get("x-forwarded-for") ?? "anonymous";
   });
@@ -296,7 +304,6 @@ export function withRateLimitRoute<TParams = Record<string, string>>(
       const identifier = getIdentifier
         ? await getIdentifier(request)
         : await (async () => {
-            const { getAuthContext } = await import("@afenda/orchestra");
             const auth = await getAuthContext();
             return (
               auth.userId ??
@@ -319,13 +326,7 @@ export function withRateLimitRoute<TParams = Record<string, string>>(
 
       return NextResponse.json(
         kernelFail({ code: KERNEL_ERROR_CODES.INTERNAL, message }, { traceId }),
-        {
-          status: HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          headers: {
-            [KERNEL_HEADERS.REQUEST_ID]: traceId,
-            [KERNEL_HEADERS.TRACE_ID]: traceId,
-          },
-        }
+        { status: HTTP_STATUS.INTERNAL_SERVER_ERROR, headers: envelopeHeaders(traceId) }
       );
     }
   };

@@ -16,6 +16,7 @@ import {
   KERNEL_HEADERS,
   getAuthContext,
 } from "@afenda/orchestra";
+import { envelopeHeaders } from "@afenda/shared/server";
 import { assertUserHasOrgRole, assertUserHasTeamRole } from "./guard";
 import type { OrgRole, TeamRole } from "./guard";
 
@@ -74,18 +75,12 @@ export function withOrgAccess(
         return NextResponse.json(
           kernelFail(
             {
-              code: KERNEL_ERROR_CODES.VALIDATION,
+              code: KERNEL_ERROR_CODES.UNAUTHORIZED,
               message: "Authentication required",
             },
             { traceId }
           ),
-          {
-            status: HTTP_STATUS.UNAUTHORIZED,
-            headers: {
-              [KERNEL_HEADERS.REQUEST_ID]: traceId,
-              [KERNEL_HEADERS.TRACE_ID]: traceId,
-            },
-          }
+          { status: HTTP_STATUS.UNAUTHORIZED, headers: envelopeHeaders(traceId) }
         );
       }
 
@@ -102,13 +97,7 @@ export function withOrgAccess(
             },
             { traceId }
           ),
-          {
-            status: HTTP_STATUS.BAD_REQUEST,
-            headers: {
-              [KERNEL_HEADERS.REQUEST_ID]: traceId,
-              [KERNEL_HEADERS.TRACE_ID]: traceId,
-            },
-          }
+          { status: HTTP_STATUS.BAD_REQUEST, headers: envelopeHeaders(traceId) }
         );
       }
 
@@ -126,13 +115,7 @@ export function withOrgAccess(
             },
             { traceId }
           ),
-          {
-            status: HTTP_STATUS.NOT_FOUND,
-            headers: {
-              [KERNEL_HEADERS.REQUEST_ID]: traceId,
-              [KERNEL_HEADERS.TRACE_ID]: traceId,
-            },
-          }
+          { status: HTTP_STATUS.NOT_FOUND, headers: envelopeHeaders(traceId) }
         );
       }
 
@@ -147,13 +130,7 @@ export function withOrgAccess(
 
       return NextResponse.json(
         kernelFail({ code: KERNEL_ERROR_CODES.INTERNAL, message }, { traceId }),
-        {
-          status: HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          headers: {
-            [KERNEL_HEADERS.REQUEST_ID]: traceId,
-            [KERNEL_HEADERS.TRACE_ID]: traceId,
-          },
-        }
+        { status: HTTP_STATUS.INTERNAL_SERVER_ERROR, headers: envelopeHeaders(traceId) }
       );
     }
   };
@@ -197,18 +174,12 @@ export function withTeamAccess(
         return NextResponse.json(
           kernelFail(
             {
-              code: KERNEL_ERROR_CODES.VALIDATION,
+              code: KERNEL_ERROR_CODES.UNAUTHORIZED,
               message: "Authentication required",
             },
             { traceId }
           ),
-          {
-            status: HTTP_STATUS.UNAUTHORIZED,
-            headers: {
-              [KERNEL_HEADERS.REQUEST_ID]: traceId,
-              [KERNEL_HEADERS.TRACE_ID]: traceId,
-            },
-          }
+          { status: HTTP_STATUS.UNAUTHORIZED, headers: envelopeHeaders(traceId) }
         );
       }
 
@@ -225,13 +196,7 @@ export function withTeamAccess(
             },
             { traceId }
           ),
-          {
-            status: HTTP_STATUS.BAD_REQUEST,
-            headers: {
-              [KERNEL_HEADERS.REQUEST_ID]: traceId,
-              [KERNEL_HEADERS.TRACE_ID]: traceId,
-            },
-          }
+          { status: HTTP_STATUS.BAD_REQUEST, headers: envelopeHeaders(traceId) }
         );
       }
 
@@ -248,13 +213,7 @@ export function withTeamAccess(
             },
             { traceId }
           ),
-          {
-            status: HTTP_STATUS.NOT_FOUND,
-            headers: {
-              [KERNEL_HEADERS.REQUEST_ID]: traceId,
-              [KERNEL_HEADERS.TRACE_ID]: traceId,
-            },
-          }
+          { status: HTTP_STATUS.NOT_FOUND, headers: envelopeHeaders(traceId) }
         );
       }
 
@@ -269,13 +228,7 @@ export function withTeamAccess(
 
       return NextResponse.json(
         kernelFail({ code: KERNEL_ERROR_CODES.INTERNAL, message }, { traceId }),
-        {
-          status: HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          headers: {
-            [KERNEL_HEADERS.REQUEST_ID]: traceId,
-            [KERNEL_HEADERS.TRACE_ID]: traceId,
-          },
-        }
+        { status: HTTP_STATUS.INTERNAL_SERVER_ERROR, headers: envelopeHeaders(traceId) }
       );
     }
   };
@@ -315,18 +268,12 @@ export function withAuth(
         return NextResponse.json(
           kernelFail(
             {
-              code: KERNEL_ERROR_CODES.VALIDATION,
+              code: KERNEL_ERROR_CODES.UNAUTHORIZED,
               message: "Authentication required",
             },
             { traceId }
           ),
-          {
-            status: HTTP_STATUS.UNAUTHORIZED,
-            headers: {
-              [KERNEL_HEADERS.REQUEST_ID]: traceId,
-              [KERNEL_HEADERS.TRACE_ID]: traceId,
-            },
-          }
+          { status: HTTP_STATUS.UNAUTHORIZED, headers: envelopeHeaders(traceId) }
         );
       }
 
@@ -341,13 +288,7 @@ export function withAuth(
 
       return NextResponse.json(
         kernelFail({ code: KERNEL_ERROR_CODES.INTERNAL, message }, { traceId }),
-        {
-          status: HTTP_STATUS.INTERNAL_SERVER_ERROR,
-          headers: {
-            [KERNEL_HEADERS.REQUEST_ID]: traceId,
-            [KERNEL_HEADERS.TRACE_ID]: traceId,
-          },
-        }
+        { status: HTTP_STATUS.INTERNAL_SERVER_ERROR, headers: envelopeHeaders(traceId) }
       );
     }
   };

@@ -6,10 +6,10 @@
 
 import "server-only";
 
+import { headers } from "next/headers";
 import type { TenantContext } from "../types";
 
 export async function getTenantContext(): Promise<TenantContext> {
-  const { headers } = await import("next/headers");
   const h = await headers();
   const tenantId =
     h.get("x-tenant-id") ??

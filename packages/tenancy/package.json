@@ -8,7 +8,11 @@
     ".": "./src/tenancy.index.ts",
     "./server": "./src/server/index.ts",
     "./drizzle": "./src/drizzle/index.ts",
-    "./zod": "./src/zod/index.ts"
+    "./zod": "./src/zod/index.ts",
+    "./constant": "./src/constant/index.ts",
+    "./logger": "./src/logger/index.ts",
+    "./query": "./src/query/index.ts",
+    "./email": "./src/email/index.ts"
   },
   "dependencies": {
     "@afenda/orchestra": "workspace:^",
