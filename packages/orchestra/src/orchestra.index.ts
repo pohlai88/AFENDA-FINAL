@@ -7,6 +7,9 @@
 // Constants (system-level primitives)
 export * from "./constant";
 
+// Pino logger
+export * from "./pino";
+
 // Zod schemas (API contracts)
 export * from "./zod";
 
