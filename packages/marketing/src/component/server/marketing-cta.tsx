@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { Button, Card, CardContent } from "@afenda/shadcn";
 
-import { marketingRoutes } from "../../lib/marketing.routes";
+import { marketingRoutes } from "../../constant/marketing.routes";
 
 interface MarketingCtaProps {
   className?: string;

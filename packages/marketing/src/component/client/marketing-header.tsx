@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import { Button, Separator, AnimatedThemeToggler } from "@afenda/shadcn";
 
 import { cn } from "../../lib/marketing.cn";
-import { marketingSiteConfig } from "../../lib/marketing.site-config";
+import { marketingSiteConfig } from "../../constant/marketing.site-config";
 import { MarketingSiteLogo } from "./marketing-site-logo";
 
 const MobileMenu = dynamic(() => import("./mobile-menu").then((m) => m.MobileMenu), {

@@ -1,14 +1,16 @@
 /**
  * Marketing domain site configuration.
  * Embedded per-domain to avoid cross-domain dependencies.
- * 
+ *
  * Enterprise-grade configuration for AFENDA powered by NexusCanon Infrastructure Fabric.
+ *
+ * @domain marketing
  */
 
 export type NavLink = {
-  title: string;
-  href: string;
-  description?: string;
+  readonly title: string;
+  readonly href: string;
+  readonly description?: string;
 };
 
 export type SiteConfig = {

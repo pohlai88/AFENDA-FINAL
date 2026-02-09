@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button, ClientSheet, ClientSheetContent, ClientSheetTrigger } from "@afenda/shadcn";
 import { useState } from "react";
 
-import { marketingSiteConfig } from "../../lib/marketing.site-config";
+import { marketingSiteConfig } from "../../constant/marketing.site-config";
 
 /**
  * Mobile navigation menu component.

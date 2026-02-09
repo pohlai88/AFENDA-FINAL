@@ -1,11 +1,21 @@
 // marketing domain barrel exports
 // Import from "@afenda/marketing" to get all domain exports
 
-// Lib utilities (most commonly used)
-export { cn } from "./lib/marketing.cn";
-export { marketingRoutes } from "./lib/marketing.routes";
-export { marketingSiteConfig } from "./lib/marketing.site-config";
+// Constants (routes, config)
+export { marketingRoutes } from "./constant/marketing.routes";
+export { marketingSiteConfig } from "./constant/marketing.site-config";
+export type { NavLink, SiteConfig } from "./constant/marketing.site-config";
 
-// Components
-export * from "./component/client";
-export * from "./component/server";
+// Lib utilities
+export { cn } from "./lib/marketing.cn";
+
+// Client components
+export { AfendaIcon } from "./component/client/afenda-icon";
+export { MarketingHeader } from "./component/client/marketing-header";
+export { MarketingSiteLogo } from "./component/client/marketing-site-logo";
+
+// Server components
+export { MarketingCta } from "./component/server/marketing-cta";
+export { MarketingFeatures } from "./component/server/marketing-features";
+export { MarketingFooter } from "./component/server/marketing-footer";
+export { MarketingHero } from "./component/server/marketing-hero";

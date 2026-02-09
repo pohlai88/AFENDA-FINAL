@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 import { cn } from "../../lib/marketing.cn";
-import { marketingSiteConfig } from "../../lib/marketing.site-config";
+import { marketingSiteConfig } from "../../constant/marketing.site-config";
 import { AfendaIcon } from "./afenda-icon";
 
 /**

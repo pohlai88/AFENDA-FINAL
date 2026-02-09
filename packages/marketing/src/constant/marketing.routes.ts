@@ -3,6 +3,8 @@
  * Marketing domain routes.
  * Embedded per-domain to avoid cross-domain dependencies.
  * Only includes routes relevant to Marketing domain.
+ *
+ * @domain marketing
  */
 
 export const marketingRoutes = {

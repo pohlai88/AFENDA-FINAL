@@ -2,8 +2,8 @@ import Link from "next/link";
 
 import { Button, Badge } from "@afenda/shadcn";
 
-import { marketingSiteConfig } from "../../lib/marketing.site-config";
-import { marketingRoutes } from "../../lib/marketing.routes";
+import { marketingSiteConfig } from "../../constant/marketing.site-config";
+import { marketingRoutes } from "../../constant/marketing.routes";
 
 interface MarketingHeroProps {
   className?: string;

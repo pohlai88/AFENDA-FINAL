@@ -1,6 +1,6 @@
 # @afenda/marketing
 
-Marketing domain package for AFENDA - Enterprise workflow orchestration platform.
+Marketing domain package for AFENDA — Enterprise workflow orchestration platform.
 
 ## Overview
 
@@ -12,38 +12,64 @@ This package contains all marketing-related components, utilities, and configura
 packages/marketing/
 ├── src/
 │   ├── component/
-│   │   ├── client/          # Client-side React components
-│   │   └── server/          # Server-side React components
-│   ├── lib/                 # Utilities and configurations
+│   │   ├── client/          # Client-side interactive components
+│   │   │   ├── afenda-icon.tsx
+│   │   │   ├── marketing-header.tsx
+│   │   │   ├── marketing-site-logo.tsx
+│   │   │   ├── mobile-menu.tsx
+│   │   │   └── index.ts
+│   │   └── server/          # Server-rendered components
+│   │       ├── marketing-cta.tsx
+│   │       ├── marketing-features.tsx
+│   │       ├── marketing-footer.tsx
+│   │       ├── marketing-hero.tsx
+│   │       └── index.ts
+│   ├── constant/            # Domain constants (routes, config)
+│   │   ├── marketing.routes.ts
+│   │   ├── marketing.site-config.ts
+│   │   └── index.ts
+│   ├── lib/                 # Utilities
+│   │   ├── marketing.cn.ts
+│   │   └── index.ts
 │   └── marketing.index.ts   # Main barrel export
 ├── package.json
+├── tsconfig.json
 └── README.md
 ```
 
 ## Installation
 
-This is an internal workspace package. Import it in your Next.js app:
+This is an internal workspace package. Import from the barrel:
 
 ```tsx
-import { MarketingHeader, MarketingFooter } from "@afenda/marketing";
+import { MarketingHeader, MarketingFooter, marketingRoutes } from "@afenda/marketing";
 ```
+
+## Exports
+
+| Path | Purpose |
+|------|---------|
+| `@afenda/marketing` | Main barrel (all public exports) |
+| `@afenda/marketing/constant` | Routes and site configuration |
+| `@afenda/marketing/lib` | Utility functions (`cn`) |
+| `@afenda/marketing/component/client` | Client components |
+| `@afenda/marketing/component/server` | Server components |
 
 ## Components
 
-### Client Components
+### Client Components (`src/component/client/`)
 
-Located in `src/component/client/` - Interactive components requiring client-side JavaScript.
+Interactive components requiring client-side JavaScript — all use `"use client"` directive.
 
 #### `MarketingHeader`
+
 Sticky header with navigation, theme toggle, and CTA buttons.
 
-**Features:**
-- Responsive navigation with mobile menu
-- Animated theme switcher (View Transition API)
-- Optimized horizontal padding (16px mobile, 24px tablet, 32px desktop)
+- Responsive navigation with mobile menu (dynamic import)
+- `AnimatedThemeToggler` integration
+- Consistent responsive padding (`px-4 sm:px-6 lg:px-8`)
 - Accessibility-compliant with ARIA labels
 
-**Usage:**
 ```tsx
 import { MarketingHeader } from "@afenda/marketing";
 
@@ -57,32 +83,39 @@ export default function Layout({ children }) {
 }
 ```
 
-#### `MarketingSiteLogo`
-Brand logo component with link to homepage.
-
 #### `AfendaIcon`
-SVG icon component for the AFENDA brand mark.
 
-#### `MobileMenu`
-Responsive mobile navigation drawer (dynamically imported).
+Official AFENDA brand icon: triangle compass with morphic E (NexusCanon · AXIS brand).
 
-#### `MarketingCard`
-Reusable card component for marketing content.
+- SVG-based, uses `currentColor` for theme-aware rendering
+- Accepts `className` for sizing via Tailwind
 
-### Server Components
+```tsx
+import { AfendaIcon } from "@afenda/marketing";
 
-Located in `src/component/server/` - Static components rendered on the server.
+<AfendaIcon className="size-6" />
+```
+
+#### `MarketingSiteLogo`
+
+Brand logo component with link to homepage. Wraps `AfendaIcon` with site name.
+
+#### `MobileMenu` (internal)
+
+Responsive mobile navigation drawer. Dynamically imported by `MarketingHeader` — not exported from barrel.
+
+### Server Components (`src/component/server/`)
+
+Static components rendered on the server — no `"use client"` directive.
 
 #### `MarketingHero`
+
 Homepage hero section with headline, description, and CTA buttons.
 
-**Features:**
 - Centered layout with responsive typography
 - Badge showing "Powered by NexusCanon Infrastructure Fabric"
 - Feature indicators (Multi-tenant, RLS, PDPA Compliant)
-- Responsive padding (16px/24px/32px)
 
-**Usage:**
 ```tsx
 import { MarketingHero } from "@afenda/marketing";
 
@@ -92,41 +125,17 @@ export default function HomePage() {
 ```
 
 #### `MarketingFeatures`
-Feature showcase section with icon cards.
 
-**Features:**
-- 6 enterprise-grade features
-- 3-column grid layout (responsive)
-- Icon-based visual hierarchy
-- Hover effects with shadow transitions
-
-**Usage:**
-```tsx
-import { MarketingFeatures } from "@afenda/marketing";
-
-export default function HomePage() {
-  return <MarketingFeatures className="bg-muted/30" />;
-}
-```
+Feature showcase section with 6 enterprise-grade feature cards (3-column responsive grid).
 
 #### `MarketingCta`
-Call-to-action section for conversions.
 
-**Features:**
-- Prominent CTA buttons (Start Free Trial, Contact Sales)
-- Card-based layout with gradient background
-- Trust indicators
+Call-to-action section for conversions with gradient card background.
 
 #### `MarketingFooter`
-Site footer with navigation links and branding.
 
-**Features:**
-- 6-column responsive grid layout
-- Link groups: Product, Company, Legal, Resources
-- Copyright and brand tagline
-- Optimized horizontal padding (16px/24px/32px)
+Site footer with 6-column responsive grid, link groups, and branding.
 
-**Usage:**
 ```tsx
 import { MarketingFooter } from "@afenda/marketing";
 
@@ -140,24 +149,16 @@ export default function Layout({ children }) {
 }
 ```
 
-## Utilities
+## Constants
 
-### `cn` - Class Name Utility
-Tailwind CSS class merging utility using `clsx` and `tailwind-merge`.
+### `marketingRoutes`
 
-```tsx
-import { cn } from "@afenda/marketing";
-
-<div className={cn("base-class", isActive && "active-class")} />
-```
-
-### `marketingRoutes` - Route Configuration
 Type-safe route helpers for navigation.
 
 ```tsx
 import { marketingRoutes } from "@afenda/marketing";
 
-// UI routes
+// UI routes (marketing-owned)
 marketingRoutes.ui.home()           // "/"
 marketingRoutes.ui.about()          // "/about"
 marketingRoutes.ui.contact()        // "/contact"
@@ -169,133 +170,111 @@ marketingRoutes.ui.privacy()        // "/privacy"
 marketingRoutes.ui.terms()          // "/terms"
 marketingRoutes.ui.pdpa()           // "/pdpa"
 marketingRoutes.ui.status()         // "/status"
+marketingRoutes.ui.offline()        // "/offline"
 
-// External routes
-marketingRoutes.external.auth.login()    // "/auth/login"
-marketingRoutes.external.auth.register() // "/auth/register"
-marketingRoutes.external.orchestra.root() // "/orchestra"
+// External routes (owned by other domains, referenced by marketing)
+marketingRoutes.external.auth.login()     // "/login"
+marketingRoutes.external.auth.register()  // "/register"
+marketingRoutes.external.orchestra.root() // "/dashboard"
+
+// API tiers (reserved paths)
+marketingRoutes.api.bff  // "/api/bff/marketing"
+marketingRoutes.api.v1   // "/api/v1/marketing"
+marketingRoutes.api.ops  // "/api/ops/marketing"
 ```
 
-### `marketingSiteConfig` - Site Configuration
+### `marketingSiteConfig`
+
 Centralized configuration for site metadata and navigation.
 
 ```tsx
 import { marketingSiteConfig } from "@afenda/marketing";
 
-marketingSiteConfig.name           // "AFENDA"
-marketingSiteConfig.description    // Site description
-marketingSiteConfig.tagline        // "Enterprise Workflow Orchestration"
-marketingSiteConfig.supportEmail   // Support email address
-marketingSiteConfig.navLinks       // Navigation links array
-marketingSiteConfig.footerLinks    // Footer links object
-marketingSiteConfig.ctaLinks       // CTA button links
+marketingSiteConfig.name           // "AFENDA" (env: NEXT_PUBLIC_SITE_NAME)
+marketingSiteConfig.description    // Enterprise description
+marketingSiteConfig.tagline        // "MACHINA VITAE | NexusCanon"
+marketingSiteConfig.appUrl         // App URL (env: NEXT_PUBLIC_APP_URL)
+marketingSiteConfig.supportEmail   // "legal@nexuscanon.com"
+marketingSiteConfig.navLinks       // Nav link array
+marketingSiteConfig.ctaLinks       // { signIn, getStarted }
+marketingSiteConfig.footerLinks    // { product, company, legal, resources }
+marketingSiteConfig.social         // { twitter?, github?, linkedin? }
+```
+
+## Utilities
+
+### `cn`
+
+Tailwind CSS class merging utility using `clsx` + `tailwind-merge`.
+
+```tsx
+import { cn } from "@afenda/marketing";
+
+<div className={cn("base-class", isActive && "active-class")} />
 ```
 
 ## Design System
 
 ### Responsive Padding
+
 All components use consistent responsive horizontal padding:
 
 - **Mobile** (default): `px-4` (16px)
 - **Small screens** (640px+): `sm:px-6` (24px)
 - **Large screens** (1024px+): `lg:px-8` (32px)
 
-### Theme Support
-- Full dark/light mode support via `next-themes`
-- Animated theme transitions using View Transition API
-- Graceful fallback for unsupported browsers
-
 ### Typography Scale
+
 - **Hero**: `text-4xl sm:text-5xl md:text-6xl lg:text-7xl`
 - **Section Heading**: `text-3xl sm:text-4xl md:text-5xl`
-- **Card Title**: `text-xl` or `text-base`
+- **Card Title**: `text-xl`
 - **Body**: `text-base` or `text-sm`
 - **Caption**: `text-xs`
 
+### Theme Support
+
+- Full dark/light mode via `next-themes`
+- Animated theme transitions using View Transition API
+- `AfendaIcon` uses `currentColor` for automatic theme adaptation
+
 ## Dependencies
 
-### Direct Dependencies
-- `clsx` - Class name utility
-- `tailwind-merge` - Tailwind class merging
+### Direct
 
-### Peer Dependencies
-- `next` ≥14.0.0
+- `clsx` — Class name utility
+- `tailwind-merge` — Tailwind class merging
+
+### Peer
+
+- `next` >=14.0.0
 - `react` ^19.0.0
 - `react-dom` ^19.0.0
-- `lucide-react` ≥0.400.0
 
-### Internal Dependencies
-- `@afenda/shadcn` - UI component library
+### Internal
 
-## Architecture
+- `@afenda/shadcn` — UI component library (Card, Button, Badge, Sheet, etc.)
 
-### Domain Ownership
-This package follows the **domain-driven architecture** principle:
-- Marketing domain owns all marketing-related UI components
-- No cross-domain component imports (use composition)
-- Clear separation between client and server components
+## Architecture Rules
 
-### Component Guidelines
-1. **Server Components by Default** - Use server components unless interactivity is required
-2. **Client Components** - Mark with `"use client"` directive only when needed
-3. **Accessibility** - All components include proper ARIA labels and semantic HTML
-4. **Responsive Design** - Mobile-first approach with progressive enhancement
-5. **Type Safety** - Full TypeScript support with proper prop types
-
-## Best Practices
-
-### Importing Components
-```tsx
-// ✅ Good - Import from barrel export
-import { MarketingHeader, MarketingFooter } from "@afenda/marketing";
-
-// ❌ Bad - Direct file imports
-import { MarketingHeader } from "@afenda/marketing/src/component/client/marketing-header";
-```
-
-### Using Routes
-```tsx
-// ✅ Good - Type-safe route helpers
-import { marketingRoutes } from "@afenda/marketing";
-<Link href={marketingRoutes.ui.about()}>About</Link>
-
-// ❌ Bad - Hardcoded strings
-<Link href="/about">About</Link>
-```
-
-### Styling Components
-```tsx
-// ✅ Good - Use cn utility for conditional classes
-import { cn } from "@afenda/marketing";
-<div className={cn("base-class", isActive && "active-class")} />
-
-// ❌ Bad - String concatenation
-<div className={`base-class ${isActive ? "active-class" : ""}`} />
-```
-
-## Recent Updates
-
-### v0.1.0 (February 2026)
-- ✨ Added `AnimatedThemeToggler` with View Transition API support
-- 🎨 Optimized responsive horizontal padding across all components
-- ♿ Enhanced accessibility with proper ARIA labels
-- 📱 Improved mobile navigation experience
-- 🔧 Simplified component architecture (removed manual theme state management)
+- **Brand icons**: Use `AfendaIcon` — never import from `lucide-react` in marketing pages
+- **Hydration safety**: Uses `ClientSheet*` wrappers from `@afenda/shadcn` (no raw Radix)
+- **No business logic**: Marketing is UI-only; all data comes from props
+- **Server components by default**: Use `"use client"` only when interactivity required
+- **Import from barrel**: `@afenda/marketing` — never reach into `src/`
 
 ## Contributing
 
 When adding new components:
-1. Place client components in `src/component/client/`
-2. Place server components in `src/component/server/`
-3. Export from respective `index.ts` files
-4. Update this README with component documentation
-5. Follow existing naming conventions (`Marketing*` prefix)
 
-## License
-
-Private - Internal use only within AFENDA project.
+1. Client components -> `src/component/client/`
+2. Server components -> `src/component/server/`
+3. Constants -> `src/constant/`
+4. Export from respective `index.ts` barrel files
+5. Update this README
+6. Follow `Marketing*` prefix naming convention
+7. Validate: `pnpm lint && pnpm typecheck`
 
 ---
 
-**Part of AFENDA** - Enterprise Workflow Orchestration Platform  
+**Part of AFENDA** — Enterprise Workflow Orchestration Platform
 **Powered by** NexusCanon Infrastructure Fabric
